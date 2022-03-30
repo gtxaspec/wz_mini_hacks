@@ -63,7 +63,7 @@ dmesg > /media/mmc/dmesg.log
 echo "Run dropbear ssh server"
 /media/mmc/dropbearmulti dropbear -R -m
 
-#echo "Disable remote firmware upgrade"
+#echo "Disable remote firmware upgrade, uncomment lines below to enable"
 #mkdir /tmp/Upgrade
 #mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
 #echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /tmp/hosts_wz
