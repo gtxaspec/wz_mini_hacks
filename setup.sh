@@ -14,8 +14,10 @@ setup() {
 echo "Create SD Card root directory"
 mkdir SD_ROOT
 
-echo "Copy utils to SD_ROOT"
+echo "Download utilities to SD_ROOT"
 wget https://www.busybox.net/downloads/binaries/1.21.1/busybox-mipsel -O SD_ROOT/busybox
+
+echo "Copy locla utilities to SD_ROOT"
 cp dropbearmulti SD_ROOT
 
 echo "Download latest rootfs firmware $LATEST_ROOTFS"
