@@ -1,4 +1,5 @@
 # wz_mini_hacks
+### v3 devices ONLY
 
 Run the latest stable firmware on your v3 cam and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.
 
