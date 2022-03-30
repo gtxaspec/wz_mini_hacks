@@ -61,6 +61,10 @@ dmesg > /media/mmc/dmesg.log
 echo "Run dropbear ssh server"
 /media/mmc/dropbearmulti dropbear -R -m
 
+#echo "Disable remote firmware upgrade"
+#mkdir /tmp/Upgrade
+#mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
+
 sleep 3
 
 #Place commands here to run 30 seconds after boot
