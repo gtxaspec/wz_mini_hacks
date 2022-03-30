@@ -10,7 +10,7 @@ Run the latest stable firmware on your v3 cam and have root access to the device
 * Enables SSH, telnet will be disabled after installation.
 * Add your own changes to run at boot into the script on the micro sd card located at /media/mmc/run_mmc.sh, mount nfs, run ping, whatever you want.
 * Ability to update to the latest stable or beta firmware, this mod should survive updates ( as long as the firmware update does not change /dev/mtd2.
-* Ability to block remotely AND app initiated firmware updates.
+* Ability to block remote AND app initiated firmware updates.
 * An Internet connection is required to download and patch the files required for this to work.
 * Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
 
@@ -34,12 +34,12 @@ On Device:
 cd /media/mmc
 ./wz_mini_installer.sh
 ```
-To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un-comment the following:
+To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un-comment the lines following:
 ```bash
-#echo "Disable remote firmware upgrade"
-#mkdir /tmp/Upgrade
-#mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
+#echo "Disable remote firmware upgrade, uncomment lines below to enable"
 ```
+
+If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all again.
 
 ## WARNING
 ```
