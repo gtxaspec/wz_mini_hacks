@@ -66,6 +66,8 @@ echo "Run dropbear ssh server"
 #echo "Disable remote firmware upgrade"
 #mkdir /tmp/Upgrade
 #mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
+#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /tmp/hosts_wz
+#mount --bind /tmp/hosts_wz /etc/hosts
 
 sleep 3
 
