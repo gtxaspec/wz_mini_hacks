@@ -54,6 +54,9 @@ echo "extract run_mmc.sh script to SD_ROOT"
 
 echo "#!/bin/sh
 
+echo "set hostname"
+hostname WCV3
+
 echo "Store dmesg logs"
 dmesg > /media/mmc/dmesg.log
 
