@@ -1,7 +1,7 @@
 # wz_mini_hacks
 ### v3 devices ONLY
 
-Run the latest stable firmware on your v3 cam and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.
+Run the latest stable ( 4.36.8.32 ) firmware on your v3 cam and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.
 
 ## Features
 
@@ -13,26 +13,18 @@ Run the latest stable firmware on your v3 cam and have root access to the device
 * Ability to block remote AND app initiated firmware updates.
 * An Internet connection is required to download and patch the files required for this to work.
 * Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
+* *NEW* Automated installer, put files on the micro sd card and wait for the unit to reboot.
 
 
 
 ## Setup
 
-1. Flash your v3 to 4.36.0.280, then use wyze hacks to get telnet running on your device.
-2. git clone the repo, then run ./setup.sh compile to generate the files to be copied to your SD card
-3. copy all the files inside of SD_ROOT to your micro sd card, then put the card in your v3.
-4. telnet to your device, then cd to /media/mmc
-5. run ./wz_mini_installer.sh, this will flash the modified partitions and enable ssh.
-6. The camera will reboot, then connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.
+1. git clone the repo, then run ./setup.sh compile to generate the files to be copied to your SD card
+2. copy all the files inside of SD_ROOT to your micro sd card
 
 On PC:
 ```bash
 ./setup.sh compile
-```
-On Device:
-```bash
-cd /media/mmc
-./wz_mini_installer.sh
 ```
 To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un-comment the lines following:
 ```bash
@@ -40,6 +32,16 @@ To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un
 ```
 
 If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all again.
+
+## Installation
+1. Insert the micro sd memory card into the v3 camera
+2. The installation will begin when the front led light blinks slowly between red and blue.
+3. The installation will complete when the front led light blinks rapidly red and blue.
+4. The camera will reboot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.
+## Customization
+
+Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
+
 
 ## WARNING
 ```
@@ -54,3 +56,9 @@ DO NOT USE THIS SOFTWARE IF YOU ARE NOT CONFIDENT IN RESTORING YOUR DEVICE FROM 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
+## Thank You
+Thank you to everyone who is passionate about Wyze products for making the devices popular, and thank you to Wyze for producing them.  Sign up for CamPlus, show some love to the company.
+
+Thanks for HclX for WyzeHacks!
+Thank you bakueikozo for his atomcam_tools repo! https://github.com/bakueikozo/atomcam_tools
+Thank you to virmaior for the atomcam_tools info!
