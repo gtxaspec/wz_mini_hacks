@@ -15,8 +15,7 @@ Run the latest stable ( 4.36.8.32 ) firmware on your v3 cam and have root access
 * Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
 * Works on ANY ( tested up to 4.36.8.32 ) v3 firmware relase
 * *NEW* Automated installer, put files on the micro sd card and wait for the unit to reboot.
-
-
+* PAN v2 Support coming soon
 
 ## Setup
 
