@@ -37,7 +37,7 @@ If a remote or app update is initiated, the camera will reboot due to the failur
 1. Insert the micro sd memory card into the v3 camera
 2. The installation will begin when the front led light blinks slowly between red and blue.
 3. The installation will complete when the front led light blinks rapidly red and blue.
-4. The camera will reboot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.
+4. The camera will reboot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.  It may take a few minutes for the device to finish booting and connect to wifi, then launch the SSH server.  Be patient.
 ## Customization
 
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
