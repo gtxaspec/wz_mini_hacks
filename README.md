@@ -14,8 +14,15 @@ Run the latest stable ( 4.36.8.32 ) firmware on your v3 cam and have root access
 * An Internet connection is required to download and patch the files required for this to work.
 * Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
 * Works on ANY ( tested up to 4.36.8.32 ) v3 firmware relase
+* DNS Spoofing or Telnet mod are *not* required prior to installation.
 * *NEW* Automated installer, put files on the micro sd card and wait for the unit to reboot.
 * PAN v2 Support coming soon
+
+## Prerequisites
+
+* Linux
+* squashfs-tools ( install with your favorite package manager )
+* wget
 
 ## Setup
 
@@ -34,14 +41,20 @@ To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un
 If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all again.
 
 ## Installation
-1. Insert the micro sd memory card into the v3 camera
-2. The installation will begin when the front led light blinks slowly between red and blue.
-3. The installation will complete when the front led light blinks rapidly red and blue.
-4. The camera will reboot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.  It may take a few minutes for the device to finish booting and connect to wifi, then launch the SSH server.  Be patient.
+1. Turn off the v3 camera
+2. Insert the micro sd memory card into the v3 camera
+3. Turn on the v3 camera
+4. The installation will begin when the front led light blinks slowly between red and blue.
+5. The installation will complete when the front led light blinks rapidly red and blue.
+6. The camera will reboot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.  It may take a few minutes for the device to finish booting and connect to wifi, then launch the SSH server.  Be patient.
 ## Customization
 
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
 
+## Latest Updates
+
+* 04-05-22:  Update readme to indicate that telnet mod nor DNS spoofing is required for installation, and add pre-requisites section.
+* 04-02-22:  Update to automatic install method, remove manual install.  
 
 ## WARNING
 ```
