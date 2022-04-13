@@ -29,6 +29,10 @@ Run whatever firmware you want on your cameras and have root access to the devic
 * PAN v2 now supported
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
+## Coming Soon
+
+* USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required.
+
 ## Prerequisites
 
 * Person
@@ -54,7 +58,7 @@ Run whatever firmware you want on your cameras and have root access to the devic
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
 
 ---
-
+**DO NOT ENABLE FIRMWARE UPDATES, CURRENTLY THERE IS A BOOTLOADER BUG WHICH RESULTS IN A BROKEN SYSTEM.  currently set to true by default.**
 To disable automatic firmware updates, edit run_mmc.sh in the wz_mini directory on your micro sd card,
 change:
 ```
@@ -65,7 +69,7 @@ to:
 ```
 DISABLE_FW_UPGRADE="true"
 ```
-If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all again.
+If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all.
 
 ---
 
@@ -84,7 +88,8 @@ the next time you boot your camera, make sure your USB Ethernet Adapter is conne
 
 ## Latest Updates
 
-* 04-12-22: Updated, custom kernel loads all required items from micro sd card.  System modification no longer needed.
+* 04-13-22:  Firmware updates are disabled by default, there is a bug in the bootloader that corrupts the kernel partition requiring the re-flash of the camera if an update is processed and the memory card is removed before next boot.  The bootloader proceeds to copy the partitions and the system will not boot unless re-flashed.  pending investigation.
+* 04-12-22:  Updated, custom kernel loads all required items from micro sd card.  System modification no longer needed.
 * 04-05-22:  Update readme to indicate that telnet mod nor DNS spoofing is required for installation, and add pre-requisites section.
 * 04-02-22:  Update to automatic install method, remove manual install.  
 
