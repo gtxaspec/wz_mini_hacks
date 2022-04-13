@@ -14,6 +14,11 @@ Run whatever firmware you want on your cameras and have root access to the devic
 * No modification is done to the system. **_Zero!_**
 * Custom kernel loads all required files from micro-sd card
 * Wireguard, and ipv6 support enabled
+* Supports the following USB Ethernet adapters: 
+  * ASIX AX88xxx Based USB 2.0 Ethernet Adapters
+  * ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet
+  * Realtek RTL8152 Based USB 2.0 Ethernet Adapters
+
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Add your own changes to run at boot into the script on the micro sd card located at /media/mmc/run_mmc.sh, mount nfs, run ping, whatever you want
 * Ability to update to the latest stable or beta firmware, this mod should survive updates as long as the bootloader remains the same
@@ -48,11 +53,34 @@ Run whatever firmware you want on your cameras and have root access to the devic
 
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
 
-To disable automatic firmware updates, edit run_mmc.sh on your micro sd card, un-comment the lines following:
-```bash
-#echo "Disable remote firmware upgrade, uncomment lines below to enable"
+---
+
+To disable automatic firmware updates, edit run_mmc.sh in the wz_mini directory on your micro sd card,
+change:
+```
+DISABLE_FW_UPGRADE="false"
+```
+to:
+
+```
+DISABLE_FW_UPGRADE="true"
 ```
 If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all again.
+
+---
+
+To enable USB Ethernet Adapter support,
+change:
+```
+ENABLE_USB_ETH="false"
+```
+to:
+
+```
+ENABLE_USB_ETH="true"
+```
+the next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed.
+
 
 ## Latest Updates
 
