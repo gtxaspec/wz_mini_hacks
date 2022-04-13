@@ -10,7 +10,13 @@ ENABLE_USB_ETH="false"
 ENABLE_USB_DIRECT="false"
 
 echo  "run_mmc.sh start" > /dev/kmsg
-mkdir /configs/.ssh
+
+if [[ -d /configs/.ssh ]]; then
+	echo "dropbear ssh config dir present"
+else
+	echo "dropbear ssh config dir not present, creating"
+	mkdir /configs/.ssh
+fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
         ifconfig eth0 down
