@@ -25,9 +25,9 @@ Run whatever firmware you want on your cameras and have root access to the devic
 * Ability to block remote AND app initiated firmware updates
 * Works on ANY firmware release (so far!)
 * DNS Spoofing or Telnet mod are *not* required prior to installation
-* *NEW* Automated installer, put files on the micro sd card and wait for the unit to reboot
+* *NEW* Installation-Free!  Put files on the micro sd card and wait for the unit to boot!
 * PAN v2 now supported
-* Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
+* Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
 ## Prerequisites
 
