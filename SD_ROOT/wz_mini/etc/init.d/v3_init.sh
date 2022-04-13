@@ -15,8 +15,8 @@ echo '
 '
 
 mount -t tmpfs /tmp
-cp /opt/wz_mini/etc/shadow /tmp/
-mount --bind /tmp/shadow /etc/shadow
+cp /opt/wz_mini/etc/shadow /tmp/.shadow
+mount --bind /tmp/.shadow /etc/shadow
 chmod 400 /etc/shadow
 
 { sleep 30; /media/mmc/wz_mini/run_mmc.sh > /media/mmc/wz_mini/wz_mini_hacks.log; } &
