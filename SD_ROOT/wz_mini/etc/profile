@@ -1,0 +1,18 @@
+# Set PS1
+if [ "$PS1" ]; then
+	if [ "`id -u`" -eq 0 ]; then
+		export PS1='[\u@\h:\W]# '
+	else
+		export PS1='[\u@\h:\W]$ '
+	fi
+fi
+
+# Set terminal env
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/media/mmc/wz_mini/bin
+export PATH=/system/bin:$PATH
+export LD_LIBRARY_PATH=/system/lib
+export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
+#export TZ=UTC-8
+
+# Set directoty and file default create permission
+umask 022

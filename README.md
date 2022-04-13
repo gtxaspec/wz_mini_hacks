@@ -1,26 +1,27 @@
 # wz_mini_hacks
-### v3 devices ONLY
+### v3/PANv2 devices ONLY
 
-Run the latest stable ( 4.36.8.32 ) firmware on your v3 cam and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
+Run whatever firmware you want on your cameras and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
 **Do not contact the manufacturer for information or support, they will not be able to assist you!**
 
 ### Related Projects:
-* wz_mini_debian: run full debian in a chroot, on the v3!
-* wz_mini_utils: various statically compiled binaries for use with the v3 (mipsel)
+* wz_mini_debian: run full debian in a chroot, on the camera!
+* wz_mini_utils: various statically compiled binaries for use with the camera (mipsel)
 
 
 ## Features
 
 * No modification is done to the system. **_Zero!_**
 * Custom kernel loads all required files from micro-sd card
+* Wireguard, and ipv6 support enabled
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Add your own changes to run at boot into the script on the micro sd card located at /media/mmc/run_mmc.sh, mount nfs, run ping, whatever you want
 * Ability to update to the latest stable or beta firmware, this mod should survive updates as long as the bootloader remains the same
 * Ability to block remote AND app initiated firmware updates
-* Works on ANY ( tested up to 4.36.8.32, even RTSP ) v3 firmware release
+* Works on ANY firmware release (so far!)
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * *NEW* Automated installer, put files on the micro sd card and wait for the unit to reboot
-* PAN v2 Support coming soon
+* PAN v2 now supported
 * Inspired by HclX and WyzeHacks, borrowed busybox and dropbearmulti from his v2 repo.  Bless you for all your work!  You are the master!
 
 ## Prerequisites
@@ -35,9 +36,9 @@ Run the latest stable ( 4.36.8.32 ) firmware on your v3 cam and have root access
 2. copy all the files inside of SD_ROOT to your micro sd card
 
 ## Installation
-1. Turn off the v3 camera
-2. Insert the micro sd memory card into the v3 camera
-3. Turn on the v3 camera
+1. Turn off the camera
+2. Insert the micro sd memory card into the camera
+3. Turn on the camera
 4. The camera will boot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.  It may take a few minutes for the device to finish booting and connect to wifi, then launch the SSH server.  Be patient.
 
 ## Removal
