@@ -19,6 +19,14 @@ else
 fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
+
+        if [[ -f /media/mmc/wz_mini/swap ]]; then
+                echo "swap exists, enable"
+                swapon /media/mmc/wz_mini/swap
+        else
+		echo "swap missing, system stability with usb potentially comprimised"
+	fi
+
         ifconfig eth0 down
         ifconfig wlan0 down
 
@@ -27,8 +35,8 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
         ifconfig wlan0 up
 	pkill udhcpc
-	udhcpc -i wlan0 -H $HOSTNAME -p /var/run/udhcpc.pid -b
-        sleep 5
+        udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
+#        sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	else
 	        echo "usb ethernet disabled"
@@ -46,8 +54,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
         ifconfig wlan0 up
 	pkill udhcpc
-	udhcpc -i wlan0 -H $HOSTNAME -p /var/run/udhcpc.pid -b
-
+        udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
         sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	else
