@@ -30,9 +30,9 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
         ifconfig eth0 down
         ifconfig wlan0 down
 
-        /media/mmc/wz_mini/bin/busybox  ip link set wlan0 name wlanold
-        /media/mmc/wz_mini/bin/busybox  ip addr flush dev wlanold
-        /media/mmc/wz_mini/bin/busybox  ip link set eth0 name wlan0
+        /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold
+        /media/mmc/wz_mini/bin/busybox ip addr flush dev wlanold
+        /media/mmc/wz_mini/bin/busybox ip link set eth0 name wlan0
 
         ifconfig wlan0 up
 	pkill udhcpc
@@ -51,6 +51,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
         ifconfig wlan0 down
 	/media/mmc/wz_mini/bin/busybox ip link set wlan0 address 02:01:02:03:04:08
         /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold
+        /media/mmc/wz_mini/bin/busybox ip addr flush dev wlanold
         /media/mmc/wz_mini/bin/busybox ip link set usb0 name wlan0
 
         ifconfig wlan0 up
