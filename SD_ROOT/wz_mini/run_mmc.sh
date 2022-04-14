@@ -26,8 +26,8 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
         /media/mmc/wz_mini/bin/busybox  ip link set eth0 name wlan0
 
         ifconfig wlan0 up
-        udhcpc -i wlan0
-        /media/mmc/wz_mini/bin/dropbearmulti dropbear -R -m &
+	pkill udhcpc
+	udhcpc -i wlan0 -H WyzeCam -p /var/run/udhcpc.pid -b
         sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	else
@@ -45,8 +45,9 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
         /media/mmc/wz_mini/bin/busybox ip link set usb0 name wlan0
 
         ifconfig wlan0 up
-        udhcpc -i wlan0
-        /media/mmc/wz_mini/bin/dropbearmulti dropbear -R -m &
+	pkill udhcpc
+	udhcpc -i wlan0 -H WyzeCam -p /var/run/udhcpc.pid -b
+
         sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	else
