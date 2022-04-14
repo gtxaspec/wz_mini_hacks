@@ -5,7 +5,7 @@ set -x
 ##DO NOT ENABLE FW UPGRADE.  FW UPGRADE CAN POTENTIALLY CORRUPT THE KERNEL REQUIRING YOU  TO REFLASH THE STOCK FIRMWARE.
 DISABLE_FW_UPGRADE="true"
 
-HOSTNAME="WCV3_spare_test"
+HOSTNAME="WCV3"
 ENABLE_USB_ETH="false"
 ENABLE_USB_DIRECT="false"
 
@@ -27,7 +27,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
         ifconfig wlan0 up
 	pkill udhcpc
-	udhcpc -i wlan0 -H WyzeCam -p /var/run/udhcpc.pid -b
+	udhcpc -i wlan0 -H $HOSTNAME -p /var/run/udhcpc.pid -b
         sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	else
@@ -46,7 +46,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
         ifconfig wlan0 up
 	pkill udhcpc
-	udhcpc -i wlan0 -H WyzeCam -p /var/run/udhcpc.pid -b
+	udhcpc -i wlan0 -H $HOSTNAME -p /var/run/udhcpc.pid -b
 
         sleep 5
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
