@@ -88,6 +88,7 @@ the next time you boot your camera, make sure your USB Ethernet Adapter is conne
 
 ## Latest Updates
 
+* 04-14-22:  Fix kernel command line memory mappings, resolves stability issues
 * 04-14-22:  Possible memory leak with some USB adapters used, added 128MB swap file and logic as workaround to prevent oom killing
 * 04-13-22:  Firmware updates are disabled by default, there is a bug in the bootloader that corrupts the kernel partition requiring the re-flash of the camera if an update is processed and the memory card is removed before next boot.  The bootloader proceeds to copy the partitions and the system will not boot unless re-flashed.  pending investigation.
 * 04-12-22:  Updated, custom kernel loads all required items from micro sd card.  System modification no longer needed.
