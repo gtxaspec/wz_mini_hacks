@@ -31,6 +31,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
         ifconfig wlan0 down
 
         /media/mmc/wz_mini/bin/busybox  ip link set wlan0 name wlanold
+        /media/mmc/wz_mini/bin/busybox  ip addr flush dev wlanold
         /media/mmc/wz_mini/bin/busybox  ip link set eth0 name wlan0
 
         ifconfig wlan0 up
