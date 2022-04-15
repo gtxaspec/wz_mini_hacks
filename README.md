@@ -103,8 +103,7 @@ to:
 ```
 ENABLE_USB_DIRECT="true"
 ```
-the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed. 
- Note that using USB Direct disables the onboard Wi-Fi.
+the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed.  Note that using USB Direct disables the onboard Wi-Fi.  Change the MAC Address if you desire via USB_DIRECT_MAC_ADDR variable.
 
 Connectivity is supported using a USB only... this means a single cable from the camera, to a supported host (openwrt router for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the kmod-usb-net-cdc-ncm package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
 
