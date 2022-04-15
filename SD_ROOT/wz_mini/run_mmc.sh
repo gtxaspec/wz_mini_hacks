@@ -6,8 +6,11 @@ set -x
 DISABLE_FW_UPGRADE="true"
 
 HOSTNAME="WCV3"
+
 ENABLE_USB_ETH="false"
+
 ENABLE_USB_DIRECT="false"
+USB_DIRECT_MAC_ADDR="02:01:02:03:04:08"
 
 echo  "run_mmc.sh start" > /dev/kmsg
 
@@ -49,10 +52,10 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 	##ONLY WORKS WITH g_ethernet enabled kernel
         ifconfig usb0 down
         ifconfig wlan0 down
-	/media/mmc/wz_mini/bin/busybox ip link set wlan0 address 02:01:02:03:04:08
         /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold
         /media/mmc/wz_mini/bin/busybox ip addr flush dev wlanold
         /media/mmc/wz_mini/bin/busybox ip link set usb0 name wlan0
+	/media/mmc/wz_mini/bin/busybox ip link set wlan0 address $USB_DIRECT_MAC_ADDR
 
         ifconfig wlan0 up
 	pkill udhcpc

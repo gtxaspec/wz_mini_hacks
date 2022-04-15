@@ -18,7 +18,7 @@ Run whatever firmware you want on your cameras and have root access to the devic
   * ASIX AX88xxx Based USB 2.0 Ethernet Adapters
   * ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet
   * Realtek RTL8152 Based USB 2.0 Ethernet Adapters
-
+* USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required, using USB CDC_NCM.
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Add your own changes to run at boot into the script on the micro sd card located at /media/mmc/run_mmc.sh, mount nfs, run ping, whatever you want
 * Ability to update to the latest stable or beta firmware, this mod should survive updates as long as the bootloader remains the same
@@ -27,11 +27,12 @@ Run whatever firmware you want on your cameras and have root access to the devic
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * *NEW* Installation-Free!  Put files on the micro sd card and wait for the unit to boot!
 * PAN v2 now supported
+
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
 ## Coming Soon
 
-* USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required.
+* 
 
 ## Prerequisites
 
@@ -85,15 +86,46 @@ ENABLE_USB_ETH="true"
 ```
 the next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
 
+---
+
+To enable USB Direct Support:
+
+1. In "wz_mini" folder, there is another folder called "USB_DIRECT". Copy the file inside, named "factory_t31_ZMC6tiIDQN_USBDIRECT" to the root of your memory card and rename it to "factory_t31_ZMC6tiIDQN".  This special kernel is required to enable USB Direct, the standard kernel does not work. 
+
+2. Edit run_mmc.sh:
+
+change:
+```
+ENABLE_USB_DIRECT="false"
+```
+to:
+
+```
+ENABLE_USB_DIRECT="true"
+```
+the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed. 
+ Note that using USB Direct disables the onboard Wi-Fi.
+
+Connectivity is supported using a USB only... this means a single cable from the camera, to a supported host (openwrt router for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the kmod-usb-net-cdc-ncm package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
+
+---
+
 
 ## Latest Updates
 
+* 04-15-22:  Enable USB Direct functionality. Allows you to connect camera using a USB cable to a device supporting CDC_NCM devices to get an internet connection, no USB Ethernet Adapter required.  
 * 04-14-22:  Fix kernel command line memory mappings, resolves stability issues
 * 04-14-22:  Possible memory leak with some USB adapters used, added 128MB swap file and logic as workaround to prevent oom killing
 * 04-13-22:  Firmware updates are disabled by default, there is a bug in the bootloader that corrupts the kernel partition requiring the re-flash of the camera if an update is processed and the memory card is removed before next boot.  The bootloader proceeds to copy the partitions and the system will not boot unless re-flashed.  pending investigation.
 * 04-12-22:  Updated, custom kernel loads all required items from micro sd card.  System modification no longer needed.
 * 04-05-22:  Update readme to indicate that telnet mod nor DNS spoofing is required for installation, and add pre-requisites section.
 * 04-02-22:  Update to automatic install method, remove manual install.  
+
+## BYO
+
+Build your own!!
+
+https://github.com/mnakada/atomcam_tools has a great repo with docker images which include kernel sources, config, and a whole bunch of other stuff.  Check it out.
 
 ## WARNING
 ```
