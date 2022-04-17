@@ -33,7 +33,7 @@ Run whatever firmware you want on your cameras and have root access to the devic
 ## Coming Soon
 
 * Enable tethering to android phones (RNDIS)
-
+* RTSP Streaming Server ( test @ https://github.com/gtxaspec/wz_mini_hacks_rtsp )
 ## Prerequisites
 
 * Person
