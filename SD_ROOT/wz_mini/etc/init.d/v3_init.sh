@@ -30,6 +30,6 @@ else
 	echo "swap archive not present, not extracting"
 fi
 
-{ sleep 30; /media/mmc/wz_mini/run_mmc.sh > /media/mmc/wz_mini/log/wz_mini_hacks.log; } &
+{ sleep 30; /media/mmc/wz_mini/run_mmc.sh 22> /media/mmc/wz_mini/log/wz_mini_hacks.log; } &
 
 /linuxrc
