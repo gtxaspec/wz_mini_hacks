@@ -77,7 +77,7 @@ if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
-	/media/mmc/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000
+	/media/mmc/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000 &
 fi
 
 echo "set hostname"
