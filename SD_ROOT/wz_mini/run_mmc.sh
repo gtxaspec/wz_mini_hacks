@@ -12,6 +12,9 @@ ENABLE_USB_ETH="false"
 ENABLE_USB_DIRECT="false"
 USB_DIRECT_MAC_ADDR="02:01:02:03:04:08"
 
+REMOTE_SPOTLIGHT="false"
+REMOTE_SPOTLIGHT_HOST="0.0.0.0"
+
 echo  "run_mmc.sh start" > /dev/kmsg
 
 if [[ -d /configs/.ssh ]]; then
@@ -73,10 +76,17 @@ if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mount --bind /tmp/.hosts_wz /etc/hosts
 fi
 
-echo set hostname
+if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
+	socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000
+fi
+
+echo "set hostname"
 hostname $HOSTNAME
 
-echo Run dropbear ssh server
+echo "bind /etc/profile for local shell"
+mount --bind /media/mmc/wz_mini/etc/profile /etc/profile
+
+echo "Run dropbear ssh server"
 /media/mmc/wz_mini/bin/dropbearmulti dropbear -R -m
 
 sleep 3
