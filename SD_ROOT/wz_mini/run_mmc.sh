@@ -18,6 +18,8 @@ REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 RTSP_ENABLED="false"
 RTSP_ENABLE_AUDIO="false"
 
+ENABLE_IPV6="false"
+
 DEBUG_ENABLED="false"
 
 #####################################
@@ -34,6 +36,13 @@ swap_enable() {
                 echo "swap missing, system stability with usb potentially comprimised"
         fi
 }
+
+if [[ "$ENABLE_IPV6" == "true" ]]; then
+echo "ipv6 enabled"
+else
+echo "ipv6 disabled"
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
