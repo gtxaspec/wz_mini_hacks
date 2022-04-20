@@ -10,13 +10,17 @@ initramfs ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/
 bind replace ```/etc/init.d/inittab``` with our own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
 
 bind replaces ```/etc/profile```
+
 mounts ```/tmp``` and ```/run```
+
 mounts ```/system```
 bind replaces ```/system/bin/factorycheck```, this program unmounts the binds that we do later in the file, its a debug program.
 bind replaces ```/etc/fstab```
 
 creates wz_mini's workplace directory at ```/opt/wz_mini/tmp```
+
 copies the stock ```/etc/init.d/rcS``` to the workplace directory
+
 modifies the stock rcS, adds ```set -x``` debug mode and injects the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` ro run
 
 bind replaces ```/etc/shadow``` to change the stock password
@@ -44,4 +48,3 @@ our version of iCamera is a script which injects the libcallback.so library as L
 we then load the video loopback driver from ```/opt/wz_mini/lib/modules/v4l2loopback.ko```
 
 ```/system/bin/app_init.sh``` loads the stock system software
-
