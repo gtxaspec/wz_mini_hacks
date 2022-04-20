@@ -7,7 +7,7 @@ initramfs ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/
 
 ```/opt/wz_mini/etc/init.d/v3_init.sh``` 
 
-bind replace ```/etc/init.d/inittab``` with out own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
+bind replace ```/etc/init.d/inittab``` with our own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
 
 bind replaces ```/etc/profile```
 mounts ```/tmp``` and ```/run```
