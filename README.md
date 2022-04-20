@@ -32,7 +32,6 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 ## Coming Soon
 
 * Enable tethering to android phones (RNDIS)
-* RTSP Streaming Server ( test @ https://github.com/gtxaspec/wz_mini_hacks_rtsp )
 
 ## Prerequisites
 
