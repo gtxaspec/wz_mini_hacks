@@ -35,13 +35,6 @@ swap_enable() {
         fi
 }
 
-if [[ -d /configs/.ssh ]]; then
-	echo "dropbear ssh config dir present"
-else
-	echo "dropbear ssh config dir not present, creating"
-	mkdir /configs/.ssh
-fi
-
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	swap_enable
