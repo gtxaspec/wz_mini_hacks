@@ -131,7 +131,7 @@ RTSP_ENABLE_AUDIO="false"
 ```
 the stream will be located at ```rtsp://IP_ADDRESS:8554/unicast```
 
-Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.
+Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: https://github.com/mnakada/atomcam_tools
 
 ---
 
