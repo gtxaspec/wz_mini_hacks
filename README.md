@@ -25,6 +25,7 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 * Ability to block remote AND app initiated firmware updates
 * Works on ANY firmware release (so far!)
 * DNS Spoofing or Telnet mod are *not* required prior to installation
+* RTSP Server included, stream video and or audio over LAN
 
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
