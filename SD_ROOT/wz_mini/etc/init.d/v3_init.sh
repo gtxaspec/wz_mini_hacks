@@ -61,6 +61,14 @@ fi
 echo "mount configs partition for dropbear"
 mount -t jffs2 /dev/mtdblock6 /configs
 
+if [[ -d /opt/wz_mini/usr/share/terminfo ]]; then         
+	echo "terminfo already present"
+else                                                                                               
+	echo "terminfo not present, extract"
+	tar xf /opt/wz_mini/usr/share/terminfo.tar -C /opt/wz_mini/usr/share/
+
+fi
+
 if [[ -d /configs/.ssh ]]; then
         echo "dropbear ssh config dir present"
 	umount /configs
