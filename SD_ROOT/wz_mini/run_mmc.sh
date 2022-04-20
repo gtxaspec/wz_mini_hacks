@@ -21,6 +21,7 @@ RTSP_ENABLE_AUDIO="false"
 ENABLE_IPV6="false"
 
 DEBUG_ENABLED="false"
+#drops you to a shell via serial, doesn't load app_init.sh
 
 #####################################
 ##########CONFIG END#################
@@ -29,7 +30,7 @@ DEBUG_ENABLED="false"
 echo  "run_mmc.sh start" > /dev/kmsg
 
 swap_enable() {
-        if [[ -f /media/mmc/wz_mini/swap ]]; then
+        if [[ -e /media/mmc/wz_mini/swap ]]; then
                 echo "swap exists, enable"
                 swapon /media/mmc/wz_mini/swap
         else
@@ -111,9 +112,6 @@ fi
 
 echo "set hostname"
 hostname $HOSTNAME
-
-echo "clean up tail"
-pkill tail
 
 sleep 3
 

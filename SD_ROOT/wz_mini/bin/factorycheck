@@ -1,0 +1,7 @@
+#!/bin/sh
+echo [FC] mount tfcard finish!
+echo [FC] Test.tar no exist
+echo [FC] umount tfcard finish!
+echo [FC] In [user] mode!
+
+touch /tmp/usrflag

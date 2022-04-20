@@ -12,6 +12,9 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/wz_mini/bin
 export PATH=/system/bin:$PATH
 export LD_LIBRARY_PATH=/system/lib:/opt/wz_mini/lib
 export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
+export TERMINFO=/opt/wz_mini/usr/share/terminfo
+/opt/wz_mini/bin/busybox resize
+
 #export TZ=UTC-8
 
 # Set directoty and file default create permission

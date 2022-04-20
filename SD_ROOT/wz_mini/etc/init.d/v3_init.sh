@@ -16,40 +16,42 @@ echo '
 
 set -x
 
-echo "mounting tempfs for workspace"
-mount -t tmpfs /tmp
-mount -t tmpfs /run
-
-echo "create workspace directory"
-mkdir /run/.storage
-
-if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_ENABLED\=") == "RTSP_ENABLED\=\"true\"" ]]; then
-cp /etc/init.d/rcS /run/.storage/rcS
-sed -i '/^".*/aset -x' /run/.storage/rcS
-sed -i '/^# Mount configs.*/i cp /system/bin/iCamera /run/.storage/\nmount -o ro,bind /opt/wz_mini/usr/bin/iCamera /system/bin/iCamera\n tail -f /system/bin/iCamera > /dev/null 2>&1 &' /run/.storage/rcS
-sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /run/.storage/rcS
-sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /run/.storage/rcS
-mount --bind /run/.storage/rcS /etc/init.d/rcS
-echo "load video loopback driver at video1"
-insmod /opt/wz_mini/lib/modules/v4l2loopback.ko video_nr=1
-fi
-
-if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
-cp /etc/init.d/rcS /run/.storage/rcS
-sed -i '/app_init.sh/,+2d' /run/.storage/rcS
-sed -i '/^# Run init/i/bin/sh /etc/profile' /run/.storage/rcS
-mount --bind /run/.storage/rcS /etc/init.d/rcS
-fi
-
-echo "replace stock password"
-cp /opt/wz_mini/etc/shadow /run/.storage/shadow
-mount --bind /run/.storage/shadow /etc/shadow
-chmod 400 /etc/shadow
+mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 
 echo "bind /etc/profile for local/ssh shells"
 mount --bind /opt/wz_mini/etc/profile /etc/profile
 
-if [[ -f /opt/wz_mini/swap.gz ]]; then
+echo "mounting tempfs for workspace"
+mount -t tmpfs /tmp
+mount -t tmpfs /run
+
+echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
+mount /dev/mtdblock3 /system
+mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
+touch /tmp/usrflag
+
+echo "replace stock fstab"
+mount --bind /opt/wz_mini/etc/fstab /etc/fstab
+
+echo "mount workplace dir"
+mount -t tmpfs /opt/wz_mini/tmp
+
+echo "create workspace directory"
+mkdir /opt/wz_mini/tmp/.storage
+
+echo "copy stock rcS"
+cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
+
+echo "add v3_post inject to stock rcS"
+sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/^# Mount configs.*/i/opt/wz_mini/etc/init.d/v3_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
+
+echo "replace stock password"
+cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
+mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
+chmod 400 /etc/shadow
+
+if [[ -e /opt/wz_mini/swap.gz ]]; then
 	echo "swap archive present, extracting"
         gzip -d /opt/wz_mini/swap.gz
         mkswap /opt/wz_mini/swap
@@ -58,16 +60,16 @@ else
 	echo "swap archive not present, not extracting"
 fi
 
-echo "mount configs partition for dropbear"
-mount -t jffs2 /dev/mtdblock6 /configs
-
-if [[ -d /opt/wz_mini/usr/share/terminfo ]]; then         
+if [[ -d /opt/wz_mini/usr/share/terminfo ]]; then
 	echo "terminfo already present"
-else                                                                                               
+else
 	echo "terminfo not present, extract"
 	tar xf /opt/wz_mini/usr/share/terminfo.tar -C /opt/wz_mini/usr/share/
 
 fi
+
+echo "mount configs partition for dropbear"
+mount -t jffs2 /dev/mtdblock6 /configs
 
 if [[ -d /configs/.ssh ]]; then
         echo "dropbear ssh config dir present"
@@ -81,6 +83,17 @@ fi
 echo "Run dropbear ssh server"
 /opt/wz_mini/bin/dropbearmulti dropbear -R -m
 
-{ sleep 30; /media/mmc/wz_mini/run_mmc.sh 2> /media/mmc/wz_mini/log/wz_mini_hacks.log; } &
+if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
+        sed -i '/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
+        sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
+	touch /tmp/dbgflag
+fi
+
+if ! [[ -e /tmp/dbgflag ]]; then
+	{ sleep 30; /media/mmc/wz_mini/run_mmc.sh 2> /media/mmc/wz_mini/log/wz_mini_hacks.log; } &
+else
+	echo "debug enabled, ignore run_mmc.sh"
+fi
+
 
 /linuxrc
