@@ -14,8 +14,10 @@ bind replaces ```/etc/profile```
 mounts ```/tmp``` and ```/run```
 
 mounts ```/system```
+
 bind replaces ```/system/bin/factorycheck```, this program unmounts the binds that we do later in the file, its a debug program.
-bind replaces ```/etc/fstab```
+
+bind replaces ```/etc/fstab``` with our own version which includes ```/opt/wz_mini/tmp``` as a tmpfs path
 
 creates wz_mini's workplace directory at ```/opt/wz_mini/tmp```
 
