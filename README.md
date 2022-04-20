@@ -133,6 +133,7 @@ the stream will be located at ```rtsp://IP_ADDRESS:8554/unicast```
 
 Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: https://github.com/mnakada/atomcam_tools
 
+__WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.
 ---
 
 ## Latest Updates
