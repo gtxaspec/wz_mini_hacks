@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -x
+echo "inject callback library and run"
+LD_PRELOAD='libcallback.so:libtinyalsa.so.2.0.0:libsetunbuf.so' /run/.storage/iCamera

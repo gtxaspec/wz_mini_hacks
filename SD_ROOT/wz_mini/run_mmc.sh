@@ -15,7 +15,25 @@ USB_DIRECT_MAC_ADDR="02:01:02:03:04:08"
 REMOTE_SPOTLIGHT="false"
 REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 
+RTSP_ENABLED="false"
+RTSP_ENABLE_AUDIO="false"
+
+DEBUG_ENABLED="false"
+
+#####################################
+##########CONFIG END#################
+#####################################
+
 echo  "run_mmc.sh start" > /dev/kmsg
+
+swap_enable() {
+        if [[ -f /media/mmc/wz_mini/swap ]]; then
+                echo "swap exists, enable"
+                swapon /media/mmc/wz_mini/swap
+        else
+                echo "swap missing, system stability with usb potentially comprimised"
+        fi
+}
 
 if [[ -d /configs/.ssh ]]; then
 	echo "dropbear ssh config dir present"
@@ -26,12 +44,7 @@ fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
-        if [[ -f /media/mmc/wz_mini/swap ]]; then
-                echo "swap exists, enable"
-                swapon /media/mmc/wz_mini/swap
-        else
-		echo "swap missing, system stability with usb potentially comprimised"
-	fi
+	swap_enable
 
         ifconfig eth0 down
         ifconfig wlan0 down
@@ -49,9 +62,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	        echo "usb ethernet disabled"
 fi
 
-
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
-#	if [[ ! -d /sys/class/net/usb0* ]]; then
 	##ONLY WORKS WITH g_ethernet enabled kernel
         ifconfig usb0 down
         ifconfig wlan0 down
@@ -72,8 +83,8 @@ fi
 if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mkdir /tmp/Upgrade
 	mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /tmp/.hosts_wz
-	mount --bind /tmp/.hosts_wz /etc/hosts
+	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /run/.storage/hosts_wz
+	mount --bind /run/.storage/hosts_wz /etc/hosts
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
@@ -81,18 +92,34 @@ if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
 
 fi
 
+if [[ "$RTSP_ENABLED" == "true" ]]; then
+	swap_enable
+        mkdir /tmp/alsa
+        cp /media/mmc/wz_mini/etc/alsa.conf /tmp/alsa
+
+        if [[ "$RTSP_ENABLE_AUDIO" == "true" ]]; then
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 &
+        else
+                echo "rtsp audio disabled"
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 &
+        fi
+        else
+        echo "rtsp disabled"
+fi
+
 echo "set hostname"
 hostname $HOSTNAME
 
-echo "bind /etc/profile for local shell"
-mount --bind /media/mmc/wz_mini/etc/profile /etc/profile
-
-echo "Run dropbear ssh server"
-/media/mmc/wz_mini/bin/dropbearmulti dropbear -R -m
+echo "clean up tail"
+pkill tail
 
 sleep 3
+
+#################################################
+##############CUSTOM BEGIN#######################
+#################################################
 
 #Place commands here to run 30 seconds after boot
 #such as mount nfs, ping, etc
 
-#mount -t nfs -o nolock,rw,noatime,nodiratime 192.168.1.1:/volume1 /media/mmc/record
+#mount -t nfs -o nolock,rw,noatime,nodiratime 192.168.1.1:/volume1 /media/mmc/record &

@@ -8,9 +8,9 @@ if [ "$PS1" ]; then
 fi
 
 # Set terminal env
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/media/mmc/wz_mini/bin
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/wz_mini/bin
 export PATH=/system/bin:$PATH
-export LD_LIBRARY_PATH=/system/lib:/media/mmc/wz_mini/lib
+export LD_LIBRARY_PATH=/system/lib:/opt/wz_mini/lib
 export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
 #export TZ=UTC-8
 

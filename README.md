@@ -123,9 +123,21 @@ socat TCP4-LISTEN:9000,reuseaddr,fork /dev/ttyUSB0,raw,echo=0
 Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if necessary.  The camera will now be able to control the spotlight.
 
 ---
+To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.
+
+```
+RTSP_ENABLED="false"
+RTSP_ENABLE_AUDIO="false"
+```
+the stream will be located at ```rtsp://IP_ADDRESS:8554/unicast```
+
+Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.
+
+---
 
 ## Latest Updates
 
+* 04-19-22:  Add RTSP Server functionality
 * 04-17-22:  Add remote spotlight accessory capability
 * 04-15-22:  Enable USB Direct functionality. Allows you to connect camera using a USB cable to a device supporting CDC_NCM devices to get an internet connection, no USB Ethernet Adapter required.  
 * 04-14-22:  Fix kernel command line memory mappings, resolves stability issues
