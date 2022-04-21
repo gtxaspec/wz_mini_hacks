@@ -150,6 +150,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
+* 04-21-22:  wz_mini/tmp folder was missing in git, preventing the camera from booting. Fixed.
 * 04-21-22:  Workaround for bootloader F/W upgrade bug, F/W blocking is now disabled by default.
 * 04-19-22:  Add RTSP Server functionality
 * 04-17-22:  Add remote spotlight accessory capability
