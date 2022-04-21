@@ -2,8 +2,7 @@
 
 set -x
 
-##DO NOT ENABLE FW UPGRADE.  FW UPGRADE CAN POTENTIALLY CORRUPT THE KERNEL REQUIRING YOU  TO REFLASH THE STOCK FIRMWARE.
-DISABLE_FW_UPGRADE="true"
+DISABLE_FW_UPGRADE="false"
 
 HOSTNAME="WCV3"
 
@@ -86,8 +85,11 @@ fi
 if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mkdir /tmp/Upgrade
 	mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /run/.storage/hosts_wz
-	mount --bind /run/.storage/hosts_wz /etc/hosts
+	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
+	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+else
+        mkdir /tmp/Upgrade
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp/Upgrade:n &
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then

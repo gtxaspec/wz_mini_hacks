@@ -13,6 +13,7 @@ export PATH=/system/bin:$PATH
 export LD_LIBRARY_PATH=/system/lib:/opt/wz_mini/lib
 export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
 export TERMINFO=/opt/wz_mini/usr/share/terminfo
+export TERM=xterm-color
 /opt/wz_mini/bin/busybox resize
 
 #export TZ=UTC-8

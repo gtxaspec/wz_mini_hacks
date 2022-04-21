@@ -58,7 +58,6 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
 
 ---
-**DO NOT ENABLE FIRMWARE UPDATES (unless you know what you are doing), CURRENTLY THERE IS A BOOTLOADER BUG WHICH RESULTS IN A BROKEN SYSTEM.  currently set to true by default.**
 To disable automatic firmware updates, edit run_mmc.sh in the wz_mini directory on your micro sd card,
 change:
 ```
@@ -69,7 +68,9 @@ to:
 ```
 DISABLE_FW_UPGRADE="true"
 ```
-If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all.
+If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all.  
+
+When a firmware update is initiated, due to a bootloader bug, we intercept the update process and flash it manually.  This should now result in a successful update, if it doesn't, please restore the unit's firmware manually using demo_wcv3.bin on the micro sd card.
 
 ---
 
@@ -139,6 +140,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
+* 04-21-22:  Workaround for bootloader F/W upgrade bug, F/W blocking is now disabled by default.
 * 04-19-22:  Add RTSP Server functionality
 * 04-17-22:  Add remote spotlight accessory capability
 * 04-15-22:  Enable USB Direct functionality. Allows you to connect camera using a USB cable to a device supporting CDC_NCM devices to get an internet connection, no USB Ethernet Adapter required.  

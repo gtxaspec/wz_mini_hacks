@@ -9,35 +9,35 @@ initramfs ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/
 
 bind replace ```/etc/init.d/inittab``` with our own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
 
-bind replaces ```/etc/profile```
+bind replace ```/etc/profile``` with out own version with added PATH variables for the shell
 
-mounts ```/tmp``` and ```/run```
+mount ```/tmp``` and ```/run```
 
-mounts ```/system```
+mount ```/system```
 
-bind replaces ```/system/bin/factorycheck```, this program unmounts the binds that we do later in the file, its a debug program.
+bind replace ```/system/bin/factorycheck```, this stock firmware program unmounts the binds that we do later in the file, its a debug program.  We don't need it.
 
-bind replaces ```/etc/fstab``` with our own version which includes ```/opt/wz_mini/tmp``` as a tmpfs path
+bind replace ```/etc/fstab``` with our own version which includes ```/opt/wz_mini/tmp``` as a tmpfs path
 
-creates wz_mini's workplace directory at ```/opt/wz_mini/tmp```
+create wz_mini's workplace directory at ```/opt/wz_mini/tmp```
 
-copies the stock ```/etc/init.d/rcS``` to the workplace directory
+copy the stock ```/etc/init.d/rcS``` to the workplace directory
 
-modifies the stock rcS, adds ```set -x``` debug mode and injects the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` ro run
+modify the stock rcS, add ```set -x``` debug mode and inject the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run
 
-bind replaces ```/etc/shadow``` to change the stock password
+bind replace ```/etc/shadow``` to change the stock password
 
-checks to see if the swap archive is present at ```/opt/wz_mini/swap.gz```, if it is, extracts it, then mkswap's it, and drops the vm cache.
+check to see if the swap archive is present at ```/opt/wz_mini/swap.gz```, if it is, extract it, then mkswap it, and drop the vm cache.
 
 check to see if the ```/opt/wz_mini/usr/share/terminfo``` directory is present, if not, extract the terminfo files for console programs
 
-mounts ```/configs``` to check if the ```.ssh``` dir is present, a requirement for the dropbear ssh server
+mount ```/configs``` to check if the ```.ssh``` dir is present, a requirement for the dropbear ssh server
 
-checks to see if ```/opt/wz_mini/run_mmc.sh``` has debug mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and ```/media/mmc/wz_mini/run_mmc.sh```
+check to see if ```/opt/wz_mini/run_mmc.sh``` has debug mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and ```/media/mmc/wz_mini/run_mmc.sh```
 
 run ```/media/mmc/wz_mini/run_mmc.sh```, but delay execution for 30 seconds, enough time for WiFi or wired ethernet/usb to load and connect successfully to the internet
 
-runs ```/linuxrc``` to kick off the stock boot process
+run ```/linuxrc``` to kick off the stock boot process
 
 our modified inittab runs from ```/opt/wz_mini/tmp/.storage/rcS```, we have enabled set -x debug info, added ```/opt/wz_mini/bin``` and ```/opt/wz_mini/lib``` to the system PATH's, and added ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run before ```/system/init/app_init.sh``` runs.
 
@@ -50,3 +50,14 @@ our version of iCamera is a script which injects the libcallback.so library as L
 we then load the video loopback driver from ```/opt/wz_mini/lib/modules/v4l2loopback.ko```
 
 ```/system/bin/app_init.sh``` loads the stock system software
+
+During execution of ```run_mmc.sh```, if ```DISABLE_FW_UPGRADE``` is set to ```false``` we intercept the stock firmware upgrade process.  We run ```inotifyd``` at startup, to observe the /tmp/Upgrade directory.
+
+Normally, ```iCamera``` downloads the firmware upgrade tar to ```/tmp/img```, renames it to ```/tmp/Upgrade.tar```, then extracts it to ```/tmp/Upgrade```
+
+```inotifyd``` monitors ```/tmp/Upgrade``` for the file ```upgraderun.sh```, this is the script responsible for flashing the firmware files to their respective partitions.  Once the file appears, ```inotifyd``` calls the script ```/opt/wz_mini/usr/bin/watch_up.sh``` which will rename the file to ```upgraderun.old``` and kill the script if ```iCamera``` was fast enough to launch it before we renamed it.  
+
+```watch_up.sh``` will then proceed to flash the main partitions directly, instead of doing what the stock script does, which is to flash the images to backup partitions, and then let the bootloader flash the main partitions upon reboot, since this process is currently broken when using the loading the kernel from the micro sd card, which we do.
+
+
+Once the partitions have been flashed, we reboot the camera.
