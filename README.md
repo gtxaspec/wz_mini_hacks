@@ -2,7 +2,11 @@
 ### v3/PANv2 devices ONLY
 
 Run whatever firmware you want on your v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
-**Do not contact the manufacturer for information or support, they will not be able to assist you!**
+
+**Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
+
+## Important matters related to security
+Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are reponsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
 
 ### Related Projects:
 * wz_mini_debian: run full debian in a chroot, on the camera!
@@ -33,6 +37,9 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 
 * Enable tethering to android phones (RNDIS)
 
+## How you can help!
+* RTSP Server: Live view in the app doesn't work when set to "HD" or "SD", need to check libcallback sources to see why this happens, if you can help with this, check it out.
+
 ## Prerequisites
 
 * Person
@@ -56,6 +63,9 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 ## Customization
 
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
+
+---
+Wireguard support is compiled into the kernel.  Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](https://www.wireguard.com/quickstart/) for more info.
 
 ---
 To disable automatic firmware updates, edit run_mmc.sh in the wz_mini directory on your micro sd card,
@@ -132,7 +142,7 @@ RTSP_ENABLE_AUDIO="false"
 ```
 the stream will be located at ```rtsp://IP_ADDRESS:8554/unicast```
 
-Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: https://github.com/mnakada/atomcam_tools
+Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
 __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.
 
@@ -155,11 +165,12 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 Build your own!!
 
-https://github.com/mnakada/atomcam_tools has a great repo with docker images which include kernel sources, config, and a whole bunch of other stuff.  Check it out.
+[https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools) has a great repo with docker images which include kernel sources, config, and a whole bunch of other stuff.  Check it out.
 
 ## WARNING
 ```
-AS WITH ANY UNSUPPORTED SYSTEM MODIFICATIONS, USING THIS MAY LEAD TO A DEVICE BRICK
+AS WITH ANY UNSUPPORTED SYSTEM MODIFICATIONS, USING THIS MAY LEAD TO A DEVICE BRICK## Important matters related to security
+Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are reponsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
 IF YOU DON'T KNOW WHAT YOU ARE DOING ( HAVEN'T BRICKED MY DEVICE YET! ) PLEASE
 BE AWARE THAT NO ONE ON THE INTERNET IS RESPONSIBLE FOR ANY DAMAGE TO YOUR
 UNIT. ANY PROBLEMS WILL BE CONSIDERED USER ERROR OR ACTS OF WHATEVER GOD YOU BELIEVE IN.
@@ -173,7 +184,10 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## Thank You
 Thank you to everyone who is passionate about Wyze products for making the devices popular, and thank you to Wyze for producing them.  Sign up for CamPlus, show some love and support to the company.
 
-Thanks for HclX for WyzeHacks! https://github.com/HclX/WyzeHacks/  
-Thank you mnakada for his atomcam_tools fork! https://github.com/mnakada/atomcam_tools  
-Thank you bakueikozo for his atomcam_tools repo! https://github.com/bakueikozo/atomcam_tools  
+Thanks for HclX for WyzeHacks! [https://github.com/HclX/WyzeHacks/](https://github.com/HclX/WyzeHacks/)
+
+Thank you mnakada for his atomcam_tools fork! [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
+
+Thank you bakueikozo for his atomcam_tools repo! [https://github.com/bakueikozo/atomcam_tools](https://github.com/bakueikozo/atomcam_tools)
+ 
 Thank you to virmaior for the atomcam_tools tip!
