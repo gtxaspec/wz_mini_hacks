@@ -8,7 +8,7 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 ## Important matters related to security
 Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are reponsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
 
-### Related Projects:
+## Related Projects:
 * wz_mini_debian: run full debian in a chroot, on the camera!
 * wz_mini_utils: various statically compiled binaries for use with the camera (mipsel)
 
@@ -169,8 +169,7 @@ Build your own!!
 
 ## WARNING
 ```
-AS WITH ANY UNSUPPORTED SYSTEM MODIFICATIONS, USING THIS MAY LEAD TO A DEVICE BRICK## Important matters related to security
-Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are reponsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
+AS WITH ANY UNSUPPORTED SYSTEM MODIFICATIONS, USING THIS MAY LEAD TO A DEVICE BRICK
 IF YOU DON'T KNOW WHAT YOU ARE DOING ( HAVEN'T BRICKED MY DEVICE YET! ) PLEASE
 BE AWARE THAT NO ONE ON THE INTERNET IS RESPONSIBLE FOR ANY DAMAGE TO YOUR
 UNIT. ANY PROBLEMS WILL BE CONSIDERED USER ERROR OR ACTS OF WHATEVER GOD YOU BELIEVE IN.
