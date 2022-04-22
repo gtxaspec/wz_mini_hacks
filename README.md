@@ -50,12 +50,14 @@ Using this project can potentially expose your device to the open internet depen
 
 1. git clone the repo or download the repo zip
 2. copy all the files inside of SD_ROOT to your micro sd card
+3. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
 ## Installation
 1. Turn off the camera
 2. Insert the micro sd memory card into the camera
 3. Turn on the camera
-4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  username is root password is WYom2020.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.
+4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.
+5. You may also login via the serial console, password is WYom2020
 
 ## Removal
 1.  Delete the files you copied to the memory card, or remove the memory card all together.  The next time you boot the camera, you will return to stock firmware.
@@ -134,15 +136,18 @@ socat TCP4-LISTEN:9000,reuseaddr,fork /dev/ttyUSB0,raw,echo=0
 Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if necessary.  The camera will now be able to control the spotlight.
 
 ---
-To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.
+To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
 
 ```
 RTSP_ENABLED="false"
 RTSP_ENABLE_AUDIO="false"
+RTSP_LOGIN="admin"
+RTSP_PASSWORD=""
+RTSP_PORT="8554"
 ```
-the stream will be located at ```rtsp://IP_ADDRESS:8554/unicast```
+the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 
-Note:  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
+Note:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
 __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.
 
@@ -150,6 +155,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
+* 04-21-22:  Updated dropbear ssh, enabled public key authentication, disable password auth.
 * 04-21-22:  wz_mini/tmp folder was missing in git, preventing the camera from booting. Fixed.
 * 04-21-22:  Workaround for bootloader F/W upgrade bug, F/W blocking is now disabled by default.
 * 04-19-22:  Add RTSP Server functionality

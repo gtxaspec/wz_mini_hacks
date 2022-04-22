@@ -16,6 +16,9 @@ REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 
 RTSP_ENABLED="false"
 RTSP_ENABLE_AUDIO="false"
+RTSP_LOGIN="admin"
+RTSP_PASSWORD=""
+RTSP_PORT="8554"
 
 ENABLE_IPV6="false"
 
@@ -27,6 +30,9 @@ DEBUG_ENABLED="false"
 #####################################
 
 echo  "run_mmc.sh start" > /dev/kmsg
+
+echo "store original mac"
+cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
 
 swap_enable() {
         if [[ -e /media/mmc/wz_mini/swap ]]; then
@@ -102,11 +108,15 @@ if [[ "$RTSP_ENABLED" == "true" ]]; then
         mkdir /tmp/alsa
         cp /media/mmc/wz_mini/etc/alsa.conf /tmp/alsa
 
+	if [[ "$RTSP_PASSWORD" = "" ]]; then
+	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+	fi
+
         if [[ "$RTSP_ENABLE_AUDIO" == "true" ]]; then
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 &
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT &
         else
                 echo "rtsp audio disabled"
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 &
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT &
         fi
         else
         echo "rtsp disabled"
