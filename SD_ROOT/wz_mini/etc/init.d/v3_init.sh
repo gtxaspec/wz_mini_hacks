@@ -68,20 +68,8 @@ else
 
 fi
 
-echo "mount configs partition for dropbear"
-mount -t jffs2 /dev/mtdblock6 /configs
-
-if [[ -d /configs/.ssh ]]; then
-        echo "dropbear ssh config dir present"
-	umount /configs
-else
-        echo "dropbear ssh config dir not present, creating"
-        mkdir /configs/.ssh
-	umount /configs
-fi
-
 echo "Run dropbear ssh server"
-/opt/wz_mini/bin/dropbearmulti dropbear -R -m
+/opt/wz_mini/bin/dropbearmulti dropbear -R -s -g
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
         sed -i '/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
