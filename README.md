@@ -39,12 +39,23 @@ Using this project can potentially expose your device to the open internet depen
 
 ## How you can help!
 * RTSP Server: Live view in the app doesn't work when set to "HD" or "SD", need to check libcallback sources to see why this happens, if you can help with this, check it out.
+* Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
 
 ## Prerequisites
 
 * Person
 * Computer
 * 256MB or larger Micro-SD Card is required!
+
+## What Works / What Doesn't Work
+* Everything works except:
+
+  1. v3/Pan V2: RTSP support is experimental and has several drawbacks:
+     - Live view in the app only works at 360p
+     - Recording to microsd card doesn't work properly
+     - RTSP playback only works properly via VLC
+  2. PAN v2:
+     -  Tilt (Vertical) only works at motor speed 9
 
 ## Setup
 
@@ -75,11 +86,7 @@ change:
 ```
 DISABLE_FW_UPGRADE="false"
 ```
-to:
 
-```
-DISABLE_FW_UPGRADE="true"
-```
 If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all.  
 
 When a firmware update is initiated, due to a bootloader bug, we intercept the update process and flash it manually.  This should now result in a successful update, if it doesn't, please restore the unit's firmware manually using demo_wcv3.bin on the micro sd card.
@@ -91,11 +98,7 @@ change:
 ```
 ENABLE_USB_ETH="false"
 ```
-to:
 
-```
-ENABLE_USB_ETH="true"
-```
 the next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
 
 ---
@@ -110,11 +113,7 @@ change:
 ```
 ENABLE_USB_DIRECT="false"
 ```
-to:
 
-```
-ENABLE_USB_DIRECT="true"
-```
 the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed.  Note that using USB Direct disables the onboard Wi-Fi.  Change the MAC Address if you desire via USB_DIRECT_MAC_ADDR variable.
 
 Connectivity is supported using a direct USB connection only... this means a single cable from the camera, to a supported host (An OpenWRT router, for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the ```kmod-usb-net-cdc-ncm``` package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
@@ -123,7 +122,6 @@ Connectivity is supported using a direct USB connection only... this means a sin
 When USB Direct connectivity is enabled, the camera will be unable to communicate with accessories.  To enable remote spotlight accessory support, enable the following variable and set the IP Address of the host as follows:
 ```
 REMOTE_SPOTLIGHT="true"
-
 REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 ```
 
@@ -136,6 +134,8 @@ socat TCP4-LISTEN:9000,reuseaddr,fork /dev/ttyUSB0,raw,echo=0
 Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if necessary.  The camera will now be able to control the spotlight.
 
 ---
+__WARNING: RTSP support is experimental and I consider it to be broken.  Use it only if you know what you are doing!  The outdated stock RTSP firmware works much better at the moment.__
+
 To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
 
 ```
@@ -149,7 +149,7 @@ the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast``
 
 Note:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
-__WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.
+__WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.  Recording to micro sd is also broken.
 
 ---
 
@@ -171,7 +171,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## BYO
 
-Build your own!!
+Build your own!!at the moment
 
 [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools) has a great repo with docker images which include kernel sources, config, and a whole bunch of other stuff.  Check it out.
 
