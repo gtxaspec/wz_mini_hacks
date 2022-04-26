@@ -155,6 +155,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
+* 04-26-22:  Add customizable PATH hook in v3_init.sh, and add audioplay_t31 binary for playing audio files before iCamera loads.
 * 04-21-22:  Add authentication to rtsp server.  use default password as unique device mac address.
 * 04-21-22:  Updated dropbear ssh, enabled public key authentication, disable password auth.
 * 04-21-22:  wz_mini/tmp folder was missing in git, preventing the camera from booting. Fixed.
