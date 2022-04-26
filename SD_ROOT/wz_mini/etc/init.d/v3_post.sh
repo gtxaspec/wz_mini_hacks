@@ -1,11 +1,10 @@
 #!/bin/sh
 
+##THIS FILE IS CALLED BY rcS, EXECUTED BEFORE app_init.sh IS RUN.
+
 set -x
 
-echo "v3_post.sh"
-
-sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
+echo "v3_post.sh exec"
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_ENABLED\=") == "RTSP_ENABLED\=\"true\"" ]] && ! [[ -e /tmp/dbgflag ]]; then
         cp /system/bin/iCamera /opt/wz_mini/tmp/.storage/

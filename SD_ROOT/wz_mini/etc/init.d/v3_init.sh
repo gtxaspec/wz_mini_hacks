@@ -16,6 +16,16 @@ echo '
 
 set -x
 
+if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
+        echo "first boot already completed"
+else
+	echo "first boot, initializing"
+        insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=63 alc_mode=0 mic_gain=0
+        /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
+        rmmod audio
+        touch /opt/wz_mini/etc/.first_boot
+fi
+
 mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 
 echo "bind /etc/profile for local/ssh shells"
@@ -46,12 +56,22 @@ echo "add v3_post inject to stock rcS"
 sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/^# Mount configs.*/i/opt/wz_mini/etc/init.d/v3_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
 
+sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
+
+#Custom PATH hooks
+#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\nexport' /opt/wz_mini/tmp/.storage/rcS
+#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\nexport' /opt/wz_mini/tmp/.storage/rcS
+
 echo "replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
 mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
 if [[ -e /opt/wz_mini/swap.gz ]]; then
+	insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=63 alc_mode=0 mic_gain=0
+	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
+	rmmod audio
 	echo "swap archive present, extracting"
         gzip -d /opt/wz_mini/swap.gz
         mkswap /opt/wz_mini/swap
