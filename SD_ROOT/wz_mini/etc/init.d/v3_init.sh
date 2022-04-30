@@ -18,11 +18,21 @@ sleep 2
 
 set -x
 
+#WCV3 GPIO
+GPIO=63
+
+#Check model, change GPIO is HL_PAN2
+mount -t jffs2 /dev/mtdblock6 /configs
+if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
+umount /configs
+GPIO=7
+fi
+
 if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
         echo "first boot already completed"
 else
 	echo "first boot, initializing"
-        insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=63 alc_mode=0 mic_gain=0
+        insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
         /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
         rmmod audio
         touch /opt/wz_mini/etc/.first_boot
@@ -74,7 +84,7 @@ mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
 if [[ -e /opt/wz_mini/swap.gz ]]; then
-	insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=63 alc_mode=0 mic_gain=0
+	insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
 	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
 	rmmod audio
 	echo "swap archive present, extracting"
@@ -97,7 +107,7 @@ echo "Run dropbear ssh server"
 /opt/wz_mini/bin/dropbearmulti dropbear -R -s -g
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
-        sed -i '/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
+        sed -i '/app_init.sh/,+3d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 fi
