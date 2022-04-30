@@ -13,3 +13,9 @@ if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_ENABLED\=") == "RTSP_ENABLED\=\
         insmod /opt/wz_mini/lib/modules/v4l2loopback.ko video_nr=1
 fi
 
+##LIBRARY DEBUG
+#cp /opt/wz_mini/lib/uClibc.tar /tmp
+#tar -xf /tmp/uClibc.tar -C /tmp
+#mount --bind /tmp/lib /lib
+#cp /system/bin/iCamera /opt/wz_mini/tmp/.storage/
+#mount -o ro,bind /opt/wz_mini/usr/bin/iCamera-dbg /system/bin/iCamera

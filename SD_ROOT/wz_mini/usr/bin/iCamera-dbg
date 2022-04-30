@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -x
+
+echo "inject callback library and run"
+
+export LD_LIBRARY_PATH='/thirdlib:/system/lib:/opt/wz_mini/lib'
+
+LD_DEBUG_OUTPUT=/tmp/icam1.log LD_DEBUG=bindings /opt/wz_mini/tmp/.storage/iCamera
