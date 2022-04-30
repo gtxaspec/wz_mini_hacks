@@ -183,6 +183,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
+* 04-30-22:  Recompiled uClibc with LD_DEBUG enabled. Enable in v3_post.sh, for debugging.
 * 04-30-22:  Move built-in kernel stuff to modules, usb_direct kernel no longer needed, modules now included. Added usb-storage support for usb hdd/ssd/flash drive, cifs support, and rndis support for tethering camera directly to a mobile device.
 * 04-26-22:  Add customization of PATH  via hook in v3_init.sh, and add audioplay_t31 binary for playing audio files before iCamera loads.
 * 04-21-22:  Add authentication to rtsp server.  use default password as unique device mac address.
