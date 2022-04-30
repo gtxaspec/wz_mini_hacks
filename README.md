@@ -6,7 +6,7 @@ Run whatever firmware you want on your v3/PANv2 and have root access to the devi
 **Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
 
 ## Important matters related to security
-Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are reponsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
+Using this project can potentially expose your device to the open internet depending on the configuration of your network.  You alone are responsible for the configuration and security of your network, make sure you are aware of the risks involved before using.
 
 ## Related Projects:
 * wz_mini_debian: run full debian in a chroot, on the camera!
@@ -30,12 +30,14 @@ Using this project can potentially expose your device to the open internet depen
 * Works on ANY firmware release (so far!)
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * RTSP Server included, stream video and or audio over LAN
+* Tethering to android phones via RNDIS
+* USB Mass storage enabled, mount USB SSD/HDD/flash drives
+* CIFS Supported
 
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
 ## Coming Soon
-
-* Enable tethering to android phones (RNDIS)
+* ???
 
 ## How you can help!
 * RTSP Server: Live view in the app doesn't work when set to "HD" or "SD", need to check libcallback sources to see why this happens, if you can help with this, check it out.
@@ -78,11 +80,18 @@ Using this project can potentially expose your device to the open internet depen
 Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
 
 ---
-Wireguard support is compiled into the kernel.  Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](https://www.wireguard.com/quickstart/) for more info.
+
+Wireguard support is available as a kernel module:
+
+```
+ENABLE_WIREGUARD="false"
+```
+
+Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](https://www.wireguard.com/quickstart/) for more info.
 
 ---
-To disable automatic firmware updates, edit run_mmc.sh in the wz_mini directory on your micro sd card,
-change:
+Disable automatic firmware updates:
+
 ```
 DISABLE_FW_UPGRADE="false"
 ```
@@ -93,8 +102,8 @@ When a firmware update is initiated, due to a bootloader bug, we intercept the u
 
 ---
 
-To enable USB Ethernet Adapter support,
-change:
+USB Ethernet Adapter support:
+
 ```
 ENABLE_USB_ETH="false"
 ```
@@ -103,13 +112,8 @@ the next time you boot your camera, make sure your USB Ethernet Adapter is conne
 
 ---
 
-To enable USB Direct Support:
+USB Direct Support:
 
-1. In "wz_mini" folder, there is another folder called "USB_DIRECT". Copy the file inside, named "factory_t31_ZMC6tiIDQN_USBDIRECT" to the root of your memory card and rename it to "factory_t31_ZMC6tiIDQN".  This special kernel is required to enable USB Direct, the standard kernel does not work. 
-
-2. Edit run_mmc.sh:
-
-change:
 ```
 ENABLE_USB_DIRECT="false"
 ```
@@ -119,6 +123,9 @@ the next time you boot your camera, make sure your USB cable is connected to the
 Connectivity is supported using a direct USB connection only... this means a single cable from the camera, to a supported host (An OpenWRT router, for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the ```kmod-usb-net-cdc-ncm``` package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
 
 ---
+
+Remote Accessories:
+
 When USB Direct connectivity is enabled, the camera will be unable to communicate with accessories.  To enable remote spotlight accessory support, enable the following variable and set the IP Address of the host as follows:
 ```
 REMOTE_SPOTLIGHT="true"
@@ -132,6 +139,27 @@ socat TCP4-LISTEN:9000,reuseaddr,fork /dev/ttyUSB0,raw,echo=0
 ```
 
 Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if necessary.  The camera will now be able to control the spotlight.
+
+---
+
+USB Mass Storage Support:
+
+```
+ENABLE_USB_STORAGE="false"
+```
+If you would like to mount an EXT3/4 filesystem, also change:
+
+```
+ENABLE_EXT4="false"
+```
+
+---
+
+CIFS is now supported:
+
+```
+ENABLE_CIFS="false"
+```
 
 ---
 __WARNING: RTSP support is experimental and I consider it to be broken.  Use it only if you know what you are doing!  The outdated stock RTSP firmware works much better at the moment.__
@@ -155,7 +183,8 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## Latest Updates
 
-* 04-26-22:  Add customizable PATH hook in v3_init.sh, and add audioplay_t31 binary for playing audio files before iCamera loads.
+* 04-30-22:  Move built-in kernel stuff to modules, usb_direct kernel no longer needed, modules now included. Added usb-storage support for usb hdd/ssd/flash drive, cifs support, and rndis support for tethering camera directly to a mobile device.
+* 04-26-22:  Add customization of PATH  via hook in v3_init.sh, and add audioplay_t31 binary for playing audio files before iCamera loads.
 * 04-21-22:  Add authentication to rtsp server.  use default password as unique device mac address.
 * 04-21-22:  Updated dropbear ssh, enabled public key authentication, disable password auth.
 * 04-21-22:  wz_mini/tmp folder was missing in git, preventing the camera from booting. Fixed.
@@ -172,7 +201,7 @@ __WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or 
 
 ## BYO
 
-Build your own!!at the moment
+Build your own!!
 
 [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools) has a great repo with docker images which include kernel sources, config, and a whole bunch of other stuff.  Check it out.
 

@@ -8,12 +8,13 @@ if [ "$PS1" ]; then
 fi
 
 # Set terminal env
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/opt/wz_mini/bin
-export PATH=/system/bin:$PATH
-export LD_LIBRARY_PATH=/system/lib:/opt/wz_mini/lib
-export LD_LIBRARY_PATH=/thirdlib:$LD_LIBRARY_PATH
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH=/opt/wz_mini/tmp/.bin:/opt/wz_mini/bin:/system/bin:$PATH
+export LD_LIBRARY_PATH=/system/lib
+export LD_LIBRARY_PATH=/opt/wz_mini/lib:/thirdlib:$LD_LIBRARY_PATH
 export TERMINFO=/opt/wz_mini/usr/share/terminfo
 export TERM=xterm-color
+
 /opt/wz_mini/bin/busybox resize
 
 #export TZ=UTC-8

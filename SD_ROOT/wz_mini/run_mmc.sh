@@ -6,22 +6,32 @@ DISABLE_FW_UPGRADE="false"
 
 HOSTNAME="WCV3"
 
+#####NETWORKING#####
 ENABLE_USB_ETH="false"
 
 ENABLE_USB_DIRECT="false"
 USB_DIRECT_MAC_ADDR="02:01:02:03:04:08"
 
+ENABLE_USB_RNDIS="false"
+#####ACCESSORIES#####
 REMOTE_SPOTLIGHT="false"
 REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 
+#####VIDEO STREAM#####
 RTSP_ENABLED="false"
 RTSP_ENABLE_AUDIO="false"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
 RTSP_PORT="8554"
 
+#####GENERAL#####
 ENABLE_IPV6="false"
+ENABLE_USB_STORAGE="false"
+ENABLE_WIREGUARD="false"
+ENABLE_EXT4="false"
+ENABLE_CIFS="false"
 
+#####DEBUG#####
 DEBUG_ENABLED="false"
 #drops you to a shell via serial, doesn't load app_init.sh
 
@@ -43,6 +53,60 @@ swap_enable() {
         fi
 }
 
+if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/usbnet.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/cdc_ether.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/rndis_host.ko
+
+        swap_enable
+
+        ifconfig usb0 down
+        ifconfig wlan0 down
+
+        /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold
+        /media/mmc/wz_mini/bin/busybox ip addr flush dev wlanold
+        /media/mmc/wz_mini/bin/busybox ip link set usb0 name wlan0
+
+        ifconfig wlan0 up
+        pkill udhcpc
+        udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
+#        sleep 5
+        mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
+
+else
+	echo "rndis disabled"
+fi
+
+if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/tunnel4.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/ip_tunnel.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/wireguard/wireguard.ko
+else
+	echo "wireguard disabled"
+fi
+
+if [[ "$ENABLE_CIFS" == "true" ]]; then
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/cifs/cifs.ko
+else
+	echo "cifs disabled"
+fi
+
+if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/scsi/scsi_mod.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/scsi/sd_mod.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/storage/usb-storage.ko
+else
+	echo "usb_storage disabled"
+fi
+
+if [[ "$ENABLE_EXT4" == "true" ]]; then
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/jbd2/jbd2.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/mbcache.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/ext4/ext4.ko
+else
+	echo "ext4 disabled"
+fi
+
 if [[ "$ENABLE_IPV6" == "true" ]]; then
 echo "ipv6 enabled"
 else
@@ -53,6 +117,9 @@ fi
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	swap_enable
+
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/usbnet.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/asix.ko
 
         ifconfig eth0 down
         ifconfig wlan0 down
@@ -71,7 +138,20 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
-	##ONLY WORKS WITH g_ethernet enabled kernel
+
+	#Set dwc2 ID_PIN driver memory
+	devmem 0x13500000 32 0x001100cc
+	devmem 0x10000040 32 0x0b000096
+	#wipe the bits to set the ID_PIN
+	devmem 0x10000040 32 0x0b000FFF
+
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/libcomposite.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm
+
+	sleep 1
+
         ifconfig usb0 down
         ifconfig wlan0 down
         /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold

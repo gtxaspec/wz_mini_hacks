@@ -5,7 +5,7 @@ build kernel with initramfs
 
 initramfs ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh```
 
-```/opt/wz_mini/etc/init.d/v3_init.sh``` 
+within ```/opt/wz_mini/etc/init.d/v3_init.sh```:
 
 bind replace ```/etc/init.d/inittab``` with our own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
 
@@ -23,7 +23,7 @@ create wz_mini's workplace directory at ```/opt/wz_mini/tmp```
 
 copy the stock ```/etc/init.d/rcS``` to the workplace directory
 
-modify the stock rcS, add ```set -x``` debug mode and inject the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run
+modify the stock rcS, add ```set -x``` debug mode, inject the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run, and add a section to change PATH and LD_LIBRARY if desired
 
 bind replace ```/etc/shadow``` to change the stock password
 
@@ -60,4 +60,4 @@ Normally, ```iCamera``` downloads the firmware upgrade tar to ```/tmp/img```, re
 ```watch_up.sh``` will then proceed to flash the main partitions directly, instead of doing what the stock script does, which is to flash the images to backup partitions, and then let the bootloader flash the main partitions upon reboot, since this process is currently broken when using the loading the kernel from the micro sd card, which we do.
 
 
-Once the partitions have been flashed, we reboot the camera.
+Once the partitions have been flashed, we reboot the camera, and the FW upgrade is complete.

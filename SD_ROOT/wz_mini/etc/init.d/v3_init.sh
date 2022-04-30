@@ -14,6 +14,8 @@ echo '
                  |______|
 '
 
+sleep 2
+
 set -x
 
 if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
@@ -33,7 +35,6 @@ mount --bind /opt/wz_mini/etc/profile /etc/profile
 
 echo "mounting tempfs for workspace"
 mount -t tmpfs /tmp
-mount -t tmpfs /run
 
 echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
 mount /dev/mtdblock3 /system
@@ -45,6 +46,10 @@ mount --bind /opt/wz_mini/etc/fstab /etc/fstab
 
 echo "mount workplace dir"
 mount -t tmpfs /opt/wz_mini/tmp
+
+echo "install busybox applets"
+mkdir /opt/wz_mini/tmp/.bin
+/opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
 
 echo "create workspace directory"
 mkdir /opt/wz_mini/tmp/.storage
@@ -60,8 +65,8 @@ sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 
 #Custom PATH hooks
-#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\nexport' /opt/wz_mini/tmp/.storage/rcS
-#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\nexport' /opt/wz_mini/tmp/.storage/rcS
+#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
+#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
 
 echo "replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
