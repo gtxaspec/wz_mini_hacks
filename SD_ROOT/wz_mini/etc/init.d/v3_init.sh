@@ -104,7 +104,7 @@ else
 fi
 
 echo "Run dropbear ssh server"
-/opt/wz_mini/bin/dropbearmulti dropbear -R -s -g
+/opt/wz_mini/bin/dropbear -R -s -g
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
         sed -i '/app_init.sh/,+3d' /opt/wz_mini/tmp/.storage/rcS
