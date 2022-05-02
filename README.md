@@ -62,6 +62,7 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup
 
 1. git clone the repo or download the repo zip
+2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), volume name does not matter.
 2. copy all the files inside of SD_ROOT to your micro sd card
 3. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
