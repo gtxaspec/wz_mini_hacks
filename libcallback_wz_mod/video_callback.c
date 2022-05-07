@@ -19,7 +19,24 @@ typedef int (* framecb)(struct frames_st *);
 
 static int (*real_local_sdk_video_set_encode_frame_callback)(int ch, void *callback);
 static void *video_encode_cb = NULL;
-static int VideoCaptureEnable = 1;
+static int VideoCaptureEnable = 0;
+
+char *VideoCapture(int fd, char *tokenPtr) {
+
+  char *p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+  if(!p) return VideoCaptureEnable ? "on" : "off";
+  if(!strcmp(p, "on")) {
+    VideoCaptureEnable = 1;
+    fprintf(stderr, "[command] video capute on\n", p);
+    return "ok";
+  }
+  if(!strcmp(p, "off")) {
+    VideoCaptureEnable = 0;
+    fprintf(stderr, "[command] video capute off\n", p);
+    return "ok";
+  }
+  return "error";
+}
 
 static uint32_t video_encode_capture(struct frames_st *frames) {
 
@@ -60,7 +77,7 @@ static uint32_t video_encode_capture(struct frames_st *frames) {
 int local_sdk_video_set_encode_frame_callback(int ch, void *callback) {
 
   fprintf(stderr, "local_sdk_video_set_encode_frame_callback streamChId=%d, callback=0x%x\n", ch, callback);
-  if(ch == 0) {
+  if( (ch == 0) && callback == 0x48cc50) {
     video_encode_cb = callback;
     fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
     callback = video_encode_capture;

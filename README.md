@@ -33,6 +33,7 @@ Using this project can potentially expose your device to the open internet depen
 * Tethering to android phones via RNDIS
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
+* Play .WAV files using "aplay <file> <vol>" command
 
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
@@ -40,7 +41,6 @@ Using this project can potentially expose your device to the open internet depen
 * ???
 
 ## How you can help!
-* RTSP Server: Live view in the app doesn't work when set to "HD" or "SD", need to check libcallback sources to see why this happens, if you can help with this, check it out.
 * Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
 
 ## Prerequisites
@@ -52,11 +52,7 @@ Using this project can potentially expose your device to the open internet depen
 ## What Works / What Doesn't Work
 * Everything works except:
 
-  1. v3/Pan V2: RTSP support is experimental and has several drawbacks:
-     - Live view in the app only works at 360p
-     - Recording to microsd card doesn't work properly
-     - RTSP playback only works properly via VLC
-  2. PAN v2:
+  1. PAN v2:
      -  Tilt (Vertical) only works at motor speed 9
 
 ## Setup
@@ -163,8 +159,6 @@ ENABLE_CIFS="false"
 ```
 
 ---
-__WARNING: RTSP support is experimental and I consider it to be broken.  Use it only if you know what you are doing!  The outdated stock RTSP firmware works much better at the moment.__
-
 To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
 
 ```
@@ -178,12 +172,11 @@ the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast``
 
 Note:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
-__WARNING__:  If using the wyze app to view the live stream, viewing in "HD" or "SD" will not work.  Select 360p to view the live stram in the app.  Recording to micro sd is also broken.
-
 ---
 
 ## Latest Updates
 
+* 05-07-22:  RTSP Server fixed, ported latest full libcallback from @mnakada with modifications.
 * 05-01-22:  Removed dropbearmulti, replaced with individual binaries.  dropbear dbclient dropbearkey dropbearconvert scp now included.
 * 04-30-22:  Recompiled uClibc with LD_DEBUG enabled. Enable in v3_post.sh, for debugging.
 * 04-30-22:  Move built-in kernel stuff to modules, usb_direct kernel no longer needed, modules now included. Added usb-storage support for usb hdd/ssd/flash drive, cifs support, and rndis support for tethering camera directly to a mobile device.

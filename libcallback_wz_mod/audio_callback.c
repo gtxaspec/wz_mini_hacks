@@ -17,7 +17,24 @@ typedef int (* framecb)(struct frames_st *);
 
 static uint32_t (*real_local_sdk_audio_set_pcm_frame_callback)(int ch, void *callback);
 static void *audio_pcm_cb = NULL;
-static int AudioCaptureEnable = 1;
+static int AudioCaptureEnable = 0;
+
+char *AudioCapture(int fd, char *tokenPtr) {
+
+  char *p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+  if(!p) return AudioCaptureEnable ? "on" : "off";
+  if(!strcmp(p, "on")) {
+    AudioCaptureEnable = 1;
+    fprintf(stderr, "[command] audio capute on\n", p);
+    return "ok";
+  }
+  if(!strcmp(p, "off")) {
+    AudioCaptureEnable = 0;
+    fprintf(stderr, "[command] audio capute off\n", p);
+    return "ok";
+  }
+  return "error";
+}
 
 static uint32_t audio_pcm_capture(struct frames_st *frames) {
 

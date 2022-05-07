@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000

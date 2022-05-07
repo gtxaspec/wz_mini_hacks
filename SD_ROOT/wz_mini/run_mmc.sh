@@ -189,6 +189,8 @@ if [[ "$RTSP_ENABLED" == "true" ]]; then
 	swap_enable
         mkdir /tmp/alsa
         cp /media/mmc/wz_mini/etc/alsa.conf /tmp/alsa
+	/opt/wz_mini/bin/cmd video on
+	/opt/wz_mini/bin/cmd audio on
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
