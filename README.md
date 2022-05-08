@@ -34,6 +34,7 @@ Using this project can potentially expose your device to the open internet depen
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
 * Play .WAV files using "aplay <file> <vol>" command
+* iptables included
 
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
@@ -81,28 +82,29 @@ Edit run_mmc.sh, this is a script stored on the micro sd card that is run when t
 Wireguard support is available as a kernel module:
 
 ```
-ENABLE_WIREGUARD="false"
+ENABLE_WIREGUARD="true"
 ```
 
 Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](https://www.wireguard.com/quickstart/) for more info.
 
+Some users have asked about tailscale support, I have tested and it works.  See the issue #30 for further information.
 ---
 Disable automatic firmware updates:
 
 ```
-DISABLE_FW_UPGRADE="false"
+DISABLE_FW_UPGRADE="true"
 ```
 
 If a remote or app update is initiated, the camera will reboot due to the failure of the update.  The firmware update should not proceed again for some time, or at all.  
 
-When a firmware update is initiated, due to a bootloader bug, we intercept the update process and flash it manually.  This should now result in a successful update, if it doesn't, please restore the unit's firmware manually using demo_wcv3.bin on the micro sd card.
+When a firmware update is initiated, due to a bootloader issue (bug?), we intercept the update process and flash it manually.  This should now result in a successful update, if it doesn't, please restore the unit's firmware manually using demo_wcv3.bin on the micro sd card.
 
 ---
 
 USB Ethernet Adapter support:
 
 ```
-ENABLE_USB_ETH="false"
+ENABLE_USB_ETH="true"
 ```
 
 the next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
@@ -112,12 +114,14 @@ the next time you boot your camera, make sure your USB Ethernet Adapter is conne
 USB Direct Support:
 
 ```
-ENABLE_USB_DIRECT="false"
+ENABLE_USB_DIRECT="true"
 ```
 
 the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed.  Note that using USB Direct disables the onboard Wi-Fi.  Change the MAC Address if you desire via USB_DIRECT_MAC_ADDR variable.
 
 Connectivity is supported using a direct USB connection only... this means a single cable from the camera, to a supported host (An OpenWRT router, for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the ```kmod-usb-net-cdc-ncm``` package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
+
+Note: In my testing, the micro-usb cables included with the various cameras do not pass data, so they will not work.  Make sure you have a micro-usb cable that passes data!
 
 ---
 
@@ -142,12 +146,12 @@ Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if neces
 USB Mass Storage Support:
 
 ```
-ENABLE_USB_STORAGE="false"
+ENABLE_USB_STORAGE="true"
 ```
 If you would like to mount an EXT3/4 filesystem, also change:
 
 ```
-ENABLE_EXT4="false"
+ENABLE_EXT4="true"
 ```
 
 ---
@@ -155,27 +159,47 @@ ENABLE_EXT4="false"
 CIFS is now supported:
 
 ```
-ENABLE_CIFS="false"
+ENABLE_CIFS="true"
 ```
 
 ---
-To enable RTSP streaming, change the following lines, you can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
+
+iptables (ipv4 and ipv6) is available:
 
 ```
-RTSP_ENABLED="false"
-RTSP_ENABLE_AUDIO="false"
+ENABLE_IPTABLES="true"
+```
+
+---
+
+NFSv4 support is available:
+
+```
+ENABLE_NFSv4="true"
+```
+
+---
+RTSP streaming:
+You can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
+
+```
+RTSP_ENABLED="true"
+RTSP_ENABLE_AUDIO="true"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
 RTSP_PORT="8554"
 ```
 the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 
-Note:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.  Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
+Notes:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.
+
+Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
 ---
 
 ## Latest Updates
 
+* 05-08-22:  Include iptables and NFSv4 kernel modules, enable swap ON by default.
 * 05-07-22:  RTSP Server fixed, ported latest full libcallback from @mnakada with modifications.
 * 05-01-22:  Removed dropbearmulti, replaced with individual binaries.  dropbear dbclient dropbearkey dropbearconvert scp now included.
 * 04-30-22:  Recompiled uClibc with LD_DEBUG enabled. Enable in v3_post.sh, for debugging.
@@ -192,8 +216,8 @@ Note:  If you don't set the password, then the password will be the unique MAC a
 * 04-14-22:  Possible memory leak with some USB adapters used, added 128MB swap file and logic as workaround to prevent oom killing
 * 04-13-22:  Firmware updates are disabled by default, there is a bug in the bootloader that corrupts the kernel partition requiring the re-flash of the camera if an update is processed and the memory card is removed before next boot.  The bootloader proceeds to copy the partitions and the system will not boot unless re-flashed.  pending investigation.
 * 04-12-22:  Updated, custom kernel loads all required items from micro sd card.  System modification no longer needed.
-* 04-05-22:  Update readme to indicate that telnet mod nor DNS spoofing is required for installation, and add per-requisites section.
-* 04-02-22:  Update to automatic install method, remove manual install.  
+* 04-05-22:  Update readme to indicate that telnet mod nor DNS spoofing is required for installation, and add pre-requisites section.
+* 04-02-22:  Update to automatic install method, remove manual install.
 
 ## BYO
 

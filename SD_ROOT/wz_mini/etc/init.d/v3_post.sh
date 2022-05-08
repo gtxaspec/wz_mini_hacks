@@ -2,6 +2,11 @@
 
 ##THIS FILE IS CALLED BY rcS, EXECUTED BEFORE app_init.sh IS RUN.
 
+exec 1> /opt/wz_mini/log/v3_post.log 2>&1
+
+echo "welcome to v3_post.sh"
+echo "PID $$"
+
 set -x
 
 echo "v3_post.sh exec"

@@ -3,6 +3,11 @@
 ###DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING
 ###
 
+exec 1> /opt/wz_mini/log/v3_init.log 2>&1
+
+echo "welcome to v3_init.sh"
+echo "PID $$"
+
 echo '
  __          ________  __  __ _____ _   _ _____
  \ \        / |___  / |  \/  |_   _| \ | |_   _|
@@ -43,7 +48,7 @@ mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 echo "bind /etc/profile for local/ssh shells"
 mount --bind /opt/wz_mini/etc/profile /etc/profile
 
-echo "mounting tempfs for workspace"
+echo "mounting tmpfs"
 mount -t tmpfs /tmp
 
 echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
@@ -83,6 +88,9 @@ cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
 mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
+echo "mount kernel modules"
+mount --bind /opt/wz_mini/lib/modules /lib/modules
+
 if [[ -e /opt/wz_mini/swap.gz ]]; then
 	insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
 	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
@@ -90,7 +98,7 @@ if [[ -e /opt/wz_mini/swap.gz ]]; then
 	echo "swap archive present, extracting"
         gzip -d /opt/wz_mini/swap.gz
         mkswap /opt/wz_mini/swap
-	sync;echo 3 > /proc/sys/vm/drop_caches;free
+	sync;echo 3 > /proc/sys/vm/drop_caches
 else
 	echo "swap archive not present, not extracting"
 fi
@@ -113,7 +121,7 @@ if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\
 fi
 
 if ! [[ -e /tmp/dbgflag ]]; then
-	{ sleep 30; /media/mmc/wz_mini/run_mmc.sh 2> /media/mmc/wz_mini/log/wz_mini_hacks.log; } &
+		/opt/wz_mini/run_mmc.sh &
 else
 	echo "debug enabled, ignore run_mmc.sh"
 fi

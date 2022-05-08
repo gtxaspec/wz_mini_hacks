@@ -1,2 +1,15 @@
 #!/bin/sh
-echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000
+
+if [ "$1" == "" ]; then
+	echo -e "welcome to: cmd <arg>\n"
+	echo -e "arg can be:"
+	echo -e "jpeg (will dump raw jpeg to stdout)"
+	echo -e "video on or off"
+	echo -e "audio on or off"
+	echo -e "move"
+	echo -e "waitMotion <timeout>"
+	echo -e "irled on or off"
+	echo -e "aplay <file path> <volume 1-100>"
+else
+	echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000
+fi

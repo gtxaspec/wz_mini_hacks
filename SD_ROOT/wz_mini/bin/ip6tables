@@ -1,0 +1,2 @@
+#!/bin/sh
+/opt/wz_mini/bin/xtables-multi ip6tables $@
