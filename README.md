@@ -88,7 +88,9 @@ ENABLE_WIREGUARD="true"
 Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](https://www.wireguard.com/quickstart/) for more info.
 
 Some users have asked about tailscale support, I have tested and it works.  See the issue #30 for further information.
+
 ---
+
 Disable automatic firmware updates:
 
 ```
