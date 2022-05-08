@@ -167,9 +167,9 @@ swap_enable() {
 }
 
 first_run_check
-hostname_set
 wait_sdroot
 wait_wlan
+hostname_set
 
 
 if [[ "$ENABLE_SWAP" == "true" ]]; then
