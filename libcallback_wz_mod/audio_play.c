@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 extern void local_sdk_speaker_set_pa_mode(int mode);
+extern void local_sdk_speaker_set_ap_mode(int mode);
 extern void local_sdk_speaker_clean_buf_data();
 extern void local_sdk_speaker_set_volume(int volume);
 extern int local_sdk_speaker_feed_pcm_data(unsigned char *buf, int size);
@@ -43,7 +44,18 @@ int PlayPCM(char *file, int vol) {
     }
     local_sdk_speaker_clean_buf_data();
     local_sdk_speaker_set_volume(vol);
+
+ if(!local_sdk_speaker_set_pa_mode) {
+    local_sdk_speaker_set_ap_mode(3);
+      fprintf(stderr, "[command] aplay: set ap mode 3\n");
+  }
+
+ if(!local_sdk_speaker_set_ap_mode) {
     local_sdk_speaker_set_pa_mode(3);
+      fprintf(stderr, "[command] aplay: set pa mode 3\n");
+  }
+
+
 
     while(!feof(fp)) {
       size = fread(buf, 1, bufLength, fp);
@@ -54,7 +66,14 @@ int PlayPCM(char *file, int vol) {
     usleep(2 * 1000 * 1000);
     local_sdk_speaker_finish_buf_data();
     local_sdk_speaker_set_volume(0);
+
+ if(!local_sdk_speaker_set_pa_mode) {
+    local_sdk_speaker_set_ap_mode(0);
+  }
+ if(!local_sdk_speaker_set_ap_mode) {
     local_sdk_speaker_set_pa_mode(0);
+  }
+
   }
   fprintf(stderr, "[command] aplay: finish\n");
   return 0;
