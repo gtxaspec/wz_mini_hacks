@@ -82,6 +82,12 @@ int local_sdk_video_set_encode_frame_callback(int ch, void *callback) {
     fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
     callback = video_encode_capture;
   }
+/* ch0 callback for panv2 is 0x47accc */
+  if( (ch == 0) && callback == 0x47accc) {
+    video_encode_cb = callback;
+    fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
+    callback = video_encode_capture;
+  }
   return real_local_sdk_video_set_encode_frame_callback(ch, callback);
 }
 
