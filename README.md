@@ -201,6 +201,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ## Latest Updates
 
+* 05-09-22:  update libcallback sources with patch to fix rtsp across multiple firmware versions for all devices (v3/panv2/db)
 * 05-08-22:  update libcallback sources with patch to enable pan v2 rtsp functionality.
 * 05-08-22:  Include iptables and NFSv4 kernel modules, enable swap ON by default.
 * 05-07-22:  RTSP Server fixed, ported latest full libcallback from @mnakada with modifications.

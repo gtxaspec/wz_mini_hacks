@@ -47,14 +47,26 @@ static uint32_t video_encode_capture(struct frames_st *frames) {
     firstEntry++;
     int err;
     const char *v4l2_device_path = "/dev/video1";
+    const char *productf="/configs/.product_db3";
     fprintf(stderr,"Opening V4L2 device: %s \n", v4l2_device_path);
     v4l2Fd = open(v4l2_device_path, O_WRONLY, 0777);
     if(v4l2Fd < 0) fprintf(stderr,"Failed to open V4L2 device: %s\n", v4l2_device_path);
     struct v4l2_format vid_format;
     memset(&vid_format, 0, sizeof(vid_format));
     vid_format.type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-    vid_format.fmt.pix.width = 1920;
-    vid_format.fmt.pix.height = 1080;
+
+    if( access( productf, F_OK ) == 0 ) {
+                /* doorbell resolution */
+                printf("[command] video product 1728x1296");
+                vid_format.fmt.pix.width = 1728;
+                vid_format.fmt.pix.height = 1296;
+    } else {
+                /* v3 and panv2 res */
+                printf("[command] video product 1920x1080");
+                vid_format.fmt.pix.width = 1920;
+                vid_format.fmt.pix.height = 1080;
+    }
+
     vid_format.fmt.pix.pixelformat = V4L2_PIX_FMT_H264;
     vid_format.fmt.pix.sizeimage = 0;
     vid_format.fmt.pix.field = V4L2_FIELD_NONE;
@@ -77,17 +89,18 @@ static uint32_t video_encode_capture(struct frames_st *frames) {
 int local_sdk_video_set_encode_frame_callback(int ch, void *callback) {
 
   fprintf(stderr, "local_sdk_video_set_encode_frame_callback streamChId=%d, callback=0x%x\n", ch, callback);
-  if( (ch == 0) && callback == 0x48cc50) {
+  static int ch_count = 0;
+
+/* two callbacks typically detected, unknown what the difference is between them, but if they are both hooked, the app breaks. grab just one of them. */
+
+  if( (ch == 0) && ch_count == 2) {
     video_encode_cb = callback;
     fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
     callback = video_encode_capture;
   }
-/* ch0 callback for panv2 is 0x47accc */
-  if( (ch == 0) && callback == 0x47accc) {
-    video_encode_cb = callback;
-    fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
-    callback = video_encode_capture;
-  }
+    fprintf(stderr,"ch count is %x\n", ch_count);
+    ch_count=ch_count+1;
+
   return real_local_sdk_video_set_encode_frame_callback(ch, callback);
 }
 
