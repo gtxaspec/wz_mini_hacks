@@ -79,16 +79,21 @@ wait_sdroot() {
 
 }
 
+store_mac() {
+	echo "store original mac"
+	cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+}
+
 wait_wlan() {
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
     while true
     do
         if  ifconfig wlan0 | grep "inet addr";
         then
-	echo "store original mac"
-	cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+	store_mac
         break
 	elif [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
+	store_mac
 	break
         fi
         echo " wlan0 not ready yet..."
