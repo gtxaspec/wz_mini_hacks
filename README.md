@@ -39,7 +39,8 @@ Using this project can potentially expose your device to the open internet depen
 * Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
 
 ## Coming Soon
-* ???
+* onvif - maybe
+* overlayfs support
 
 ## How you can help!
 * Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
