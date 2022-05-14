@@ -23,6 +23,9 @@ sleep 2
 
 set -x
 
+#lets test this out and see how it goes, patched udhcpc for iCamera
+mount --bind /opt/wz_mini/bin/busybox /bin/busybox
+
 #WCV3 GPIO
 GPIO=63
 

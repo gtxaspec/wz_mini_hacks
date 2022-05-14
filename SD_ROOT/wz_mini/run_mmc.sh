@@ -51,8 +51,6 @@ DEBUG_ENABLED="false"
 ##########CONFIG END#################
 #####################################
 
-echo  "run_mmc.sh start" > /dev/kmsg
-
 hostname_set() {
 	echo "set hostname"
 	hostname $HOSTNAME
@@ -352,8 +350,6 @@ if [[ "$RTSP_ENABLED" == "true" ]]; then
 	swap_enable
 	fi
 
-        mkdir /tmp/alsa
-        cp /media/mmc/wz_mini/etc/alsa.conf /tmp/alsa
 	/opt/wz_mini/bin/cmd video on
 	/opt/wz_mini/bin/cmd audio on
 

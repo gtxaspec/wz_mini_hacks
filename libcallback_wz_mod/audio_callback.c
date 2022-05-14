@@ -51,8 +51,8 @@ static uint32_t audio_pcm_capture(struct frames_st *frames) {
       .channels = 1,
       .rate = 16000,
       .format = PCM_FORMAT_S16_LE,
-      .period_size = 1024,
-      .period_count = 4,
+      .period_size = 128,
+      .period_count = 8,
       .start_threshold = 320,
       .silence_threshold = 0,
       .silence_size = 0,
@@ -80,11 +80,13 @@ static uint32_t audio_pcm_capture(struct frames_st *frames) {
 uint32_t local_sdk_audio_set_pcm_frame_callback(int ch, void *callback) {
 
   fprintf(stderr, "local_sdk_audio_set_pcm_frame_callback streamChId=%d, callback=0x%x\n", ch, callback);
-  if(ch == 0) {
+  static int ch_count = 0;
+  if( (ch == 0) && ch_count == 0) {
     audio_pcm_cb = callback;
     fprintf(stderr,"enc func injection save audio_pcm_cb=0x%x\n", audio_pcm_cb);
     callback = audio_pcm_capture;
   }
+  ch_count=ch_count+1
   return real_local_sdk_audio_set_pcm_frame_callback(ch, callback);
 }
 
