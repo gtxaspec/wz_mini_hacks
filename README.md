@@ -202,6 +202,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ## Latest Updates
 
+* 05-14-22:  Update v4l2rtspserver, tinyalsa, alsa-lib.  Patch busybox for older official FW's failing to run scripts, fix choppy/static audio in libcallback
 * 05-09-22:  fix bug in run_mmc.sh that did not store the wlan mac when using a wired usb or ethernet connection for the rtsp server
 * 05-09-22:  update libcallback sources with patch to fix rtsp across multiple firmware versions for all devices (v3/panv2/db)
 * 05-08-22:  update libcallback sources with patch to enable pan v2 rtsp functionality.
