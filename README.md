@@ -183,7 +183,8 @@ ENABLE_NFSv4="true"
 
 ---
 RTSP streaming:
-You can choose to enable or disable audio.  Set your login credentials here, you can also change the port the server listens on.
+You can choose to enable or disable audio.  Set your login credentials here, server listening port, and the stream bitrate.
+(RTSP_ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
 
 ```
 RTSP_ENABLED="true"
@@ -191,6 +192,10 @@ RTSP_ENABLE_AUDIO="true"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
 RTSP_PORT="8554"
+RTSP_MAX_BITRATE="2048"
+RTSP_TARGET_BITRATE="1024"
+RTSP_ENC_PARAMETER="2"
+
 ```
 the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 
@@ -202,6 +207,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ## Latest Updates
 
+* 05-14-22:  Added ability to specify RTSP bitrate parameters.  Note that changing bitrate in the mobile app will briefly reset the bitrate for the RTSP stream.
 * 05-14-22:  Update v4l2rtspserver, tinyalsa, alsa-lib.  Patch busybox for older official FW's failing to run scripts, fix choppy/static audio in libcallback
 * 05-09-22:  fix bug in run_mmc.sh that did not store the wlan mac when using a wired usb or ethernet connection for the rtsp server
 * 05-09-22:  update libcallback sources with patch to fix rtsp across multiple firmware versions for all devices (v3/panv2/db)

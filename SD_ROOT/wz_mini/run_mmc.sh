@@ -35,6 +35,9 @@ RTSP_ENABLE_AUDIO="false"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
 RTSP_PORT="8554"
+RTSP_MAX_BITRATE=""
+RTSP_TARGET_BITRATE=""
+RTSP_ENC_PARAMETER=""
 
 #####GENERAL#####
 ENABLE_SWAP="true"
@@ -364,8 +367,23 @@ if [[ "$RTSP_ENABLED" == "true" ]]; then
                 echo "rtsp audio disabled"
                 LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT &
         fi
+
+
+	if [[ "$RTSP_ENC_PARAMETER" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_ENC_PARAMETER" > /dev/null 2>&1 &
+	fi
+
+	if [[ "$RTSP_MAX_BITRATE" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_MAX_BITRATE" > /dev/null 2>&1 &
+	fi
+
+	if [[ "$RTSP_TARGET_BITRATE" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_TARGET_BITRATE" > /dev/null 2>&1 &
+	fi
+
         else
         echo "rtsp disabled"
+
 fi
 
 touch /opt/wz_mini/tmp/.run_mmc_firstrun
