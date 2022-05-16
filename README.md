@@ -183,23 +183,31 @@ ENABLE_NFSv4="true"
 
 ---
 RTSP streaming:
-You can choose to enable or disable audio.  Set your login credentials here, server listening port, and the stream bitrate.
-(RTSP_ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
+The RTSP server outputs the two supported video streams from the camera, 1080p/360p (1296p/480p for the DB3).  You can choose to enable a single stream of your choice, or both.  Audio is also available.  Set your login credentials here, server listening port, and the stream bitrate.
+(ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
 
 ```
-RTSP_ENABLED="true"
-RTSP_ENABLE_AUDIO="true"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
-RTSP_PORT="8554"
-RTSP_MAX_BITRATE="2048"
-RTSP_TARGET_BITRATE="1024"
-RTSP_ENC_PARAMETER="2"
+
+RTSP_HI_RES_ENABLED="true"
+RTSP_HI_RES_ENABLE_AUDIO="true"
+RTSP_HI_RES_PORT="8554"
+RTSP_HI_RES_MAX_BITRATE="2048"
+RTSP_HI_RES_TARGET_BITRATE="1024"
+RTSP_HI_RES_ENC_PARAMETER="2"
+
+RTSP_LOW_RES_ENABLED="false"
+RTSP_LOW_RES_ENABLE_AUDIO="false"
+RTSP_LOW_RES_PORT="8555"
+RTSP_LOW_RES_MAX_BITRATE=""
+RTSP_LOW_RES_TARGET_BITRATE=""
+RTSP_LOW_RES_ENC_PARAMETER=""
 
 ```
 the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 
-Notes:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  VLC seems to work fine for playback, ffmpeg and others have severe artifacts in the stream during playback.
+Notes:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
 Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
@@ -207,6 +215,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ## Latest Updates
 
+* 05-15-22:  patched libcallback to support both video streams from the camera.  Added support for them in run_mmc.sh.
 * 05-14-22:  Added ability to specify RTSP bitrate parameters.  Note that changing bitrate in the mobile app will briefly reset the bitrate for the RTSP stream.
 * 05-14-22:  Update v4l2rtspserver, tinyalsa, alsa-lib.  Patch busybox for older official FW's failing to run scripts, fix choppy/static audio in libcallback
 * 05-09-22:  fix bug in run_mmc.sh that did not store the wlan mac when using a wired usb or ethernet connection for the rtsp server

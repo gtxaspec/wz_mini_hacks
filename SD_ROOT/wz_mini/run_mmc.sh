@@ -30,14 +30,22 @@ REMOTE_SPOTLIGHT="false"
 REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 
 #####VIDEO STREAM#####
-RTSP_ENABLED="false"
-RTSP_ENABLE_AUDIO="false"
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
-RTSP_PORT="8554"
-RTSP_MAX_BITRATE=""
-RTSP_TARGET_BITRATE=""
-RTSP_ENC_PARAMETER=""
+
+RTSP_HI_RES_ENABLED="false"
+RTSP_HI_RES_ENABLE_AUDIO="false"
+RTSP_HI_RES_PORT="8554"
+RTSP_HI_RES_MAX_BITRATE=""
+RTSP_HI_RES_TARGET_BITRATE=""
+RTSP_HI_RES_ENC_PARAMETER=""
+
+RTSP_LOW_RES_ENABLED="false"
+RTSP_LOW_RES_ENABLE_AUDIO="false"
+RTSP_LOW_RES_PORT="8555"
+RTSP_LOW_RES_MAX_BITRATE=""
+RTSP_LOW_RES_TARGET_BITRATE=""
+RTSP_LOW_RES_ENC_PARAMETER=""
 
 #####GENERAL#####
 ENABLE_SWAP="true"
@@ -345,7 +353,7 @@ else
 	echo "remote accessory disabled"
 fi
 
-if [[ "$RTSP_ENABLED" == "true" ]]; then
+if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
 	echo "swap already enabled"
@@ -361,24 +369,63 @@ if [[ "$RTSP_ENABLED" == "true" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
-        if [[ "$RTSP_ENABLE_AUDIO" == "true" ]]; then
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT &
+        if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_HI_RES_PORT &
         else
                 echo "rtsp audio disabled"
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT &
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_HI_RES_PORT &
         fi
 
-
-	if [[ "$RTSP_ENC_PARAMETER" != "" ]]; then
+	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
 	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_ENC_PARAMETER" > /dev/null 2>&1 &
 	fi
 
-	if [[ "$RTSP_MAX_BITRATE" != "" ]]; then
+	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
 	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_MAX_BITRATE" > /dev/null 2>&1 &
 	fi
 
-	if [[ "$RTSP_TARGET_BITRATE" != "" ]]; then
+	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
 	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_TARGET_BITRATE" > /dev/null 2>&1 &
+	fi
+
+        else
+        echo "rtsp disabled"
+
+fi
+
+if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
+
+	if [[ "$ENABLE_SWAP" == "true" ]]; then
+	echo "swap already enabled"
+	else
+	swap_enable
+	fi
+
+	/opt/wz_mini/bin/cmd video on1
+	/opt/wz_mini/bin/cmd audio on
+
+
+	if [[ "$RTSP_PASSWORD" = "" ]]; then
+	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+	fi
+
+        if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video2,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
+        else
+                echo "rtsp audio disabled"
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video2 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
+        fi
+
+	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_ENC_PARAMETER" > /dev/null 2>&1 &
+	fi
+
+	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_MAX_BITRATE" > /dev/null 2>&1 &
+	fi
+
+	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_TARGET_BITRATE" > /dev/null 2>&1 &
 	fi
 
         else
