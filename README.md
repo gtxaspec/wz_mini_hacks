@@ -183,7 +183,7 @@ ENABLE_NFSv4="true"
 
 ---
 RTSP streaming:
-The RTSP server outputs the two supported video streams from the camera, 1080p/360p (1296p/480p for the DB3).  You can choose to enable a single stream of your choice, or both.  Audio is also available.  Set your login credentials here, server listening port, and the stream bitrate.
+The RTSP server supports the two video streams provided by the camera, 1080p/360p (1296p/480p for the DB3).  You can choose to enable a single stream of your choice, or both.  Audio is also available.  Set your login credentials here, server listening port, and the stream bitrate.
 (ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
 
 ```
