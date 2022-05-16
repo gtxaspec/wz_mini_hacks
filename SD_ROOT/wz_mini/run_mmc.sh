@@ -402,7 +402,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	fi
 
 	/opt/wz_mini/bin/cmd video on1
-	/opt/wz_mini/bin/cmd audio on
+	/opt/wz_mini/bin/cmd audio on1
 
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
