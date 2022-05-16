@@ -385,7 +385,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	fi
 
 	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:52:4:RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 	fi
 
         else
