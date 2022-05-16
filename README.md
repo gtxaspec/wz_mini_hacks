@@ -215,6 +215,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ## Latest Updates
 
+* 05-15-22:  fixed rtsp audio for low-res rtsp stream, patched libcallback sources for audio channel 1.
 * 05-15-22:  patched libcallback to support both video streams from the camera.  Added support for them in run_mmc.sh.
 * 05-14-22:  Added ability to specify RTSP bitrate parameters.  Note that changing bitrate in the mobile app will briefly reset the bitrate for the RTSP stream.
 * 05-14-22:  Update v4l2rtspserver, tinyalsa, alsa-lib.  Patch busybox for older official FW's failing to run scripts, fix choppy/static audio in libcallback

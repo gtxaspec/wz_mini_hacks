@@ -377,15 +377,15 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
         fi
 
 	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 	fi
 
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
 	fi
 
 	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 	fi
 
         else
@@ -410,22 +410,22 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video2,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
+                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video2,hw:Loopback,1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
         else
                 echo "rtsp audio disabled"
                 LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video2 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
         fi
 
 	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 	fi
 
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 	fi
 
 	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-	watch -n5 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 	fi
 
         else
