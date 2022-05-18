@@ -35,7 +35,7 @@ Using this project can potentially expose your device to the open internet depen
 * CIFS Supported
 * Play .WAV files using "aplay <file> <vol>" command
 * iptables included
-* Use your camera as a spare Web Camera on your PC!
+* Use your camera as a spare USB Web Camera on your PC!
 
 * Inspired by HclX, bakueikozo, and mnakada!
 
@@ -214,7 +214,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ---
 
-Use as a Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a Web Camera for your PC. Experimental.
+Use as a USB Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
 
 ```
 ENABLE_WEB_CAM="true"
