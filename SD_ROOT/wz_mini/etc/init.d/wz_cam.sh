@@ -17,6 +17,13 @@ WEB_CAM_BIT_RATE=$(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_BIT_RATE\=" | cut
 sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 fi
 
+cd /sys/class/gpio
+echo 39 > export
+cd gpio39
+echo out > direction
+echo 0 > active_low
+echo 0 > value
+echo 1 > /proc/sys/vm/overcommit_memory
 
 mount --bind /opt/wz_mini/usr/bin /system/bin
 insmod /system/driver/avpu.ko
