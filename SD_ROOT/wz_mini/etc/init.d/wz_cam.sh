@@ -30,9 +30,9 @@ insmod /system/driver/avpu.ko
 insmod /system/driver/tx-isp-t31.ko isp_clk=220000000
 insmod /system/driver/sensor_gc2053_t31.ko
 insmod /system/driver/audio.ko
-insmod /opt/wz_mini/lib/modules/libcomposite.ko
-insmod /opt/wz_mini/lib/modules/videobuf2-vmalloc.ko
-insmod /opt/wz_mini/lib/modules/usbcamera.ko
+insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/libcomposite.ko
+insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/videobuf2-vmalloc.ko
+insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/usbcamera.ko
 
 cd /system/bin/
 /system/bin/ucamera &

@@ -40,7 +40,7 @@ if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
         echo "first boot already completed"
 else
 	echo "first boot, initializing"
-        insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
         /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
         rmmod audio
         touch /opt/wz_mini/etc/.first_boot
@@ -95,7 +95,7 @@ echo "mount kernel modules"
 mount --bind /opt/wz_mini/lib/modules /lib/modules
 
 if [[ -e /opt/wz_mini/swap.gz ]]; then
-	insmod /opt/wz_mini/lib/modules/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
 	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
 	rmmod audio
 	echo "swap archive present, extracting"
