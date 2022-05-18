@@ -35,7 +35,7 @@ Using this project can potentially expose your device to the open internet depen
 * CIFS Supported
 * Play .WAV files using "aplay <file> <vol>" command
 * iptables included
-* Use your camera as a backup Web Camera!
+* Use your camera as a spare Web Camera on your PC!
 
 * Inspired by HclX, bakueikozo, and mnakada!
 
