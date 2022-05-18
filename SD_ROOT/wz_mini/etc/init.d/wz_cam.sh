@@ -2,6 +2,8 @@
 
 set -x
 
+exec 1> /opt/wz_mini/log/wz_cam.log 2>&1
+
 cp /opt/wz_mini/etc/uvc.config /opt/wz_mini/usr/bin/uvc.config
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_FPS_RATE\=") != "" ]]; then
@@ -15,7 +17,6 @@ WEB_CAM_BIT_RATE=$(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_BIT_RATE\=" | cut
 sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 fi
 
-exec 1> /opt/wz_mini/log/wz_cam.log 2>&1
 
 mount --bind /opt/wz_mini/usr/bin /system/bin
 insmod /system/driver/avpu.ko
