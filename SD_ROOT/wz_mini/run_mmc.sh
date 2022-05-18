@@ -9,6 +9,11 @@ set -x
 
 HOSTNAME="WCV3"
 
+#### W E B CAMERA###
+##THIS MODE DISABLES EVERYTHING AND IT WILL
+## WORK AS A WEB CAMERA FOR YOUR PC ***ONLY***
+ENABLE_WEB_CAM="false"
+
 #####NETWORKING#####
 ENABLE_USB_ETH="false"
 
@@ -32,17 +37,16 @@ REMOTE_SPOTLIGHT_HOST="0.0.0.0"
 #####VIDEO STREAM#####
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
+RTSP_PORT="8554"
 
 RTSP_HI_RES_ENABLED="false"
 RTSP_HI_RES_ENABLE_AUDIO="false"
-RTSP_HI_RES_PORT="8554"
 RTSP_HI_RES_MAX_BITRATE=""
 RTSP_HI_RES_TARGET_BITRATE=""
 RTSP_HI_RES_ENC_PARAMETER=""
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
-RTSP_LOW_RES_PORT="8555"
 RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
@@ -183,7 +187,6 @@ swap_enable() {
 first_run_check
 wait_sdroot
 wait_wlan
-hostname_set
 
 
 if [[ "$ENABLE_SWAP" == "true" ]]; then
@@ -361,19 +364,20 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	swap_enable
 	fi
 
-	/opt/wz_mini/bin/cmd video on
-	/opt/wz_mini/bin/cmd audio on
-
-
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
+	/opt/wz_mini/bin/cmd video on
+
         if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video1,hw:Loopback,0 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_HI_RES_PORT &
+		/opt/wz_mini/bin/cmd audio on
+		AUDIO_CH="-C 1"
+		AUDIO_FMT="-a S16_LE"
+		DEVICE1="/dev/video1,hw:Loopback,0"
         else
-                echo "rtsp audio disabled"
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_HI_RES_PORT &
+                DEVICE1="/dev/video1"
+		echo "rtsp audio disabled"
         fi
 
 	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
@@ -393,6 +397,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
 fi
 
+
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
@@ -402,18 +407,19 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	fi
 
 	/opt/wz_mini/bin/cmd video on1
-	/opt/wz_mini/bin/cmd audio on1
-
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -C 1 -a S16_LE  /dev/video2,hw:Loopback,1 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
+		/opt/wz_mini/bin/cmd audio on1
+		AUDIO_CH="-C 1"
+		AUDIO_FMT="-a S16_LE"
+		DEVICE2="/dev/video2,hw:Loopback,1"
         else
+                DEVICE2="/dev/video2"
                 echo "rtsp audio disabled"
-                LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver -s /dev/video2 -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_LOW_RES_PORT &
         fi
 
 	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
@@ -433,6 +439,11 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 fi
 
+if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+	LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2
+fi
+
+hostname_set
 touch /opt/wz_mini/tmp/.run_mmc_firstrun
 sync;echo 3 > /proc/sys/vm/drop_caches
 sleep 3

@@ -35,8 +35,9 @@ Using this project can potentially expose your device to the open internet depen
 * CIFS Supported
 * Play .WAV files using "aplay <file> <vol>" command
 * iptables included
+* Use your camera as a backup Web Camera!
 
-* Inspired by HclX and WyzeHacks!  Bless you for all your work!  You are the master!
+* Inspired by HclX, bakueikozo, and mnakada!
 
 ## Coming Soon
 * onvif - maybe
@@ -189,32 +190,41 @@ The RTSP server supports the two video streams provided by the camera, 1080p/360
 ```
 RTSP_LOGIN="admin"
 RTSP_PASSWORD=""
+RTSP_PORT="8554"
 
 RTSP_HI_RES_ENABLED="true"
 RTSP_HI_RES_ENABLE_AUDIO="true"
-RTSP_HI_RES_PORT="8554"
 RTSP_HI_RES_MAX_BITRATE="2048"
 RTSP_HI_RES_TARGET_BITRATE="1024"
 RTSP_HI_RES_ENC_PARAMETER="2"
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
-RTSP_LOW_RES_PORT="8555"
 RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 
 ```
-the stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
+the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
+multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
 
-Notes:  If you don't set the password, then the password will be the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
+Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
 Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
 ---
 
+Use as a Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a Web Camera for your PC. Experimental.
+
+```
+ENABLE_WEB_CAM="true"
+```
+
+---
+
 ## Latest Updates
 
+* 05-18-22:  Added PC Web Camera functionality, changed RTSP server, when you use enable more than one stream, they share the port and use different paths.
 * 05-15-22:  fixed rtsp audio for low-res rtsp stream, patched libcallback sources for audio channel 1.
 * 05-15-22:  patched libcallback to support both video streams from the camera.  Added support for them in run_mmc.sh.
 * 05-14-22:  Added ability to specify RTSP bitrate parameters.  Note that changing bitrate in the mobile app will briefly reset the bitrate for the RTSP stream.
