@@ -21,6 +21,7 @@ extern char *MotorMove(int fd, char *tokenPtr);
 extern char *WaitMotion(int fd, char *tokenPtr);
 extern char *IrLed(int fd, char *tokenPtr);
 extern char *AudioPlay(int fd, char *tokenPtr);
+extern char *mp4Write(int fd, char *tokenPtr);
 
 struct CommandTableSt {
   const char *cmd;
@@ -35,6 +36,8 @@ struct CommandTableSt CommandTable[] = {
   { "waitMotion", &WaitMotion },
   { "irled",      &IrLed },
   { "aplay",      &AudioPlay },
+  { "mp4write",      &mp4Write },
+
 };
 
 void CommandResponse(int fd, const char *res) {
