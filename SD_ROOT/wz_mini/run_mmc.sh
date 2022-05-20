@@ -130,9 +130,6 @@ rename_interface() {
 
 eth_wlan_up() {
 ##Run DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
-	if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
-		/media/mmc/wz_mini/bin/busybox ip link set wlan0 address $USB_DIRECT_MAC_ADDR
-	fi
         ifconfig wlan0 up
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
