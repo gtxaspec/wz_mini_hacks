@@ -35,7 +35,7 @@ Using this project can potentially expose your device to the open internet depen
 * CIFS Supported
 * Play .WAV files using "aplay <file> <vol>" command
 * iptables included
-* Use your camera as a spare USB Web Camera on your PC!
+* Use your camera as a spare UVC USB Web Camera on your PC!
 
 * Inspired by HclX, bakueikozo, and mnakada!
 
@@ -208,22 +208,25 @@ RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 
+ENABLE_MP4_WRITE="false"
 ```
 the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
 
 Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
+MP4_WRITE:  experimental feature.  forces camera to write temporary xx.mp4 files directly to /media/mmc/record/tmp.  Normally they are written to /tmp then moved, which can overload camera and or remote network connections. Useful for NFS/CIFS remote video storage.
+
 Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
 ---
 
-Use as a USB Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
+Use as a USB Video Class (UVC) Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
 
 Supported modes: MJPG 360p/720p/1080p, Video 360p/720p/1080p
 
 ```
-ENABLE_WEB_CAM="true"
+WEB_CAM_ENABLE="true"
 WEB_CAM_BIT_RATE="8000"
 WEB_CAM_FPS_RATE="25"
 ```
@@ -232,6 +235,7 @@ WEB_CAM_FPS_RATE="25"
 
 ## Latest Updates
 
+* 05-20-22:  updated to latest libcallback including mp4write, bug fixes: usb direct mac addr, usb webcam mode bad variable.
 * 05-18-22:  Added PC Web Camera functionality, changed RTSP server, when you use enable more than one stream, they share the port and use different paths.
 * 05-15-22:  fixed rtsp audio for low-res rtsp stream, patched libcallback sources for audio channel 1.
 * 05-15-22:  patched libcallback to support both video streams from the camera.  Added support for them in run_mmc.sh.
