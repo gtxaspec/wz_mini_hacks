@@ -121,7 +121,7 @@ if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\
 	touch /tmp/dbgflag
 else
 
-if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "ENABLE_WEB_CAM\=") == "ENABLE_WEB_CAM\=\"true\"" ]]; then
+if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_ENABLE\=") == "WEB_CAM_ENABLE\=\"true\"" ]]; then
         sed -i '/app_init.sh/,+3d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/opt/wz_mini/etc/init.d/wz_cam.sh' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
