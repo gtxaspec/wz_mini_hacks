@@ -46,6 +46,10 @@ Using this project can potentially expose your device to the open internet depen
 ## How you can help!
 * Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
 
+## Why?
+
+* Most things in life relate to cats somehow.  I started this project to track the local feral cat population in my neighborhood using cameras.
+
 ## Prerequisites
 
 * Person

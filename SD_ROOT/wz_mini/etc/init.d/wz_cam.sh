@@ -17,12 +17,6 @@ WEB_CAM_BIT_RATE=$(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_BIT_RATE\=" | cut
 sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 fi
 
-cd /sys/class/gpio
-echo 39 > export
-cd gpio39
-echo out > direction
-echo 0 > active_low
-echo 0 > value
 echo 1 > /proc/sys/vm/overcommit_memory
 
 mount --bind /opt/wz_mini/usr/bin /system/bin
@@ -37,8 +31,21 @@ insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/usbcamera.ko
 cd /system/bin/
 /system/bin/ucamera &
 
+sleep 1
+
 #Set dwc2 ID_PIN driver memory
 devmem 0x13500000 32 0x001100cc
 devmem 0x10000040 32 0x0b000096
 #wipe the bits to set the ID_PIN
 devmem 0x10000040 32 0x0b000FFF
+
+sleep 1
+
+cd /sys/class/gpio
+echo 39 > export
+cd gpio39
+echo out > direction
+echo 0 > active_low
+echo 0 > value
+
+/opt/wz_mini/bin/audioplay_t31 /usr/share/notify/binbin.wav 30
