@@ -53,6 +53,8 @@ RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 
+ENABLE_MP4_WRITE="false"
+
 #####GENERAL#####
 ENABLE_SWAP="true"
 ENABLE_USB_STORAGE="false"
@@ -354,6 +356,13 @@ if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
 	echo "remote accessory enabled"
 else
 	echo "remote accessory disabled"
+fi
+
+if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
+	/opt/wz_mini/bin/cmd mp4write on
+	echo "mp4 write enabled"
+else
+	echo "mp4 write disabled"
 fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
