@@ -56,6 +56,15 @@ static uint32_t audio_pcm_capture(struct frames_st *frames) {
   static int firstEntry = 0;
   uint32_t *buf = frames->buf;
 
+  static int snd_rate = 16000;
+  const char *productv2="/driver/sensor_jxf23.ko";
+
+    //Change sample rate to 8000 if we are a V2 Camera
+    if( access( productv2, F_OK ) == 0 ) {
+      snd_rate = 8000;
+      }
+
+
   if(!firstEntry) {
     firstEntry++;
     unsigned int card = 0;
@@ -63,7 +72,7 @@ static uint32_t audio_pcm_capture(struct frames_st *frames) {
     int flags = PCM_OUT | PCM_MMAP;
     const struct pcm_config config = {
       .channels = 1,
-      .rate = 16000,
+      .rate = snd_rate,
       .format = PCM_FORMAT_S16_LE,
       .period_size = 128,
       .period_count = 8,
@@ -151,6 +160,15 @@ uint32_t local_sdk_audio_set_pcm_frame_callback(int ch, void *callback) {
     callback = audio_pcm_capture1;
   }
 
+//if V2 here, we have to latch on to the same callback as CH0, since the V2's only have one audio callback
+ const char *productv2="/driver/sensor_jxf23.ko";
+ if( access( productv2, F_OK ) == 0 ) {
+  if( (ch == 0) && ch_count == 1) {
+    audio_pcm_cb1 = callback;
+    fprintf(stderr,"enc func injection CH0 second callback for V2 save audio_pcm_cb=0x%x\n", audio_pcm_cb1);
+    callback = audio_pcm_capture1;
+  }
+}
   ch_count=ch_count+1;
 
   return real_local_sdk_audio_set_pcm_frame_callback(ch, callback);

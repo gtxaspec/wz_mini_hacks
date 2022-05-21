@@ -59,7 +59,21 @@ static uint32_t video_encode_capture(struct frames_st *frames) {
   if(!firstEntry) {
     firstEntry++;
     int err;
-    const char *v4l2_device_path = "/dev/video1";
+
+
+    char *v4l2_device_path = "/dev/video0";
+    //Check for this file, which should only exist on the V2 cameras
+    const char *productv2="/driver/sensor_jxf23.ko";
+
+    if( access( productv2, F_OK ) != -1 ) {
+    v4l2_device_path = "/dev/video6";
+    fprintf(stderr, "[command] v4l2_device_path = %s\n", v4l2_device_path);
+    } else {
+    v4l2_device_path = "/dev/video1";
+    fprintf(stderr, "[command] v4l2_device_path = %s\n", v4l2_device_path);
+    }
+
+
     const char *productf="/configs/.product_db3";
     fprintf(stderr,"Opening V4L2 device: %s \n", v4l2_device_path);
     v4l2Fd = open(v4l2_device_path, O_WRONLY, 0777);
@@ -108,7 +122,19 @@ static uint32_t video_encode_capture1(struct frames_st *frames) {
   if(!firstEntry) {
     firstEntry++;
     int err;
-    const char *v4l2_device_path = "/dev/video2";
+
+    char *v4l2_device_path = "/dev/video0";
+    //Check for this file, which should only exist on the V2 cameras
+    const char *productv2="/driver/sensor_jxf23.ko";
+
+    if( access( productv2, F_OK ) != -1 ) {
+    v4l2_device_path = "/dev/video7";
+    fprintf(stderr, "[command] v4l2_device_path = %s\n", v4l2_device_path);
+    } else {
+    v4l2_device_path = "/dev/video2";
+    fprintf(stderr, "[command] v4l2_device_path = %s\n", v4l2_device_path);
+    }
+
     const char *productf="/configs/.product_db3";
     fprintf(stderr,"Opening V4L2 device: %s \n", v4l2_device_path);
     v4l2Fd = open(v4l2_device_path, O_WRONLY, 0777);
@@ -147,7 +173,6 @@ static uint32_t video_encode_capture1(struct frames_st *frames) {
   }
   return ((framecb)video_encode_cb1)(frames);
 }
-
 
 
 int local_sdk_video_set_encode_frame_callback(int ch, void *callback) {

@@ -8,9 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 static int (*original_mp4write_start_handler)(void *handler, char *file, void *config);
-
 
 static int mp4WriteEnable = 0;
 
