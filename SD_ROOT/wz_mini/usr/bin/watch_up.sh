@@ -17,8 +17,7 @@ set -x
 	if cat /params/config/.product_config | grep WYZEC1-JZ; then
 	while [ ! -f /tmp/Upgrade/upgraderun.sh ]
 	do
-		sed -i '/pgrep/,+4d' /tmp/Upgrade/upgraderun.sh
-		find /tmp/Upgrade > /opt/upgrade_find.log &
+	#	sed -i '/pgrep/,+4d' /tmp/Upgrade/upgraderun.sh
 		sleep 0.1
 	done
 
@@ -55,7 +54,7 @@ set -x
 		sed -i '/wc -c $KERNEL/,+14d' $upgrade_path
 		#mv /tmp/Upgrade/upgraderun.sh /tmp/Upgrade/run_upg.sh
 		#sh /tmp/Upgrade/run_upg.sh
-		/tmp/Upgrade/system_upgrade.sh
+		#/tmp/Upgrade/system_upgrade.sh
 	else
 
 		if [[ -e /tmp/Upgrade/app ]]; then

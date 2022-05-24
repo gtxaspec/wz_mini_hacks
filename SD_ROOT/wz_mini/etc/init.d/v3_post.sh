@@ -12,9 +12,13 @@ echo "PID $$"
 echo "mount kernel modules"
 mount --bind /opt/wz_mini/lib/modules /lib/modules
 
+if cat /params/config/.product_config | grep WYZEC1-JZ; then
+        V2="true"
+fi
+
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_HI_RES_ENABLED\=") == "RTSP_HI_RES_ENABLED\=\"true\"" ]] ||  [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_LOW_RES_ENABLED\=") == "RTSP_LOW_RES_ENABLED\=\"true\"" ]] && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_LOW_RES_ENABLED\=") == "RTSP_LOW_RES_ENABLED\=\"true\"" ]] && [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_HI_RES_ENABLED\=") == "RTSP_HI_RES_ENABLED\=\"true\"" ]]; then
-	        if [[ -d /etc/hotplug ]]; then
+	        if [[ "$V2" == "true"]]; then
 		        echo "load video loopback driver at video6 video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=6,7
 		else
@@ -22,7 +26,7 @@ if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_HI_RES_ENABLED\=") == "RTSP_HI_
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1,2
 		fi
 	elif [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_LOW_RES_ENABLED\=") == "RTSP_LOW_RES_ENABLED\=\"true\"" ]]; then
-	        if [[ -d /etc/hotplug ]]; then
+	        if [[ "$V2" == "true"]]; then
 		        echo "load video loopback driver at video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=7
 		else
@@ -30,7 +34,7 @@ if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_HI_RES_ENABLED\=") == "RTSP_HI_
 	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=2
 		fi
 	elif [[ $(cat /opt/wz_mini/run_mmc.sh | grep "RTSP_HI_RES_ENABLED\=") == "RTSP_HI_RES_ENABLED\=\"true\"" ]]; then
-	        if [[ -d /etc/hotplug ]]; then
+	        if [[ "$V2" == "true"]]; then
 		        echo "load video loopback driver at video6"
 		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=6
 		else

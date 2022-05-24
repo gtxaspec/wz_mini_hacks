@@ -1,12 +1,12 @@
 #!/bin/sh
 
 #On the V2, for some reason iCamera runs "sh -c iwlist wlan0 scan | grep 'ESSID:"<your wifi ssid>"' every 5 seconds.
-#Let's fake the output to reduce load
+#Let's fake the output, and increase put some sleep in to increase the "scan" times to every xx seconds to reduce load
 
 ssid=$(cat /tmp/wpa_supplicant.conf | grep "ssid=\""  | cut -d'"' -f 2)
 
 echo -e "                    ESSID:\""$ssid"\"\n"
 
-sleep 30
+sleep 60
 
 exit 0

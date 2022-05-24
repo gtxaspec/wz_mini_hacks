@@ -23,11 +23,9 @@ set -x
 
 #test for v2
 mount -t jffs2 /dev/mtdblock9 /params
-
 if cat /params/config/.product_config | grep WYZEC1-JZ; then
         V2="true"
 fi
-umount /params
 
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
