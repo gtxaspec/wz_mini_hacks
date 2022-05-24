@@ -43,12 +43,14 @@ RTSP_PORT="8554"
 
 RTSP_HI_RES_ENABLED="false"
 RTSP_HI_RES_ENABLE_AUDIO="false"
+RTSP_HI_RES_FPS=""
 RTSP_HI_RES_MAX_BITRATE=""
 RTSP_HI_RES_TARGET_BITRATE=""
 RTSP_HI_RES_ENC_PARAMETER=""
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
+RTSP_LOW_RES_FPS=""
 RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
@@ -194,7 +196,7 @@ first_run_check
 wait_sdroot
 wait_wlan
 
-if [[ -d /etc/hotplug ]]; then
+if cat /params/config/.product_config | grep WYZEC1-JZ; then
 V2="true"
 KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14_v2"
 else
@@ -390,7 +392,7 @@ fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
-        if [[ -d /etc/hotplug ]]; then
+        if [[ "$V2" == "true" ]]; then
 	HI_VIDEO_DEV="/dev/video6"
 	else
 	HI_VIDEO_DEV="/dev/video1"
@@ -442,6 +444,14 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		fi
 	fi
 
+	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+		fi
+	fi
+
         else
         echo "rtsp disabled"
 
@@ -449,8 +459,8 @@ fi
 
 
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
-	
-        if [[ -d /etc/hotplug ]]; then
+
+	if [[ "$V2" == "true" ]]; then
 	LOW_VIDEO_DEV="/dev/video7"
 	else
 	LOW_VIDEO_DEV="/dev/video2"
@@ -500,6 +510,14 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 			echo "not supported on v2"
 		else
 			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+		fi
+	fi
+
+	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
 		fi
 	fi
 

@@ -221,12 +221,14 @@ RTSP_PORT="8554"
 
 RTSP_HI_RES_ENABLED="true"
 RTSP_HI_RES_ENABLE_AUDIO="true"
+RTSP_HI_RES_FPS="20"
 RTSP_HI_RES_MAX_BITRATE="2048"
 RTSP_HI_RES_TARGET_BITRATE="1024"
 RTSP_HI_RES_ENC_PARAMETER="2"
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
+RTSP_LOW_RES_FPS=""
 RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
@@ -258,6 +260,7 @@ WEB_CAM_FPS_RATE="25"
 
 ## Latest Updates
 
+* 05-22-22:  added fps variable for rtsp server, thanks @claudobahn.
 * 05-22-22:  Update wz_mini scripts and libraries to support v2 camera.  experimental.
 * 05-20-22:  updated to latest libcallback including mp4write, bug fixes: usb direct mac addr, usb webcam mode bad variable.
 * 05-18-22:  Added PC Web Camera functionality, changed RTSP server, when you use enable more than one stream, they share the port and use different paths.
