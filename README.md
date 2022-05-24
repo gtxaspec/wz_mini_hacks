@@ -1,7 +1,7 @@
 # wz_mini_hacks
-### v3/PANv2 devices ONLY
+### v2/v3/PANv2 devices ONLY
 
-Run whatever firmware you want on your v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
+Run whatever firmware you want on your v2/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
 
 **Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
 
@@ -55,25 +55,48 @@ Using this project can potentially expose your device to the open internet depen
 * Person
 * Computer
 * 256MB or larger Micro-SD Card is required!
+* Higher class Micro-SD cards will ensure better performance
 
 ## What Works / What Doesn't Work
 * Everything works except:
 
   1. PAN v2:
      -  Tilt (Vertical) only works at motor speed 9
+  2. v2
+     -  webcam mode does not work on v2
+     -  usb direct does not work on v2 yet
+     -  rndis mode on v2 is untested
 
-## Setup
+## Setup v3/PANv2
 
 1. git clone the repo or download the repo zip
 2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), volume name does not matter.
 2. copy all the files inside of SD_ROOT to your micro sd card
 3. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
-## Installation
+## Installation v3/PANv2
+
 1. Turn off the camera
 2. Insert the micro sd memory card into the camera
 3. Turn on the camera
 4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.
+5. You may also login via the serial console, password is WYom2020
+
+## Setup v2
+
+1. git clone the repo or download the repo zip
+2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), volume name does not matter.
+3. Run `compile_image.sh` using linux, wait for the script to finish.
+4. Copy all the files inside of SD_ROOT to your micro sd card
+5. Copy the generated `demo.bin` to root of your micro sd card
+6. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
+
+## Installation v2
+
+1. Insert the micro sd memory card into the camera
+2. Hold down reset button while powering unit on.  This is the standard manual firmware restore procedure.
+3. Wait for camera to flash the latest modified firmware, and reboot, do not remove the micro sd card.
+4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.  You should hear audio prompts from the camera once it has booted successfully.
 5. You may also login via the serial console, password is WYom2020
 
 ## Removal
@@ -235,6 +258,7 @@ WEB_CAM_FPS_RATE="25"
 
 ## Latest Updates
 
+* 05-22-22:  Update wz_mini scripts and libraries to support v2 camera.  experimental.
 * 05-20-22:  updated to latest libcallback including mp4write, bug fixes: usb direct mac addr, usb webcam mode bad variable.
 * 05-18-22:  Added PC Web Camera functionality, changed RTSP server, when you use enable more than one stream, they share the port and use different paths.
 * 05-15-22:  fixed rtsp audio for low-res rtsp stream, patched libcallback sources for audio channel 1.

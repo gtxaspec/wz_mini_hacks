@@ -21,28 +21,46 @@ echo '
 
 set -x
 
-#lets test this out and see how it goes, patched udhcpc for iCamera
+#test for v2
+mount -t jffs2 /dev/mtdblock9 /params
+
+if cat /params/config/.product_config | grep WYZEC1-JZ; then
+        V2="true"
+fi
+umount /params
+
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
 #WCV3 GPIO
 GPIO=63
 
 #Check model, change GPIO is HL_PAN2
-mount -t jffs2 /dev/mtdblock6 /configs
-if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
-umount /configs
-GPIO=7
+if [[ "$V2" == "false" ]]; then
+	mount -t jffs2 /dev/mtdblock6 /configs
+	if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
+	umount /configs
+	GPIO=7
+	fi
+else
+	echo "v2, no need to check"
 fi
 
 if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
         echo "first boot already completed"
 else
 	echo "first boot, initializing"
-        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-        /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
-        rmmod audio
-        touch /opt/wz_mini/etc/.first_boot
+        if [[ "$V2" == "true" ]]; then
+		insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
+        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav 70
+		rmmod audio
+	else
+	        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+        	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
+        	rmmod audio
+	fi
 fi
+
+touch /opt/wz_mini/etc/.first_boot
 
 mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 
@@ -53,8 +71,13 @@ echo "mounting tmpfs"
 mount -t tmpfs /tmp
 
 echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
-mount /dev/mtdblock3 /system
-mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
+if [[ ! "$V2" == "true" ]]; then
+	mount /dev/mtdblock3 /system
+	mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
+else
+	echo "v2 doesn't need factorycheck"
+fi
+
 touch /tmp/usrflag
 
 echo "replace stock fstab"
@@ -89,13 +112,16 @@ cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
 mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
-echo "mount kernel modules"
-mount --bind /opt/wz_mini/lib/modules /lib/modules
-
 if [[ -e /opt/wz_mini/swap.gz ]]; then
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
-	rmmod audio
+        if [[ "$V2" == "true" ]]; then
+		insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
+        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav 70
+		rmmod audio
+	else
+		insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+		/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
+		rmmod audio
+	fi
 	echo "swap archive present, extracting"
         gzip -d /opt/wz_mini/swap.gz
         mkswap /opt/wz_mini/swap
@@ -116,13 +142,13 @@ echo "Run dropbear ssh server"
 /opt/wz_mini/bin/dropbear -R -s -g
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
-        sed -i '/app_init.sh/,+3d' /opt/wz_mini/tmp/.storage/rcS
+        sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 else
 
 if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_ENABLE\=") == "WEB_CAM_ENABLE\=\"true\"" ]]; then
-        sed -i '/app_init.sh/,+3d' /opt/wz_mini/tmp/.storage/rcS
+        sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/opt/wz_mini/etc/init.d/wz_cam.sh' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 fi

@@ -87,7 +87,7 @@ wait_sdroot() {
 ##Stall execution if the micro-sd card isn't mounted yet, iCamera controls this internally.
     while true
     do
-	if [[ -d /media/mmc/wz_mini ]]; then
+	if [[ -d /media/mmc/wz_mini ]] || [[ -d /media/mmcblk0p1/wz_mini ]]; then
 	echo "sd card ready"
 	break
 	fi
@@ -135,7 +135,11 @@ eth_wlan_up() {
         ifconfig wlan0 up
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
+	if [[ "$V2" == "true" ]]; then
+        mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
+	else
         mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
+	fi
 	break
 }
 
@@ -190,6 +194,13 @@ first_run_check
 wait_sdroot
 wait_wlan
 
+if [[ -d /etc/hotplug ]]; then
+V2="true"
+KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14_v2"
+else
+V2="false"
+KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
+fi
 
 if [[ "$ENABLE_SWAP" == "true" ]]; then
         if cat /proc/swaps | grep "mini" ; then
@@ -208,39 +219,42 @@ else
 fi
 
 if [[ "$ENABLE_NFSv4" == "true" ]]; then
-        insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/lib/oid_registry.ko
-        insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/dns_resolver/dns_resolver.ko
-        insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/nfs/nfsv4.ko
-        insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
+        insmod $KMOD_PATH/kernel/lib/oid_registry.ko
+        insmod $KMOD_PATH/kernel/net/dns_resolver/dns_resolver.ko
+        insmod $KMOD_PATH/kernel/fs/nfs/nfsv4.ko
+        insmod $KMOD_PATH/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
         echo nfsv4 enabled
 else
         echo nfsv4 disabled
 fi
 
-if [[ "$ENABLE_IPTABLES" == "true" ]]; then
-
-	insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/netfilter/x_tables.ko
-	insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ip_tables.ko
-	insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ipt_REJECT.ko
-	insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_filter.ko
-	insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_mangle.ko
-	echo "iptables ipv4 enabled"
+if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
+	if [[ "$V2" == "true" ]]; then
+		echo "v2 has iptables built in"
+	else
+		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/netfilter/x_tables.ko
+		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ip_tables.ko
+		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ipt_REJECT.ko
+		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_filter.ko
+		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_mangle.ko
+		echo "iptables ipv4 enabled"
+	fi
 
 	if [[ "$ENABLE_IPV6" == "true" ]]; then
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv6/netfilter/ip6_tables.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv6/netfilter/ip6table_filter.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv6/netfilter/ip6table_mangle.ko
+		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
+		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
+		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_filter.ko
+		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_mangle.ko
 		echo "iptables ipv6 enabled"
 	fi
-	else
-		echo "iptables disabled"
+else
+	echo "iptables disabled"
 fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/usbnet.ko
-        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/asix.ko
+	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
+        insmod $KMOD_PATH/kernel/drivers/net/usb/asix.ko
 
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
 	echo "swap already enabled"
@@ -264,10 +278,13 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
         host_macaddr=$(echo $HOSTNAME|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
 
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/libcomposite.ko
+	if [[ "$V2" == "false" ]]; then
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr=$host_macaddr dev_addr=$USB_DIRECT_MAC_ADDR
+	fi
+
+	insmod $KMOD_PATH/kernel/drivers/usb/gadget/libcomposite.ko
+	insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr=$host_macaddr dev_addr=$USB_DIRECT_MAC_ADDR
 
 	sleep 1
 
@@ -290,9 +307,9 @@ fi
 
 if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/usbnet.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/cdc_ether.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/net/usb/rndis_host.ko
+	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
+	insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
+	insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
 
 	sleep 1
 
@@ -314,31 +331,35 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 fi
 
 if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/tunnel4.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/ip_tunnel.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/wireguard/wireguard.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
+	insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
 else
 	echo "wireguard disabled"
 fi
 
 if [[ "$ENABLE_CIFS" == "true" ]]; then
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/cifs/cifs.ko
+	insmod $KMOD_PATH/kernel/fs/cifs/cifs.ko
 else
 	echo "cifs disabled"
 fi
 
 if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/scsi/scsi_mod.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/scsi/sd_mod.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/storage/usb-storage.ko
+	insmod $KMOD_PATH/kernel/drivers/scsi/scsi_mod.ko
+	insmod $KMOD_PATH/kernel/drivers/scsi/sd_mod.ko
+	insmod $KMOD_PATH/kernel/drivers/usb/storage/usb-storage.ko
 else
 	echo "usb_storage disabled"
 fi
 
 if [[ "$ENABLE_EXT4" == "true" ]]; then
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/jbd2/jbd2.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/mbcache.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/fs/ext4/ext4.ko
+	if [[ "$V2" == "true" ]]; then
+	insmod $KMOD_PATH/kernel/lib/crc16.ko
+	fi
+
+	insmod $KMOD_PATH/kernel/fs/jbd2/jbd2.ko
+	insmod $KMOD_PATH/kernel/fs/mbcache.ko
+	insmod $KMOD_PATH/kernel/fs/ext4/ext4.ko
 else
 	echo "ext4 disabled"
 fi
@@ -350,7 +371,7 @@ if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
 else
         mkdir /tmp/Upgrade
-        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp/Upgrade:n &
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n &
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
@@ -369,6 +390,12 @@ fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
+        if [[ -d /etc/hotplug ]]; then
+	HI_VIDEO_DEV="/dev/video6"
+	else
+	HI_VIDEO_DEV="/dev/video1"
+	fi
+
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
 	echo "swap already enabled"
 	else
@@ -385,22 +412,34 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		/opt/wz_mini/bin/cmd audio on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE1="/dev/video1,hw:Loopback,0"
+		DEVICE1="$HI_VIDEO_DEV,hw:Loopback,0"
         else
-                DEVICE1="/dev/video1"
+                DEVICE1="$HI_VIDEO_DEV"
 		echo "rtsp audio disabled"
         fi
 
 	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		fi
 	fi
 
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		fi
 	fi
 
 	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			echo "not supported on v2"
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+		fi
 	fi
 
         else
@@ -410,6 +449,13 @@ fi
 
 
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
+	
+        if [[ -d /etc/hotplug ]]; then
+	LOW_VIDEO_DEV="/dev/video7"
+	else
+	LOW_VIDEO_DEV="/dev/video2"
+	fi
+
 
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
 	echo "swap already enabled"
@@ -427,22 +473,34 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 		/opt/wz_mini/bin/cmd audio on1
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE2="/dev/video2,hw:Loopback,1"
+		DEVICE2="$LOW_VIDEO_DEV,hw:Loopback,1"
         else
-                DEVICE2="/dev/video2"
+                DEVICE2="$LOW_VIDEO_DEV"
                 echo "rtsp audio disabled"
         fi
 
 	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+		fi
 	fi
 
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+		fi
 	fi
 
 	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-	watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+		if [[ "$V2" == "true" ]]; then
+			echo "not supported on v2"
+		else
+			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+		fi
 	fi
 
         else
