@@ -118,6 +118,20 @@ Use the command ```wg``` to setup.  See [https://www.wireguard.com/quickstart/](
 
 Some users have asked about tailscale support, I have tested and it works.  See the issue #30 for further information.
 
+Example setup:
+```
+ENABLE_WIREGUARD="true"
+WIREGUARD_IPV4="192.168.2.101/32"
+WIREGUARD_PEER_ENDPOINT="x.x.x.x:51820"
+WIREGUARD_PEER_PUBLIC_KEY="INSERT_PEER_PUBLIC_KEY_HERE"
+WIREGUARD_PEER_ALLOWED_IPS="192.168.2.0/24"
+WIREGUARD_PEER_KEEP_ALIVE="25"
+```
+
+To retrieve the public key that you'll need to add the peer to your wireguard endpoint:
+1. Use SSH to log in
+2. `wg`
+
 ---
 
 Disable automatic firmware updates:
@@ -260,6 +274,7 @@ WEB_CAM_FPS_RATE="25"
 
 ## Latest Updates
 
+* 05-23-22:  added simple wireguard startup configuration.
 * 05-22-22:  added fps variable for rtsp server, thanks @claudobahn.
 * 05-22-22:  Update wz_mini scripts and libraries to support v2 camera.  experimental.
 * 05-20-22:  updated to latest libcallback including mp4write, bug fixes: usb direct mac addr, usb webcam mode bad variable.

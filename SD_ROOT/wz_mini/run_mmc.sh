@@ -27,6 +27,11 @@ ENABLE_USB_RNDIS="false"
 ENABLE_IPV6="false"
 
 ENABLE_WIREGUARD="false"
+WIREGUARD_IPV4=""
+WIREGUARD_PEER_ENDPOINT=""
+WIREGUARD_PEER_PUBLIC_KEY=""
+WIREGUARD_PEER_ALLOWED_IPS=""
+WIREGUARD_PEER_KEEP_ALIVE=""
 
 ENABLE_IPTABLES="false"
 
@@ -336,6 +341,24 @@ if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
 	insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
 	insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
+
+  if [[ "$WIREGUARD_IPV4" != "" ]]; then
+    mkdir -p /opt/wz_mini/etc/wireguard
+
+    if [ ! -f /opt/wz_mini/etc/wireguard/privatekey ]; then
+      (umask 277 && /media/mmc/wz_mini/bin/wg  genkey | /media/mmc/wz_mini/bin/busybox tee /opt/wz_mini/etc/wireguard/privatekey | /media/mmc/wz_mini/bin/wg  pubkey > /opt/wz_mini/etc/wireguard/publickey)
+    fi
+
+    /media/mmc/wz_mini/bin/busybox ip link add dev wg0 type wireguard
+    /media/mmc/wz_mini/bin/busybox ip address add dev wg0 $WIREGUARD_IPV4
+    /media/mmc/wz_mini/bin/wg set wg0 private-key /opt/wz_mini/etc/wireguard/privatekey
+    /media/mmc/wz_mini/bin/busybox ip link set wg0 up
+  fi
+
+  if [[ "$WIREGUARD_PEER_PUBLIC_KEY" != "" ]] && [[ "$WIREGUARD_PEER_ALLOWED_IPS" != "" ]] && [[ "$WIREGUARD_PEER_ENDPOINT" != "" ]] && [[ "$WIREGUARD_PEER_KEEP_ALIVE" != "" ]]; then
+    /media/mmc/wz_mini/bin/wg set wg0 peer $WIREGUARD_PEER_PUBLIC_KEY allowed-ips $WIREGUARD_PEER_ALLOWED_IPS endpoint $WIREGUARD_PEER_ENDPOINT persistent-keepalive $WIREGUARD_PEER_KEEP_ALIVE
+    /media/mmc/wz_mini/bin/busybox ip route add $WIREGUARD_PEER_ALLOWED_IPS dev wg0
+  fi
 else
 	echo "wireguard disabled"
 fi
