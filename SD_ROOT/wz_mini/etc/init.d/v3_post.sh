@@ -36,7 +36,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1,2
 		fi
 	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
-	        if [[ "$V2" == "true"]]; then
+	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=7
 		else
