@@ -105,7 +105,7 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Customization
 
-Edit run_mmc.sh, this is a script stored on the micro sd card that is run when the camera boots.  You can change the hostname of the camera, mount NFS, add ping commands, anything you like.
+Edit wz_mini.conf, this is stored on the micro sd card inside the wz_mini folder, and loads the configuration variables when the camera boots.  You can change the hostname of the camera, add a path to a script to mount NFS, add ping commands, anything you like.
 
 ---
 
@@ -273,8 +273,17 @@ WEB_CAM_FPS_RATE="25"
 
 ---
 
+Run a custom script:
+
+```
+CUSTOM_SCRIPT_PATH=""
+```
+
+---
+
 ## Latest Updates
 
+* 05-24-22:  add `wz_mini.conf` to replace `run_mmc.sh`, all configuration variables are now stored in this file, scripting logic now in wz_user.sh inside init.d folder. add support for user to add a custom script to run on boot.
 * 05-23-22:  added simple wireguard startup configuration.
 * 05-22-22:  added fps variable for rtsp server, thanks @claudobahn.
 * 05-22-22:  Update wz_mini scripts and libraries to support v2 camera.  experimental.

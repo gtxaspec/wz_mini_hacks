@@ -1,82 +1,15 @@
 #!/bin/sh
 
-exec 1> /opt/wz_mini/log/run_mmc.log 2>&1
-
-echo "welcome to run_mmc.sh"
-echo "PID $$"
+exec 1> /opt/wz_mini/log/wz_user.log 2>&1
 
 set -x
 
-HOSTNAME="WCV3"
+echo "welcome to wz_user.sh"
+echo "PID $$"
 
-#### W E B CAMERA###
-##THIS MODE DISABLES EVERYTHING AND IT WILL
-## WORK AS A WEB CAMERA FOR YOUR PC ***ONLY***
-WEB_CAM_ENABLE="false"
-WEB_CAM_BIT_RATE="8000"
-WEB_CAM_FPS_RATE="25"
+export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
-#####NETWORKING#####
-ENABLE_USB_ETH="false"
-
-ENABLE_USB_DIRECT="false"
-USB_DIRECT_MAC_ADDR="02:01:02:03:04:08"
-
-ENABLE_USB_RNDIS="false"
-
-ENABLE_IPV6="false"
-
-ENABLE_WIREGUARD="false"
-WIREGUARD_IPV4=""
-WIREGUARD_PEER_ENDPOINT=""
-WIREGUARD_PEER_PUBLIC_KEY=""
-WIREGUARD_PEER_ALLOWED_IPS=""
-WIREGUARD_PEER_KEEP_ALIVE=""
-
-ENABLE_IPTABLES="false"
-
-ENABLE_NFSv4="false"
-
-#####ACCESSORIES#####
-REMOTE_SPOTLIGHT="false"
-REMOTE_SPOTLIGHT_HOST="0.0.0.0"
-
-#####VIDEO STREAM#####
-RTSP_LOGIN="admin"
-RTSP_PASSWORD=""
-RTSP_PORT="8554"
-
-RTSP_HI_RES_ENABLED="false"
-RTSP_HI_RES_ENABLE_AUDIO="false"
-RTSP_HI_RES_FPS=""
-RTSP_HI_RES_MAX_BITRATE=""
-RTSP_HI_RES_TARGET_BITRATE=""
-RTSP_HI_RES_ENC_PARAMETER=""
-
-RTSP_LOW_RES_ENABLED="false"
-RTSP_LOW_RES_ENABLE_AUDIO="false"
-RTSP_LOW_RES_FPS=""
-RTSP_LOW_RES_MAX_BITRATE=""
-RTSP_LOW_RES_TARGET_BITRATE=""
-RTSP_LOW_RES_ENC_PARAMETER=""
-
-ENABLE_MP4_WRITE="false"
-
-#####GENERAL#####
-ENABLE_SWAP="true"
-ENABLE_USB_STORAGE="false"
-ENABLE_EXT4="false"
-ENABLE_CIFS="false"
-DISABLE_FW_UPGRADE="false"
-SILENT_PROMPTS="false"
-
-#####DEBUG#####
-DEBUG_ENABLED="false"
-#drops you to a shell via serial, doesn't load app_init.sh
-
-#####################################
-##########CONFIG END#################
-#####################################
+[ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
 hostname_set() {
 	echo "set hostname"
@@ -556,13 +489,10 @@ fi
 hostname_set
 touch /opt/wz_mini/tmp/.run_mmc_firstrun
 sync;echo 3 > /proc/sys/vm/drop_caches
-sleep 3
 
-#################################################
-##############CUSTOM BEGIN#######################
-#################################################
-
-#Place commands here to run 30 seconds after boot
-#such as mount nfs, ping, etc
-
-#mount -t nfs -o nolock,rw,noatime,nodiratime 192.168.1.1:/volume1 /media/mmc/record &
+if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
+	echo "starting custom script"
+	$CUSTOM_SCRIPT_PATH &
+else
+	echo "custom script not found"
+fi

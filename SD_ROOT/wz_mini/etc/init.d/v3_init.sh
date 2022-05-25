@@ -3,7 +3,13 @@
 ###DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING
 ###
 
+###This file is run by switch_root, from the initramfs in the kernel.
+
 exec 1> /opt/wz_mini/log/v3_init.log 2>&1
+
+export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
+
+[ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
 echo "welcome to v3_init.sh"
 echo "PID $$"
@@ -21,16 +27,19 @@ echo '
 
 set -x
 
-#test for v2
-mount -t jffs2 /dev/mtdblock9 /params
-if cat /params/config/.product_config | grep WYZEC1-JZ; then
-        V2="true"
-fi
+#WCV3 AUDIO GPIO
+GPIO=63
 
+#replace stock busybox
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
-#WCV3 GPIO
-GPIO=63
+#test for v2
+if [ -b /dev/mtdblock7 ]; then
+	mount -t jffs2 /dev/mtdblock9 /params
+	if cat /params/config/.product_config | grep WYZEC1-JZ; then
+        	V2="true"
+	fi
+fi
 
 #Check model, change GPIO is HL_PAN2
 if [[ "$V2" == "false" ]]; then
@@ -139,13 +148,13 @@ fi
 echo "Run dropbear ssh server"
 /opt/wz_mini/bin/dropbear -R -s -g
 
-if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "DEBUG_ENABLED\=") == "DEBUG_ENABLED\=\"true\"" ]]; then
+if [[ "$DEBUG_ENABLED" == "true" ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 else
 
-if [[ $(cat /opt/wz_mini/run_mmc.sh | grep "WEB_CAM_ENABLE\=") == "WEB_CAM_ENABLE\=\"true\"" ]]; then
+if [[ "$WEB_CAM_ENABLE" == "true" ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/opt/wz_mini/etc/init.d/wz_cam.sh' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
@@ -154,7 +163,8 @@ fi
 fi
 
 if ! [[ -e /tmp/dbgflag ]]; then
-		/opt/wz_mini/run_mmc.sh &
+#		/opt/wz_mini/run_mmc.sh &
+		/opt/wz_mini/etc/init.d/wz_user.sh &
 else
 	echo "debug enabled, ignore run_mmc.sh"
 fi
