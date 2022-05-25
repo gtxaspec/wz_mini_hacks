@@ -53,6 +53,7 @@ Using this project can potentially expose your device to the open internet depen
 ## Prerequisites
 
 * Person
+* Cat ( for emotional support during setup )
 * Computer
 * 256MB or larger Micro-SD Card is required!
 * Higher class Micro-SD cards will ensure better performance
@@ -70,9 +71,9 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup v3/PANv2
 
 1. git clone the repo or download the repo zip
-2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), volume name does not matter.
-2. copy all the files inside of SD_ROOT to your micro sd card
-3. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
+2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
+3. copy all the files inside of SD_ROOT to your micro sd card
+4. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
 ## Installation v3/PANv2
 
@@ -85,7 +86,7 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup v2
 
 1. git clone the repo or download the repo zip
-2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), volume name does not matter.
+2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
 3. Run `compile_image.sh` using linux, wait for the script to finish.
 4. Copy all the files inside of SD_ROOT to your micro sd card
 5. Copy the generated `demo.bin` to root of your micro sd card
