@@ -28,7 +28,7 @@ fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	        if [[ "$V2" == "true"]]; then
+	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video6 video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=6,7
 		else
