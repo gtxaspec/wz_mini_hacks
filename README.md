@@ -281,8 +281,12 @@ CUSTOM_SCRIPT_PATH=""
 
 ---
 
+Live stream from the local built-in RTSP server to youtube/twitch/facebook live.  edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming.  Experimental.
+---
+
 ## Latest Updates
 
+* 05-24-22:  add experimental youtube/twitch/facebook live steam rtmp support in `wz_mini/usr/bin/rtmp-stream.sh`
 * 05-24-22:  add `wz_mini.conf` to replace `run_mmc.sh`, all configuration variables are now stored in this file, scripting logic now in wz_user.sh inside init.d folder. add support for user to add a custom script to run on boot.
 * 05-23-22:  added simple wireguard startup configuration.
 * 05-22-22:  added fps variable for rtsp server, thanks @claudobahn.

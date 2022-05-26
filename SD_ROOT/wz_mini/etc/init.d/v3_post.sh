@@ -1,6 +1,6 @@
 #!/bin/sh
 
-### This file is called by /etc/init.d/rcS, run before app_init.sh
+### This file is called by /etc/init.d/rcS, and is run before app_init.sh
 
 exec 1> /opt/wz_mini/log/v3_post.log 2>&1
 
