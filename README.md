@@ -64,9 +64,7 @@ Using this project can potentially expose your device to the open internet depen
   1. PAN v2:
      -  Tilt (Vertical) only works at motor speed 9
   2. v2
-     -  webcam mode does not work on v2
-     -  usb direct does not work on v2 yet
-     -  rndis mode on v2 is untested
+     -  webcam mode does not work on v2 yet
 
 ## Setup v3/PANv2
 
@@ -289,7 +287,8 @@ edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then ru
 
 ## Latest Updates
 
-* 05-24-22:  add experimental youtube/twitch/facebook live steam rtmp support in `wz_mini/usr/bin/rtmp-stream.sh`
+* 05-25-22:  usb direct mode and rndis are now supported on the v2 camera
+* 05-25-22:  add experimental youtube/twitch/facebook live steam rtmp support in `wz_mini/usr/bin/rtmp-stream.sh`
 * 05-24-22:  add `wz_mini.conf` to replace `run_mmc.sh`, all configuration variables are now stored in this file, scripting logic now in wz_user.sh inside init.d folder. add support for user to add a custom script to run on boot.
 * 05-23-22:  added simple wireguard startup configuration.
 * 05-22-22:  added fps variable for rtsp server, thanks @claudobahn.

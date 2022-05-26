@@ -210,13 +210,21 @@ fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
-	#Set dwc2 ID_PIN driver memory
-	devmem 0x13500000 32 0x001100cc
-	devmem 0x10000040 32 0x0b000096
-	#wipe the bits to set the ID_PIN
-	devmem 0x10000040 32 0x0b000FFF
-
         host_macaddr=$(echo $HOSTNAME|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
+
+	if [[ "$V2" == "true" ]]; then
+		echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect
+		sleep 1
+		devmem 0x10000040 32 0x0b800096
+		sleep 1
+		devmem 0x13500000 32 0x001100cc
+	else
+		#Set dwc2 ID_PIN driver memory
+		devmem 0x13500000 32 0x001100cc
+		devmem 0x10000040 32 0x0b000096
+		#wipe the bits to set the ID_PIN, only for the V3.
+		devmem 0x10000040 32 0x0b000FFF
+	fi
 
 	if [[ "$V2" == "false" ]]; then
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
