@@ -9,7 +9,7 @@ fi
 
 # Set terminal env
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-export PATH=/opt/wz_mini/tmp/.bin:/opt/wz_mini/bin:/system/bin:$PATH
+export PATH=/opt/wz_mini/bin:/opt/wz_mini/tmp/.bin:/system/bin:$PATH
 export LD_LIBRARY_PATH=/system/lib
 export LD_LIBRARY_PATH=/opt/wz_mini/lib:/thirdlib:$LD_LIBRARY_PATH
 export TERMINFO=/opt/wz_mini/usr/share/terminfo
