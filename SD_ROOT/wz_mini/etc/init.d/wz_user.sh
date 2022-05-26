@@ -348,8 +348,12 @@ else
 fi
 
 if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
-	/opt/wz_mini/bin/cmd mp4write on
-	echo "mp4 write enabled"
+        if [[ "$V2" == "true" ]]; then
+		echo "mp4_write not supported on v2"
+	else
+		/opt/wz_mini/bin/cmd mp4write on
+		echo "mp4_write enabled"
+	fi
 else
 	echo "mp4 write disabled"
 fi
