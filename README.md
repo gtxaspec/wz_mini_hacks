@@ -281,7 +281,10 @@ CUSTOM_SCRIPT_PATH=""
 
 ---
 
-Live stream from the local built-in RTSP server to youtube/twitch/facebook live.  edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming.  Experimental.
+Live stream from the local built-in RTSP server to youtube/twitch/facebook live.
+
+edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming.  Experimental.
+
 ---
 
 ## Latest Updates
