@@ -6,7 +6,7 @@ if [[ "$RTSP_PASSWORD" == "" ]]; then
         RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 fi
 
-FFMPEG_BINARY="/opt/ffmpeg_latest"
+FFMPEG_BINARY="/opt/wz_mini/bin/ffmpeg"
 
 TWITCH_URL="rtmp://live-ber.twitch.tv/app"
 YOUTUBE_URL="rtmp://b.rtmp.youtube.com/live2"
