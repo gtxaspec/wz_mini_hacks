@@ -6,7 +6,7 @@ if [[ "$RTSP_PASSWORD" == "" ]]; then
         RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 fi
 
-FFMPEG_BINARY="/opt/wz_mini/bin/ffmpeg"
+FFMPEG_BINARY="/opt/ffmpeg_latest"
 
 TWITCH_URL="rtmp://live-ber.twitch.tv/app"
 YOUTUBE_URL="rtmp://b.rtmp.youtube.com/live2"
@@ -23,10 +23,15 @@ FACEBOOK_KEY=""
 #V3: 1080p=video1 360p=video2
 #V2: 1080p=video6 360p=video7
 
-RTSP_STREAM="video6_unicast"
+RTSP_STREAM="video1_unicast"
 
 VIDEO_SOURCE="rtsp://"$RTSP_LOGIN":"$RTSP_PASSWORD"@0.0.0.0:"$RTSP_PORT"/$RTSP_STREAM"
+AUDIO="-c:a libfdk_aac -afterburner 1 -channels 1 -b:a 256k -profile:a aac_he -ar 16000 -strict experimental"
 
+if [[ "$2" == "no_audio" ]]; then
+        echo NOAUDIO
+        AUDIO="-an"
+fi
 
 if [[ "$1" == "youtube" ]]; then
         echo "youtube"
@@ -54,13 +59,4 @@ sync;echo 3 > /proc/sys/vm/drop_caches
 $FFMPEG_BINARY \
 -rtsp_transport udp -y \
 -i "$VIDEO_SOURCE" \
--c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0 -b:a 16k -c:a aac -ar 11025 -strict experimental -aspect 16:9 -f flv "$STREAM_PROVIDER/$KEY"
-
-#-re
-#  -c:v copy -coder 1 -pix_fmt yuv420p -minrate 200k -maxrate 1500k -bufsize 1500k -b:v 1000 -r 30 -g 30 -keyint_min 60  \
-#  -s 1920x1080 -b:a 16k -c:a aac -ar 8000  -strict experimental -f flv "$YOUTUBE_URL/$KEY"
-#  -s 640x360 -b:a 16k -c:a aac -ar 8000  -strict experimental -f flv "$YOUTUBE_URL/$KEY"
-
-#-c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0 -c:a aac -ab 4k -strict experimental -aspect 16:9 -f flv "$YOUTUBE_URL/$KEY"
-# -c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 2 -c:a aac -ar 11025 -strict 2 -aspect 16:9 -f flv "$YOUTUBE_URL/$KEY"
-#-c:v copy -profile:v high -coder 1 -pix_fmt yuv420p -g 30 -bf 2 -c:a aac  -ab 8k -strict experimental -aspect 16:9 -f flv "$YOUTUBE_URL/$KEY"
+-c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0 $AUDIO -aspect 16:9 -f flv "$STREAM_PROVIDER/$KEY"
