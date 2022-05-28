@@ -22,7 +22,7 @@ mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/* /opt/wz_mini/
 rm -f /opt/factory_t31_ZMC6tiIDQN
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory_t31_ZMC6tiIDQN
 
-cp /opt/Upgrade/preserve/authorized_keys  /opt/wz_mini/etc/
+cp /opt/Upgrade/preserve/authorized_keys  /opt/wz_mini/etc/ssh/
 cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
 rm -rf /opt/Upgrade
 sync
