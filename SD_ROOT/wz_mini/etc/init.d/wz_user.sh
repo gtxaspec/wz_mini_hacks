@@ -7,6 +7,12 @@ set -x
 echo "welcome to wz_user.sh"
 echo "PID $$"
 
+
+if [[ -e /tmp/dbgflag ]];then
+        echo "debug mode, disabled"
+        exit 0
+fi
+
 export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG

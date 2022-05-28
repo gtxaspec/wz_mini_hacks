@@ -33,7 +33,6 @@ reboot
 if [[ -e /tmp/dbgflag ]]; then
 upgrade_mode_start
 else
-
 read -r -p "${1:-wz_mini, this will download the latest version and upgrade your system.  Are you sure? [y/N]} " response
     case "$response" in
         [yY][eE][sS]|[yY])

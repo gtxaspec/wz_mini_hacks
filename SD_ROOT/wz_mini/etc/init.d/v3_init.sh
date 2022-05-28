@@ -165,11 +165,4 @@ elif [[ -d /opt/Upgrade ]]; then
 	touch /tmp/dbgflag
 fi
 
-if ! [[ -e /tmp/dbgflag ]]; then
-		/opt/wz_mini/etc/init.d/wz_user.sh &
-else
-	echo "debug enabled, ignore wz_user.sh"
-fi
-
-
 /linuxrc
