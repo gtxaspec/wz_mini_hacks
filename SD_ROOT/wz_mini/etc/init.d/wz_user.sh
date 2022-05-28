@@ -390,17 +390,17 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
 	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 		fi
 	fi
 
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		fi
 	fi
 
@@ -408,15 +408,15 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			echo "not supported on v2"
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 		fi
 	fi
 
 	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
 		fi
 	fi
 
@@ -459,17 +459,17 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 		fi
 	fi
 
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		fi
 	fi
 
@@ -477,15 +477,15 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			echo "not supported on v2"
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 		fi
 	fi
 
 	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
 		else
-			watch -n10 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
+			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
 		fi
 	fi
 
@@ -500,7 +500,10 @@ fi
 
 hostname_set
 touch /opt/wz_mini/tmp/.run_mmc_firstrun
+pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores when something crashes
+sysctl -w kernel.core_pattern='|/bin/false'
 sync;echo 3 > /proc/sys/vm/drop_caches
+
 
 if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
 	echo "starting custom script"
