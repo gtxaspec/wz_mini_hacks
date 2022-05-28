@@ -60,8 +60,9 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 
         cp /system/bin/iCamera /opt/wz_mini/tmp/.storage/
         mount -o ro,bind /opt/wz_mini/usr/bin/iCamera /system/bin/iCamera
-	/opt/wz_mini/etc/init.d/wz_user.sh &
 fi
+
+/opt/wz_mini/etc/init.d/wz_user.sh &
 
 ##LIBRARY DEBUG
 #cp /opt/wz_mini/lib/uClibc.tar /tmp
