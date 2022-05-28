@@ -6,6 +6,11 @@ exec 1> /opt/wz_mini/log/v3_post.log 2>&1
 
 set -x
 
+if [[ -e /tmp/dbgflag ]];then
+	echo "debug mode, disabled"
+	exit 0
+fi
+
 export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
