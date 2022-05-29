@@ -2,7 +2,7 @@
 
 ### This file is called by /etc/init.d/rcS, and is run before app_init.sh
 
-exec 1> /opt/wz_mini/log/v3_post.log 2>&1
+exec 1> /opt/wz_mini/log/vz_post.log 2>&1
 
 set -x
 
@@ -15,7 +15,7 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
-echo "welcome to v3_post.sh"
+echo "welcome to wz_post.sh"
 echo "PID $$"
 
 if [ -d /lib/modules ]; then

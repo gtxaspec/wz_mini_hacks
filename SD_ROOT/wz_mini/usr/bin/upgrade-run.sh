@@ -14,7 +14,7 @@ reboot
 
 
 upgrade_mode_start() {
-exec 1>> /opt/v3_upgrade.log 2>&1
+exec 1>> /opt/wz_upgrade.log 2>&1
 set -x
 echo UPGRADE MODE
 umount /opt/wz_mini/tmp

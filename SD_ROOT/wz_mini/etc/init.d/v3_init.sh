@@ -103,9 +103,9 @@ mkdir /opt/wz_mini/tmp/.storage
 echo "copy stock rcS"
 cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
 
-echo "add v3_post inject to stock rcS"
+echo "add wz_post inject to stock rcS"
 sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/^# Mount configs.*/i/opt/wz_mini/etc/init.d/v3_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/^# Mount configs.*/i/opt/wz_mini/etc/init.d/wz_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
 
 sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
