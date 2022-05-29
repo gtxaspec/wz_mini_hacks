@@ -1,6 +1,8 @@
 #!/bin/sh
 
 setup() {
+exec 1>> /opt/wz_upgrade.log 2>&1
+
 mkdir /opt/Upgrade
 mkdir /opt/Upgrade/preserve
 wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/master.zip -O /opt/Upgrade/wz_mini.zip; sync
@@ -15,8 +17,11 @@ reboot
 
 upgrade_mode_start() {
 exec 1>> /opt/wz_upgrade.log 2>&1
+
 set -x
+
 echo UPGRADE MODE
+
 umount /opt/wz_mini/tmp
 rm -rf /opt/wz_mini/*
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/* /opt/wz_mini/
@@ -36,11 +41,11 @@ reboot
 if [[ -e /tmp/dbgflag ]]; then
 upgrade_mode_start
 else
-read -r -p "${1:-wz_mini, this will download the latest version and upgrade your system.  Are you sure? [y/N]} " response
+read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response
     case "$response" in
         [yY][eE][sS]|[yY])
         if [[ -d /opt/Upgrade ]]; then
-                echo "old Upgrade dir exists"
+                echo "WARNING: Old Upgrade directory exists"
                 read -r -p "${1:-Unable to proceed, must DELETE old Upgrade directory, are you sure? [y/N]} " response
                 case "$response" in
                 [yY][eE][sS]|[yY])
@@ -58,10 +63,7 @@ read -r -p "${1:-wz_mini, this will download the latest version and upgrade your
 
             ;;
         *)
-                echo "user denied update"
+                echo "User declined system update, exit"
             ;;
     esac
-
-
-
 fi
