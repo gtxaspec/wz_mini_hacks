@@ -2,7 +2,7 @@
 
 ### This file is called by /etc/init.d/rcS, and is run before app_init.sh
 
-exec 1> /opt/wz_mini/log/vz_post.log 2>&1
+exec 1> /opt/wz_mini/log/wz_post.log 2>&1
 
 set -x
 
