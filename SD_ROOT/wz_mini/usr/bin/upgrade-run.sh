@@ -24,6 +24,19 @@ wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/re
 echo "Extract archive"
 unzip /opt/Upgrade/wz_mini.zip -d /opt/Upgrade/
 
+echo "Verify file integrity"
+cd /opt/Upgrade/wz_mini_hacks-master
+md5sum -c file.chk
+
+if [ $? -eq 0 ]
+then
+  echo "files OK"
+  #exit 0
+else
+  echo "Failure: archive has corrupted files"
+  exit 1
+fi
+
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
@@ -35,6 +48,40 @@ reboot
 upgrade_mode_start() {
 
 set -x
+
+#WCV3 AUDIO GPIO
+GPIO=63
+
+#Check model, change GPIO is HL_PAN2
+if [[ "$V2" == "false" ]]; then
+        mount -t jffs2 /dev/mtdblock6 /configs
+        if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
+        umount /configs
+        GPIO=7
+        fi
+else
+        echo "v2, no need to check"
+fi
+
+
+#test for v2
+if [ -b /dev/mtdblock9 ]; then
+        mount -t jffs2 /dev/mtdblock9 /params
+        if cat /params/config/.product_config | grep WYZEC1-JZ; then
+                V2="true"
+        fi
+fi
+
+
+if [[ "$V2" == "true" ]]; then
+              insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
+              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/upgrade_mode_v2.wav 70
+              rmmod audio
+      else
+              insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+              /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/upgrade_mode.wav 50
+              rmmod audio
+      fi
 
 echo UPGRADE MODE
 
