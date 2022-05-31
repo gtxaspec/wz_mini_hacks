@@ -2,7 +2,7 @@
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 b4e404d9205a8e139571d4e5d2b55e92  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-fdbb5ce8d9bd5cc4399c2923ae6f55ec  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
+8e813f033982c39f4e54b9cdb8d4b531  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
 6f8cc21a4323156d13d559c29dbf0b38  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 86082f8c1b7de18463731372bac630d1  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
@@ -67,7 +67,7 @@ eaf86f91cb1b15b2191a8845ae88e3c8  SD_ROOT/wz_mini/usr/share/audio/init_v2.wav
 df71296985782eb0c111a95f36aa4648  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
-3857df7b578af3669022f2f2248b1bff  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
+5aa660a9ef53d6700f0baaec449d50e1  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
 47f88eecbd49de573335028dc72dab3e  SD_ROOT/wz_mini/usr/bin/rtmp-stream.sh
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so

@@ -63,7 +63,7 @@ if [[ "$V2" == "false" ]]; then
         GPIO=7
         fi
 else
-        echo "v2, no need to check"
+        echo "not HL_PAN2"
 fi
 
 
