@@ -164,13 +164,13 @@ if [[ "$DEBUG_ENABLED" == "true" ]]; then
 
 elif [[ "$WEB_CAM_ENABLE" == "true" ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
-        sed -i '/^# Run init/i/opt/wz_mini/etc/init.d/wz_cam.sh' /opt/wz_mini/tmp/.storage/rcS
+        sed -i '/^# Run init/i/opt/wz_mini/etc/init.d/wz_cam.sh &' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 
 elif [[ -d /opt/Upgrade ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
-	sed -i '/^# Mount configs.*/i/opt/wz_mini/usr/bin/upgrade-run.sh\n' /opt/wz_mini/tmp/.storage/rcS
+	sed -i '/^# Mount configs.*/i/opt/wz_mini/usr/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 fi
 
