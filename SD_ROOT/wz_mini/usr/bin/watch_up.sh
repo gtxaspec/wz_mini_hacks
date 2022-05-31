@@ -1,16 +1,19 @@
 #!/bin/sh
 
-LOG_NAME=/opt/wz_mini/log/watch_up
-if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
-    i=0
-    while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
-        let i++
-    done
-        mv $LOG_NAME.log $LOG_NAME.log.$i
-    LOG_NAME=$LOG_NAME
+DEBUG=false
+
+if [ "$DEBUG" == "true" ]; then
+
+	if [ -L /dev/fd ]; then
+		echo fd exists
+	else
+		echo fd does not exist, link
+		ln -s /proc/self/fd /dev/fd
+	fi
+
+	LOG_FILE=/opt/wz_mini/log/watch_up.log
+	exec > >(busybox tee -a ${LOG_FILE}) 2>&1
 fi
-touch -- "$LOG_NAME".log
-exec 1> $LOG_NAME.log 2>&1
 
 set -x
 
