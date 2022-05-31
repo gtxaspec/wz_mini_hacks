@@ -39,6 +39,7 @@ set -x
 echo UPGRADE MODE
 
 umount /opt/wz_mini/tmp
+ls -l /opt/wz_mini/
 rm -rf /opt/wz_mini/*
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/* /opt/wz_mini/
 rm -f /opt/factory_t31_ZMC6tiIDQN
