@@ -4,8 +4,17 @@
 ###
 
 ###This file is run by switch_root, from the initramfs in the kernel.
-
-exec 1> /opt/wz_mini/log/v3_init.log 2>&1
+LOG_NAME=/opt/wz_mini/log/v3_init
+if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
+    i=0
+    while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
+        let i++
+    done
+        mv $LOG_NAME.log $LOG_NAME.log.$i
+    LOG_NAME=$LOG_NAME
+fi
+touch -- "$LOG_NAME".log
+exec 1> $LOG_NAME.log 2>&1
 
 export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 

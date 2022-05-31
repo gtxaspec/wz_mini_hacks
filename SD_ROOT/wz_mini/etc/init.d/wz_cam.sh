@@ -1,8 +1,21 @@
 #!/bin/sh
 
+LOG_NAME=/opt/wz_mini/log/wz_cam
+if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
+    i=0
+    while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
+        let i++
+    done
+        mv $LOG_NAME.log $LOG_NAME.log.$i
+    LOG_NAME=$LOG_NAME
+fi
+touch -- "$LOG_NAME".log
+exec 1> $LOG_NAME.log 2>&1
+
 set -x
 
-exec 1> /opt/wz_mini/log/wz_cam.log 2>&1
+echo "welcome to wz_cam.sh"
+echo "PID $$"
 
 cp /opt/wz_mini/etc/uvc.config /opt/wz_mini/usr/bin/uvc.config
 
