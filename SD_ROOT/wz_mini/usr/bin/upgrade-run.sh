@@ -7,7 +7,7 @@ echo fd does not exist, link
 ln -s /proc/self/fd /dev/fd
 fi
 
-LOG_FILE=/opt/wz_upgrade.log
+LOG_FILE=/opt/upgrade_wz_mini.log
 exec > >(busybox tee -a ${LOG_FILE}) 2>&1
 
 setup() {
