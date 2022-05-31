@@ -37,10 +37,13 @@ else
   exit 1
 fi
 
+echo "Backup user config"
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 sync
+
+echo "Rebooting into UPGRADE MODE"
 reboot
 }
 
@@ -85,9 +88,10 @@ if [[ "$V2" == "true" ]]; then
 
 echo UPGRADE MODE
 
-umount /opt/wz_mini/tmp
+umount -l /opt/wz_mini/tmp
 ls -l /opt/wz_mini/
 rm -rf /opt/wz_mini/*
+sync
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/* /opt/wz_mini/
 rm -f /opt/factory_t31_ZMC6tiIDQN
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory_t31_ZMC6tiIDQN
