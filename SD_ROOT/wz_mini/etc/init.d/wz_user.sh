@@ -146,6 +146,23 @@ swap_enable() {
         fi
 }
 
+dmesg_log() {
+
+DMESG_LOG=/opt/wz_mini/log/dmesg
+if [[ -e $DMESG_LOG.log || -L $DMESG_LOG.log ]] ; then
+    i=0
+    while [[ -e $DMESG_LOG.log.$i || -L $DMESG_LOG.log.$i ]] ; do
+        let i++
+    done
+        mv $DMESG_LOG.log $DMESG_LOG.log.$i
+    DMESG_LOG=$DMESG_LOG
+fi
+touch -- "$DMESG_LOG".log
+dmesg > $DMESG_LOG.log 2>&1
+
+}
+
+
 first_run_check
 wait_sdroot
 wait_wlan
@@ -523,6 +540,7 @@ hostname_set
 touch /opt/wz_mini/tmp/.run_mmc_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores when something crashes
 sysctl -w kernel.core_pattern='|/bin/false'
+dmesg_log
 sync;echo 3 > /proc/sys/vm/drop_caches
 
 
