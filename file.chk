@@ -20,7 +20,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/root/.gitignore
 ec906872794379af570869ebfd49bb23  SD_ROOT/wz_mini/bin/tcpdump
 db5c63af3c763fc6eb76f6e1b5c96794  SD_ROOT/wz_mini/bin/file
 3feb341fca58bc705c3ed5705d4eb716  SD_ROOT/wz_mini/bin/factorycheck
-d076290c9519128896a58fcd641df95e  SD_ROOT/wz_mini/bin/cmd
+85013481414ea5d5868a629ad79938d7  SD_ROOT/wz_mini/bin/cmd
 a9a6bf805cbcfdd6698fe5efd65f91bb  SD_ROOT/wz_mini/bin/nano
 36cbfe7b96d4240a6b138dd3695ccefd  SD_ROOT/wz_mini/bin/strings
 1458f09775917db388f807f7ac01bb65  SD_ROOT/wz_mini/bin/socat

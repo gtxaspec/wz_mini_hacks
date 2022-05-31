@@ -4,12 +4,13 @@ if [ "$1" == "" ]; then
 	echo -e "welcome to: cmd <arg>\n"
 	echo -e "arg can be:"
 	echo -e "jpeg (will dump raw jpeg to stdout)"
-	echo -e "video on or off"
-	echo -e "audio on or off"
-	echo -e "move"
+	echo -e "video on on1 or off off1"
+	echo -e "audio on on1 or off off1"
+	echo -e "move (movable camera only)"
 	echo -e "waitMotion <timeout>"
 	echo -e "irled on or off"
-	echo -e "aplay <file path> <volume 1-100>"
+	echo -e "aplay <file path> <volume 1-100> (t31 only)"
+	echo -e "mp4write on or off (t31 only)"
 else
 	echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000
 fi
