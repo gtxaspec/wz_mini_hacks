@@ -1,12 +1,29 @@
 #!/bin/sh
 
-setup() {
-exec 1>> /opt/wz_upgrade.log 2>&1
+if [ -L /dev/fd ]; then
+echo fd exists
+else
+echo fd does not exist, link
+ln -s /proc/self/fd /dev/fd
+fi
 
+LOG_FILE=/opt/wz_upgrade.log
+exec > >(busybox tee -a ${LOG_FILE}) 2>&1
+
+setup() {
+
+echo "Create Upgrade directory"
 mkdir /opt/Upgrade
+
+echo "Create backup files directory"
 mkdir /opt/Upgrade/preserve
+
+echo "Download latest master"
 wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/master.zip -O /opt/Upgrade/wz_mini.zip; sync
+
+echo "Extract archive"
 unzip /opt/Upgrade/wz_mini.zip -d /opt/Upgrade/
+
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
@@ -16,7 +33,6 @@ reboot
 
 
 upgrade_mode_start() {
-exec 1>> /opt/wz_upgrade.log 2>&1
 
 set -x
 
