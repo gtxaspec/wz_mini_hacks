@@ -46,6 +46,7 @@ e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
+ec21fd00e936a28ea470911a871cf794  SD_ROOT/wz_mini/bin/rtmp-stream.sh
 5d1359af0c7c5d326b8682a62f910620  SD_ROOT/wz_mini/bin/strace
 516118bfcc0f0ddc93fb9339b3c6a315  SD_ROOT/wz_mini/bin/xtables-multi
 097cd91a56f2b0caea1dd87ae0e51a54  SD_ROOT/wz_mini/bin/screen
@@ -68,7 +69,6 @@ cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
 69d727b25bbd22fb61f1cc0b5a063acb  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
-47f88eecbd49de573335028dc72dab3e  SD_ROOT/wz_mini/usr/bin/rtmp-stream.sh
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
