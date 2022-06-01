@@ -290,6 +290,7 @@ edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then ru
 
 ## Latest Updates
 
+* 05-31-22:  added kernel and initramfs configs to src dir, fixed old logs deleted on boot, save dmesg to log folder, upgrade script fixes, user selectable usb ethernet kernel modules in config.
 * 05-27-22:  update `rtmp-stream.sh`, update various system binaries.
 * 05-25-22:  usb direct mode and rndis are now supported on the v2 camera
 * 05-25-22:  add experimental youtube/twitch/facebook live steam rtmp support in `wz_mini/usr/bin/rtmp-stream.sh`
