@@ -227,7 +227,11 @@ fi
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
-        insmod $KMOD_PATH/kernel/drivers/net/usb/asix.ko
+
+	for i in $(echo $ENABLE_USB_ETH_MODULES | tr "," "\n")
+	do
+	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
+	done
 
 	if [[ "$ENABLE_SWAP" == "true" ]]; then
 	echo "swap already enabled"
