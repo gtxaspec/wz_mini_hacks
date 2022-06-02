@@ -38,6 +38,7 @@ set -x
 
 #WCV3 AUDIO GPIO
 GPIO=63
+V2="false"
 
 #replace stock busybox
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
