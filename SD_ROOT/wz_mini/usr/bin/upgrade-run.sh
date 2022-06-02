@@ -39,6 +39,7 @@ fi
 
 echo "Backup user config"
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
+cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 sync
@@ -99,6 +100,7 @@ mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory
 diff /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/wz_mini.conf
 cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
 cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
+cp /opt/Upgrade/preserve/configs/*  /opt/wz_mini/etc/configs
 cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
 rm -rf /opt/Upgrade
 sync
