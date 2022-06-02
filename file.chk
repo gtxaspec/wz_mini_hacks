@@ -2,13 +2,14 @@
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 b4e404d9205a8e139571d4e5d2b55e92  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-a9b1a18021476b492c2f4960a9cd1656  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
+93b23f80c000b56cd5855fe674f32296  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
 0bd12f2862cfaea0fecd8e654bb21bd2  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 86082f8c1b7de18463731372bac630d1  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
 2c2df1b9cb603f9c31c46162d6ac307f  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 9e5591da95042bcca910403bde25dc60  SD_ROOT/wz_mini/etc/fstab
+d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/configs/.gitignore
 d0541c45c77ad3c5f27f06f03547c4f2  SD_ROOT/wz_mini/etc/shadow
 c2aec0b677cf239f374dda8583314332  SD_ROOT/wz_mini/etc/ssh/authorized_keys
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/wireguard/.gitignore
@@ -68,7 +69,7 @@ eaf86f91cb1b15b2191a8845ae88e3c8  SD_ROOT/wz_mini/usr/share/audio/init_v2.wav
 cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
-69d727b25bbd22fb61f1cc0b5a063acb  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
+7c33612b0b83b322996a2533e05c6212  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
