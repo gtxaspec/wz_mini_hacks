@@ -44,6 +44,9 @@ cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 sync
 
+echo "Installing latest upgrade-script"
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
+
 echo "Rebooting into UPGRADE MODE"
 reboot
 }
