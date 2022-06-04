@@ -14,22 +14,9 @@ TWITCH_URL="rtmp://live-ber.twitch.tv/app"
 YOUTUBE_URL="rtmp://b.rtmp.youtube.com/live2"
 FACEBOOK_URL="rtmps://live-api-s.facebook.com:443/rtmp"
 
-#######################################
-######ENTER YOUR STREAM KEYS HERE######
-YOUTUBE_KEY=""
-TWITCH_KEY=""
-FACEBOOK_KEY=""
-#######################################
-#######################################
+VIDEO_SOURCE="rtsp://"$RTSP_LOGIN":"$RTSP_PASSWORD"@0.0.0.0:"$RTSP_PORT"/$RTMP_STREAM_FEED"
 
-#V3: 1080p=video1 360p=video2
-#V2: 1080p=video6 360p=video7
-
-RTSP_STREAM="video1_unicast"
-
-VIDEO_SOURCE="rtsp://"$RTSP_LOGIN":"$RTSP_PASSWORD"@0.0.0.0:"$RTSP_PORT"/$RTSP_STREAM"
-
-AUDIO_OPTIONS="-c:a libfdk_aac -afterburner 1 -channels 1 -b:a 256k -profile:a aac_he -ar 16000 -strict experimental"
+AUDIO_OPTIONS="-c:a libfdk_aac -afterburner 1 -channels 1 -b:a 128k -profile:a aac_he -ar 16000 -strict experimental"
 VIDEO_OPTIONS="-c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0"
 
 if [[ "$2" == "no_audio" ]]; then
@@ -40,15 +27,15 @@ fi
 if [[ "$1" == "youtube" ]]; then
         echo "RTMP Streaming to: YouTube"
         STREAM_PROVIDER="$YOUTUBE_URL"
-        KEY="$YOUTUBE_KEY"
+        KEY="$RTMP_STREAM_YOUTUBE_KEY"
 elif [[ "$1" == "twitch" ]]; then
         echo "RTMP Streaming to: twitch"
         STREAM_PROVIDER="$TWITCH_URL"
-        KEY="$TWITCH_KEY"
+        KEY="$RTMP_STREAM_TWITCH_KEY"
 elif [[ "$1" == "facebook" ]]; then
         echo "RTMP Streaming to: facebook"
         STREAM_PROVIDER="$FACEBOOK_URL"
-        KEY="$FACEBOOK_KEY"
+        KEY="$RTMP_STREAM_FACEBOOK_KEY"
 else
 	echo "Usage: rtmp-stream.sh <service> <no_audio>"
 	echo ""

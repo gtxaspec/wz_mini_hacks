@@ -17,27 +17,26 @@ Using this project can potentially expose your device to the open internet depen
 
 * No modification is done to the device filesystem. **_Zero!_**
 * Custom kernel loads all required files from micro-sd card at boot time
+* Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
+* Works on ANY firmware release (so far!)
+  * Update to the latest stable or beta firmware, this mod should still work!
+  * Block remote or app initiated firmware updates
+  * DNS Spoofing or Telnet mod are *not* required prior to installation
 * Wireguard and IPv6 support enabled
 * Supports the following USB Ethernet adapters: 
   * ASIX AX88xxx Based USB 2.0 Ethernet Adapters
   * ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet
   * Realtek RTL8152 Based USB 2.0 Ethernet Adapters
 * USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required, using USB CDC_NCM.
-* Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
-* Add your own changes to run at boot into the script on the micro sd card located at /media/mmc/run_mmc.sh, mount nfs, run ping, whatever you want
-* Ability to update to the latest stable or beta firmware, this mod should survive updates as long as the bootloader remains the same
-* Ability to block remote AND app initiated firmware updates
-* Works on ANY firmware release (so far!)
-* DNS Spoofing or Telnet mod are *not* required prior to installation
+* Custom script support included
 * RTSP Server included, stream video and or audio over LAN
-* Tethering to android phones via RNDIS
+* Tether your camera directly to android phones using USB via RNDIS support
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
-* Play .WAV files using "aplay <file> <vol>" command
 * iptables included
-* Use your camera as a spare UVC USB Web Camera on your PC!
-
-* Inspired by HclX, bakueikozo, and mnakada!
+* Play .wav audio files using "cmd aplay <file> <vol>" command
+* WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC!
+* RTMP Streaming - Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 
 ## Coming Soon
 * onvif - maybe
@@ -247,16 +246,23 @@ RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 RTSP_LOW_RES_FPS=""
 
-ENABLE_MP4_WRITE="false"
 ```
 the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
 
 Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
-MP4_WRITE:  experimental feature.  forces camera to write temporary xx.mp4 files directly to /media/mmc/record/tmp.  Normally they are written to /tmp then moved, which can overload camera and or remote network connections. Useful for NFS/CIFS remote video storage.
-
 Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
+
+---
+
+mp4_write:
+
+```
+ENABLE_MP4_WRITE="false"
+```
+
+Forces the camera to skip writing files to /tmp, and write them directly to your storage medium or network mount, prevents trashing.  Normally videos are written to /tmp then moved using `mv`, which can overload camera and or remote network connections. Useful for NFS/CIFS remote video storage.
 
 ---
 
@@ -280,15 +286,26 @@ CUSTOM_SCRIPT_PATH=""
 
 ---
 
-Live stream DIRECTLY from the camera's local RTSP server to youtube/twitch/facebook live.
+RTMP Streaming:
 
-Edit the file `wz_mini/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming to your favorite service.
+```
+RTMP_STREAM_ENABLED="true"
+RTMP_STREAM_FEED="video1_unicast"
+RMTP_STREAM_SERVICE="youtube"
+RTMP_STREAM_DISABLE_AUDIO="false"
+RTMP_STREAM_YOUTUBE_KEY="xxx-xxx-xxx-xxx"
+RTMP_STREAM_TWITCH_KEY=""
+RTMP_STREAM_FACEBOOK_KEY=""
+```
+
+Live stream DIRECTLY from the camera's local RTSP server to: `youtube` / `twitch` / `facebook` live.  Audio must be enabled in the RTSP section of the configuration for this to work.  
 
 ---
 
 ## Latest Updates
 
-* 06-04-22:  updated v2 kernel with fix for webcam mode on v2 camera's, working well now.
+
+* 06-04-22:  updated v2 kernel with fix for webcam mode on v2 camera's, working well now.  Updated RTMP streaming.
 * 05-31-22:  added kernel and initramfs configs to src dir, fixed old logs deleted on boot, save dmesg to log folder, upgrade script fixes, user selectable usb ethernet kernel modules in config.
 * 05-27-22:  update `rtmp-stream.sh`, update various system binaries.
 * 05-25-22:  usb direct mode and rndis are now supported on the v2 camera
@@ -346,6 +363,9 @@ DO NOT USE THIS SOFTWARE IF YOU ARE NOT CONFIDENT IN RESTORING YOUR DEVICE FROM 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## Thank You
+
+Inspired by HclX, bakueikozo, and mnakada!
+
 Thank you to everyone who is passionate about Wyze products for making the devices popular, and thank you to Wyze for producing them.  Sign up for CamPlus, show some love and support to the company.
 
 Thanks for HclX for WyzeHacks! [https://github.com/HclX/WyzeHacks/](https://github.com/HclX/WyzeHacks/)

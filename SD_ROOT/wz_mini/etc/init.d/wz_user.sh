@@ -33,7 +33,7 @@ hostname_set() {
 }
 
 first_run_check() {
-	if [[ -e /opt/wz_mini/tmp/.run_mmc_firstrun ]]; then
+	if [[ -e /opt/wz_mini/tmp/.wz_user_firstrun ]]; then
 	echo "run_mmc.sh already run once, exit."
 	exit 0
 	fi
@@ -537,11 +537,22 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 fi
 
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+	echo "wait for iCamera"
+	sleep 5
 	LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
 fi
 
+if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]] && [[ "$RTMP_STREAM_ENABLED" == "true" ]] &&  [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] ||  [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+	if [[ "$RTMP_STREAM_DISABLE_AUDIO" == "true" ]]; then
+		RMTP_AUDIO="no_audio"
+	fi
+	echo "wait for RTSP server"
+	sleep 5
+	/opt/wz_mini/bin/rtmp-stream.sh $RMTP_STREAM_SERVICE $RTMP_AUDIO
+fi
+
 hostname_set
-touch /opt/wz_mini/tmp/.run_mmc_firstrun
+touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores when something crashes
 sysctl -w kernel.core_pattern='|/bin/false'
 dmesg_log
