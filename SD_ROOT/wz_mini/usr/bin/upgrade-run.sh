@@ -102,7 +102,16 @@ rm -f /opt/factory_t31_ZMC6tiIDQN
 mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory_t31_ZMC6tiIDQN
 
 diff /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/wz_mini.conf
+
+if [ $(cat /opt/Upgrade/preserve/wz_mini.conf | wc -l) != $(cat /opt/wz_mini/wz_mini.conf | wc -l) ]; then
+echo "doesn't match, keep old config"
+mv /opt/wz_mini/wz_mini.conf /opt/wz_mini/wz_mini.conf.dist
 cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
+else
+echo "configs match"
+cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
+fi
+
 cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
 cp /opt/Upgrade/preserve/configs/*  /opt/wz_mini/etc/configs
 cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
