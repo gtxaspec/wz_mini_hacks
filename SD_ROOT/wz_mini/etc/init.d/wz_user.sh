@@ -542,7 +542,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
 fi
 
-if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]] && [[ "$RTMP_STREAM_ENABLED" == "true" ]] &&  [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] ||  [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
 	if [[ "$RTMP_STREAM_DISABLE_AUDIO" == "true" ]]; then
 		RMTP_AUDIO="no_audio"
 	fi
