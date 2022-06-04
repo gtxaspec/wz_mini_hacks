@@ -68,11 +68,11 @@ else
 	echo "first boot, initializing"
         if [[ "$V2" == "true" ]]; then
 		insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
-        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav 70
+        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	else
 	        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-        	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav 50
+        	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav $AUDIO_PROMPT_VOLUME
         	rmmod audio
 	fi
 fi
@@ -132,11 +132,11 @@ chmod 400 /etc/shadow
 if [[ -e /opt/wz_mini/swap.gz ]]; then
         if [[ "$V2" == "true" ]]; then
 		insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
-        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav 70
+        	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	else
 		insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-		/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav 50
+		/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	fi
 	echo "swap archive present, extracting"

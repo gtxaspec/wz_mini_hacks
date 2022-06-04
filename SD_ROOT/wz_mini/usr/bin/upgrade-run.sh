@@ -51,6 +51,10 @@ reboot
 
 upgrade_mode_start() {
 
+export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
+
+[ -f $WZMINI_CFG ] && source $WZMINI_CFG
+
 set -x
 
 #WCV3 AUDIO GPIO
@@ -79,11 +83,11 @@ fi
 
 if [[ "$V2" == "true" ]]; then
               insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio.ko
-              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/upgrade_mode_v2.wav 70
+              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
               rmmod audio
       else
               insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-              /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/upgrade_mode.wav 50
+              /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
               rmmod audio
       fi
 
