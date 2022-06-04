@@ -1,10 +1,10 @@
 #!/bin/sh
 
 if [ -L /dev/fd ]; then
-echo fd exists
+	echo fd exists
 else
-echo fd does not exist, link
-ln -s /proc/self/fd /dev/fd
+	echo fd does not exist, link
+	ln -s /proc/self/fd /dev/fd
 fi
 
 LOG_FILE=/opt/upgrade_wz_mini.log
@@ -31,21 +31,27 @@ md5sum -c file.chk
 if [ $? -eq 0 ]
 then
   echo "files OK"
-  #exit 0
+  install_upgrade_script
 else
   echo "Failure: archive has corrupted files"
   exit 1
 fi
 
+}
+
+install_upgrade_script() {
+echo "Installing latest upgrade-script"
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
+/opt/wz_mini/usr/bin/upgrade-run.sh backup_begin
+}
+
+backup_begin() {
 echo "Backup user config"
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 sync
-
-echo "Installing latest upgrade-script"
-cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
 
 echo "Rebooting into UPGRADE MODE"
 reboot
@@ -127,6 +133,11 @@ reboot
 if [[ -e /tmp/dbgflag ]]; then
 upgrade_mode_start
 else
+
+if [ "$1" == "backup_begin" ]; then
+backup_begin
+else
+
 read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response
     case "$response" in
         [yY][eE][sS]|[yY])
@@ -152,4 +163,6 @@ read -r -p "${1:-wz_mini, this will download the latest version from github and 
                 echo "User declined system update, exit"
             ;;
     esac
+fi
+
 fi
