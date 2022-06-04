@@ -63,8 +63,6 @@ Using this project can potentially expose your device to the open internet depen
 
   1. PAN v2:
      -  Tilt (Vertical) only works at motor speed 9
-  2. v2
-     -  webcam mode does not work on v2 yet
 
 ## Setup v3/PANv2
 
@@ -282,14 +280,15 @@ CUSTOM_SCRIPT_PATH=""
 
 ---
 
-Live stream from the local built-in RTSP server to youtube/twitch/facebook live.
+Live stream DIRECTLY from the camera's local RTSP server to youtube/twitch/facebook live.
 
-edit the file `wz_mini/usr/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming.  Experimental.
+Edit the file `wz_mini/bin/rtmp-stream.sh` with your stream keys and then run `rtsmp-stream.sh <service>` to begin streaming to your favorite service.
 
 ---
 
 ## Latest Updates
 
+* 06-04-22:  updated v2 kernel with fix for webcam mode on v2 camera's, working well now.
 * 05-31-22:  added kernel and initramfs configs to src dir, fixed old logs deleted on boot, save dmesg to log folder, upgrade script fixes, user selectable usb ethernet kernel modules in config.
 * 05-27-22:  update `rtmp-stream.sh`, update various system binaries.
 * 05-25-22:  usb direct mode and rndis are now supported on the v2 camera

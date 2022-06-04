@@ -22,13 +22,19 @@ echo "welcome to wz_cam.sh"
 echo "PID $$"
 
 #test for v2
-if [ -b /dev/mtdblock9 ]; then
-        mount -t jffs2 /dev/mtdblock9 /params
+v2_test() {
         if cat /params/config/.product_config | grep WYZEC1-JZ; then
                 V2="true"
         fi
-fi
+}
 
+if mountpoint -q /params; then
+        echo "params already mounted"
+	v2_test
+else
+        mount -t jffs2 /dev/mtdblock9 /params
+	v2_test
+fi
 
 if [ "$V2" == "false" ]; then
 
@@ -92,7 +98,7 @@ else
 	insmod /driver/tx-isp.ko isp_clk=100000000
 	insmod /driver/exfat.ko
 	insmod /driver/sample_motor.ko
-	insmod /system/audio.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio_webcam.ko
 	insmod /driver/sinfo.ko
 	insmod /driver/sample_pwm_core.ko
 	insmod /driver/sample_pwm_hal.ko
@@ -101,15 +107,20 @@ else
 	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/videobuf2-vmalloc.ko
 	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/usbcamera.ko
 
-	sh /system/bin/led.sh &
 	/opt/wz_mini/usr/bin/getSensorType
 	/opt/wz_mini/usr/bin/ucamera_v2 &
-
-
 
 	devmem 0x10000040 32 0x0b000096
 	devmem 0x10000040 32 0x0b800096
 	devmem 0x13500000 32 0x001100cc
+
+	sleep 1
+
+	echo 38 > /sys/class/gpio/export
+	echo 39 > /sys/class/gpio/export
+
+	echo out > /sys/class/gpio/gpio38/direction
+	echo out > /sys/class/gpio/gpio39/direction
 
 	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/binbin_v3.wav 30
 
