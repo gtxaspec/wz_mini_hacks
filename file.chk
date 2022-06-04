@@ -2,8 +2,8 @@
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 58d3a10a80422e3aa1b49b046e17db5c  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-93b23f80c000b56cd5855fe674f32296  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
-0bd12f2862cfaea0fecd8e654bb21bd2  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+0f0cb8cbbf7007cda59dc684c37d185f  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
+d80ce02634b96ef01607053b081631f7  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 86082f8c1b7de18463731372bac630d1  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -45,12 +45,12 @@ a9b8e51b956806e27021e6524ba917ed  SD_ROOT/wz_mini/bin/ranlib
 c23e3da466dc9701bee036ec034583b7  SD_ROOT/wz_mini/bin/rsync
 ff5a2354e4be9cc244f3ac8f304e930a  SD_ROOT/wz_mini/bin/size
 a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
-d1899e9bf411d59daaaa920ca64b31f2  SD_ROOT/wz_mini/bin/ffmpeg
+ac29d2919e3a3e7c194f20f1d8cd3383  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
-ec21fd00e936a28ea470911a871cf794  SD_ROOT/wz_mini/bin/rtmp-stream.sh
+65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
 5d1359af0c7c5d326b8682a62f910620  SD_ROOT/wz_mini/bin/strace
 516118bfcc0f0ddc93fb9339b3c6a315  SD_ROOT/wz_mini/bin/xtables-multi
 097cd91a56f2b0caea1dd87ae0e51a54  SD_ROOT/wz_mini/bin/screen
@@ -74,7 +74,7 @@ ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
-7c33612b0b83b322996a2533e05c6212  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
+c5851d0051167cc26f1c8b8de3baf06f  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
@@ -172,5 +172,5 @@ f1bf61ecda401f1a70f8942a27fa96e2  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-48ec61d50001185a5261182ed26a1144  SD_ROOT/wz_mini/wz_mini.conf
+addca995c1095a64615ec5dcb32dca63  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
