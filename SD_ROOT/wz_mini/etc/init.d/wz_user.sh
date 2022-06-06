@@ -537,7 +537,8 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 fi
 
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	echo "wait for iCamera"
+	echo "delay RTSP for iCamera"
+	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
 	LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
 fi
@@ -546,7 +547,8 @@ if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "tru
 	if [[ "$RTMP_STREAM_DISABLE_AUDIO" == "true" ]]; then
 		RMTP_AUDIO="no_audio"
 	fi
-	echo "wait for RTSP server"
+	echo "delay RTMP server"
+	#Follow the delay from the RTSP server
 	sleep 5
 	/opt/wz_mini/bin/rtmp-stream.sh $RMTP_STREAM_SERVICE $RTMP_AUDIO
 fi
