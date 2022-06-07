@@ -567,3 +567,5 @@ if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
 else
 	echo "custom script not found"
 fi
+
+echo "wz_user.sh done" > /dev/kmsg
