@@ -302,9 +302,49 @@ Live stream DIRECTLY from the camera's local RTSP server to: `youtube` / `twitch
 
 ---
 
+IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.  Only available when RTSP server is enabled
+
+`cmd imp_control <command> <value>`
+
+| function name  | Value | Description |
+| ------------- | ------------- | ----------- |
+| __AUDIO__|
+| agc_on  | <none>  | Enable Automatic Gain Control |
+| agc_off  | <none>  | Disable Automatic Gain Control |
+| hpf_on  | <none>  | Enable High Pass Filter |
+| hpf_off  | <none>  | Disable High Pass Filter |
+| ns_on | <none>  | Enable Noise Supression |
+| ns_off  | <none>  | Disable Noise Supression |
+| aec_on  | <none>  | Enable Automatic Echo Cancellation |
+| aec_off  | <none>  | Disable Automatic Echo Cancellation |
+| __VIDEO__|
+| flip_mirror  | <none>  | Mirror Image |
+| flip_vertical  | <none>  | Flip Vertical |
+| flip_horizontal  | <none>  | Flip Horizontal |
+| flip_normal  | <none>  | Normal Image |
+| tune_contrast  | -128 to 128  | Contrast Control |
+| tune_brightness  | -128 to 128 | Brightness Control |
+| tune_sharpness  | -128 to 128 | Sharpness Control |
+| tune_saturation  | -128 to 128 | Saturation Control |
+| tune_aecomp  | 0 to 255 | Auto Exposure Target |
+| tune_aeitmax  | 0 to 10000 | Auto Exposure Maxiumum |
+| tune_dpc_strength | -128 to 128 | DPC Strength |
+| tune_drc_strength | -128 to 128 | DRC Strength |
+| tune_hilightdepress | 0 to 10 | Glare Supression |
+| tune_temper | -128 to 128 | 3D Noise reduction strength |
+| tune_sinter | -128 to 128 | 2D Noise reduction strength |
+| tune_again | 0 to 99999 | Set sensor A-Gain maximum |
+| tune_dgain | see notes | Maximum D-Gain set by the ISP |
+| tune_backlightcomp | -1 to 3500 | Backlight Compensation? (undocumented) |
+
+
+tune_dgain: 0 means 1x, 32 means 2x, and so on 
+
+---
+
 ## Latest Updates
 
-
+* 06-07-22:  Added support to tune IMP video and audio options in libcallback.
 * 06-04-22:  updated v2 kernel with fix for webcam mode on v2 camera's, working well now.  Updated RTMP streaming.
 * 05-31-22:  added kernel and initramfs configs to src dir, fixed old logs deleted on boot, save dmesg to log folder, upgrade script fixes, user selectable usb ethernet kernel modules in config.
 * 05-27-22:  update `rtmp-stream.sh`, update various system binaries.
