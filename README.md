@@ -340,6 +340,15 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 
 tune_dgain: 0 means 1x, 32 means 2x, and so on 
 
+need help:
+change framerate dynamically up to 30fps
+change audio hz frequency dynamically up to 44100
+change audio format from g711
+move OSD to user specified region
+white balance adjustment
+enable wide dynamic range support
+exposure value support
+
 ---
 
 ## Latest Updates
