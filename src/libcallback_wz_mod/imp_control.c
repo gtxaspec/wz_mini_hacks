@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 extern int IMP_AI_DisableHpf();
 extern int IMP_AI_DisableAgc();
@@ -19,6 +20,7 @@ extern void set_fs_chn_config_fps();
 extern void local_sdk_video_init();
 extern void local_sdk_video_set_fps();
 extern void local_sdk_video_set_gop();
+extern void local_sdk_video_set_flip();
 
 extern void IMP_ISP_EnableTuning();
 
@@ -39,8 +41,14 @@ extern int IMP_ISP_Tuning_SetSinterStrength();
 extern int IMP_ISP_Tuning_SetMaxAgain();
 extern int IMP_ISP_Tuning_SetMaxDgain();
 extern int IMP_ISP_Tuning_SetBacklightComp();
+extern int IMP_ISP_Tuning_SetDPStrength();
+
+extern int IMP_ISP_Tuning_SetISPHflip();
+extern int IMP_ISP_Tuning_SetISPVflip();
 
 extern void CommandResponse(int fd, const char *res);
+
+const char *productv2="/driver/sensor_jxf23.ko";
 
 
 
@@ -63,6 +71,7 @@ int sinter_val;
 int bcomp_val;
 int again_val;
 int dgain_val;
+int dps_val;
 
 int encChn = 0;
 int fps_den = 1;
@@ -88,15 +97,37 @@ int frmRateDen = 1;
   } else if(!strcmp(p, "aec_on")) {
    IMP_AI_EnableAec();
   } else if(!strcmp(p, "flip_mirror")) {
-	IMP_ISP_Tuning_SetHVFLIP(0);
+	IMP_ISP_EnableTuning();
+	if( access( productv2, F_OK ) != -1 ) {
+		IMP_ISP_Tuning_SetISPHflip(0);
+		IMP_ISP_Tuning_SetISPVflip(0);
+	} else {
+		IMP_ISP_Tuning_SetHVFLIP(0);
+	}
   } else if(!strcmp(p, "flip_vertical")) {
-	IMP_ISP_Tuning_SetHVFLIP(1);
+	IMP_ISP_EnableTuning();
+ 	if( access( productv2, F_OK ) != -1 ) {
+		IMP_ISP_Tuning_SetISPVflip(0);
+	} else {
+		IMP_ISP_Tuning_SetHVFLIP(1);
+	}
   } else if(!strcmp(p, "flip_horizontal")) {
-	IMP_ISP_Tuning_SetHVFLIP(2);
+	IMP_ISP_EnableTuning();
+	if( access( productv2, F_OK ) != -1 ) {
+		IMP_ISP_Tuning_SetISPHflip(0);
+	} else {
+		IMP_ISP_Tuning_SetHVFLIP(2);
+	}
   } else if(!strcmp(p, "flip_normal")) {
-	IMP_ISP_Tuning_SetHVFLIP(3);
+	IMP_ISP_EnableTuning();
+	if( access( productv2, F_OK ) != -1 ) {
+		IMP_ISP_Tuning_SetISPHflip(1);
+		IMP_ISP_Tuning_SetISPVflip(1);
+	} else {
+		IMP_ISP_Tuning_SetHVFLIP(3);
+	}
   } else if(!strcmp(p, "fps_set")) {
-	//encoder framerate failed, broken
+	//encoder framerate failed
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
 //	fps_val = 20;
         if(p) fps_val = atoi(p);
@@ -104,7 +135,7 @@ int frmRateDen = 1;
 //	IMP_ISP_EnableTuning();
 //	IMP_ISP_Tuning_SetSensorFPS(fps_val, fps_den);
 
-//	set_fs_chn_config_fps(encChn, fps_val);
+	set_fs_chn_config_fps(encChn, fps_val);
 
 	set_video_max_fps(fps_val);
 	local_sdk_video_set_fps(fps_val);
@@ -145,20 +176,32 @@ int frmRateDen = 1;
   } else if(!strcmp(p, "tune_aeitmax")) {
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
         if(p) aeitmax_val = atoi(p);
-	IMP_ISP_EnableTuning();
-	IMP_ISP_Tuning_SetAe_IT_MAX(aeitmax_val);
+	if( access( productv2, F_OK ) != -1 ) {
+		return "not supported on v2";
+	} else {
+		IMP_ISP_EnableTuning();
+		IMP_ISP_Tuning_SetAe_IT_MAX(aeitmax_val);
+	}
 
   } else if(!strcmp(p, "tune_dpc_strength")) {
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
         if(p) dpc_val = atoi(p);
-	IMP_ISP_EnableTuning();
-	IMP_ISP_Tuning_SetDPC_Strength(dpc_val);
+	if( access( productv2, F_OK ) != -1 ) {
+		return "not supported on v2";
+	} else {
+		IMP_ISP_EnableTuning();
+		IMP_ISP_Tuning_SetDPC_Strength(dpc_val);
+	}
 
   } else if(!strcmp(p, "tune_drc_strength")) {
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
         if(p) drc_val = atoi(p);
-	IMP_ISP_EnableTuning();
-	IMP_ISP_Tuning_SetDRC_Strength(drc_val);
+	if( access( productv2, F_OK ) != -1 ) {
+		return "not supported on v2";
+	} else {
+		IMP_ISP_EnableTuning();
+		IMP_ISP_Tuning_SetDRC_Strength(drc_val);
+	}
 
   } else if(!strcmp(p, "tune_hilightdepress")) {
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
@@ -193,9 +236,22 @@ int frmRateDen = 1;
   } else if(!strcmp(p, "tune_backlightcomp")) {
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
         if(p) bcomp_val = atoi(p);
-	IMP_ISP_EnableTuning();
-	IMP_ISP_Tuning_SetBacklightComp(bcomp_val);
+	if( access( productv2, F_OK ) != -1 ) {
+		return "not supported on v2";
+	} else {
+		IMP_ISP_EnableTuning();
+		IMP_ISP_Tuning_SetBacklightComp(bcomp_val);
+	}
 
+  } else if(!strcmp(p, "tune_dps")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) dps_val = atoi(p);
+	if( access( productv2, F_OK ) != -1 ) {
+		IMP_ISP_EnableTuning();
+		IMP_ISP_Tuning_SetDPStrength(dps_val);
+	} else {
+		return "not supported on v3";
+	}
 } else {
     return "error";
   }

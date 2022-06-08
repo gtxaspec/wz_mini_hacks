@@ -327,15 +327,16 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 | tune_sharpness  | -128 to 128 | Sharpness Control |
 | tune_saturation  | -128 to 128 | Saturation Control |
 | tune_aecomp  | 0 to 255 | Auto Exposure Target |
-| tune_aeitmax  | 0 to 10000 | Auto Exposure Maxiumum |
-| tune_dpc_strength | -128 to 128 | DPC Strength |
-| tune_drc_strength | -128 to 128 | DRC Strength |
+| tune_aeitmax  | 0 to 10000 | Auto Exposure Maxiumum (no v2) |
+| tune_dpc_strength | -128 to 128 | DPC Strength (no v2) |
+| tune_drc_strength | -128 to 128 | DRC Strength (no v2) |
 | tune_hilightdepress | 0 to 10 | Glare Supression |
 | tune_temper | -128 to 128 | 3D Noise reduction strength |
 | tune_sinter | -128 to 128 | 2D Noise reduction strength |
 | tune_again | 0 to 99999 | Set sensor A-Gain maximum |
 | tune_dgain | see notes | Maximum D-Gain set by the ISP |
-| tune_backlightcomp | -1 to 3500 | Backlight Compensation? (undocumented) |
+| tune_backlightcomp | -1 to 3500 | Backlight Compensation? (undocumented, no v2) |
+| tune_dps | 50-150 | Set DPC intensity (v2 only) |
 
 
 tune_dgain: 0 means 1x, 32 means 2x, and so on 
@@ -349,7 +350,7 @@ white balance adjustment
 enable wide dynamic range support
 exposure value support
 
----
+=======
 
 ## Latest Updates
 
