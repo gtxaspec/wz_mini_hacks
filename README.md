@@ -35,7 +35,7 @@ Using this project can potentially expose your device to the open internet depen
 * CIFS Supported
 * iptables included
 * Play .wav audio files using "cmd aplay <file> <vol>" command
-* WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC!
+* WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC or AndroidTV!
 * RTMP Streaming - Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 
 ## Coming Soon
@@ -266,9 +266,9 @@ Forces the camera to skip writing files to /tmp, and write them directly to your
 
 ---
 
-Use as a USB Video Class (UVC) Web Camera for your PC is supported.  I have tested with Windows 10 and Linux, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
+Use as a USB Video Class (UVC) Web Camera for your PC is supported.  I have tested with Windows 10, Linux, and Android TV, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
 
-Supported modes: MJPG 360p/720p/1080p, Video 360p/720p/1080p
+Supported modes: MJPG,Video 360p/720p/1080p
 
 ```
 WEB_CAM_ENABLE="true"
