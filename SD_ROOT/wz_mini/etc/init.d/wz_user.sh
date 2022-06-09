@@ -263,12 +263,13 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 		devmem 0x10000040 32 0x0b000FFF
 	fi
 
+	insmod $KMOD_PATH/kernel/drivers/usb/gadget/libcomposite.ko
+
 	if [[ "$V2" == "false" ]]; then
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
 	fi
 
-	insmod $KMOD_PATH/kernel/drivers/usb/gadget/libcomposite.ko
 	insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr=$host_macaddr dev_addr=$USB_DIRECT_MAC_ADDR
 
 	sleep 1
