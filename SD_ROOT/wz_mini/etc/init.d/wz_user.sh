@@ -162,6 +162,15 @@ dmesg > $DMESG_LOG.log 2>&1
 
 }
 
+trim_logs() {
+
+echo "Deleting logs older than 5 boots..."
+
+find /opt/wz_mini/log -name '*log*' | while read file; do
+  [ "${file#/opt/wz_mini/log/*log.}" -gt 5 ] && rm -v "$file"
+done
+
+}
 
 first_run_check
 wait_sdroot
@@ -559,6 +568,7 @@ touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores when something crashes
 sysctl -w kernel.core_pattern='|/bin/false'
 dmesg_log
+trim_logs
 sync;echo 3 > /proc/sys/vm/drop_caches
 
 
