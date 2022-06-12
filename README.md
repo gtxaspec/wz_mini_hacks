@@ -317,6 +317,12 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 | ns_off  | <none>  | Disable Noise Supression |
 | aec_on  | <none>  | Enable Automatic Echo Cancellation |
 | aec_off  | <none>  | Disable Automatic Echo Cancellation |
+| ai_vol  | -30 to 120  | Audio Input Volume |
+| ai_gain  | 0 to 31  | Audio Input Gain |
+| alc_gain  | 0 to 7  | Automatic Level Control Gain |
+| ao_gain | 0 to 31  | Audio Output Gain |
+| ao_vol | -30 to 120  | Audio Output Volume |
+
 | __VIDEO__|
 | flip_mirror  | <none>  | Mirror Image |
 | flip_vertical  | <none>  | Flip Vertical |

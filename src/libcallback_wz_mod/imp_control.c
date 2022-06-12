@@ -7,23 +7,27 @@ extern int IMP_AI_DisableHpf();
 extern int IMP_AI_DisableAgc();
 extern int IMP_AI_DisableNs();
 extern int IMP_AI_DisableAec();
-
 extern int IMP_AI_EnableHpf();
 extern int IMP_AI_EnableAgc();
 extern int IMP_AI_EnableNs();
 extern int IMP_AI_EnableAec();
+extern int IMP_AI_SetVol();
+extern int IMP_AI_SetGain();
+extern int IMP_AI_SetAlcGain();
+
+extern int IMP_AO_SetVol();
+extern int IMP_AO_SetGain();
 
 extern void set_video_max_fps();
-
+extern void set_video_frame_rate();
+extern void paracfg_set_user_config_item();
 extern void set_fs_chn_config_fps();
 
 extern void local_sdk_video_init();
 extern void local_sdk_video_set_fps();
 extern void local_sdk_video_set_gop();
-extern void local_sdk_video_set_flip();
 
 extern void IMP_ISP_EnableTuning();
-
 extern void IMP_ISP_Tuning_SetSensorFPS();
 
 extern int IMP_ISP_Tuning_SetHVFLIP();
@@ -42,7 +46,6 @@ extern int IMP_ISP_Tuning_SetMaxAgain();
 extern int IMP_ISP_Tuning_SetMaxDgain();
 extern int IMP_ISP_Tuning_SetBacklightComp();
 extern int IMP_ISP_Tuning_SetDPStrength();
-
 extern int IMP_ISP_Tuning_SetISPHflip();
 extern int IMP_ISP_Tuning_SetISPVflip();
 
@@ -50,12 +53,20 @@ extern void CommandResponse(int fd, const char *res);
 
 const char *productv2="/driver/sensor_jxf23.ko";
 
-
-
 char *imp_Control(int fd, char *tokenPtr) {
 
-int devID = 0;
-int chnID = 1;
+//Audio
+int devID = 1;
+int chnID = 0;
+int AO_devID = 0;
+int AO_chnID = 0;
+int ai_vol;
+int ai_gain;
+int alc_gain;
+int ao_gain;
+int ao_vol;
+
+//Video
 int fps_val;
 int con_val;
 int bright_val;
@@ -73,13 +84,13 @@ int again_val;
 int dgain_val;
 int dps_val;
 
+//FPS
 int encChn = 0;
+int encChn1 = 1;
 int fps_den = 1;
-int frmRateNum = 30;
-int frmRateDen = 1;
 
   char *p = strtok_r(NULL, " \t\r\n", &tokenPtr);
-  if(!p) return "error";
+  if(!p) return "Please refer to the documentation for valid imp_control commands.";
   if(!strcmp(p, "agc_off")) {
    IMP_AI_DisableAgc();
   } else if(!strcmp(p, "agc_on")) {
@@ -96,6 +107,26 @@ int frmRateDen = 1;
    IMP_AI_DisableAec(devID, chnID);
   } else if(!strcmp(p, "aec_on")) {
    IMP_AI_EnableAec();
+  } else if(!strcmp(p, "ai_vol")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) ai_vol = atoi(p);
+	IMP_AI_SetVol(devID,chnID,ai_vol);
+  } else if(!strcmp(p, "ai_gain")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) ai_gain = atoi(p);
+	IMP_AI_SetGain(devID,chnID,ai_gain);
+  } else if(!strcmp(p, "alc_gain")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) alc_gain = atoi(p);
+	IMP_AI_SetAlcGain(devID,chnID,alc_gain);
+  } else if(!strcmp(p, "ao_gain")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) ao_gain = atoi(p);
+	IMP_AO_SetGain(AO_devID,AO_chnID,ao_gain);
+  } else if(!strcmp(p, "ao_vol")) {
+        p = strtok_r(NULL, " \t\r\n", &tokenPtr);
+        if(p) ao_vol = atoi(p);
+	IMP_AO_SetVol(AO_devID,AO_chnID,ao_vol);
   } else if(!strcmp(p, "flip_mirror")) {
 	IMP_ISP_EnableTuning();
 	if( access( productv2, F_OK ) != -1 ) {
@@ -135,11 +166,15 @@ int frmRateDen = 1;
 //	IMP_ISP_EnableTuning();
 //	IMP_ISP_Tuning_SetSensorFPS(fps_val, fps_den);
 
+	paracfg_set_user_config_item(5,fps_val);
+
 	set_fs_chn_config_fps(encChn, fps_val);
+	set_fs_chn_config_fps(encChn1, fps_val);
 
 	set_video_max_fps(fps_val);
 	local_sdk_video_set_fps(fps_val);
-	local_sdk_video_set_gop(encChn, fps_val);
+
+//	local_sdk_video_set_gop(encChn, fps_val);
 
 //	local_sdk_video_init(fps_val);
 
