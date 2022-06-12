@@ -39,20 +39,6 @@ first_run_check() {
 	fi
 }
 
-wait_sdroot() {
-##Stall execution if the micro-sd card isn't mounted yet, iCamera controls this internally.
-    while true
-    do
-	if [[ -d /media/mmc/wz_mini ]] || [[ -d /media/mmcblk0p1/wz_mini ]]; then
-	echo "sd card ready"
-	break
-	fi
-        echo "sdcard not ready yet..."
-        sleep 5
-    done
-
-}
-
 store_mac() {
 	echo "store original mac"
 	cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
@@ -80,9 +66,9 @@ rename_interface() {
 	echo "renaming interfaces"
 	ifconfig $1 down
 	ifconfig wlan0 down
-        /media/mmc/wz_mini/bin/busybox ip link set wlan0 name wlanold
-        /media/mmc/wz_mini/bin/busybox ip addr flush dev wlanold
-        /media/mmc/wz_mini/bin/busybox ip link set $1 name wlan0
+        /opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
+        /opt/wz_mini/bin/busybox ip addr flush dev wlanold
+        /opt/wz_mini/bin/busybox ip link set $1 name wlan0
 	eth_wlan_up
 }
 
@@ -92,9 +78,9 @@ eth_wlan_up() {
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
 	if [[ "$V2" == "true" ]]; then
-        mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
+        mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
 	else
-        mount -o bind /media/mmc/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
+        mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	fi
 	break
 }
@@ -138,9 +124,9 @@ netloop() {
 }
 
 swap_enable() {
-        if [[ -e /media/mmc/wz_mini/swap ]]; then
+        if [[ -e /opt/wz_mini/swap ]]; then
                 echo "Swap exists, enable"
-                swapon /media/mmc/wz_mini/swap
+                swapon /opt/wz_mini/swap
         else
                 echo "Swap file missing!"
         fi
@@ -173,7 +159,6 @@ done
 }
 
 first_run_check
-wait_sdroot
 wait_wlan
 
 if cat /params/config/.product_config | grep WYZEC1-JZ; then
@@ -339,18 +324,18 @@ if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
 		fi
 
 	if [ ! -f /opt/wz_mini/etc/wireguard/privatekey ]; then
-		(umask 277 && /media/mmc/wz_mini/bin/wg  genkey | /media/mmc/wz_mini/bin/busybox tee /opt/wz_mini/etc/wireguard/privatekey | /media/mmc/wz_mini/bin/wg  pubkey > /opt/wz_mini/etc/wireguard/publickey)
+		(umask 277 && /opt/wz_mini/bin/wg  genkey | /opt/wz_mini/bin/busybox tee /opt/wz_mini/etc/wireguard/privatekey | /opt/wz_mini/bin/wg  pubkey > /opt/wz_mini/etc/wireguard/publickey)
 	fi
 
-	/media/mmc/wz_mini/bin/busybox ip link add dev wg0 type wireguard
-	/media/mmc/wz_mini/bin/busybox ip address add dev wg0 $WIREGUARD_IPV4
-	/media/mmc/wz_mini/bin/wg set wg0 private-key /opt/wz_mini/etc/wireguard/privatekey
-	/media/mmc/wz_mini/bin/busybox ip link set wg0 up
+	/opt/wz_mini/bin/busybox ip link add dev wg0 type wireguard
+	/opt/wz_mini/bin/busybox ip address add dev wg0 $WIREGUARD_IPV4
+	/opt/wz_mini/bin/wg set wg0 private-key /opt/wz_mini/etc/wireguard/privatekey
+	/opt/wz_mini/bin/busybox ip link set wg0 up
 	fi
 
 	if [[ "$WIREGUARD_PEER_PUBLIC_KEY" != "" ]] && [[ "$WIREGUARD_PEER_ALLOWED_IPS" != "" ]] && [[ "$WIREGUARD_PEER_ENDPOINT" != "" ]] && [[ "$WIREGUARD_PEER_KEEP_ALIVE" != "" ]]; then
-		/media/mmc/wz_mini/bin/wg set wg0 peer $WIREGUARD_PEER_PUBLIC_KEY allowed-ips $WIREGUARD_PEER_ALLOWED_IPS endpoint $WIREGUARD_PEER_ENDPOINT persistent-keepalive $WIREGUARD_PEER_KEEP_ALIVE
-		/media/mmc/wz_mini/bin/busybox ip route add $WIREGUARD_PEER_ALLOWED_IPS dev wg0
+		/opt/wz_mini/bin/wg set wg0 peer $WIREGUARD_PEER_PUBLIC_KEY allowed-ips $WIREGUARD_PEER_ALLOWED_IPS endpoint $WIREGUARD_PEER_ENDPOINT persistent-keepalive $WIREGUARD_PEER_KEEP_ALIVE
+		/opt/wz_mini/bin/busybox ip route add $WIREGUARD_PEER_ALLOWED_IPS dev wg0
 	fi
 else
 	echo "wireguard disabled"
@@ -393,7 +378,7 @@ else
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
-	/media/mmc/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000 &
+	/opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000 &
 	echo "remote accessory enabled"
 else
 	echo "remote accessory disabled"
@@ -550,7 +535,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	echo "delay RTSP for iCamera"
 	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
-	LD_LIBRARY_PATH=/media/mmc/wz_mini/lib /media/mmc/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
+	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
 fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
