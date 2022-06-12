@@ -360,6 +360,7 @@ exposure value support
 
 ## Latest Updates
 
+* 06-12-22:  Added additional audio variables for tuning in libcallback, various bug fixes in wz_user.  Added `gather_wz_logs.sh` script for users to share debug logs.
 * 06-07-22:  Added support to tune IMP video and audio options in libcallback.
 * 06-04-22:  updated v2 kernel with fix for webcam mode on v2 camera's, working well now.  Updated RTMP streaming.
 * 05-31-22:  added kernel and initramfs configs to src dir, fixed old logs deleted on boot, save dmesg to log folder, upgrade script fixes, user selectable usb ethernet kernel modules in config.

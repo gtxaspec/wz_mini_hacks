@@ -222,7 +222,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
-	for i in $(echo $ENABLE_USB_ETH_MODULES | tr "," "\n")
+	for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
 	do
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
@@ -241,7 +241,7 @@ fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
-        host_macaddr=$(echo $HOSTNAME|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
+        HOST_MACADDR=$(echo "$HOSTNAME"|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
 
 	if [[ "$V2" == "true" ]]; then
 		echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect
@@ -264,7 +264,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
 	fi
 
-	insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr=$host_macaddr dev_addr=$USB_DIRECT_MAC_ADDR
+	insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr="$HOST_MACADDR" dev_addr="$USB_DIRECT_MAC_ADDR"
 
 	sleep 1
 
@@ -328,14 +328,14 @@ if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
 	fi
 
 	/opt/wz_mini/bin/busybox ip link add dev wg0 type wireguard
-	/opt/wz_mini/bin/busybox ip address add dev wg0 $WIREGUARD_IPV4
+	/opt/wz_mini/bin/busybox ip address add dev wg0 "$WIREGUARD_IPV4"
 	/opt/wz_mini/bin/wg set wg0 private-key /opt/wz_mini/etc/wireguard/privatekey
 	/opt/wz_mini/bin/busybox ip link set wg0 up
 	fi
 
 	if [[ "$WIREGUARD_PEER_PUBLIC_KEY" != "" ]] && [[ "$WIREGUARD_PEER_ALLOWED_IPS" != "" ]] && [[ "$WIREGUARD_PEER_ENDPOINT" != "" ]] && [[ "$WIREGUARD_PEER_KEEP_ALIVE" != "" ]]; then
-		/opt/wz_mini/bin/wg set wg0 peer $WIREGUARD_PEER_PUBLIC_KEY allowed-ips $WIREGUARD_PEER_ALLOWED_IPS endpoint $WIREGUARD_PEER_ENDPOINT persistent-keepalive $WIREGUARD_PEER_KEEP_ALIVE
-		/opt/wz_mini/bin/busybox ip route add $WIREGUARD_PEER_ALLOWED_IPS dev wg0
+		/opt/wz_mini/bin/wg set wg0 peer "$WIREGUARD_PEER_PUBLIC_KEY" allowed-ips "$WIREGUARD_PEER_ALLOWED_IPS" endpoint "$WIREGUARD_PEER_ENDPOINT" persistent-keepalive "$WIREGUARD_PEER_KEEP_ALIVE"
+		/opt/wz_mini/bin/busybox ip route add "$WIREGUARD_PEER_ALLOWED_IPS" dev wg0
 	fi
 else
 	echo "wireguard disabled"
@@ -378,7 +378,7 @@ else
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
-	/opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:$REMOTE_SPOTLIGHT_HOST:9000 &
+	/opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
 	echo "remote accessory enabled"
 else
 	echo "remote accessory disabled"
@@ -535,7 +535,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	echo "delay RTSP for iCamera"
 	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
-	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -U $RTSP_LOGIN:$RTSP_PASSWORD -P $RTSP_PORT $DEVICE1 $DEVICE2 &
+	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver "$AUDIO_CH $AUDIO_FMT" -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" "$DEVICE1" "$DEVICE2" &
 fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
@@ -545,7 +545,7 @@ if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "tru
 	echo "delay RTMP server"
 	#Follow the delay from the RTSP server
 	sleep 5
-	/opt/wz_mini/bin/rtmp-stream.sh $RMTP_STREAM_SERVICE $RTMP_AUDIO
+	/opt/wz_mini/bin/rtmp-stream.sh "$RMTP_STREAM_SERVICE" "$RTMP_AUDIO"
 fi
 
 hostname_set
