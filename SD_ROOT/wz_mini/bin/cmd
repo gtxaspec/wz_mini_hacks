@@ -9,8 +9,10 @@ if [ "$1" == "" ]; then
 	echo -e "move (movable camera only)"
 	echo -e "waitMotion <timeout>"
 	echo -e "irled on or off"
-	echo -e "aplay <file path> <volume 1-100> (t31 only)"
+	echo -e "aplay <file path> <volume 1-100>"
+	echo -e "curlDebug on or off"
 	echo -e "mp4write on or off (t31 only)"
+	echo -e "imp_control <variable> <value> (see readme)"
 else
 	echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000
 fi
