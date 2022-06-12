@@ -126,6 +126,11 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 
 echo "replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
+
+if [[ "$DEBUG_PASSWORD" == "true" ]]; then
+sed -i 's/:[^:]*/:/' /opt/wz_mini/tmp/.storage/shadow
+fi
+
 mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
