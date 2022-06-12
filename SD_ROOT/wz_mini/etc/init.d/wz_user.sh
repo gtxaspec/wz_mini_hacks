@@ -34,7 +34,7 @@ hostname_set() {
 
 first_run_check() {
 	if [[ -e /opt/wz_mini/tmp/.wz_user_firstrun ]]; then
-	echo "run_mmc.sh already run once, exit."
+	echo "wz_user.sh already run once, exit."
 	exit 0
 	fi
 }
