@@ -3,7 +3,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 58d3a10a80422e3aa1b49b046e17db5c  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0f0cb8cbbf7007cda59dc684c37d185f  SD_ROOT/wz_mini/etc/init.d/v3_init.sh
-af879f1b6fb23c569f1fef490bbf8566  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+00b7a26dbaefc7cf0872f534fc83f50a  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 86082f8c1b7de18463731372bac630d1  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -24,7 +24,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/root/.gitignore
 ec906872794379af570869ebfd49bb23  SD_ROOT/wz_mini/bin/tcpdump
 db5c63af3c763fc6eb76f6e1b5c96794  SD_ROOT/wz_mini/bin/file
 3feb341fca58bc705c3ed5705d4eb716  SD_ROOT/wz_mini/bin/factorycheck
-85013481414ea5d5868a629ad79938d7  SD_ROOT/wz_mini/bin/cmd
+fa09ee51c0aa8e9a5896051c20238965  SD_ROOT/wz_mini/bin/cmd
 a9a6bf805cbcfdd6698fe5efd65f91bb  SD_ROOT/wz_mini/bin/nano
 36cbfe7b96d4240a6b138dd3695ccefd  SD_ROOT/wz_mini/bin/strings
 1458f09775917db388f807f7ac01bb65  SD_ROOT/wz_mini/bin/socat
@@ -53,6 +53,7 @@ e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
 5d1359af0c7c5d326b8682a62f910620  SD_ROOT/wz_mini/bin/strace
 516118bfcc0f0ddc93fb9339b3c6a315  SD_ROOT/wz_mini/bin/xtables-multi
+b61c2d71aea3064aec9004f49bbb1488  SD_ROOT/wz_mini/bin/gather_wz_logs.sh
 097cd91a56f2b0caea1dd87ae0e51a54  SD_ROOT/wz_mini/bin/screen
 fbbc2a8f362d05fc31557b1a534b42c6  SD_ROOT/wz_mini/bin/wget
 35420095a770c9bb6177788842f55bba  SD_ROOT/wz_mini/bin/dropbearconvert
