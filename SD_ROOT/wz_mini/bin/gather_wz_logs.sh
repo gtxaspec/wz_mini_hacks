@@ -47,6 +47,9 @@ mount > /opt/wz_mini/tmp/log_gather/mount.log
 echo "gather mmc"
 logread | grep -E "mmc|storage_dev|playback_dev|tf_prepare" > /opt/wz_mini/tmp/log_gather/mmc.log
 
+echo "gather lsmod"
+lsmod > /opt/wz_mini/tmp/log_gather/kmod.log
+
 echo "gather app.ver"
 cp /system/bin/app.ver /opt/wz_mini/tmp/log_gather/system_app.ver
 
