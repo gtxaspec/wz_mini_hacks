@@ -34,6 +34,8 @@ then
   install_upgrade_script
 else
   echo "Failure: archive has corrupted files"
+  echo "Delete failed upgrade dir"
+  rm -rf /opt/Upgrade
   exit 1
 fi
 
