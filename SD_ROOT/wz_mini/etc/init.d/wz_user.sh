@@ -385,7 +385,7 @@ fi
 
 if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
         if [[ "$V2" == "true" ]]; then
-		echo "mp4_write not supported on v2"
+		echo "mp4_write is not supported on v2"
 	else
 		/opt/wz_mini/bin/cmd mp4write on
 		echo "mp4_write enabled"
@@ -428,6 +428,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
                 if [[ "$V2" == "true" ]]; then
                         if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
                                 watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+				sleep 5
                         else
                                 echo "Invalid encoder value"
                         fi
@@ -443,6 +444,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		fi
@@ -459,6 +461,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
 		fi
@@ -505,6 +508,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
                 if [[ "$V2" == "true" ]]; then
                         if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
                                 watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+				sleep 5
                         else
                                 echo "Invalid encoder value"
                         fi
@@ -520,6 +524,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 		fi
@@ -536,6 +541,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
+			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
 		fi
