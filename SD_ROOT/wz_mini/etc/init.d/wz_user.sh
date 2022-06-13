@@ -48,16 +48,15 @@ wait_wlan() {
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
     while true
     do
-        if  ifconfig wlan0 | grep "inet addr";
-        then
-	store_mac
-        break
-	elif [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
-	store_mac
-	break
+        if ifconfig wlan0 | grep "inet addr"; then
+	        store_mac
+		break
+        elif ifconfig wlan0 | grep "inet addr" && [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
+	        store_mac
+        	break
         fi
-        echo " wlan0 not ready yet..."
-        sleep 5
+	        echo " wlan0 not ready yet..."
+        	sleep 5
     done
 }
 
