@@ -70,6 +70,7 @@ set -x
 
 #WCV3 AUDIO GPIO
 GPIO=63
+V2="false"
 
 #Check model, change GPIO is HL_PAN2
 if [[ "$V2" == "false" ]]; then
