@@ -424,13 +424,21 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		echo "rtsp audio disabled"
         fi
 
-	if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-		fi
-	fi
+        if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
+                if [[ "$V2" == "true" ]]; then
+                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
+                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+                        else
+                                echo "Invalid encoder value"
+                        fi
+                else
+                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
+                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+                        else
+                                echo "Invalid encoder value"
+                        fi
+                fi
+        fi
 
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
@@ -493,13 +501,21 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
                 echo "rtsp audio disabled"
         fi
 
-	if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-		fi
-	fi
+        if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
+                if [[ "$V2" == "true" ]]; then
+                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
+                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+                        else
+                                echo "Invalid encoder value"
+                        fi
+                else
+                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[1|2|4|8]$" ]]; then
+                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+                        else
+                                echo "Invalid encoder value"
+                        fi
+                fi
+        fi
 
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
 		if [[ "$V2" == "true" ]]; then
