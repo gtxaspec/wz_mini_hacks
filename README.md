@@ -15,7 +15,7 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Features
 
-* No modification is done to the device filesystem. **_Zero!_**
+* No modification is done to the device filesystem. **_Zero!_** (T31 only)
 * Custom kernel loads all required files from micro-sd card at boot time
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Works on ANY firmware release (so far!)
