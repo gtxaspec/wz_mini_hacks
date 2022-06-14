@@ -98,14 +98,14 @@ else
 	insmod /driver/tx-isp.ko isp_clk=100000000
 	insmod /driver/exfat.ko
 	insmod /driver/sample_motor.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/audio_webcam.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/audio_webcam.ko
 	insmod /driver/sinfo.ko
 	insmod /driver/sample_pwm_core.ko
 	insmod /driver/sample_pwm_hal.ko
 
-	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/libcomposite.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/videobuf2-vmalloc.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/usbcamera.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/libcomposite.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/videobuf2-vmalloc.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/usbcamera.ko
 
 	/opt/wz_mini/usr/bin/getSensorType
 	/opt/wz_mini/usr/bin/ucamera_v2 &

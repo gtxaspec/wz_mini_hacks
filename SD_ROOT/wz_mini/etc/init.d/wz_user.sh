@@ -162,7 +162,7 @@ wait_wlan
 
 if cat /params/config/.product_config | grep WYZEC1-JZ; then
 V2="true"
-KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14_v2"
+KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
 else
 V2="false"
 KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"

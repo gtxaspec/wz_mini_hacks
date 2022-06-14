@@ -45,7 +45,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video6 video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=6,7
+		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=6,7
 		else
 		        echo "load video loopback driver at video1 video2"
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1,2
@@ -53,7 +53,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=7
+		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=7
 		else
 		        echo "load video loopback driver at video2"
 	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=2
@@ -61,7 +61,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 	elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video6"
-		        insmod /opt/wz_mini/lib/modules/3.10.14_v2/kernel/v4l2loopback_V2.ko video_nr=6
+		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=6
 		else
 		        echo "load video loopback driver at video1"
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1
