@@ -609,7 +609,18 @@ if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
 	echo "starting custom script"
 	$CUSTOM_SCRIPT_PATH &
 else
-	echo "custom script not found"
+	echo "no custom script configured in wz_mini.conf"
 fi
+
+echo "searching for custom scripts in /opt/wz_mini/etc/rc.local.d"
+if [ -d "${1:-/opt/wz_mini/etc/rc.local.d}" ] ; then
+  for filename in $(find /opt/wz_mini/etc/rc.local.d/ -name "*.sh" | /opt/wz_mini/bin/busybox sort) ; do
+    if [ -f "${filename}" ] && [ -x "${filename}" ]; then
+      echo "running ${filename}"
+      "${filename}"
+    fi
+  done
+fi
+echo "finished executing custom scripts from /opt/wz_mini/etc/rc.local.d"
 
 echo "wz_user.sh done" > /dev/kmsg

@@ -4,7 +4,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 4fa268615ba8103545b062ca403bd6e8  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-b956f8159bbae0bfe4499ab506f29660  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+51a396f78aba6239698bf86e81ae3801  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 24d3dbf789915507ce7aee7537ec0826  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -17,6 +17,7 @@ f08b7b96247b3ebd74eee451370d22db  SD_ROOT/wz_mini/etc/resolv.dnsmasq
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/configs/.gitignore
 d0541c45c77ad3c5f27f06f03547c4f2  SD_ROOT/wz_mini/etc/shadow
 c838ac76efbe3d3fc3c4805789a6519f  SD_ROOT/wz_mini/etc/uvc_v2.config
+d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
 c2aec0b677cf239f374dda8583314332  SD_ROOT/wz_mini/etc/ssh/authorized_keys
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/wireguard/.gitignore
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/log/.gitignore
@@ -52,7 +53,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-7bbf9d6ab61b4c26f1203d0c7200f34d  SD_ROOT/wz_mini/bin/upgrade-run.sh
+fbaa9735f60ad1b8bd9735251aa51c1f  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 343482b8e6569ff2fbd8563d6e8c58f7  SD_ROOT/wz_mini/bin/fsck.vfat
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
