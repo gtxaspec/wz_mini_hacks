@@ -435,6 +435,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
                 else
                         if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
                                 watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
+				sleep 5
                         else
                                 echo "Invalid encoder value"
                         fi
@@ -447,6 +448,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
+			sleep 5
 		fi
 	fi
 
@@ -455,6 +457,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 			echo "not supported on v2"
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
+			sleep 5
 		fi
 	fi
 
@@ -464,6 +467,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 			sleep 5
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
+			sleep 5
 		fi
 	fi
 
