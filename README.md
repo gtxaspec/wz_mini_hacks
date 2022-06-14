@@ -321,19 +321,19 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 | ai_gain  | 0 to 31  | Audio Input Gain |
 | alc_gain  | 0 to 7  | Automatic Level Control Gain |
 | ao_gain | 0 to 31  | Audio Output Gain |
-| ao_vol | -30 to 120  | Audio Output Volume |
-
-| __VIDEO__|
-| flip_mirror  | <none>  | Mirror Image |
-| flip_vertical  | <none>  | Flip Vertical |
-| flip_horizontal  | <none>  | Flip Horizontal |
-| flip_normal  | <none>  | Normal Image |
-| tune_contrast  | -128 to 128  | Contrast Control |
-| tune_brightness  | -128 to 128 | Brightness Control |
-| tune_sharpness  | -128 to 128 | Sharpness Control |
-| tune_saturation  | -128 to 128 | Saturation Control |
-| tune_aecomp  | 0 to 255 | Auto Exposure Target |
-| tune_aeitmax  | 0 to 10000 | Auto Exposure Maxiumum (no v2) |
+| ao_vol | -30 to 120 | Audio Output Volume |
+| ------------- | ------------- | ----------- |
+| __VIDEO__ |
+| flip_mirror | <none>  | Mirror Image |
+| flip_vertical | <none>  | Flip Vertical |
+| flip_horizontal | <none>  | Flip Horizontal |
+| flip_normal | <none>  | Normal Image |
+| tune_contrast | -128 to 128  | Contrast Control |
+| tune_brightness | -128 to 128 | Brightness Control |
+| tune_sharpness | -128 to 128 | Sharpness Control |
+| tune_saturation | -128 to 128 | Saturation Control |
+| tune_aecomp | 0 to 255 | Auto Exposure Target |
+| tune_aeitmax | 0 to 10000 | Auto Exposure Maxiumum (no v2) |
 | tune_dpc_strength | -128 to 128 | DPC Strength (no v2) |
 | tune_drc_strength | -128 to 128 | DRC Strength (no v2) |
 | tune_hilightdepress | 0 to 10 | Glare Supression |
@@ -343,7 +343,6 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 | tune_dgain | see notes | Maximum D-Gain set by the ISP |
 | tune_backlightcomp | -1 to 3500 | Backlight Compensation? (undocumented, no v2) |
 | tune_dps | 50-150 | Set DPC intensity (v2 only) |
-
 
 tune_dgain: 0 means 1x, 32 means 2x, and so on 
 
