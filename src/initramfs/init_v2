@@ -1,53 +1,85 @@
 #!/bin/sh
-# devtmpfs does not get automounted for initramfs
 
 set -x
 
+# devtmpfs does not get automounted for initramfs
 mount -t devtmpfs devtmpfs /dev
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 
+#Required delay on T20/T31
 sleep 1
 
-echo 43 > /sys/class/gpio/export
-echo in > /sys/class/gpio/gpio43/direction
+echo "Check for T20 platform"
 
-#wait for sd card init
-sleep 3
+if [ -b /dev/mtdblock10 ]; then
+
+	echo "Found T20"
+
+	#T20: Need to export the sd card enable gpio manually
+	echo 43 > /sys/class/gpio/export
+	echo in > /sys/class/gpio/gpio43/direction
+
+	#T20: Insert required delay for sd card init
+	sleep 3
+
+else
+	echo "Not T20"
+fi
 
 mkdir -p /sdcard
 mount -t vfat /dev/mmcblk0p1 /sdcard -o rw,umask=0000,dmask=0000
+
+initram_init() {
 
 mkdir /v3
 mount -t squashfs /dev/mtdblock2 /v3
 
 if [ ! -f /sdcard/wz_mini/etc/init.d/v3_init.sh ]; then
 
-echo "v3_init not found, booting stock"
+	echo "wz_mini not found, booting stock"
 
-mount --move /dev /v3/dev
-mount --move /sys /v3/sys
-mount --move /proc /v3/proc
+	mount --move /dev /v3/dev
+	mount --move /sys /v3/sys
+	mount --move /proc /v3/proc
 
-umount /sdcard
+	umount /sdcard
 
-exec busybox switch_root /v3 /linuxrc
-
+	exec busybox switch_root /v3 /linuxrc
 
 else
 
-mkdir -p /v3/dev
-mkdir -p /v3/sys
+	echo "Loading wz_mini..."
+
+	mkdir -p /v3/dev
+	mkdir -p /v3/sys
 
 
-mount --move /dev /v3/dev
-mount --move /sys /v3/sys
-mount --move /proc /v3/proc
+	mount --move /dev /v3/dev
+	mount --move /sys /v3/sys
+	mount --move /proc /v3/proc
 
-#mkdir -p /v3/media/mmc
-mount --move /sdcard /v3/opt
+	#mkdir -p /v3/media/mmc
+	mount --move /sdcard /v3/opt
 
-#exec busybox switch_root /v3 /linuxrc
-exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh
+	#exec busybox switch_root /v3 /linuxrc
+	exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh
 
+fi
+
+}
+
+if [ -f /sdcard/wz_mini/wz_mini.conf ]; then
+
+	source /sdcard/wz_mini/wz_mini.conf
+
+	if [[ "$DEBUG_INITRAMFS_ENABLED" == "true" ]]; then
+		/bin/sh
+		#exit 0
+	else
+		echo "initramfs debug disabled"
+		initram_init
+	fi
+else
+		initram_init
 fi
