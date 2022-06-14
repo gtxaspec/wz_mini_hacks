@@ -63,6 +63,10 @@ Using this project can potentially expose your device to the open internet depen
   1. PAN v2:
      -  Tilt (Vertical) only works at motor speed 9
 
+## HELP! SOMETHING DOESN'T DOESN'T WORK
+
+* If you need assistance, or have general questions, feel free to visit the [Discussions](https://github.com/gtxaspec/wz_mini_hacks/discussions) area!  There are folks always willing to help out.
+
 ## Setup v3/PANv2
 
 1. git clone the repo or download the repo zip
@@ -302,7 +306,7 @@ Live stream DIRECTLY from the camera's local RTSP server to: `youtube` / `twitch
 
 ---
 
-IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.  Only available when RTSP server is enabled
+IMP_CONTROL:  Tune various audio and video parameters supported by IMP.  Only available when RTSP server is enabled, values are reset to default upon reboot.
 
 `cmd imp_control <command> <value>`
 
@@ -342,7 +346,7 @@ IMP_CONTROL:  Tune various options presented by IMP.  Works for audio and video.
 | tune_again | 0 to 99999 | Set sensor A-Gain maximum |
 | tune_dgain | see notes | Maximum D-Gain set by the ISP |
 | tune_backlightcomp | -1 to 3500 | Backlight Compensation? (undocumented, no v2) |
-| tune_dps | 50-150 | Set DPC intensity (v2 only) |
+| tune_dps | 50 to 150 | Set DPC intensity (v2 only) |
 
 tune_dgain: 0 means 1x, 32 means 2x, and so on 
 
