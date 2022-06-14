@@ -1,47 +1,66 @@
-# process
+# wz_mini boot process
 
 
-build kernel with initramfs
+load kernel with initramfs built in
 
-initramfs ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh```
+***initramfs***: ```/etc/init``` runs ```exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh```
 
-within ```/opt/wz_mini/etc/init.d/v3_init.sh```:
+***```/opt/wz_mini/etc/init.d/v3_init.sh```:***
+
+bind replace the factory busybox, which is missing a bunch of utilities, with our own fully featured version
+
+mount ```/configs``` to check if the model of the camera is HL_PAN2.  If it is, change some variables.
+
+mount ```/params``` if it exists, to check if the model of the camera is V2.  If it is, change some variable
+
+Check if `/opt/wz_mini/etc/.first_boot` exists, if it does, play some audio to notify the user that the first boot init is running.
 
 bind replace ```/etc/init.d/inittab``` with our own version that has rcS located at ```/opt/wz_mini/tmp/.storage/rcS```
 
 bind replace ```/etc/profile``` with out own version with added PATH variables for the shell
 
-mount ```/tmp``` and ```/run```
+mount ```/tmp```
 
 mount ```/system```
 
-bind replace ```/system/bin/factorycheck```, this stock firmware program unmounts the binds that we do later in the file, its a debug program.  We don't need it.
+create the file `touch /tmp/usrflag` to make iCamera happy, normally created by `/system/bin/factorycheck`
+
+bind replace ```/system/bin/factorycheck```, this factory included program unmounts the binds that we do later in the script, since its a debug program, we don't need it.  Replace it with a fake.
 
 bind replace ```/etc/fstab``` with our own version which includes ```/opt/wz_mini/tmp``` as a tmpfs path
 
-create wz_mini's workplace directory at ```/opt/wz_mini/tmp```
+mount wz_mini's tmp directory at ```/opt/wz_mini/tmp```
+
+install our `busybox`'s applets to `/opt/wz_mini/tmp/.bin`
+
+create a workplace directory for wz_mini at `/opt/wz_mini/tmp/.storage`
 
 copy the stock ```/etc/init.d/rcS``` to the workplace directory
 
-modify the stock rcS, add ```set -x``` debug mode, inject the following script ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run, and add a section to change PATH and LD_LIBRARY if desired
+modify the stock rcS, add ```set -x``` debug mode, inject the following script ```/opt/wz_mini/etc/init.d/wz_post.sh``` to run, and add a section to change PATH and LD_LIBRARY if desired
 
 bind replace ```/etc/shadow``` to change the stock password
 
-check to see if the swap archive is present at ```/opt/wz_mini/swap.gz```, if it is, extract it, then mkswap it, and drop the vm cache.
+check to see if the swap archive is present at ```/opt/wz_mini/swap.gz```, if it is, extract it, then mkswap it, and drop the vm caches.
 
 check to see if the ```/opt/wz_mini/usr/share/terminfo``` directory is present, if not, extract the terminfo files for console programs
 
-mount ```/configs``` to check if the ```.ssh``` dir is present, a requirement for the dropbear ssh server
+run the `dropbear` ssh daemon
 
-check to see if ```/opt/wz_mini/run_mmc.sh``` has debug mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and ```/media/mmc/wz_mini/run_mmc.sh```
 
-run ```/media/mmc/wz_mini/run_mmc.sh```, but delay execution for 30 seconds, enough time for WiFi or wired ethernet/usb to load and connect successfully to the internet
+check to see if ```/opt/wz_mini/wz_user.sh``` has debug mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and ```/opt/wz_mini/etc/init.d/wz_user.sh```
+
+check to see if ```/opt/wz_mini/wz_user.sh``` has webcam mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and instead load  ```/opt/wz_mini/etc/init.d/wz_cam.sh```
+
+check to see if ```/opt/wz_mini/wz_user.sh``` has upgrade mode enabled, if it does, skip loading ```/system/bin/app_init.sh``` and instead load  ```/opt/wz_mini/usr/bin/upgrade-run.sh```
 
 run ```/linuxrc``` to kick off the stock boot process
 
-our modified inittab runs from ```/opt/wz_mini/tmp/.storage/rcS```, we have enabled set -x debug info, added ```/opt/wz_mini/bin``` and ```/opt/wz_mini/lib``` to the system PATH's, and added ```/opt/wz_mini/etc/init.d/v3_post.sh``` to run before ```/system/init/app_init.sh``` runs.
+***inittab***:
 
-```/opt/wz_mini/etc/init.d/v3_post.sh``` checks if ```run_mmc.sh``` has the RTSP server enabled, and if it does, we copy ```/system/bin/iCamera``` to our workplace directory at ```/opt/wz_mini/tmp/.storage/```
+our modified inittab runs from ```/opt/wz_mini/tmp/.storage/rcS```, we have enabled set -x debug info, added ```/opt/wz_mini/bin``` and ```/opt/wz_mini/lib``` to the system PATH's, and added ```/opt/wz_mini/etc/init.d/wz_post.sh``` to run before ```/system/init/app_init.sh``` runs.
+
+```/opt/wz_mini/etc/init.d/wz_post.sh``` checks if ```wz_user.sh``` has the RTSP server enabled, and if it does, we copy ```/system/bin/iCamera``` to our workplace directory at ```/opt/wz_mini/tmp/.storage/```
 
 bind replace ```/system/bin/iCamera```
 
@@ -51,7 +70,7 @@ we then load the video loopback driver from ```/opt/wz_mini/lib/modules/v4l2loop
 
 ```/system/bin/app_init.sh``` loads the stock system software
 
-During execution of ```run_mmc.sh```, if ```DISABLE_FW_UPGRADE``` is set to ```false``` we intercept the stock firmware upgrade process.  We run ```inotifyd``` at startup, to observe the /tmp/Upgrade directory.
+During execution of ```wz_user.sh```, if ```DISABLE_FW_UPGRADE``` is set to ```false``` we intercept the stock firmware upgrade process.  We run ```inotifyd``` at startup, to observe the /tmp/Upgrade directory.
 
 Normally, ```iCamera``` downloads the firmware upgrade tar to ```/tmp/img```, renames it to ```/tmp/Upgrade.tar```, then extracts it to ```/tmp/Upgrade```
 

@@ -65,18 +65,74 @@ May 13 13:22:38 iCamera: [sdk,0205]dbg: Pin(51)  Lvl(1)  Dir(in)
 May 13 13:22:38 iCamera: [sdk,0205]dbg: Pin(50)  Lvl(0)  Dir(in)
 May 13 13:22:38 iCamera: [sdk,0205]dbg: Pin(62)  Lvl(0)  Dir(in)
 ```
+
+v2:
+
+```
+misc_init_r before change the wifi_enable_gpio
+gpio_request lable = wifi_enable_gpio gpio = 62
+misc_init_r after gpio_request the wifi_enable_gpio ret is 62
+misc_init_r after change the wifi_enable_gpio ret is 0
+misc_init_r before change the yellow_gpio
+gpio_request lable = yellow_gpio gpio = 38
+misc_init_r after gpio_request the yellow_gpio ret is 38
+misc_init_r after change the yellow_gpio ret is 0
+misc_init_r before change the blue_gpio
+gpio_request lable = blue_gpio gpio = 39
+misc_init_r after gpio_request the blue_gpio ret is 39
+misc_init_r after change the blue_gpio ret is 1
+gpio_request lable = night_gpio gpio = 81
+misc_init_r after gpio_request the night_gpio ret is 81
+misc_init_r after change the night_gpio ret is 0
+gpio_request lable = night_gpio gpio = 25
+misc_init_r after gpio_request the night_gpio ret is 25
+misc_init_r after change the night_gpio ret is 0
+gpio_request lable = night_gpio gpio = 49
+misc_init_r after gpio_request the night_gpio ret is 49
+misc_init_r after change the night_gpio ret is 0
+gpio_request lable = USB_able_gpio gpio = 47
+misc_init_r after gpio_request the USB_able_gpio ret is 47
+misc_init_r after change the USB_able_gpio ret is 0
+gpio_request lable = TF_able_gpio gpio = 43
+misc_init_r after gpio_request the TF_able_gpio ret is 43
+misc_init_r after change the TF_able_gpio ret is 1
+gpio_request lable = SPK_able_gpio gpio = 63
+misc_init_r after gpio_request the SPK_able_gpio ret is 63
+misc_init_r after change the SPK_able_gpio ret is 0
+gpio_request lable = SD_able_gpio gpio = 48
+misc_init_r after gpio_request the SD_able_gpio ret is 48
+misc_init_r after change the SD_able_gpio ret is 0
+misc_init_r before change the wifi_enable_gpio
+gpio_request lable = wifi_enable_gpio gpio = 62
+misc_init_r after gpio_request the wifi_enable_gpio ret is 62
+misc_init_r after change the wifi_enable_gpio ret is 1
+```
+```
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(39)  Lvl(1)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(38)  Lvl(0)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(26)  Lvl(0)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(25)  Lvl(0)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(47)  Lvl(1)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(48)  Lvl(0)  Dir(out)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(46)  Lvl(1)  Dir(in)
+Feb 20 02:19:27 iCamera: [SDK-GPIO]dbg: Pin(43)  Lvl(0)  Dir(in)
+```
+
 ---
 
 kernel command line:
 
 v3:
 
-`[    0.000000] Kernel command line: console=ttyS1,115200n8 mem=99M@0x0 rmem=29M@0x6300000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256K(boot),1984K(kernel),3904K(rootfs),3904K(app),1984K(kback),3904K(aback),384K(cfg),64K(para)
-`
+`console=ttyS1,115200n8 mem=99M@0x0 rmem=29M@0x6300000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256K(boot),1984K(kernel),3904K(rootfs),3904K(app),1984K(kback),3904K(aback),384K(cfg),64K(para)`
 
 panv2:
 
 `console=ttyS1,115200n8 mem=96M@0x0 rmem=32M@0x6000000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256K(boot),1984K(kernel),3904K(rootfs),3904K(app),1984K(kback),3904K(aback),384K(cfg),64K(para)`
+
+v2:
+
+`console=ttyS1,115200n8 mem=104M@0x0 ispmem=8M@0x6800000 rmem=16M@0x7000000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256k(boot),2048k(kernel),3392k(root),640k(driver),4736k(appfs),2048k(backupk),640k(backupd),2048k(backupa),256k(config),256k(para),-(flag)`
 
 ---
 
@@ -107,6 +163,9 @@ set device mode:
 `devmem 0x10000040 32 0x0b800096`
 
 `devmem 0x13500000 32 0x001100cc`
+
+`echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect`
+
 
 v3:
 
