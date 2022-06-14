@@ -28,6 +28,13 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 echo "welcome to wz_post.sh"
 echo "PID $$"
 
+if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
+        echo "swap file found, enable"
+        swapon /opt/wz_mini/swap
+else
+        echo "swap file missing"
+fi
+
 if [ -d /lib/modules ]; then
 	echo "mount kernel modules"
 	mount --bind /opt/wz_mini/lib/modules /lib/modules

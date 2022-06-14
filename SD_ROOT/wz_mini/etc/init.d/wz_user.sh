@@ -124,8 +124,13 @@ netloop() {
 
 swap_enable() {
         if [[ -e /opt/wz_mini/swap ]]; then
-                echo "Swap exists, enable"
-                swapon /opt/wz_mini/swap
+                echo "Swap file exists"
+                if cat /proc/swaps | grep "mini" ; then
+                        echo "Swap is already enabled"
+                else
+                        echo "Enable swap"
+                        swapon /opt/wz_mini/swap
+                fi
         else
                 echo "Swap file missing!"
         fi
@@ -168,14 +173,7 @@ V2="false"
 KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
 fi
 
-if [[ "$ENABLE_SWAP" == "true" ]]; then
-        if cat /proc/swaps | grep "mini" ; then
-        echo "Swap is already enabled"
-        else
-        echo "Swap not enabled, enabling"
-	swap_enable
-        fi
-fi
+swap_enable
 
 if [[ "$ENABLE_IPV6" == "true" ]]; then
 	echo "ipv6 enabled"
@@ -226,11 +224,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
 
-	if [[ "$ENABLE_SWAP" == "true" ]]; then
-	echo "swap already enabled"
-	else
 	swap_enable
-	fi
 
 	netloop eth0
 
@@ -267,11 +261,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	sleep 1
 
-	if [[ "$ENABLE_SWAP" == "true" ]]; then
-	echo "swap already enabled"
-	else
 	swap_enable
-	fi
 
 	#loop begin
 	while true
@@ -292,11 +282,7 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 
 	sleep 1
 
-	if [[ "$ENABLE_SWAP" == "true" ]]; then
-	echo "swap already enabled"
-	else
 	swap_enable
-	fi
 
 	#loop begin
 	while true
@@ -402,11 +388,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	HI_VIDEO_DEV="/dev/video1"
 	fi
 
-	if [[ "$ENABLE_SWAP" == "true" ]]; then
-	echo "swap already enabled"
-	else
 	swap_enable
-	fi
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
@@ -485,12 +467,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	LOW_VIDEO_DEV="/dev/video2"
 	fi
 
-
-	if [[ "$ENABLE_SWAP" == "true" ]]; then
-	echo "swap already enabled"
-	else
 	swap_enable
-	fi
 
 	/opt/wz_mini/bin/cmd video on1
 
