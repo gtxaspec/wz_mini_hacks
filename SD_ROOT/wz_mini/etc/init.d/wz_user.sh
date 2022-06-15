@@ -63,19 +63,39 @@ wait_wlan() {
 rename_interface() {
 ##Fool iCamera by renaming the hardline interface to wlan0
 	echo "renaming interfaces"
+
+	# Bring all interfaces down
 	ifconfig $1 down
 	ifconfig wlan0 down
-        /opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
-        /opt/wz_mini/bin/busybox ip addr flush dev wlanold
-        /opt/wz_mini/bin/busybox ip link set $1 name wlan0
+	ifconfig bond0 down
+
+	# Rename the real wlan0 interface
+	/opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
+	/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+
+	# Have to bring bond0 up to be able to bond our slaves.
+	/opt/wz_mini/bin/busybox ip link set bond0 up
+
+	# Enslave the Ethernet and Original Wifi interfaces
+	# under the Bonding interface.
+	/opt/wz_mini/tmp/.bin/ifenslave bond0 eth0 wlanold
+
+	# Have to bring bond0 down to be rename the interface
+	/opt/wz_mini/bin/busybox ip link set bond0 down
+
+	# Name the bond0 interface to be the "new" wlan0 interface
+	/opt/wz_mini/bin/busybox ip link set bond0 name wlan0
+
+	# Bring the newly renamed wlan0 back up
 	eth_wlan_up
 }
 
 eth_wlan_up() {
 ##Run DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
-        ifconfig wlan0 up
+	ifconfig wlan0 up
+
 	pkill udhcpc
-        udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
+	udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
 	if [[ "$V2" == "true" ]]; then
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
 	else
@@ -223,6 +243,9 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	do
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
+
+	# Insert the bonding driver when running Ethernet
+	insmod $KMOD_PATH/kernel/drivers/net/bonding.ko mode=active-backup miimon=100 downdelay=5000 updelay=5000 primary=eth0
 
 	swap_enable
 
