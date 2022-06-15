@@ -4,7 +4,7 @@
 ###
 
 ###This file is run by switch_root, from the initramfs in the kernel.
-LOG_NAME=/opt/wz_mini/log/v3_init
+LOG_NAME=/opt/wz_mini/log/wz_init
 if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
     i=0
     while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
@@ -20,7 +20,7 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
-echo "welcome to v3_init.sh"
+echo "welcome to wz_init.sh"
 echo "PID $$"
 
 echo '
