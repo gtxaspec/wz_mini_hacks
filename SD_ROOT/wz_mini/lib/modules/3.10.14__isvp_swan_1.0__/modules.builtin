@@ -14,7 +14,6 @@ kernel/fs/nls/nls_base.ko
 kernel/fs/nls/nls_cp437.ko
 kernel/fs/nls/nls_ascii.ko
 kernel/fs/nls/nls_iso8859-1.ko
-kernel/fs/overlayfs/overlayfs.ko
 kernel/fs/squashfs/squashfs.ko
 kernel/crypto/crypto.ko
 kernel/crypto/crypto_wq.ko
