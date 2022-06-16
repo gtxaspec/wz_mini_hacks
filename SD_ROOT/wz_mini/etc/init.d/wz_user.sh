@@ -89,16 +89,19 @@ rename_interface_and_setup_bonding() {
 	/opt/wz_mini/bin/busybox ip link set $bonding_interface up
 
 	# Rename the real wlan0 interface if needed/used
-    if [[ "$primary_interface" == "wlan0" ]]; then
+	if [[ "$primary_interface" == "wlan0" ]]; then
 		/opt/wz_mini/bin/busybox ip link set $primary_interface name wlanold
 		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
 		primary_interface="wlanold"
-    fi
-    if [[ "$secondary_interface" == "wlan0" ]]; then
+		# Because we just changed the name of the primary interface, we need to
+		# tell the bonding driver about the name change as well.
+		echo "$primary_interface" > /sys/devices/virtual/net/$bonding_interface/bonding/primary
+	fi
+	if [[ "$secondary_interface" == "wlan0" ]]; then
 		/opt/wz_mini/bin/busybox ip link set $secondary_interface name wlanold
 		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
 		secondary_interface="wlanold"
-    fi
+	fi
 
 	# Enslave the Ethernet and Original Wifi interfaces
 	# under the bonding interface.
