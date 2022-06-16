@@ -2,7 +2,7 @@
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 0ca440c725d13707e17f8bf4da6f02da  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-a3a632a1287deb70033dbe95f9b39b9a  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
+a96f3eb3c571e95490317e746a9d697f  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
 9d55cf0a4de134f12b2eb68f45efddd5  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 b346d78a55b0d30b161c15b8c55f8277  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
@@ -49,7 +49,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-ddd4e4473bad904ef1bd5dd66e15f2a3  SD_ROOT/wz_mini/bin/upgrade-run.sh
+700cf139048c487fe60e3eb52416b537  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
