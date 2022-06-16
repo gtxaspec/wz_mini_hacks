@@ -52,6 +52,11 @@ cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_
 }
 
 backup_begin() {
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
+
+#copy to old path for compatability
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
+
 echo "Backup user config"
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
