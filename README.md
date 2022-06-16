@@ -358,13 +358,13 @@ white balance adjustment
 enable wide dynamic range support
 exposure value support
 
-=======
+---
 
 ENABLE_RTL8189FS_DRIVER="false"
 
 Use a newer version of the driver for the RTL8189FTV on v2/v3.  May result in better wireless connection/performance. Experimental.
 
-=======
+---
 
 Upgrade wz_mini over the air:
 
@@ -374,8 +374,7 @@ This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, a
 
 If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
 
-=======
-
+---
 
 ## Latest Updates
 
