@@ -63,30 +63,54 @@ wait_wlan() {
 rename_interface() {
 ##Fool iCamera by renaming the hardline interface to wlan0
 	echo "renaming interfaces"
-
-    # Bring all interfaces down
 	ifconfig $1 down
 	ifconfig wlan0 down
-    ifconfig bond0 down
+        /opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
+        /opt/wz_mini/bin/busybox ip addr flush dev wlanold
+        /opt/wz_mini/bin/busybox ip link set $1 name wlan0
+	eth_wlan_up
+}
 
-    # Rename the real wlan0 interface
-    /opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
-    /opt/wz_mini/bin/busybox ip addr flush dev wlanold
+rename_interface_and_setup_bonding() {
+##Fool iCamera by renaming the hardline interface to wlan0
+## $1 Bonding Interface, $2 Primary Interface, $3 Secondary Interface
+	bonding_interface=$1
+	primary_interface=$2
+	secondary_interface=$3
 
-    # Have to bring bond0 up to be able to bond our slaves.
-    /opt/wz_mini/bin/busybox ip link set bond0 up
+	echo "renaming interfaces"
 
-    # Enslave the Ethernet and Original Wifi interfaces
-    # under the Bonding interface.
-    /opt/wz_mini/tmp/.bin/ifenslave bond0 eth0 wlanold
+	# Bring all interfaces down
+	ifconfig $bonding_interface down
+	ifconfig $primary_interface down
+	ifconfig $secondary_interface down
 
-    # Have to bring bond0 down to be rename the interface
-    /opt/wz_mini/bin/busybox ip link set bond0 down
+	# Have to bring bonding interface up to be able to bond our slaves.
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface up
 
-    # Name the bond0 interface to be the "new" wlan0 interface
-    /opt/wz_mini/bin/busybox ip link set bond0 name wlan0
+	# Rename the real wlan0 interface if needed/used
+    if [[ "$primary_interface" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $primary_interface name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		primary_interface="wlanold"
+    fi
+    if [[ "$secondary_interface" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $secondary_interface name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		secondary_interface="wlanold"
+    fi
 
-    # Bring the newly renamed wlan0 back up
+	# Enslave the Ethernet and Original Wifi interfaces
+	# under the bonding interface.
+	/opt/wz_mini/tmp/.bin/ifenslave $bonding_interface $primary_interface $secondary_interface
+
+	# Have to bring bonding interface down to be rename the interface
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface down
+
+	# Name the bonding interface to be the "new" wlan0 interface
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface name wlan0
+
+	# Bring the newly renamed wlan0 (actually the bond interface) back up
 	eth_wlan_up
 }
 
@@ -96,10 +120,12 @@ eth_wlan_up() {
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
 
-	# Kill any existing wpa_supplicant that might be running
-	# and spawn our own instead
-	/opt/wz_mini/bin/busybox killall wpa_supplicant
-	wpa_supplicant -D nl80211 -i wlanold -c /tmp/wpa_supplicant.conf -B -s
+    # If running with Interface Bonding enabled, kill any existing
+    # wpa_supplicant that might be running and spawn our own instead
+    if [[ "$BONDING_ENABLED" == "true" ]]; then
+        /opt/wz_mini/bin/busybox killall wpa_supplicant
+        wpa_supplicant -D nl80211 -i wlanold -c /tmp/wpa_supplicant.conf -B -s
+    fi
 
 	if [[ "$V2" == "true" ]]; then
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
@@ -134,7 +160,11 @@ wlanold_check() {
 		eth_wlan_up
 	else
 		echo "wlanold doesn't exist"
-		rename_interface $1
+		if [[ "$BONDING_ENABLED" == "true" ]]; then
+			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
+		else
+			rename_interface $1
+		fi
 	fi
 }
 
@@ -250,8 +280,10 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
 
-    # Insert the bonding driver when running Ethernet
-    insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon=100 downdelay=5000 updelay=5000 primary=eth0
+    if [[ "$BONDING_ENABLED" == "true" ]]; then
+        # Insert the bonding driver if requested
+        insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE"
+    fi
 
 	swap_enable
 
