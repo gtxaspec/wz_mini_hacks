@@ -46,32 +46,44 @@ if [ -f /params/config/.product_config ]; then
 	fi
 fi
 
+## REPLACE STOCK MODULES
+
+if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
+	#V2/V3 ONLY
+	echo "Enable RTL8189FS"
+	if [[ "$V2" == "true" ]]; then
+		sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+	else
+		sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+	fi
+fi
+
 ##RTSP SERVER INIT
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video6 video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=6,7
+		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6,7
 		else
 		        echo "load video loopback driver at video1 video2"
-		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1,2
+		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1,2
 		fi
 	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=7
+		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=7
 		else
 		        echo "load video loopback driver at video2"
-	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=2
+	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=2
 		fi
 	elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [[ "$V2" == "true" ]]; then
 		        echo "load video loopback driver at video6"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/kernel/v4l2loopback_V2.ko video_nr=6
+		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6
 		else
 		        echo "load video loopback driver at video1"
-		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/v4l2loopback.ko video_nr=1
+		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
 		fi
 	fi
 

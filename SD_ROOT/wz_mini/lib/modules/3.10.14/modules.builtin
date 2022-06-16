@@ -1,5 +1,6 @@
 kernel/arch/mips/xburst/soc-t20/chip-t20/isvp/common/keyboard_gpio.ko
 kernel/arch/mips/xburst/soc-t20/chip-t20/isvp/common/i2c_bus.ko
+kernel/kernel/configs.ko
 kernel/fs/binfmt_script.ko
 kernel/fs/configfs/configfs.ko
 kernel/fs/fat/fat.ko
@@ -83,8 +84,6 @@ kernel/drivers/net/macvlan.ko
 kernel/drivers/net/mii.ko
 kernel/drivers/net/phy/libphy.ko
 kernel/drivers/regulator/fixed.ko
-kernel/drivers/scsi/scsi_mod.ko
-kernel/drivers/scsi/sd_mod.ko
 kernel/drivers/switch/switch_class.ko
 kernel/drivers/tty/serial/serial_core.ko
 kernel/drivers/tty/serial/jz_uart.ko

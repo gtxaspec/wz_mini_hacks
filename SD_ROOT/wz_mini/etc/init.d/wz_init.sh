@@ -4,7 +4,7 @@
 ###
 
 ###This file is run by switch_root, from the initramfs in the kernel.
-LOG_NAME=/opt/wz_mini/log/v3_init
+LOG_NAME=/opt/wz_mini/log/wz_init
 if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
     i=0
     while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
@@ -20,7 +20,7 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
-echo "welcome to v3_init.sh"
+echo "welcome to wz_init.sh"
 echo "PID $$"
 
 echo '
@@ -67,11 +67,11 @@ if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
 else
 	echo "first boot, initializing"
         if [[ "$V2" == "true" ]]; then
-		insmod /opt/wz_mini/lib/modules/3.10.14/kernel/audio.ko
+		insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko
         	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	else
-	        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+	        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
         	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav $AUDIO_PROMPT_VOLUME
         	rmmod audio
 	fi
@@ -124,6 +124,18 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
 
+if [[ "$V2" == "true" ]]; then
+        mount -t jffs2 /dev/mtdblock4 /system
+fi
+
+echo "Copy factory app_init.sh"
+cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+
+echo "Replace factory app_init.sh path"
+sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh\n' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/\/system\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
+
 echo "replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
 
@@ -136,11 +148,11 @@ chmod 400 /etc/shadow
 
 if [[ -e /opt/wz_mini/swap.gz ]]; then
         if [[ "$V2" == "true" ]]; then
-		insmod /opt/wz_mini/lib/modules/3.10.14/kernel/audio.ko
+		insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko
         	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	else
-		insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+		insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
 		/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav $AUDIO_PROMPT_VOLUME
 		rmmod audio
 	fi
@@ -176,7 +188,7 @@ elif [[ "$WEB_CAM_ENABLE" == "true" ]]; then
 elif [[ -d /opt/Upgrade ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
-	sed -i '/^# Mount configs.*/i/opt/wz_mini/usr/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
+	sed -i '/^# Mount configs.*/i/opt/wz_mini/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 fi
 

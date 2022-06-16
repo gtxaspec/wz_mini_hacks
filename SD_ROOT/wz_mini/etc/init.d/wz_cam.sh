@@ -56,8 +56,8 @@ if [ "$V2" == "false" ]; then
 	insmod /system/driver/sensor_gc2053_t31.ko
 	insmod /system/driver/audio.ko
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/libcomposite.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/videobuf2-vmalloc.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/usbcamera.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/videobuf2-vmalloc.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/usbcamera.ko
 
 	cd /system/bin/
 	/system/bin/ucamera &
@@ -98,14 +98,14 @@ else
 	insmod /driver/tx-isp.ko isp_clk=100000000
 	insmod /driver/exfat.ko
 	insmod /driver/sample_motor.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/audio_webcam.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio_webcam.ko
 	insmod /driver/sinfo.ko
 	insmod /driver/sample_pwm_core.ko
 	insmod /driver/sample_pwm_hal.ko
 
-	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/libcomposite.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/videobuf2-vmalloc.ko
-	insmod /opt/wz_mini/lib/modules/3.10.14/kernel/usbcamera.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/extra/libcomposite.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/extra/videobuf2-vmalloc.ko
+	insmod /opt/wz_mini/lib/modules/3.10.14/extra/usbcamera.ko
 
 	/opt/wz_mini/usr/bin/getSensorType
 	/opt/wz_mini/usr/bin/ucamera_v2 &
