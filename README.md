@@ -360,8 +360,26 @@ exposure value support
 
 =======
 
+ENABLE_RTL8189FS_DRIVER="false"
+
+Use a newer version of the driver for the RTL8189FTV on v2/v3.  May result in better wireless connection/performance. Experimental.
+
+=======
+
+Upgrade wz_mini over the air:
+
+`upgrade-run.sh`
+
+This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, any files stored in `wz_mini/etc/configs`, ssh keys, and wireguard configs.  It will download the latest master version, extract it, reboot into upgrade mode, perform the upgrade, then reboot to the updated system.
+
+If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
+
+=======
+
+
 ## Latest Updates
 
+* 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3.
 * 06-14-22:  Updated v4l2rtspserver, fixes to prevent rare low memory situations and RTSP server crashes, fixed intermittant failed RTSP HD stream, script logic updates.
 * 06-12-22:  Added additional audio variables for tuning in libcallback, various bug fixes in wz_user.  Added `gather_wz_logs.sh` script for users to share debug logs.
 * 06-07-22:  Added support to tune IMP video and audio options in libcallback.
