@@ -53,6 +53,10 @@ lsmod > /opt/wz_mini/tmp/log_gather/kmod.log
 echo "gather app.ver"
 cp /system/bin/app.ver /opt/wz_mini/tmp/log_gather/system_app.ver
 
+echo "gather mmc info"
+cat /sys/bus/mmc/devices/mmc1\:0001/mmc1\:0001\:1/* > /opt/wz_mini/tmp/log_gather/mmc_sys.log
+
+
 if [ -f /tmp/sd_check_result.txt ]; then
 	echo "copy sd_check_result.txt"
 	cp /tmp/sd_check_result.txt /opt/wz_mini/tmp/log_gather/sd_check_result.txt
