@@ -124,11 +124,16 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
 
+if [[ "$V2" == "true" ]]; then
+        mount -t jffs2 /dev/mtdblock4 /system
+fi
+
 echo "Copy factory app_init.sh"
 cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
 
 echo "Replace factory app_init.sh path"
-sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh\n' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/\/system\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
 
 echo "replace stock password"

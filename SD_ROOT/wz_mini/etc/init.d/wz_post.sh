@@ -49,8 +49,13 @@ fi
 ## REPLACE STOCK MODULES
 
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
+	#V2/V3 ONLY
 	echo "Enable RTL8189FS"
-	sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/8189fs_wz.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+	if [[ "$V2" == "true" ]]; then
+		sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+	else
+		sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+	fi
 fi
 
 ##RTSP SERVER INIT
