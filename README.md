@@ -10,6 +10,7 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Related Projects:
 * wz_mini_debian: run full debian in a chroot, on the camera! (coming soon)
+
 ~~* wz_mini_utils: various statically compiled binaries for use with the camera (mipsel)~~ (deprecated, all utils now located in wz_mini/bin)
 
 ## Features
