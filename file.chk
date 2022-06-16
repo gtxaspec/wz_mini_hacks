@@ -49,7 +49,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-700cf139048c487fe60e3eb52416b537  SD_ROOT/wz_mini/bin/upgrade-run.sh
+d010b7a3e0c22fa6ea7fe1b53a13c119  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
@@ -77,6 +77,7 @@ ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
+d010b7a3e0c22fa6ea7fe1b53a13c119  SD_ROOT/wz_mini/usr/bin/upgrade-run.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
