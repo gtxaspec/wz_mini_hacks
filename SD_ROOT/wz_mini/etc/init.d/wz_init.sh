@@ -188,7 +188,7 @@ elif [[ "$WEB_CAM_ENABLE" == "true" ]]; then
 elif [[ -d /opt/Upgrade ]]; then
         sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
         sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
-	sed -i '/^# Mount configs.*/i/opt/wz_mini/usr/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
+	sed -i '/^# Mount configs.*/i/opt/wz_mini/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
 	touch /tmp/dbgflag
 fi
 

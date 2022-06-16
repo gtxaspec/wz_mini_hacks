@@ -360,7 +360,9 @@ exposure value support
 
 ---
 
+```
 ENABLE_RTL8189FS_DRIVER="false"
+```
 
 Use a newer version of the driver for the RTL8189FTV on v2/v3.  May result in better wireless connection/performance. Experimental.
 

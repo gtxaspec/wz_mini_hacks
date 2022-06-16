@@ -43,8 +43,8 @@ fi
 
 install_upgrade_script() {
 echo "Installing latest upgrade-script"
-cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
-/opt/wz_mini/usr/bin/upgrade-run.sh backup_begin
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
+/opt/wz_mini/bin/upgrade-run.sh backup_begin
 }
 
 backup_begin() {
