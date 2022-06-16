@@ -46,6 +46,13 @@ if [ -f /params/config/.product_config ]; then
 	fi
 fi
 
+## REPLACE STOCK MODULES
+
+if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
+	echo "Enable RTL8189FS"
+	sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/8189fs_wz.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+fi
+
 ##RTSP SERVER INIT
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
