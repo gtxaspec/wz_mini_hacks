@@ -44,6 +44,10 @@ fi
 install_upgrade_script() {
 echo "Installing latest upgrade-script"
 cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
+
+#copy to old path for compatability
+cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/usr/bin/upgrade-run.sh
+
 /opt/wz_mini/bin/upgrade-run.sh backup_begin
 }
 
@@ -94,12 +98,12 @@ fi
 
 
 if [[ "$V2" == "true" ]]; then
-              insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko
-              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
+              insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
+              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
               rmmod audio
       else
-              insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-              /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
+              insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+              /opt/wz_mini/bin/audioplay_t31 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
               rmmod audio
       fi
 
