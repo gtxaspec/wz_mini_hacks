@@ -381,7 +381,7 @@ If there are any line differences between the old `wz_mini.conf` and the new rel
 
 ## Latest Updates
 
-* 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3.
+* 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed )
 * 06-14-22:  Updated v4l2rtspserver, fixes to prevent rare low memory situations and RTSP server crashes, fixed intermittant failed RTSP HD stream, script logic updates.
 * 06-12-22:  Added additional audio variables for tuning in libcallback, various bug fixes in wz_user.  Added `gather_wz_logs.sh` script for users to share debug logs.
 * 06-07-22:  Added support to tune IMP video and audio options in libcallback.

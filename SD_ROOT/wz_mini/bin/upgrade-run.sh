@@ -105,6 +105,11 @@ if [[ "$V2" == "true" ]]; then
 
 echo UPGRADE MODE
 
+if [[ "$V2" == "true" ]]; then
+	echo "Upgrading kernel"
+	flashcp -v /opt/Upgrade/wz_mini_hacks-master/v2_install/v2_kernel.bin /dev/mtd1
+fi
+
 umount -l /opt/wz_mini/tmp
 ls -l /opt/wz_mini/
 rm -rf /opt/wz_mini/*
