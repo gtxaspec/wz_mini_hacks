@@ -13,7 +13,6 @@ else
 create_dir
 fi
 
-#cat * | grep 2C | sed 's/^.*\(RTSP_PASSWORD=\).*$/\1/' | sed 's/-U[^-P]*//'
 echo "copy wz_mini logs"
 cp /opt/wz_mini/log/* /opt/wz_mini/tmp/log_gather/
 
@@ -39,7 +38,7 @@ echo "gather libcallback logs"
 logread | grep "\[command\]" > /opt/wz_mini/tmp/log_gather/libcallback.log
 
 echo "gather process list"
-ps -T | sed 's/-U[^-P]*//' > /opt/wz_mini/tmp/log_gather/ps.log
+ps -T > /opt/wz_mini/tmp/log_gather/ps.log
 
 echo "gather mounts"
 mount > /opt/wz_mini/tmp/log_gather/mount.log
@@ -61,6 +60,17 @@ if [ -f /tmp/sd_check_result.txt ]; then
 	echo "copy sd_check_result.txt"
 	cp /tmp/sd_check_result.txt /opt/wz_mini/tmp/log_gather/sd_check_result.txt
 fi
+
+if [[ "$RTSP_PASSWORD" == "" ]]; then
+        echo "password is blank in config"
+        RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+fi
+
+cd /opt/wz_mini/tmp/log_gather
+echo $RTSP_PASSWORD
+sed -e s/"$RTSP_PASSWORD"//g -i *
+cd /
+
 
 echo "compress to /media/mmc/log_gather_$(date +"%F_T%H%M").tar.gz"
 tar -czf /media/mmc/log_gather_$(date +"%F_T%H%M").tar.gz -C /opt/wz_mini/tmp log_gather/

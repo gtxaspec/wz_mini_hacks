@@ -16,7 +16,7 @@ exec 1> $LOG_NAME.log 2>&1
 
 set -x
 
-if [[ -e /tmp/dbgflag ]];then
+if [ -e /tmp/dbgflag ];then
 	echo "debug mode, disabled"
 	exit 0
 fi
@@ -40,20 +40,14 @@ if [ -d /lib/modules ]; then
 	mount --bind /opt/wz_mini/lib/modules /lib/modules
 fi
 
-if [ -f /params/config/.product_config ]; then
-	if cat /params/config/.product_config | grep WYZEC1-JZ; then
-		V2="true"
-	fi
-fi
-
 ## REPLACE STOCK MODULES
 
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
-	#V2/V3 ONLY
+	#V2/V3 ONLY [DB3 untested]
 	echo "Enable RTL8189FS"
-	if [[ "$V2" == "true" ]]; then
+	if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
 		sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
-	else
+	elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
 		sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
 	fi
 fi
@@ -62,7 +56,7 @@ fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	        if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		        echo "load video loopback driver at video6 video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6,7
 		else
@@ -70,7 +64,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1,2
 		fi
 	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
-	        if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		        echo "load video loopback driver at video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=7
 		else
@@ -78,7 +72,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=2
 		fi
 	elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	        if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		        echo "load video loopback driver at video6"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6
 		else

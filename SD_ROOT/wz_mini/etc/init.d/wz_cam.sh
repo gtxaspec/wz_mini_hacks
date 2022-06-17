@@ -21,22 +21,7 @@ set -x
 echo "welcome to wz_cam.sh"
 echo "PID $$"
 
-#test for v2
-v2_test() {
-        if cat /params/config/.product_config | grep WYZEC1-JZ; then
-                V2="true"
-        fi
-}
-
-if mountpoint -q /params; then
-        echo "params already mounted"
-	v2_test
-else
-        mount -t jffs2 /dev/mtdblock9 /params
-	v2_test
-fi
-
-if [ "$V2" == "false" ]; then
+        if [ -f /opt/wz_mini/tmp/.T31 ]; then
 
 	cp /opt/wz_mini/etc/uvc.config /opt/wz_mini/usr/bin/uvc.config
 
