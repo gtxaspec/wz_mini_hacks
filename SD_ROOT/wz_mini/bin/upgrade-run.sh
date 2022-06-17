@@ -1,9 +1,9 @@
 #!/bin/sh
 
 if [ -L /dev/fd ]; then
-	echo fd exists
+	echo "fd exists" > /dev/null
 else
-	echo fd does not exist, link
+	echo "fd does not exist, link" > /dev/null
 	ln -s /proc/self/fd /dev/fd
 fi
 
@@ -28,29 +28,36 @@ echo "Verify file integrity"
 cd /opt/Upgrade/wz_mini_hacks-master
 md5sum -c file.chk
 
-if [ $? -eq 0 ]
-then
-  echo "files OK"
-  install_upgrade_script
+if [ $? -eq 0 ]; then
+	echo "files OK"
+	install_upgrade_script
 else
-  echo "Failure: archive has corrupted files"
-  echo "Delete failed upgrade dir"
-  rm -rf /opt/Upgrade
-  exit 1
+	echo "Failure: archive has corrupted files"
+	echo "Delete failed upgrade dir"
+	rm -rf /opt/Upgrade
+	exit 1
 fi
 
 }
 
 install_upgrade_script() {
-echo "Installing latest upgrade-script"
+echo "Installing latest upgrade-run from repo"
 cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
 
 sleep 5
 
-/opt/wz_mini/bin/upgrade-run.sh backup_begin
+echo "Launching latest upgrade-script"
+/opt/wz_mini/bin/upgrade-run.sh backup_begin &
+
+echo "Exit old script"
+exit 0
 }
 
 backup_begin() {
+echo "Resume upgrade-run, latest version"
+
+sleep 5
+
 echo "Backup user config"
 cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
@@ -88,7 +95,7 @@ else
         rmmod audio
 fi
 
-echo UPGRADE MODE
+echo "UPGRADE MODE"
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	echo "Upgrading kernel"
@@ -106,12 +113,12 @@ mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory
 diff /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/wz_mini.conf
 
 if [ $(cat /opt/Upgrade/preserve/wz_mini.conf | wc -l) != $(cat /opt/wz_mini/wz_mini.conf | wc -l) ]; then
-echo "doesn't match, keep old config"
-mv /opt/wz_mini/wz_mini.conf /opt/wz_mini/wz_mini.conf.dist
-cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
+	echo "doesn't match, keep old config"
+	mv /opt/wz_mini/wz_mini.conf /opt/wz_mini/wz_mini.conf.dist
+	cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
 else
-echo "configs match"
-cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
+	echo "configs match"
+	cp /opt/Upgrade/preserve/wz_mini.conf /opt/wz_mini/
 fi
 
 cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
@@ -124,11 +131,11 @@ reboot
 }
 
 if [[ -e /tmp/dbgflag ]]; then
-upgrade_mode_start
+	upgrade_mode_start
 else
 
 if [ "$1" == "backup_begin" ]; then
-backup_begin
+	backup_begin
 else
 
 read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response

@@ -382,7 +382,7 @@ NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you m
 ## Latest Updates
 
 * 06-16-22:  Simplified the camera model detection method throughout wz_mini.
-* 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed, if you are upgrading the V2, do not use the upgrade-run.sh script )
+* 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed, if you are upgrading the V2, do not use the upgrade-run.sh script, please manually update )
 * 06-14-22:  Updated v4l2rtspserver, fixes to prevent rare low memory situations and RTSP server crashes, fixed intermittant failed RTSP HD stream, script logic updates.
 * 06-12-22:  Added additional audio variables for tuning in libcallback, various bug fixes in wz_user.  Added `gather_wz_logs.sh` script for users to share debug logs.
 * 06-07-22:  Added support to tune IMP video and audio options in libcallback.
