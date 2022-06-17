@@ -36,40 +36,59 @@ echo '
 
 set -x
 
-#WCV3 AUDIO GPIO
-GPIO=63
-V2="false"
-
 #replace stock busybox
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
-#test for v2
+echo "replace stock fstab"
+mount --bind /opt/wz_mini/etc/fstab /etc/fstab
+
+echo "mount workplace dir"
+mount -t tmpfs /opt/wz_mini/tmp
+
+echo "install busybox applets"
+mkdir /opt/wz_mini/tmp/.bin
+/opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
+
+##DETECT CAMERA MODEL & PLATFORM TYPE
+#V2=WYZEC1-JZ
+#PANv1=WYZECP1_JEF
+#PANv2=HL_PAN2
+#V3=WYZE_CAKP2JFUS
+#DB3=WYZEDB3
+
+#mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
 if [ -b /dev/mtdblock9 ]; then
-	mount -t jffs2 /dev/mtdblock9 /params
-	if cat /params/config/.product_config | grep WYZEC1-JZ; then
-        	V2="true"
-	fi
+        mkdir /opt/wz_mini/tmp/params
+        mount -t jffs2 /dev/mtdblock9 /opt/wz_mini/tmp/params
+        touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/params/config/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
+        touch /opt/wz_mini/tmp/.T20
+        umount /opt/wz_mini/tmp/params
+        rm -rf /opt/wz_mini/tmp/params
+elif [ -b /dev/mtdblock6 ]; then
+        mkdir /opt/wz_mini/tmp/configs
+        mount -t jffs2 /dev/mtdblock6 /opt/wz_mini/tmp/configs
+        touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/configs/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
+        touch /opt/wz_mini/tmp/.T31
+        umount /opt/wz_mini/tmp/configs
+        rm -rf /opt/wz_mini/tmp/configs
 fi
 
-#Check model, change GPIO is HL_PAN2
-if [[ "$V2" == "false" ]]; then
-	mount -t jffs2 /dev/mtdblock6 /configs
-	if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
-	umount /configs
-	GPIO=7
-	fi
-else
-	echo "not HL_PAN2"
+#Set the correct GPIO for the audio driver (T31 only)
+if [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
+        GPIO=7
+elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
+        GPIO=63
 fi
 
-if [[ -e /opt/wz_mini/etc/.first_boot ]]; then
+if [ -e /opt/wz_mini/etc/.first_boot ]; then
         echo "first boot already completed"
 else
 	echo "first boot, initializing"
-        if [[ "$V2" == "true" ]]; then
-		insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko
+	if [ -f /opt/wz_mini/tmp/.T20 ]; then
+		#May need different gpio for PANv1
+		#We don't rmmod this module, as it is marked [permanent] by the kernel on T20
+		insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko sign_mode=0
         	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav $AUDIO_PROMPT_VOLUME
-		rmmod audio
 	else
 	        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
         	/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav $AUDIO_PROMPT_VOLUME
@@ -88,24 +107,12 @@ echo "mounting tmpfs"
 mount -t tmpfs /tmp
 
 echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
-if [[ ! "$V2" == "true" ]]; then
+if [ -f /opt/wz_mini/tmp/.T31 ]; then
 	mount /dev/mtdblock3 /system
 	mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
-else
-	echo "v2 doesn't need factorycheck"
 fi
 
 touch /tmp/usrflag
-
-echo "replace stock fstab"
-mount --bind /opt/wz_mini/etc/fstab /etc/fstab
-
-echo "mount workplace dir"
-mount -t tmpfs /opt/wz_mini/tmp
-
-echo "install busybox applets"
-mkdir /opt/wz_mini/tmp/.bin
-/opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
 
 echo "create workspace directory"
 mkdir /opt/wz_mini/tmp/.storage
@@ -124,7 +131,7 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
 #sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
 
-if [[ "$V2" == "true" ]]; then
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -t jffs2 /dev/mtdblock4 /system
 fi
 
@@ -147,10 +154,8 @@ mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
 chmod 400 /etc/shadow
 
 if [[ -e /opt/wz_mini/swap.gz ]]; then
-        if [[ "$V2" == "true" ]]; then
-		insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
         	LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav $AUDIO_PROMPT_VOLUME
-		rmmod audio
 	else
 		insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
 		/opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav $AUDIO_PROMPT_VOLUME
@@ -161,10 +166,10 @@ if [[ -e /opt/wz_mini/swap.gz ]]; then
         mkswap /opt/wz_mini/swap
 	sync;echo 3 > /proc/sys/vm/drop_caches
 else
-	echo "swap archive not present, not extracting"
+	echo "swap archive missing, not extracting"
 fi
 
-if [[ -d /opt/wz_mini/usr/share/terminfo ]]; then
+if [ -d /opt/wz_mini/usr/share/terminfo ]; then
 	echo "terminfo already present"
 else
 	echo "terminfo not present, extract"

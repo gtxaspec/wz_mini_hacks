@@ -33,7 +33,7 @@ hostname_set() {
 }
 
 first_run_check() {
-	if [[ -e /opt/wz_mini/tmp/.wz_user_firstrun ]]; then
+	if [ -e /opt/wz_mini/tmp/.wz_user_firstrun ]; then
 	echo "wz_user.sh already run once, exit."
 	exit 0
 	fi
@@ -76,7 +76,7 @@ eth_wlan_up() {
         ifconfig wlan0 up
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
-	if [[ "$V2" == "true" ]]; then
+	if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
 	else
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
@@ -86,7 +86,7 @@ eth_wlan_up() {
 
 wpa_check() {
 #Check if wpa_supplicant has been created by iCamera
-	if [[ -e /tmp/wpa_supplicant.conf ]]; then
+	if [ -e /tmp/wpa_supplicant.conf ]; then
 		echo "wpa_supplicant.conf ready"
 		wlanold_check $1
 	else
@@ -103,7 +103,7 @@ wpa_check() {
 
 wlanold_check() {
 #Have we renamed interfaces yet?
-	if [[ -d /sys/class/net/wlanold ]]; then
+	if [ -d /sys/class/net/wlanold ]; then
 		echo "wlanold exist"
 		eth_wlan_up
 	else
@@ -123,7 +123,7 @@ netloop() {
 }
 
 swap_enable() {
-        if [[ -e /opt/wz_mini/swap ]]; then
+        if [ -e /opt/wz_mini/swap ]; then
                 echo "Swap file exists"
                 if cat /proc/swaps | grep "mini" ; then
                         echo "Swap is already enabled"
@@ -165,12 +165,11 @@ done
 first_run_check
 wait_wlan
 
-if cat /params/config/.product_config | grep WYZEC1-JZ; then
-V2="true"
-KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
+#Set module dir depending on platform
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
+	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
 else
-V2="false"
-KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
+	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
 fi
 
 swap_enable
@@ -193,8 +192,8 @@ else
 fi
 
 if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
-	if [[ "$V2" == "true" ]]; then
-		echo "v2 has iptables built in"
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+		echo "T20 has iptables built in"
 	else
 		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/netfilter/x_tables.ko
 		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ip_tables.ko
@@ -236,7 +235,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
         HOST_MACADDR=$(echo "$HOSTNAME"|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
 
-	if [[ "$V2" == "true" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect
 		sleep 1
 		devmem 0x10000040 32 0x0b800096
@@ -252,7 +251,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/usb/gadget/libcomposite.ko
 
-	if [[ "$V2" == "false" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T31 ]; then
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
 	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
 	fi
@@ -341,7 +340,7 @@ else
 fi
 
 if [[ "$ENABLE_EXT4" == "true" ]]; then
-	if [[ "$V2" == "true" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	insmod $KMOD_PATH/kernel/lib/crc16.ko
 	fi
 
@@ -370,8 +369,8 @@ else
 fi
 
 if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
-        if [[ "$V2" == "true" ]]; then
-		echo "mp4_write is not supported on v2"
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+		echo "mp4_write is not supported on T20"
 	else
 		/opt/wz_mini/bin/cmd mp4write on
 		echo "mp4_write enabled"
@@ -382,7 +381,7 @@ fi
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 
-        if [[ "$V2" == "true" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	HI_VIDEO_DEV="/dev/video6"
 	else
 	HI_VIDEO_DEV="/dev/video1"
@@ -407,7 +406,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
         fi
 
         if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-                if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
                         if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
                                 watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 				sleep 5
@@ -425,7 +424,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
         fi
 
 	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
 			sleep 5
 		else
@@ -435,8 +434,8 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	fi
 
 	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
-			echo "not supported on v2"
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+			echo "not supported on T20"
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 			sleep 5
@@ -444,7 +443,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	fi
 
 	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
+	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
 			sleep 5
 		else
@@ -461,7 +460,7 @@ fi
 
 if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
-	if [[ "$V2" == "true" ]]; then
+	if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	LOW_VIDEO_DEV="/dev/video7"
 	else
 	LOW_VIDEO_DEV="/dev/video2"
@@ -486,7 +485,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
         fi
 
         if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-                if [[ "$V2" == "true" ]]; then
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
                         if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
                                 watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
 				sleep 5
@@ -503,7 +502,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
         fi
 
 	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
 			sleep 5
 		else
@@ -512,15 +511,15 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	fi
 
 	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
-			echo "not supported on v2"
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
+			echo "not supported on T20"
 		else
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
 		fi
 	fi
 
 	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
-		if [[ "$V2" == "true" ]]; then
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
 			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
 			sleep 5
 		else
@@ -552,7 +551,7 @@ fi
 
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
-pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores when something crashes
+pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
 sysctl -w kernel.core_pattern='|/bin/false'
 dmesg_log
 trim_logs

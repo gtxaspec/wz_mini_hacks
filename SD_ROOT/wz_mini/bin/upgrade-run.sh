@@ -71,44 +71,26 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 set -x
 
-#WCV3 AUDIO GPIO
-GPIO=63
-V2="false"
+#Set the correct GPIO for the audio driver (T31 only)
+if [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
+	GPIO=7
+elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
+	GPIO=63
+fi
 
-#Check model, change GPIO is HL_PAN2
-if [[ "$V2" == "false" ]]; then
-        mount -t jffs2 /dev/mtdblock6 /configs
-        if [[ $(cat /configs/.product_config  | grep PRODUCT_MODEL) == "PRODUCT_MODEL=HL_PAN2" ]]; then
-        umount /configs
-        GPIO=7
-        fi
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
+        insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
+        LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
+	rmmod audio
 else
-        echo "not HL_PAN2"
+	insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+        /opt/wz_mini/bin/audioplay_t31 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
+        rmmod audio
 fi
-
-
-#test for v2
-if [ -b /dev/mtdblock9 ]; then
-        mount -t jffs2 /dev/mtdblock9 /params
-        if cat /params/config/.product_config | grep WYZEC1-JZ; then
-                V2="true"
-        fi
-fi
-
-
-if [[ "$V2" == "true" ]]; then
-              insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
-              LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
-              rmmod audio
-      else
-              insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-              /opt/wz_mini/bin/audioplay_t31 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
-              rmmod audio
-      fi
 
 echo UPGRADE MODE
 
-if [[ "$V2" == "true" ]]; then
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	echo "Upgrading kernel"
 	flashcp -v /opt/Upgrade/wz_mini_hacks-master/v2_install/v2_kernel.bin /dev/mtd1
 fi
