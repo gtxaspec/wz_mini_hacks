@@ -7,7 +7,7 @@ if [ "$1" == "" ]; then
 	echo -e "video on on1 or off off1"
 	echo -e "audio on on1 or off off1"
 	echo -e "move (movable camera only)"
-	echo -e "waitMotion <timeout>"
+	echo -e "waitMotion <timeout> (you must enable motion tagging in the app first)"
 	echo -e "irled on or off"
 	echo -e "aplay <file path> <volume 1-100>"
 	echo -e "curlDebug on or off"
