@@ -69,7 +69,7 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup v3/PANv2
 
 1. git clone the repo or download the repo zip
-2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
+2. perform a fresh format on your micro-sd card, using fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
 3. copy all the files inside of SD_ROOT to your micro sd card
 4. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
@@ -84,7 +84,7 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup v2
 
 1. git clone the repo or download the repo zip
-2. format micro-sd card as fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
+2. perform a fresh format on your micro-sd card, using fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
 3. Run `compile_image.sh` using linux, wait for the script to finish.
 4. Copy all the files inside of SD_ROOT to your micro sd card
 5. Copy the generated `demo.bin` to root of your micro sd card
@@ -381,6 +381,7 @@ NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you m
 
 ## Latest Updates
 
+* 06-17-22:  Fix custom hostname not being set.  Note: The hostname variable has CHANGED!  You will need to update your `wz_mini.conf` file.
 * 06-16-22:  Simplified the camera model detection method throughout wz_mini.
 * 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed, if you are upgrading the V2, do not use the upgrade-run.sh script, please manually update )
 * 06-14-22:  Updated v4l2rtspserver, fixes to prevent rare low memory situations and RTSP server crashes, fixed intermittant failed RTSP HD stream, script logic updates.

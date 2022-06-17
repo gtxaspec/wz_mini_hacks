@@ -29,7 +29,7 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 hostname_set() {
 	echo "set hostname"
-	hostname $HOSTNAME
+	hostname $CUSTOM_HOSTNAME
 }
 
 first_run_check() {
@@ -75,7 +75,7 @@ eth_wlan_up() {
 ##Run DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
         ifconfig wlan0 up
 	pkill udhcpc
-        udhcpc -i wlan0 -x hostname:$HOSTNAME -p /var/run/udhcpc.pid -b
+        udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
 	if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
 	else
@@ -233,7 +233,7 @@ fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
-        HOST_MACADDR=$(echo "$HOSTNAME"|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
+        HOST_MACADDR=$(echo "$CUSTOM_HOSTNAME"|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
 
         if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect

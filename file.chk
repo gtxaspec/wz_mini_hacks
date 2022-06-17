@@ -3,11 +3,11 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-f4e8ec1b1d69c3b5ba74c617ec7e73d0  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+c94845a6a1bd6c20f643daf4595b03f9  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 48c4fd27a194459efda6e92b446f51a0  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
-2e2d5c1ebdcc16da6852e9cdd3ffc66c  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+2609cae8b3b084d83e84299528d8bc93  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
 2c2df1b9cb603f9c31c46162d6ac307f  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 9e5591da95042bcca910403bde25dc60  SD_ROOT/wz_mini/etc/fstab
@@ -25,7 +25,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/root/.gitignore
 ec906872794379af570869ebfd49bb23  SD_ROOT/wz_mini/bin/tcpdump
 db5c63af3c763fc6eb76f6e1b5c96794  SD_ROOT/wz_mini/bin/file
 3feb341fca58bc705c3ed5705d4eb716  SD_ROOT/wz_mini/bin/factorycheck
-fa09ee51c0aa8e9a5896051c20238965  SD_ROOT/wz_mini/bin/cmd
+042c34e28f96300c402a08254dca1200  SD_ROOT/wz_mini/bin/cmd
 a9a6bf805cbcfdd6698fe5efd65f91bb  SD_ROOT/wz_mini/bin/nano
 36cbfe7b96d4240a6b138dd3695ccefd  SD_ROOT/wz_mini/bin/strings
 1458f09775917db388f807f7ac01bb65  SD_ROOT/wz_mini/bin/socat
@@ -55,7 +55,7 @@ e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
 5d1359af0c7c5d326b8682a62f910620  SD_ROOT/wz_mini/bin/strace
 516118bfcc0f0ddc93fb9339b3c6a315  SD_ROOT/wz_mini/bin/xtables-multi
-a97ef595ae543e76de900c270baaa0d9  SD_ROOT/wz_mini/bin/gather_wz_logs.sh
+17a23742c599a262e4144c499fa66845  SD_ROOT/wz_mini/bin/gather_wz_logs.sh
 097cd91a56f2b0caea1dd87ae0e51a54  SD_ROOT/wz_mini/bin/screen
 fbbc2a8f362d05fc31557b1a534b42c6  SD_ROOT/wz_mini/bin/wget
 35420095a770c9bb6177788842f55bba  SD_ROOT/wz_mini/bin/dropbearconvert
@@ -184,5 +184,5 @@ ccf8f3611141656ba5594771bec06202  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-2d825fabc13b2f654c26c492758e1c8e  SD_ROOT/wz_mini/wz_mini.conf
+2609cae8b3b084d83e84299528d8bc93  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
