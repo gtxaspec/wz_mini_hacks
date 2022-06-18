@@ -218,9 +218,16 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
-	for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
-	do
-	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
+	for DEVICE in `lsusb | awk '{print $6}'| tr '[:lower:]' '[:upper:]'`; do
+		case $DEVICE in
+		'0B95:1780' | '0B95:7720' | '0B95:772B')
+			echo "Loading ASIX Ethernet driver..."
+			modprobe asix
+		;;
+		'0B95:1790')
+			echo "Loading AX88179 Gigabit Ethernet driver..."
+			modprobe ax88179_178a
+		esac
 	done
 
 	swap_enable
