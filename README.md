@@ -377,6 +377,15 @@ This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, a
 If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
 
 NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
+
+---
+
+```
+NIGHT_DROP_DISABLE="false"
+```
+
+Stop the camera from dropping the frame rate during nightvision.
+
 ---
 
 ## Latest Updates
