@@ -50,6 +50,7 @@ echo "Launching latest upgrade-script"
 /opt/wz_mini/bin/upgrade-run.sh backup_begin &
 
 echo "Exit old script"
+rm -f /dev/fd
 exit 0
 }
 
