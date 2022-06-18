@@ -3,8 +3,8 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-c94845a6a1bd6c20f643daf4595b03f9  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
-48c4fd27a194459efda6e92b446f51a0  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
+a98928459d20f5202bec263a1ec6f5f5  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+babb83cd8cdbd5af8639cfaecbca2d70  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 2609cae8b3b084d83e84299528d8bc93  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
@@ -49,7 +49,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-1b34a65eae3c4aed0704cc90e59757ce  SD_ROOT/wz_mini/bin/upgrade-run.sh
+acc689ec54f1441af6af08d3c5be6447  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
@@ -81,7 +81,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
-11efb592b989c853d0db65b5aa5e5413  SD_ROOT/wz_mini/lib/libcallback.so
+8b11cb5de135891af07b5fd9675ce73a  SD_ROOT/wz_mini/lib/libcallback.so
 baf8d0b7a28f2fbb49a19ae0980779da  SD_ROOT/wz_mini/lib/modules/3.10.14/modules.order
 70775da41db88e4450d910b4ee8621c0  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/crypto/md4.ko
 abbaa461e044b5688814423a087fbc52  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/fs/ext4/ext4.ko
@@ -184,5 +184,5 @@ ccf8f3611141656ba5594771bec06202  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-2609cae8b3b084d83e84299528d8bc93  SD_ROOT/wz_mini/wz_mini.conf
+8d8b7d0665522562b174be8aeee8f31a  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore

@@ -549,6 +549,10 @@ if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "tru
 	/opt/wz_mini/bin/rtmp-stream.sh "$RMTP_STREAM_SERVICE" "$RTMP_AUDIO"
 fi
 
+if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
+	touch /opt/wz_mini/tmp/.nd
+fi
+
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
