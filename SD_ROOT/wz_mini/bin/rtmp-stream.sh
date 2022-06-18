@@ -14,7 +14,11 @@ TWITCH_URL="rtmp://live-ber.twitch.tv/app"
 YOUTUBE_URL="rtmp://b.rtmp.youtube.com/live2"
 FACEBOOK_URL="rtmps://live-api-s.facebook.com:443/rtmp"
 
-VIDEO_SOURCE="rtsp://"$RTSP_LOGIN":"$RTSP_PASSWORD"@0.0.0.0:"$RTSP_PORT"/$RTMP_STREAM_FEED"
+if [[ "$RTSP_LOGIN" == "" ]]; then
+       VIDEO_SOURCE="rtsp://0.0.0.0:"$RTSP_PORT"/$RTMP_STREAM_FEED"
+else
+       VIDEO_SOURCE="rtsp://"$RTSP_LOGIN":"$RTSP_PASSWORD"@0.0.0.0:"$RTSP_PORT"/$RTMP_STREAM_FEED"
+fi
 
 AUDIO_OPTIONS="-c:a libfdk_aac -afterburner 1 -channels 1 -b:a 128k -profile:a aac_he -ar 16000 -strict experimental"
 VIDEO_OPTIONS="-c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0"
