@@ -52,6 +52,13 @@ if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
 	fi
 fi
 
+if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
+	echo "Enable atbm603x_wifi_sdio_24M"
+	if [ -f /opt/wz_mini/tmp/.T31 ]; then
+		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio_24M.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
+	fi
+fi
+
 ##RTSP SERVER INIT
 
 if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
