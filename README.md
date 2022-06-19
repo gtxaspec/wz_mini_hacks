@@ -393,6 +393,8 @@ Stop the camera from dropping the frame rate during nightvision.
 
 ## Latest Updates
 
+* 06-19-22:  Fixed no rtsp video when wz_mini is used with the old stock rtsp firmware.
+* 06-18-22:  Added night drop feature preventing fps drop during nightvision.  Upgrade script can now work unattended.  Add -F0 flag to rtsp server.
 * 06-17-22:  Fix custom hostname not being set.  Note: The hostname variable has CHANGED!  You will need to update your `wz_mini.conf` file.
 * 06-16-22:  Simplified the camera model detection method throughout wz_mini.
 * 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed, if you are upgrading the V2, do not use the upgrade-run.sh script, please manually update )
