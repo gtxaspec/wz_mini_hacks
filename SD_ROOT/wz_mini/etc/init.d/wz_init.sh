@@ -135,8 +135,14 @@ if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -t jffs2 /dev/mtdblock4 /system
 fi
 
-echo "Copy factory app_init.sh"
-cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+if [[ "$ENABLE_WZ_RECYCLE" == "true"  ]]; then
+    echo "Copy and modify factory app_init.sh"
+    sed -r 's/.sys.bus.+mmc.+devices.+vendor/\/sys\/class\/net\/wlan0\/address/g' /system/init/app_init.sh > /opt/wz_mini/tmp/.storage/app_init.sh
+    chmod +x /opt/wz_mini/tmp/.storage/app_init.sh
+else
+    echo "Copy factory app_init.sh"
+    cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+fi
 
 echo "Replace factory app_init.sh path"
 sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
