@@ -33,7 +33,7 @@ Using this project can potentially expose your device to the open internet depen
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
 * iptables included
-* Play .wav audio files using "cmd aplay \<path-to-file\> \<vol\>" command, the .wav file should be run from:
+* Play .wav audio files using "cmd aplay \<path-to-file\> \<vol\>" command.  Supported .wav files may be generated using ffmpeg as well::
  ```
  ffmpeg -i in.wav -acodec pcm_s16le -ac 1 -ar 16000 out.wav
  ```
