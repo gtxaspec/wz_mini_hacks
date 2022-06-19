@@ -131,39 +131,45 @@ reboot
 
 }
 
-if [[ -e /tmp/dbgflag ]]; then
-	upgrade_mode_start
+if [[ "$1" == "unattended" ]]; then
+	echo "Unattended upgrade!"
+	rm -rf /opt/Upgrade
+	sync
+	setup
 else
 
-if [ "$1" == "backup_begin" ]; then
-	backup_begin
-else
+	if [[ -e /tmp/dbgflag ]]; then
+		upgrade_mode_start
+	else
 
-read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response
-    case "$response" in
-        [yY][eE][sS]|[yY])
-        if [[ -d /opt/Upgrade ]]; then
-                echo "WARNING: Old Upgrade directory exists"
-                read -r -p "${1:-Unable to proceed, must DELETE old Upgrade directory, are you sure? [y/N]} " response
-                case "$response" in
-                [yY][eE][sS]|[yY])
-                rm -rf /opt/Upgrade
-                sync
-                setup
-                ;;
-                *)
-                echo "User denied directory removal, exit"
-                ;;
-                esac
-        else
-                setup
-        fi
+		if [ "$1" == "backup_begin" ]; then
+			backup_begin
+		else
 
-            ;;
-        *)
-                echo "User declined system update, exit"
-            ;;
-    esac
-fi
-
+		read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response
+			case "$response" in
+			[yY][eE][sS]|[yY])
+			if [[ -d /opt/Upgrade ]]; then
+				echo "WARNING: Old Upgrade directory exists"
+				read -r -p "${1:-Unable to proceed, must DELETE old Upgrade directory, are you sure? [y/N]} " response
+				case "$response" in
+				[yY][eE][sS]|[yY])
+				rm -rf /opt/Upgrade
+				sync
+				setup
+				;;
+				*)
+				echo "User denied directory removal, exit"
+				;;
+	       			esac
+		        else
+				setup
+	        	fi
+			;;
+		        *)
+			echo "User declined system update, exit"
+	        	;;
+		    esac
+		fi
+	fi
 fi
