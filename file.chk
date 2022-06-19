@@ -81,7 +81,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
-8b11cb5de135891af07b5fd9675ce73a  SD_ROOT/wz_mini/lib/libcallback.so
+395c1f510f1179cc8ab4e8ffe8182c84  SD_ROOT/wz_mini/lib/libcallback.so
 baf8d0b7a28f2fbb49a19ae0980779da  SD_ROOT/wz_mini/lib/modules/3.10.14/modules.order
 70775da41db88e4450d910b4ee8621c0  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/crypto/md4.ko
 abbaa461e044b5688814423a087fbc52  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/fs/ext4/ext4.ko
