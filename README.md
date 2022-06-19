@@ -33,7 +33,10 @@ Using this project can potentially expose your device to the open internet depen
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
 * iptables included
-* Play .wav audio files using "cmd aplay <file> <vol>" command
+* Play .wav audio files using "cmd aplay \<path-to-file\> \<vol\>" command.  Supported .wav files may be generated using ffmpeg as well::
+ ```
+ ffmpeg -i in.wav -acodec pcm_s16le -ac 1 -ar 16000 out.wav
+ ```
 * WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC or AndroidTV!
 * RTMP Streaming - Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 
