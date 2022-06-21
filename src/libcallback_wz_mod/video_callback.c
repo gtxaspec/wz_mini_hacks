@@ -186,6 +186,10 @@ int local_sdk_video_set_encode_frame_callback(int ch, void *callback) {
     video_encode_cb = callback;
     fprintf(stderr,"enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
     callback = video_encode_capture;
+  } else if( (ch == 0) && ch_count == 3) {
+    video_encode_cb = callback;
+    fprintf(stderr,"RTSP FIRMWARE enc func injection save video_encode_cb=0x%x\n", video_encode_cb);
+    callback = video_encode_capture;
   }
     fprintf(stderr,"ch count is %x\n", ch_count);
 

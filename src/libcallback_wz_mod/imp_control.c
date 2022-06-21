@@ -158,21 +158,20 @@ int fps_den = 1;
 		IMP_ISP_Tuning_SetHVFLIP(3);
 	}
   } else if(!strcmp(p, "fps_set")) {
-	//encoder framerate failed
         p = strtok_r(NULL, " \t\r\n", &tokenPtr);
-//	fps_val = 20;
         if(p) fps_val = atoi(p);
 
-//	IMP_ISP_EnableTuning();
-//	IMP_ISP_Tuning_SetSensorFPS(fps_val, fps_den);
+	IMP_ISP_EnableTuning();
+	IMP_ISP_Tuning_SetSensorFPS(fps_val, fps_den);
 
-	paracfg_set_user_config_item(5,fps_val);
+	//encoder framerate failed
+//	paracfg_set_user_config_item(5,fps_val);
 
-	set_fs_chn_config_fps(encChn, fps_val);
-	set_fs_chn_config_fps(encChn1, fps_val);
+//	set_fs_chn_config_fps(encChn, fps_val);
+//	set_fs_chn_config_fps(encChn1, fps_val);
 
-	set_video_max_fps(fps_val);
-	local_sdk_video_set_fps(fps_val);
+//	set_video_max_fps(fps_val);
+//	local_sdk_video_set_fps(fps_val);
 
 //	local_sdk_video_set_gop(encChn, fps_val);
 

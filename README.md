@@ -33,7 +33,10 @@ Using this project can potentially expose your device to the open internet depen
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * CIFS Supported
 * iptables included
-* Play .wav audio files using "cmd aplay <file> <vol>" command
+* Play .wav audio files using "cmd aplay \<path-to-file\> \<vol\>" command.  Supported .wav files may be generated using ffmpeg as well::
+ ```
+ ffmpeg -i in.wav -acodec pcm_s16le -ac 1 -ar 16000 out.wav
+ ```
 * WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC or AndroidTV!
 * RTMP Streaming - Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 
@@ -377,10 +380,21 @@ This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, a
 If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
 
 NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
+
+---
+
+```
+NIGHT_DROP_DISABLE="false"
+```
+
+Stop the camera from dropping the frame rate during nightvision.
+
 ---
 
 ## Latest Updates
 
+* 06-19-22:  Fixed no rtsp video when wz_mini is used with the old stock rtsp firmware.
+* 06-18-22:  Added night drop feature preventing fps drop during nightvision.  Upgrade script can now work unattended.  Add -F0 flag to rtsp server.
 * 06-17-22:  Fix custom hostname not being set.  Note: The hostname variable has CHANGED!  You will need to update your `wz_mini.conf` file.
 * 06-16-22:  Simplified the camera model detection method throughout wz_mini.
 * 06-16-22:  fix scp client bug, allow user modifications to app_init, updated initramfs script, moved upgrade-run to PATH, revised kernel module paths, added ENABLE_RTL8189FS_DRIVER option for v2/v3, updated kernels for v2/v3. ( NOTE: this is a major upgrade, file names for the init scripts have changed, if you are upgrading the V2, do not use the upgrade-run.sh script, please manually update )
