@@ -278,7 +278,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
 	# Should we load a specific Ethernet driver, or try to auto-detect one
-	if [[ "ENABLE_USB_ETH_MODULE" != "" ]]; then
+	if [[ "$ENABLE_USB_ETH_MODULE" != "" ]]; then
 		insmod $KMOD_PATH/kernel/drivers/net/usb/$ENABLE_USB_ETH_MODULE.ko
 	else
 		# Auto-Detect an Ethernet Driver and load it
