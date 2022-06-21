@@ -152,12 +152,15 @@ USB Ethernet Adapter support:
 
 ```
 ENABLE_USB_ETH="true"
-ENABLE_USB_ETH_MODULES="asix,r8152,cdc_ether"
+ENABLE_USB_ETH_MODULE=""
 ```
 
-available modules: asix, ax88179_178a, cdc_ether, r8152
+To have the Ethernet NIC be auto-detected, set the ENABLE_USB_ETH_MODULE value to an empty string, eq: ""
 
-the next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.  Specify the driver you need for your specific USB Ethernet adapter. asix is listed by default.
+To load a specific USB Ethernet NIC driver, set ENABLE_USB_ETH_MODULE to one of the following:
+asix, ax88179_178a, cdc_ether, r8152
+
+The next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet. The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
 
 ---
 

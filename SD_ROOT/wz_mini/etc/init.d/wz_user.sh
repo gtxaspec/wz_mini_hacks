@@ -277,33 +277,39 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
-	for DEVICE in `lsusb | awk '{print $6}'| tr '[:upper:]' '[:lower:]'`; do
-		case $DEVICE in
-		'077b:2226' | '0846:1040' | '2001:1a00' | '0b95:1720' | '07b8:420a' |\
-		'08dd:90ff' | '0557:2009' | '0411:003d' | '0411:006e' | '6189:182d' |\
-		'0df6:0056' | '07aa:0017' | '1189:0893' | '1631:6200' | '04f1:3008' |\
-		'17ef:7203' | '0b95:772b' | '0b95:7720' | '0b95:1780' | '0789:0160' |\
-		'13b1:0018' | '1557:7720' | '07d1:3c05' | '2001:3c05' | '2001:1a02' |\
-		'1737:0039' | '04bb:0930' | '050d:5055' | '05ac:1402' | '0b95:772a' |\
-		'14ea:ab11' | '0db0:a877' | '0b95:7e2b' | '0b95:172a' | '066b:20f9')
-			echo "Loading ASIX Ethernet driver..."
-			modprobe asix
-			;;
-		'0b95:1790' | '0b95:178a' | '0df6:0072')
-			echo "Loading AX88179 Gigabit Ethernet driver..."
-			modprobe ax88179_178a
-			;;
-		'1004:61aa' | '046d:c11f' | '1410:b001' | '1410:9010' | '413c:8195' |\
-		'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac' | '0bda:8152')
-			echo "Loading USB CDC Ethernet driver..."
-			modprobe cdc_ether
-			;;
-		'0bda:8152')
-			echo "Loading Realtek RTL8152 driver..."
-			modprobe r8152
-			;;
-		esac
-	done
+	# Should we load a specific Ethernet driver, or try to auto-detect one
+	if [[ "ENABLE_USB_ETH_MODULE" != "" ]]; then
+		insmod $KMOD_PATH/kernel/drivers/net/usb/$ENABLE_USB_ETH_MODULE.ko
+	else
+		# Auto-Detect an Ethernet Driver and load it
+		for DEVICE in `lsusb | awk '{print $6}'| tr '[:upper:]' '[:lower:]'`; do
+			case $DEVICE in
+			'077b:2226' | '0846:1040' | '2001:1a00' | '0b95:1720' | '07b8:420a' |\
+			'08dd:90ff' | '0557:2009' | '0411:003d' | '0411:006e' | '6189:182d' |\
+			'0df6:0056' | '07aa:0017' | '1189:0893' | '1631:6200' | '04f1:3008' |\
+			'17ef:7203' | '0b95:772b' | '0b95:7720' | '0b95:1780' | '0789:0160' |\
+			'13b1:0018' | '1557:7720' | '07d1:3c05' | '2001:3c05' | '2001:1a02' |\
+			'1737:0039' | '04bb:0930' | '050d:5055' | '05ac:1402' | '0b95:772a' |\
+			'14ea:ab11' | '0db0:a877' | '0b95:7e2b' | '0b95:172a' | '066b:20f9')
+				echo "Loading ASIX Ethernet driver..."
+				modprobe asix
+				;;
+			'0b95:1790' | '0b95:178a' | '0df6:0072')
+				echo "Loading AX88179 Gigabit Ethernet driver..."
+				modprobe ax88179_178a
+				;;
+			'1004:61aa' | '046d:c11f' | '1410:b001' | '1410:9010' | '413c:8195' |\
+			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac' | '0bda:8152')
+				echo "Loading USB CDC Ethernet driver..."
+				modprobe cdc_ether
+				;;
+			'0bda:8152')
+				echo "Loading Realtek RTL8152 driver..."
+				modprobe r8152
+				;;
+			esac
+		done
+	fi
 
     if [[ "$BONDING_ENABLED" == "true" ]]; then
         if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
