@@ -52,7 +52,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-03a42f7f175f88903c0dc52013f11205  SD_ROOT/wz_mini/bin/upgrade-run.sh
+18acd856dd104377c35ca6121409f9cf  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
@@ -189,3 +189,7 @@ bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 aa102e670336c6bf165f1a9925d9d4fc  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
+00b99816217a740f5169709ef01eddf6  v2_install/compile_image.sh
+ff15869fe24297b9a5f75335a458a44f  v2_install/fw_tool.sh
+9625b325d7cf317bc9bc796312be82db  v2_install/v2_kernel.bin
+f01d641b98388e273c1f0ba682ebc75b  v2_install/.gitignore
