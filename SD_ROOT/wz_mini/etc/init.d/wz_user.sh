@@ -71,16 +71,71 @@ rename_interface() {
 	eth_wlan_up
 }
 
+rename_interface_and_setup_bonding() {
+##Fool iCamera by renaming the hardline interface to wlan0
+## $1 Bonding Interface, $2 Primary Interface, $3 Secondary Interface
+	bonding_interface=$1
+	primary_interface=$2
+	secondary_interface=$3
+
+	echo "renaming interfaces"
+
+	# Bring all interfaces down
+	ifconfig $bonding_interface down
+	ifconfig $primary_interface down
+	ifconfig $secondary_interface down
+
+	# Have to bring bonding interface up to be able to bond our slaves.
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface up
+
+	# Rename the real wlan0 interface if needed/used
+	if [[ "$primary_interface" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $primary_interface name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		primary_interface="wlanold"
+		# Because we just changed the name of the primary interface, we need to
+		# tell the bonding driver about the name change as well.
+		echo "$primary_interface" > /sys/devices/virtual/net/$bonding_interface/bonding/primary
+	fi
+	if [[ "$secondary_interface" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $secondary_interface name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		secondary_interface="wlanold"
+	fi
+
+	# Enslave the Ethernet and Original Wifi interfaces
+	# under the bonding interface.
+	/opt/wz_mini/tmp/.bin/ifenslave $bonding_interface $primary_interface $secondary_interface
+
+	# Have to bring bonding interface down to be rename the interface
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface down
+
+	# Name the bonding interface to be the "new" wlan0 interface
+	/opt/wz_mini/bin/busybox ip link set $bonding_interface name wlan0
+
+	# Bring the newly renamed wlan0 (actually the bond interface) back up
+	eth_wlan_up
+}
+
 eth_wlan_up() {
 ##Run DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
         ifconfig wlan0 up
 	pkill udhcpc
         udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
+
+    # If running with Interface Bonding enabled, kill any existing
+    # wpa_supplicant that might be running and spawn our own instead
+    if [[ "$BONDING_ENABLED" == "true" ]] && [[ "$ENABLE_USB_ETH" == "true" ]]; then
+        /opt/wz_mini/bin/busybox killall wpa_supplicant
+        wpa_supplicant -D nl80211 -i wlanold -c /tmp/wpa_supplicant.conf -B -s
+    fi
+
 	if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
 	else
         mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	fi
+
 	break
 }
 
@@ -108,7 +163,11 @@ wlanold_check() {
 		eth_wlan_up
 	else
 		echo "wlanold doesn't exist"
-		rename_interface $1
+		if [[ "$BONDING_ENABLED" == "true" ]] && [[ "$ENABLE_USB_ETH" == "true" ]]; then
+			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
+		else
+			rename_interface $1
+		fi
 	fi
 }
 
@@ -222,6 +281,27 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	do
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
+
+    if [[ "$BONDING_ENABLED" == "true" ]]; then
+        if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
+            "$BONDING_LINK_MONITORING_FREQ_MS" = "100"
+        fi
+        if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
+            "$BONDING_DOWN_DELAY_MS" = "5000"
+        fi
+        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
+            "$BONDING_UP_DELAY_MS" = "5000"
+        fi
+        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
+            "$BONDING_PRIMARY_INTERFACE" = "eth0"
+        fi
+        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
+            "$BONDING_SECONDARY_INTERFACE" = "wlan0"
+        fi
+
+        # Insert the bonding driver into the kernel
+        insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE"
+    fi
 
 	swap_enable
 
