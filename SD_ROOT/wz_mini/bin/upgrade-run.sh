@@ -12,29 +12,31 @@ exec > >(busybox tee -a ${LOG_FILE}) 2>&1
 
 setup() {
 
-echo "Create Upgrade directory"
-mkdir /opt/Upgrade
+echo "Create Upgrade staging directory"
+mkdir /opt/.Upgrade
 
 echo "Create backup files directory"
-mkdir /opt/Upgrade/preserve
+mkdir /opt/.Upgrade/preserve
 
 echo "Download latest master"
-wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/master.zip -O /opt/Upgrade/wz_mini.zip; sync
+wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/master.zip -O /opt/.Upgrade/wz_mini.zip; sync
 
-echo "Extract archive"
-unzip /opt/Upgrade/wz_mini.zip -d /opt/Upgrade/
+echo "Extract master archive"
+unzip /opt/.Upgrade/wz_mini.zip -d /opt/.Upgrade/
 
-echo "Verify file integrity"
-cd /opt/Upgrade/wz_mini_hacks-master
+echo "Verify extracted file integrity"
+cd /opt/.Upgrade/wz_mini_hacks-master
 md5sum -c file.chk
 
 if [ $? -eq 0 ]; then
-	echo "files OK"
+	echo "File verification successful!"
+	echo "Move staging directory to perform upgrade"
+	mv /opt/.Upgrade/ /opt/Upgrade/
 	install_upgrade_script
 else
-	echo "Failure: archive has corrupted files"
-	echo "Delete failed upgrade dir"
-	rm -rf /opt/Upgrade
+	echo "Failure: Extracted files may be corrupt.  Aborting upgrade."
+	echo "Delete failed upgrade staging directory"
+	rm -rf /opt/.Upgrade
 	exit 1
 fi
 
@@ -98,6 +100,19 @@ fi
 
 echo "UPGRADE MODE"
 
+echo "Verify extracted file integrity"
+cd /opt/Upgrade/wz_mini_hacks-master
+md5sum -c file.chk
+
+if [ $? -eq 0 ]; then
+        echo "File verification successful!"
+else
+        echo "Failure: Extracted files may be corrupt.  Aborting upgrade."
+        echo "Delete failed upgrade directory"
+        rm -rf /opt/Upgrade
+        exit 1
+fi
+
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	echo "Upgrading kernel"
 	flashcp -v /opt/Upgrade/wz_mini_hacks-master/v2_install/v2_kernel.bin /dev/mtd1
@@ -133,6 +148,7 @@ reboot
 
 if [[ "$1" == "unattended" ]]; then
 	echo "Unattended upgrade!"
+	rm -rf /opt/.Upgrade
 	rm -rf /opt/Upgrade
 	sync
 	setup
@@ -149,11 +165,12 @@ else
 		read -r -p "${1:-wz_mini, this will download the latest version from github and upgrade your system.  Are you sure? [y/N]} " response
 			case "$response" in
 			[yY][eE][sS]|[yY])
-			if [[ -d /opt/Upgrade ]]; then
+			if [[ -d /opt/.Upgrade ]]; then
 				echo "WARNING: Old Upgrade directory exists"
 				read -r -p "${1:-Unable to proceed, must DELETE old Upgrade directory, are you sure? [y/N]} " response
 				case "$response" in
 				[yY][eE][sS]|[yY])
+				rm -rf /opt/.Upgrade
 				rm -rf /opt/Upgrade
 				sync
 				setup
