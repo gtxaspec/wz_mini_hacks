@@ -20,11 +20,15 @@ kernel/drivers/usb/gadget/usb_f_ncm.ko: kernel/drivers/usb/gadget/u_ether.ko ker
 kernel/drivers/usb/gadget/g_ncm.ko: kernel/drivers/usb/gadget/u_ether.ko kernel/drivers/usb/gadget/libcomposite.ko
 kernel/drivers/scsi/scsi_mod.ko:
 kernel/drivers/scsi/sd_mod.ko: kernel/drivers/scsi/scsi_mod.ko
+kernel/net/netfilter/nf_conntrack.ko:
 kernel/net/netfilter/x_tables.ko:
 kernel/net/netfilter/xt_tcpudp.ko: kernel/net/netfilter/x_tables.ko
 kernel/net/netfilter/xt_mark.ko: kernel/net/netfilter/x_tables.ko
 kernel/net/netfilter/xt_LOG.ko: kernel/net/netfilter/x_tables.ko
 kernel/net/netfilter/xt_TCPMSS.ko: kernel/net/netfilter/x_tables.ko
+kernel/net/netfilter/xt_state.ko: kernel/net/netfilter/nf_conntrack.ko kernel/net/netfilter/x_tables.ko
+kernel/net/ipv4/netfilter/nf_conntrack_ipv4.ko: kernel/net/ipv4/netfilter/nf_defrag_ipv4.ko kernel/net/netfilter/nf_conntrack.ko
+kernel/net/ipv4/netfilter/nf_defrag_ipv4.ko:
 kernel/net/ipv4/netfilter/ip_tables.ko: kernel/net/netfilter/x_tables.ko
 kernel/net/ipv4/netfilter/iptable_filter.ko: kernel/net/ipv4/netfilter/ip_tables.ko kernel/net/netfilter/x_tables.ko
 kernel/net/ipv4/netfilter/iptable_mangle.ko: kernel/net/ipv4/netfilter/ip_tables.ko kernel/net/netfilter/x_tables.ko
