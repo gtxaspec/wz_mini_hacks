@@ -15,3 +15,10 @@ This works around the problem described [here](https://www.reddit.com/r/wyzecam/
 
 ## Notes
 *  I setup systemd bridge networking on the RaspberryPi - I already had [bridged wifi hotsport](https://www.raspberrypi.com/documentation/computers/configuration.html?msclkid=d9f409d1cf1211ec86ca2bcfa20cf79f#setting-up-a-bridged-wireless-access-point) setup and just added usb0 to the bridge similar to how ethernet already was as described in the instructions.
+*  At some point, docker started to break bridging, and I had to do this:
+```bash
+sudo -E systemctl edit docker
+[Service]
+ExecStartPre=-/sbin/iptables -D FORWARD -p all -i br0 -j ACCEPT
+ExecStartPre=/sbin/iptables -A FORWARD -p all -i br0 -j ACCEPT
+```
