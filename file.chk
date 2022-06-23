@@ -193,7 +193,7 @@ aafb0749425838f41e68ecced758ab6c  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-3b770635ddc35a61a6ba42f6b68070bc  SD_ROOT/wz_mini/wz_mini.conf
+d756ed6cdc899cc7d75afc2a97727d33  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 00b99816217a740f5169709ef01eddf6  v2_install/compile_image.sh
 ff15869fe24297b9a5f75335a458a44f  v2_install/fw_tool.sh
