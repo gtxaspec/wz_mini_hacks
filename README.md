@@ -185,6 +185,7 @@ As long as the network cable is connected, its interface (e.g. eth0) is used for
 After reconnecting the network cable, ifenslave switches back to eth0 ("failover mode").
 From the outside (=network) view it doesn't matter which interface is active. The bonding device presents its own software-defined (i.e. virtual) MAC address, different from the hardware defined MACs of eth0 or wlan0.
 The dhcp server will use this MAC to assign an ip address to the bond0 device. So the computer has one unique ip address under which it can be identified. Without bonding each interface would have its own ip address. 
+Currenly supported with ethernet adapters and usb-direct mode.
 
 BONDING_PRIMARY_INTERFACE
 Specifies the interface that should be the primary.  Typically "eth0".
@@ -405,14 +406,6 @@ exposure value support
 
 ---
 
-```
-ENABLE_RTL8189FS_DRIVER="false"
-```
-
-Use a newer version of the driver for the RTL8189FTV on v2/v3.  May result in better wireless connection/performance. Experimental.
-
----
-
 Upgrade wz_mini over the air:
 
 `upgrade-run.sh`
@@ -433,8 +426,18 @@ Stop the camera from dropping the frame rate during nightvision.
 
 ---
 
+```
+ENABLE_RTL8189FS_DRIVER="true"
+ENABLE_ATBM603X_DRIVER="true"
+```
+
+Enabled by default.  These options control the WiFi Drivers.  V2/V3 use the 8189fs.ko driver, and certain v3 models and all currently shipping pan v2 models use the atbm603x driver.  These are required for operation of wz_mini, and disabling these will lead to a system crash, due to an updated kernel.  This change was required to support full iptables and connection tracking operation, since they are not supported on the really outdated factory drivers.  My testing shows better stability and performance.  Disable only if you know what you are doing.
+
+---
+
 ## Latest Updates
 
+* 06-24-22:  BIG UPGRADE!  Updated & improved WiFi Drivers - 8189fs and 6032i - Drivers work across all supported camera models.  This update requires you to copy over a new wz_mini.conf before upgrading!  Drivers required for operation, do not disable!  Updated upgrade-run.sh script to prevent broken boot during a rare corrupted file situation.  Added connection bonding, for network fail-over support.  
 * 06-19-22:  Fixed no rtsp video when wz_mini is used with the old stock rtsp firmware.
 * 06-18-22:  Added night drop feature preventing fps drop during nightvision.  Upgrade script can now work unattended.  Add -F0 flag to rtsp server.
 * 06-17-22:  Fix custom hostname not being set.  Note: The hostname variable has CHANGED!  You will need to update your `wz_mini.conf` file.

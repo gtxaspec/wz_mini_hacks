@@ -459,6 +459,10 @@ alias ip6t_LOG xt_LOG
 alias ipt_LOG xt_LOG
 alias ip6t_TCPMSS xt_TCPMSS
 alias ipt_TCPMSS xt_TCPMSS
+alias ip6t_state xt_state
+alias ipt_state xt_state
+alias ip_conntrack nf_conntrack_ipv4
+alias nf_conntrack-2 nf_conntrack_ipv4
 alias netdev-sit0 sit
 alias rpc-auth-6 auth_rpcgss
 alias net-pf-16-proto-16-family-wireguard wireguard
