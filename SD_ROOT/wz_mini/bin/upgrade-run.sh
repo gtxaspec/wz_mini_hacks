@@ -25,7 +25,7 @@ wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/re
 
 echo "Extract $BRANCH archive"
 mkdir /opt/.Upgrade/wz_mini_hacks
-tar -xf /opt/.Upgrade/wz_mini.tar.gz -C /opt/.Upgrade/wz_mini_hacks --strip-components 1
+tar -xvf /opt/.Upgrade/wz_mini.tar.gz -C /opt/.Upgrade/wz_mini_hacks --strip-components 1
 
 echo "Verify extracted file integrity"
 cd /opt/.Upgrade/wz_mini_hacks
@@ -113,7 +113,8 @@ else
         echo "Failure: Extracted files may be corrupt.  Aborting upgrade."
         echo "Delete failed upgrade directory"
         rm -rf /opt/Upgrade
-        reboot
+        reboot &
+	exit 1
 fi
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
