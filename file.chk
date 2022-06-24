@@ -52,7 +52,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-d515ed5eafec6348383f1e5f10507a4d  SD_ROOT/wz_mini/bin/upgrade-run.sh
+65e617813575787adf76e33b83a0168f  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh

@@ -62,6 +62,12 @@ exit 0
 backup_begin() {
 echo "Resume upgrade-run, latest version"
 
+echo "check for old directory path"
+if [ -d /opt/Upgrade/wz_mini_hacks-master ]; then
+	echo "old path found, moving"
+	mv /opt/Upgrade/wz_mini_hacks-master /opt/Upgrade/wz_mini_hacks
+fi
+
 sleep 5
 
 echo "Backup user config"
