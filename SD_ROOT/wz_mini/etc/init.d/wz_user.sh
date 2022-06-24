@@ -278,7 +278,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
 	# Auto-Detect an Ethernet Driver and load it
-	if [[ "ENABLE_USB_ETH_MODULE_AUTODETECT" == "true" ]]; then
+	if [[ "$ENABLE_USB_ETH_MODULE_AUTODETECT" == "true" ]]; then
 		for DEVICE in `lsusb | awk '{print $6}'| tr '[:upper:]' '[:lower:]'`; do
 			case $DEVICE in
 			'077b:2226' | '0846:1040' | '2001:1a00' | '0b95:1720' | '07b8:420a' |\
@@ -309,7 +309,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	fi
 
 	# Manually load any other Ethernet Drivers if asked for
-	if [[ "ENABLE_USB_ETH_MODULE_MANUAL" != "" ]]; then
+	if [[ "$ENABLE_USB_ETH_MODULE_MANUAL" != "" ]]; then
 		for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
 		do
 			insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
