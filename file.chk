@@ -5,7 +5,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
 e71d1b632e350f573b40afae0ea64e3c  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
-eaed004c57ef42117fb5ed63d7823ffd  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
+b0f094a80f7ab79fdf26b0e359ab68db  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 2609cae8b3b084d83e84299528d8bc93  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
