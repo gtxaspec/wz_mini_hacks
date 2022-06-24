@@ -42,7 +42,7 @@ fi
 
 ## REPLACE STOCK MODULES
 
-if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
+if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
 	#V2/V3 ONLY [DB3 untested]
 	echo "Enable 8189fs"
 	if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
@@ -52,7 +52,7 @@ if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
 	fi
 fi
 
-if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
+if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == "" ]]; then
 	echo "Enable atbm603x_wifi_sdio"
 	if [ -f /opt/wz_mini/tmp/.T31 ]; then
 		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
