@@ -44,18 +44,18 @@ fi
 
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]]; then
 	#V2/V3 ONLY [DB3 untested]
-	echo "Enable RTL8189FS"
+	echo "Enable 8189fs"
 	if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-		sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+		sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=3/g' /opt/wz_mini/tmp/.storage/app_init.sh
 	elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
-		sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+		sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=3/g'  /opt/wz_mini/tmp/.storage/app_init.sh
 	fi
 fi
 
 if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
-	echo "Enable atbm603x_wifi_sdio_24M"
+	echo "Enable atbm603x_wifi_sdio"
 	if [ -f /opt/wz_mini/tmp/.T31 ]; then
-		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio_24M.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
+		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
 	fi
 fi
 

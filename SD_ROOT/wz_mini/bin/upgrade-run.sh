@@ -10,6 +10,8 @@ fi
 LOG_FILE=/opt/upgrade_wz_mini.log
 exec > >(busybox tee -a ${LOG_FILE}) 2>&1
 
+BRANCH="master"
+
 setup() {
 
 echo "Create Upgrade staging directory"
@@ -18,14 +20,15 @@ mkdir /opt/.Upgrade
 echo "Create backup files directory"
 mkdir /opt/.Upgrade/preserve
 
-echo "Download latest master"
-wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/master.zip -O /opt/.Upgrade/wz_mini.zip; sync
+echo "Download latest $BRANCH"
+wget --no-check-certificate https://github.com/gtxaspec/wz_mini_hacks/archive/refs/heads/$BRANCH.tar.gz -O /opt/.Upgrade/wz_mini.tar.gz; sync
 
-echo "Extract master archive"
-unzip /opt/.Upgrade/wz_mini.zip -d /opt/.Upgrade/
+echo "Extract $BRANCH archive"
+mkdir /opt/.Upgrade/wz_mini_hacks
+tar -xf /opt/.Upgrade/wz_mini.tar.gz -C /opt/.Upgrade/wz_mini_hacks --strip-components 1
 
 echo "Verify extracted file integrity"
-cd /opt/.Upgrade/wz_mini_hacks-master
+cd /opt/.Upgrade/wz_mini_hacks
 md5sum -c file.chk
 
 if [ $? -eq 0 ]; then
@@ -44,7 +47,7 @@ fi
 
 install_upgrade_script() {
 echo "Installing latest upgrade-run from repo"
-cp /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
+cp /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/bin/upgrade-run.sh /opt/wz_mini/bin/upgrade-run.sh
 
 sleep 5
 
@@ -89,19 +92,19 @@ elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
 fi
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
-        insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
-        LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
+        insmod /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
+        LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v2.wav $AUDIO_PROMPT_VOLUME
 	rmmod audio
 else
-	insmod /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
-        /opt/wz_mini/bin/audioplay_t31 /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
+	insmod /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+        /opt/wz_mini/bin/audioplay_t31 /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/usr/share/audio/upgrade_mode.wav $AUDIO_PROMPT_VOLUME
         rmmod audio
 fi
 
 echo "UPGRADE MODE"
 
 echo "Verify extracted file integrity"
-cd /opt/Upgrade/wz_mini_hacks-master
+cd /opt/Upgrade/wz_mini_hacks
 md5sum -c file.chk
 
 if [ $? -eq 0 ]; then
@@ -110,21 +113,21 @@ else
         echo "Failure: Extracted files may be corrupt.  Aborting upgrade."
         echo "Delete failed upgrade directory"
         rm -rf /opt/Upgrade
-        exit 1
+        reboot
 fi
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	echo "Upgrading kernel"
-	flashcp -v /opt/Upgrade/wz_mini_hacks-master/v2_install/v2_kernel.bin /dev/mtd1
+	flashcp -v /opt/Upgrade/wz_mini_hacks/v2_install/v2_kernel.bin /dev/mtd1
 fi
 
 umount -l /opt/wz_mini/tmp
 ls -l /opt/wz_mini/
 rm -rf /opt/wz_mini/*
 sync
-mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/wz_mini/* /opt/wz_mini/
+mv /opt/Upgrade/wz_mini_hacks/SD_ROOT/wz_mini/* /opt/wz_mini/
 rm -f /opt/factory_t31_ZMC6tiIDQN
-mv /opt/Upgrade/wz_mini_hacks-master/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory_t31_ZMC6tiIDQN
+mv /opt/Upgrade/wz_mini_hacks/SD_ROOT/factory_t31_ZMC6tiIDQN /opt/factory_t31_ZMC6tiIDQN
 
 diff /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/wz_mini.conf
 

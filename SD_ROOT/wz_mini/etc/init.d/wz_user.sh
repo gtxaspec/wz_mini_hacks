@@ -654,6 +654,11 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
 fi
 
+if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
+	#Reduce dmesg log spam by driver
+	echo "LOG_ERR=OFF LOG_WARN=ON LOG_LMAC=ON LOG_SCAN=OFF" > /sys/module/atbm603x_wifi_sdio/atbmfs/atbm_printk_mask
+fi
+
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
