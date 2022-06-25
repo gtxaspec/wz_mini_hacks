@@ -68,6 +68,11 @@ if [ -d /opt/Upgrade/wz_mini_hacks-master ]; then
 	mv /opt/Upgrade/wz_mini_hacks-master /opt/Upgrade/wz_mini_hacks
 fi
 
+echo "enable wifi drivers if disabled in config"
+sed -i 's/ENABLE_RTL8189FS_DRIVER="false"/ENABLE_RTL8189FS_DRIVER="true"/g' /opt/wz_mini/wz_mini.conf
+sed -i 's/ENABLE_ATBM603X_DRIVER="false"/ENABLE_ATBM603X_DRIVER="true"/g' /opt/wz_mini/wz_mini.conf
+
+
 sleep 5
 
 echo "Backup user config"
