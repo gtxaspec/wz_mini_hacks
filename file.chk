@@ -124,7 +124,7 @@ cd9565bd88e2b910b61f0336a4e296d3  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/v4l2
 35aa03804c11ac247aba7f6e9ea98019  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio_webcam.ko
 2327f9e639420864680c37b9b0607a78  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/videobuf2-vmalloc.ko
 8c965b01f101b72cd5360398dbf8b68e  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
-a72b7d438c2c75ff608d6b469b5d9e13  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/8189fs.ko
+b5b06678d78b04d0d572b22828377c4e  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/8189fs.ko
 020b6120945a75fe25e949b094c4286b  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.order
 c98aaa62c6f18be3ac26c12ffc41aff2  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.devname
 38e59222166163aee2b811dce8bc1479  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.alias.bin
@@ -184,7 +184,7 @@ ec11b3b956531e8652019c68e710462c  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 38714d79334997f06e3c5e005252bf9b  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/videobuf2-vmalloc.ko
 01bbbcd8107e92dd470ff0e713f17485  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/atbm_txpwer_dcxo_cfg.txt
 09144a07fe19daa6078a0a3861de6832  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko
-a8476c9783d4ac78e1f03d5c1a0fb237  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/8189fs.ko
+d52dd5f273ed68807dfddfd99940e6f9  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/8189fs.ko
 ccf8f3611141656ba5594771bec06202  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.softdep
 b3ef3280fadde06c0990dbfe4cff18ca  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.dep.bin
 377ed0fe5b4c71821a65797905850abb  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/modules.builtin.bin
