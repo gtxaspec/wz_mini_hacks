@@ -642,7 +642,7 @@ fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
 	if [[ "$RTMP_STREAM_DISABLE_AUDIO" == "true" ]]; then
-		RMTP_AUDIO="no_audio"
+		RTMP_AUDIO="no_audio"
 	fi
 	echo "delay RTMP server"
 	#Follow the delay from the RTSP server

@@ -4,7 +4,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-e71d1b632e350f573b40afae0ea64e3c  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+4805abc167689c2e236f8203cfabb0d5  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 b0f094a80f7ab79fdf26b0e359ab68db  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -55,7 +55,7 @@ e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 f492fb3a78580b6f800734cc7cee644e  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
-65510c6c4d0db4b4679fc92d1c617fdd  SD_ROOT/wz_mini/bin/rtmp-stream.sh
+79d69cd251a8cdadd9957cdaec2034fc  SD_ROOT/wz_mini/bin/rtmp-stream.sh
 5d1359af0c7c5d326b8682a62f910620  SD_ROOT/wz_mini/bin/strace
 516118bfcc0f0ddc93fb9339b3c6a315  SD_ROOT/wz_mini/bin/xtables-multi
 17a23742c599a262e4144c499fa66845  SD_ROOT/wz_mini/bin/gather_wz_logs.sh
