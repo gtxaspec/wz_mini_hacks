@@ -21,7 +21,7 @@ VIDEO_OPTIONS="-c:v copy -coder 1 -pix_fmt yuv420p -g 30 -bf 0"
 
 if [[ "$2" == "no_audio" ]]; then
         echo "NO_AUDIO: audio disabled on RTMP Stream."
-        AUDIO="-an"
+        AUDIO_OPTIONS="-an"
 fi
 
 if [[ "$1" == "youtube" ]]; then

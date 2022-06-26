@@ -130,7 +130,7 @@ eth_wlan_up() {
 
     # If running with Interface Bonding enabled, kill any existing
     # wpa_supplicant that might be running and spawn our own instead
-    if [[ "$BONDING_ENABLED" == "true" ]] && [[ "$ENABLE_USB_ETH" == "true" ]]; then
+    if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
         /opt/wz_mini/bin/busybox killall wpa_supplicant
         wpa_supplicant -D nl80211 -i wlanold -c /tmp/wpa_supplicant.conf -B -s
     fi
@@ -172,7 +172,7 @@ wlanold_check() {
 		eth_wlan_up
 	else
 		echo "wlanold doesn't exist"
-		if [[ "$BONDING_ENABLED" == "true" ]] && [[ "$ENABLE_USB_ETH" == "true" ]]; then
+                if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
 			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
 		else
 			rename_interface $1
@@ -348,6 +348,27 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr="$HOST_MACADDR" dev_addr="$USB_DIRECT_MAC_ADDR"
 
 	sleep 1
+
+    if [[ "$BONDING_ENABLED" == "true" ]]; then
+        if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
+            "$BONDING_LINK_MONITORING_FREQ_MS" = "100"
+        fi
+        if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
+            "$BONDING_DOWN_DELAY_MS" = "5000"
+        fi
+        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
+            "$BONDING_UP_DELAY_MS" = "5000"
+        fi
+        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
+            "$BONDING_PRIMARY_INTERFACE" = "usb0"
+        fi
+        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
+            "$BONDING_SECONDARY_INTERFACE" = "wlan0"
+        fi
+
+        # Insert the bonding driver into the kernel
+        insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE"
+    fi
 
 	swap_enable
 
@@ -630,7 +651,7 @@ fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
 	if [[ "$RTMP_STREAM_DISABLE_AUDIO" == "true" ]]; then
-		RMTP_AUDIO="no_audio"
+		RTMP_AUDIO="no_audio"
 	fi
 	echo "delay RTMP server"
 	#Follow the delay from the RTSP server
@@ -640,6 +661,11 @@ fi
 
 if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
+fi
+
+if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
+	#Reduce dmesg log spam by driver
+	echo "LOG_ERR=OFF LOG_WARN=ON LOG_LMAC=ON LOG_SCAN=OFF" > /sys/module/atbm603x_wifi_sdio/atbmfs/atbm_printk_mask
 fi
 
 hostname_set
