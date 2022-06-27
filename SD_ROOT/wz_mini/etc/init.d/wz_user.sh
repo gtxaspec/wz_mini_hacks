@@ -448,7 +448,7 @@ if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
 else
         mkdir /tmp/Upgrade
-        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n &
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
 fi
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
