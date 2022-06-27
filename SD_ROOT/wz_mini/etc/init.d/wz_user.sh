@@ -117,6 +117,33 @@ rename_interface_and_setup_bonding() {
 	eth_wlan_up
 }
 
+bonding_setup() {
+echo "bonding kernel module setup"
+if [[ "$BONDING_ENABLED" == "true" ]]; then
+	if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
+        	BONDING_LINK_MONITORING_FREQ_MS="100"
+	fi
+	if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
+            BONDING_DOWN_DELAY_MS="5000"
+        fi
+        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
+            BONDING_UP_DELAY_MS="5000"
+        fi
+        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
+            BONDING_PRIMARY_INTERFACE="$1"
+        fi
+        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
+            BONDING_SECONDARY_INTERFACE="$2"
+        fi
+        if [[ "$BONDING_FAIL_OVER_MAC" == "" ]]; then
+            BONDING_FAIL_OVER_MAC="0"
+        fi
+
+	# Insert the bonding driver into the kernel
+	insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE" fail_over_mac="$BONDING_FAIL_OVER_MAC"
+fi
+}
+
 eth_wlan_up() {
 ##Run DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
         ifconfig wlan0 up
@@ -282,26 +309,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 	done
 
-    if [[ "$BONDING_ENABLED" == "true" ]]; then
-        if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
-            "$BONDING_LINK_MONITORING_FREQ_MS" = "100"
-        fi
-        if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
-            "$BONDING_DOWN_DELAY_MS" = "5000"
-        fi
-        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
-            "$BONDING_UP_DELAY_MS" = "5000"
-        fi
-        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
-            "$BONDING_PRIMARY_INTERFACE" = "eth0"
-        fi
-        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
-            "$BONDING_SECONDARY_INTERFACE" = "wlan0"
-        fi
-
-        # Insert the bonding driver into the kernel
-        insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE"
-    fi
+	bonding_setup eth0 wlan0
 
 	swap_enable
 
@@ -340,26 +348,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	sleep 1
 
-    if [[ "$BONDING_ENABLED" == "true" ]]; then
-        if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
-            "$BONDING_LINK_MONITORING_FREQ_MS" = "100"
-        fi
-        if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
-            "$BONDING_DOWN_DELAY_MS" = "5000"
-        fi
-        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
-            "$BONDING_UP_DELAY_MS" = "5000"
-        fi
-        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
-            "$BONDING_PRIMARY_INTERFACE" = "usb0"
-        fi
-        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
-            "$BONDING_SECONDARY_INTERFACE" = "wlan0"
-        fi
-
-        # Insert the bonding driver into the kernel
-        insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE"
-    fi
+	bonding_setup usb0 wlan0
 
 	swap_enable
 
