@@ -4,7 +4,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-1229c9cf89a5de34c112e69d541362c8  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+246467794db1f29b197dc6a18f1a1f80  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 b0f094a80f7ab79fdf26b0e359ab68db  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -193,7 +193,7 @@ aafb0749425838f41e68ecced758ab6c  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-f83ed621e60de66f1e6e36c85650484c  SD_ROOT/wz_mini/wz_mini.conf
+7c9d57b1b1b8bbdddfb248565ce02cb4  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 00b99816217a740f5169709ef01eddf6  v2_install/compile_image.sh
 ff15869fe24297b9a5f75335a458a44f  v2_install/fw_tool.sh
