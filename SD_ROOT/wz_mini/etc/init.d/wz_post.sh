@@ -87,9 +87,8 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
 		fi
 	fi
-
-        cp /system/bin/iCamera /opt/wz_mini/tmp/.storage/
-        mount -o ro,bind /opt/wz_mini/usr/bin/iCamera /system/bin/iCamera
+	echo "set path for iCamera"
+	sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
 fi
 
 /opt/wz_mini/etc/init.d/wz_user.sh &
