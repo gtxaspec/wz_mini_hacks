@@ -8,7 +8,7 @@ ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 b0f094a80f7ab79fdf26b0e359ab68db  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
-f83ed621e60de66f1e6e36c85650484c  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+7c9d57b1b1b8bbdddfb248565ce02cb4  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
 2c2df1b9cb603f9c31c46162d6ac307f  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 9e5591da95042bcca910403bde25dc60  SD_ROOT/wz_mini/etc/fstab
