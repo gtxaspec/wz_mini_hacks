@@ -4,8 +4,8 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 0774518c06d6ef8e7181d35f194777cc  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-246467794db1f29b197dc6a18f1a1f80  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
-b0f094a80f7ab79fdf26b0e359ab68db  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
+38a28d7375cd9487f5afb110ea76c40d  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+c2cafd0ac4088e75b1b31dc858ef7278  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 7c9d57b1b1b8bbdddfb248565ce02cb4  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
@@ -76,7 +76,7 @@ eaf86f91cb1b15b2191a8845ae88e3c8  SD_ROOT/wz_mini/usr/share/audio/init_v2.wav
 02fed0e4b2382d839f630ce0477aba26  SD_ROOT/wz_mini/usr/share/audio/init.wav
 5754f767c1334df202983aed2a20a050  SD_ROOT/wz_mini/usr/share/audio/binbin_v3.wav
 ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
-2f055470bf862f8ddaf2a0c2d55fc46d  SD_ROOT/wz_mini/usr/bin/iCamera
+7626ba23cc36b88491b010dd6eff72de  SD_ROOT/wz_mini/usr/bin/iCamera
 cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
@@ -195,7 +195,7 @@ bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 7c9d57b1b1b8bbdddfb248565ce02cb4  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
-00b99816217a740f5169709ef01eddf6  v2_install/compile_image.sh
+090bdf50db1c1d05720f276295ac17ca  v2_install/compile_image.sh
 ff15869fe24297b9a5f75335a458a44f  v2_install/fw_tool.sh
 88a59e6904a20ddee2434be2aa6ba38e  v2_install/v2_kernel.bin
 f01d641b98388e273c1f0ba682ebc75b  v2_install/.gitignore
