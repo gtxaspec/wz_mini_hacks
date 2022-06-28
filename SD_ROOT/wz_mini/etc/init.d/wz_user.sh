@@ -350,7 +350,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	netloop eth0
 
 	else
-	echo "usb ethernet disabled"
+	echo "USB Ethernet disabled"
 fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
@@ -394,28 +394,32 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
         sleep 1
 	done
 	else
-	echo "usb direct disabled"
+	echo "USB Direct disabled"
 fi
 
 if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+        if [[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
+                echo "RNDIS is not compatible with ENABLE_USB_ETH or ENABLE_USB_DIRECT.  Please enable only ENABLE_USB_RNDIS"
+        else
 
-	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
-	insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
-	insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
 
-	sleep 1
+                sleep 1
 
-	swap_enable
+                swap_enable
 
-	#loop begin
-	while true
-	do
-	wpa_check usb0
-	echo "wlan0 not ready yet..."
-        sleep 1
-	done
-	else
-	echo "usb direct disabled"
+                #loop begin
+                while true
+                do
+                wpa_check usb0
+                echo "wlan0 not ready yet..."
+                sleep 1
+                done
+        fi
+else
+        echo "usb rndis disabled"
 fi
 
 if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
