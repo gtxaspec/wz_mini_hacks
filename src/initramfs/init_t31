@@ -1,5 +1,5 @@
 #!/bin/sh
-# devtmpfs does not get automounted for initramfs
+## Initramfs init
 
 set -x
 
@@ -7,41 +7,65 @@ mount -t devtmpfs devtmpfs /dev
 mount -t proc proc /proc
 mount -t sysfs sysfs /sys
 
-sleep 1
+mkdir /sdcard
+mkdir /stock_rootfs
+mkdir /newroot
+sleep 3 # It takes maximum 3 seconds to detect SD card on /dev
 
-mkdir -p /sdcard
 mount -t vfat /dev/mmcblk0p1 /sdcard -o rw,umask=0000,dmask=0000
+mount -t squashfs /dev/mtdblock2 /stock_rootfs
+	
+move_mountpoint() { # Move virtual file systems to new root
+	echo "Moving /dev,/sys,/proc,/sdcard,/stock_rootfs to /new_root"
+	mount --move /dev /newroot/dev
+	mount --move /sys /newroot/sys
+	mount --move /proc /newroot/proc
+	mount --move /sdcard /newroot/opt
+}
 
-mkdir /v3
-mount -t squashfs /dev/mtdblock2 /v3
+run_overlay() { # Boot with overlayfs
+	mkdir /wz_mini-upper
+	[ ! -d /sdcard/wz_mini-overlay ] && { echo "/sdcard/wz_mini-overlay dir isn't present, making one"; mkdir /sdcard/wz_mini-overlay; }
+	
+	mount --bind /sdcard/wz_mini-overlay /wz_mini-upper
+	mount -t overlayfs overlayfs -olowerdir=/stock_rootfs,upperdir=/wz_mini-upper /newroot
 
-if [ ! -f /sdcard/wz_mini/etc/init.d/v3_init.sh ]; then
+	[ ! -d /newroot/stock_rootfs ] && mkdir /newroot/stock_rootfs
+	[ ! -d /newroot/wz_mini-upper ] && mkdir /newroot/wz_mini-upper
 
-echo "v3_init not found, booting stock"
+	move_mountpoint
+	mount --move /stock_rootfs /newroot/stock_rootfs
+	mount --move /wz_mini-upper /new_root/wz_mini-upper
+	
+	echo "Switching to /newroot with Overlayfs"
+	exec busybox switch_root /newroot /opt/wz_mini/etc/init.d/wz_init.sh
+}
 
-mount --move /dev /v3/dev
-mount --move /sys /v3/sys
-mount --move /proc /v3/proc
-
-umount /sdcard
-
-exec busybox switch_root /v3 /linuxrc
+run_stock() { # Boot stock
+	mount --move /stock_rootfs /newroot
+	move_mountpoint
+	exec busybox switch_root /newroot /linuxrc
+}
 
 
+WZMINI_CONF=/sdcard/wz_mini/wz_mini.conf
+## Stock boot or debug mode
+if [ ! -f $WZMINI_CONF ]; then
+	echo "Unable to find /sdcard/wz_mini/etc/init.d/wz_mini.conf, booting to stock"
+	run_stock
 else
+	source $WZMINI_CONF
+	if [[ "$DEBUG_INITRAMFS_ENABLED" == "true" ]]; then  # Check if DEBUG MODE enabled
+		echo "Starting initramfs debug mode"
+		exec /bin/sh
+	fi
+fi
 
-mkdir -p /v3/dev
-mkdir -p /v3/sys
-
-
-mount --move /dev /v3/dev
-mount --move /sys /v3/sys
-mount --move /proc /v3/proc
-
-#mkdir -p /v3/media/mmc
-mount --move /sdcard /v3/opt
-
-#exec busybox switch_root /v3 /linuxrc
-exec busybox switch_root /v3 /opt/wz_mini/etc/init.d/v3_init.sh
-
+## 
+if [[ "$USE_OVERLAYFS" == "true" ]]; then
+	echo "USE_OVERLAYFS option: true"
+	run_overlay
+else
+	echo "USE_OVERLAYFS option: false"
+	run_stock
 fi
