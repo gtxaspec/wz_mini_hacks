@@ -35,7 +35,7 @@ run_overlay() { # Boot with overlayfs
 
 	move_mountpoint
 	mount --move /stock_rootfs /newroot/stock_rootfs
-	mount --move /wz_mini-upper /new_root/wz_mini-upper
+	mount --move /wz_mini-upper /newroot/wz_mini-upper
 	
 	echo "Switching to /newroot with Overlayfs"
 	exec busybox switch_root /newroot /opt/wz_mini/etc/init.d/wz_init.sh
