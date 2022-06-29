@@ -278,16 +278,13 @@ else
 fi
 
 if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
-        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		echo "T20 has iptables built in"
-	else
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/netfilter/x_tables.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ip_tables.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ipt_REJECT.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_filter.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_mangle.ko
-		echo "iptables ipv4 enabled"
-	fi
+
+	insmod $KMOD_PATH/kernel/net/netfilter/x_tables.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ip_tables.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
+	echo "iptables ipv4 enabled"
 
 	if [[ "$ENABLE_IPV6" == "true" ]]; then
 		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
