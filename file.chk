@@ -144,6 +144,12 @@ b756e86aa69e91d6ea794781fa0755f0  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/lib
 4c2850b76ffaadd260a2febcfcc08025  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/lib/oid_registry.ko
 53004932bea00792fbe09e2cf8394519  SD_ROOT/wz_mini/lib/modules/3.10.14/kernel/lib/crc16.ko
 04a44a229e49e4e55c541f9889967db4  SD_ROOT/wz_mini/lib/modules/3.10.14/modules.builtin
+3d1f59ab6fa1987f58ed8b6bc0444582  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/libcomposite.ko
+cd9565bd88e2b910b61f0336a4e296d3  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko
+9527880c237f446d03204edddbca2df2  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/usbcamera.ko
+35aa03804c11ac247aba7f6e9ea98019  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio_webcam.ko
+2327f9e639420864680c37b9b0607a78  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/videobuf2-vmalloc.ko
+8c965b01f101b72cd5360398dbf8b68e  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/audio.ko
 8a80811c018409d7aa727ce7c8175217  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/8189es.ko
 1d80263ed21af52f953f78de5e50a9a8  SD_ROOT/wz_mini/lib/modules/3.10.14/extra/8189fs.ko
 ccf8f3611141656ba5594771bec06202  SD_ROOT/wz_mini/lib/modules/3.10.14/modules.softdep
