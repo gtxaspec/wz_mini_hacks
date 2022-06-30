@@ -1,6 +1,7 @@
 kernel/arch/mips/xburst/soc-t31/chip-t31/isvp/common/keyboard_gpio.ko
 kernel/arch/mips/xburst/soc-t31/chip-t31/isvp/common/i2c_bus.ko
 kernel/arch/mips/xburst/soc-t31/chip-t31/isvp/common/spi_bus.ko
+kernel/kernel/configs.ko
 kernel/fs/binfmt_script.ko
 kernel/fs/configfs/configfs.ko
 kernel/fs/fat/fat.ko
