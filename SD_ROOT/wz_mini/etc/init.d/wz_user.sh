@@ -320,7 +320,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 				modprobe ax88179_178a
 				;;
 			'1004:61aa' | '046d:c11f' | '1410:b001' | '1410:9010' | '413c:8195' |\
-			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac' | '0bda:8152')
+			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac')
 				echo "Loading USB CDC Ethernet driver..."
 				modprobe cdc_ether
 				;;
@@ -334,7 +334,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	# Manually load any other Ethernet Drivers if asked for
 	if [[ "$ENABLE_USB_ETH_MODULE_MANUAL" != "" ]]; then
-		for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
+		for i in $(echo "$ENABLE_USB_ETH_MODULE_MANUAL" | tr "," "\n")
 		do
 			insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 		done
