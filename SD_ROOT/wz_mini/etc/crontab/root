@@ -1,0 +1,2 @@
+#Enter a crotab as shown below. Example job below can reboot the camera daily at 1:45 AM.
+#45 05 * * * /sbin/reboot
