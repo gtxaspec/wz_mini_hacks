@@ -94,6 +94,11 @@ fi
 
 /opt/wz_mini/etc/init.d/wz_user.sh &
 
+if [[ "$DISABLE_MOTOR" == "true" ]]; then
+	echo "Motor Disabled"
+	touch /opt/wz_mini/tmp/.ms
+fi
+
 ##LIBRARY DEBUG
 #cp /opt/wz_mini/lib/uClibc.tar /tmp
 #tar -xf /tmp/uClibc.tar -C /tmp
