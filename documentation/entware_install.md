@@ -84,7 +84,7 @@ Run this commmand:
 wget -O - http://bin.entware.net/mipselsf-k3.4/installer/generic.sh | sh
 ```
 Assuming it works, it will do a bunch of downloads, and then end with a message like:
-```shell
+```
 Info: Add /opt/bin & /opt/sbin to $PATH variable
 ```
 
