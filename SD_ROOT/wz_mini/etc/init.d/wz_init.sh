@@ -139,7 +139,7 @@ if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -t jffs2 /dev/mtdblock4 /system
 fi
 
-if [[ "$ENABLE_WZ_RECYCLE" == "true"  ]]; then
+if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
     echo "Copy and modify factory app_init.sh"
     sed -r 's/.sys.bus.+mmc.+devices.+vendor/\/sys\/class\/net\/wlan0\/address/g' /system/init/app_init.sh > /opt/wz_mini/tmp/.storage/app_init.sh
     chmod +x /opt/wz_mini/tmp/.storage/app_init.sh
@@ -151,7 +151,7 @@ fi
 echo "Replace factory app_init.sh path"
 sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh\n' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/\/system\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/\/syst em\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
 
 echo "replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow

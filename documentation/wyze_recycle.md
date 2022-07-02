@@ -10,7 +10,7 @@ This works around the problem described [here](https://www.reddit.com/r/wyzecam/
 
 ## Setup
 1.  Follow instructions in README.md - configure one of the three network solutions ... I used gadget (ENABLE_USB_DIRECT) with a Raspberry Pi3.
-1.  In wz_mini.conf set ENABLE_WZ_RECYCLE to true and set WZ_RECYCLE_MAC to the MAC address printed on the bottom of the camera
+1.  In wz_mini.conf set DISABLE_WZ_WIFI to true and set WZ_WIFI_MAC to the MAC address printed on the bottom of the camera
 1.  Even if the camera has been reset, you should be able to re-setup with App now.
 
 ## Notes

@@ -45,8 +45,8 @@ store_mac() {
 }
 
 wait_wlan() {
-    if [[ "$ENABLE_WZ_RECYCLE" == "true"  ]]; then
-        echo $WZ_RECYCLE_MAC > /opt/wz_mini/tmp/wlan0_mac
+    if [[ "$DISABLE_WZ_FIFI" == "true"  ]]; then
+        echo $WZ_WIFI_MAC > /opt/wz_mini/tmp/wlan0_mac
 	return
     fi
 
@@ -172,7 +172,7 @@ eth_wlan_up() {
 }
 
 wpa_check() {
-    if [[ "$ENABLE_WZ_RECYCLE" == "true"  ]]; then
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
         rename_interface $1
     fi
 
