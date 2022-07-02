@@ -28,6 +28,38 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 echo "welcome to wz_post.sh"
 echo "PID $$"
 
+if [ -d /opt/.wz_backup ]; then
+        echo "backup directory missing"
+else
+	echo "creating backup directory"
+        mkdir /opt/.wz_backup
+fi
+
+if [ -f /opt/wz_mini/tmp/.T31 ]; then
+        echo "T31 platform backup"
+        if [ -d /opt/.wz_backup/configs ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /configs"
+                cp -R /configs/ /opt/.wz_backup/
+        fi
+elif [ -f /opt/wz_mini/tmp/.T20 ]; then
+        echo "T20 platform backup"
+        if [ -d /opt/.wz_backup/configs ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /configs"
+                cp -R /configs/ /opt/.wz_backup/
+        fi
+
+        if [ -d /opt/.wz_backup/params ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /params"
+                cp -R /params/ /opt/.wz_backup/
+        fi
+fi
+
 if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
         echo "swap file found, enable"
         swapon /opt/wz_mini/swap
