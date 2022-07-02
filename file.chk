@@ -3,12 +3,12 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 28cf061770da7b83fbc3752c455a02c3  SD_ROOT/wz_mini/etc/dnsmasq.conf
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-6ef4701a06dd3f1dd76a0b2fd62cfccf  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
+cc37e930e5b65a9eb05081b07f4e3f92  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
 8e1674eed7e2a30e6e8cd48d0c45bf90  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
-73eed3e86982aa032bc077518310c274  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
+64f51e27de7f6fd4d4e02cda2f08da05  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
-7701fde345655472250dee076fb0b065  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+1024be8d4ed00dcfe374bcb47b093bab  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
 2c2df1b9cb603f9c31c46162d6ac307f  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 9e5591da95042bcca910403bde25dc60  SD_ROOT/wz_mini/etc/fstab
@@ -52,7 +52,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 41b56bb30f02bce5f5e2598073151e16  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-f492fb3a78580b6f800734cc7cee644e  SD_ROOT/wz_mini/bin/upgrade-run.sh
+7bbf9d6ab61b4c26f1203d0c7200f34d  SD_ROOT/wz_mini/bin/upgrade-run.sh
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 0468ffb319707687557353242a518923  SD_ROOT/wz_mini/bin/wg
 79d69cd251a8cdadd9957cdaec2034fc  SD_ROOT/wz_mini/bin/rtmp-stream.sh
@@ -225,7 +225,7 @@ aafb0749425838f41e68ecced758ab6c  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-7701fde345655472250dee076fb0b065  SD_ROOT/wz_mini/wz_mini.conf
+1024be8d4ed00dcfe374bcb47b093bab  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 090bdf50db1c1d05720f276295ac17ca  v2_install/compile_image.sh
 53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh
