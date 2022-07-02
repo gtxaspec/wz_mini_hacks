@@ -287,16 +287,13 @@ else
 fi
 
 if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
-        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		echo "T20 has iptables built in"
-	else
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/netfilter/x_tables.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ip_tables.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/ipt_REJECT.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_filter.ko
-		insmod /lib/modules/3.10.14__isvp_swan_1.0__/kernel/net/ipv4/netfilter/iptable_mangle.ko
-		echo "iptables ipv4 enabled"
-	fi
+
+	insmod $KMOD_PATH/kernel/net/netfilter/x_tables.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ip_tables.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
+	insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
+	echo "iptables ipv4 enabled"
 
 	if [[ "$ENABLE_IPV6" == "true" ]]; then
 		insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
@@ -313,10 +310,44 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
 
-	for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
-	do
-	insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
-	done
+	# Auto-Detect an Ethernet Driver and load it
+	if [[ "$ENABLE_USB_ETH_MODULE_AUTODETECT" == "true" ]]; then
+		for DEVICE in `lsusb | awk '{print $6}'| tr '[:upper:]' '[:lower:]'`; do
+			case $DEVICE in
+			'077b:2226' | '0846:1040' | '2001:1a00' | '0b95:1720' | '07b8:420a' |\
+			'08dd:90ff' | '0557:2009' | '0411:003d' | '0411:006e' | '6189:182d' |\
+			'0df6:0056' | '07aa:0017' | '1189:0893' | '1631:6200' | '04f1:3008' |\
+			'17ef:7203' | '0b95:772b' | '0b95:7720' | '0b95:1780' | '0789:0160' |\
+			'13b1:0018' | '1557:7720' | '07d1:3c05' | '2001:3c05' | '2001:1a02' |\
+			'1737:0039' | '04bb:0930' | '050d:5055' | '05ac:1402' | '0b95:772a' |\
+			'14ea:ab11' | '0db0:a877' | '0b95:7e2b' | '0b95:172a' | '066b:20f9')
+				echo "Loading ASIX Ethernet driver..."
+				modprobe asix
+				;;
+			'0b95:1790' | '0b95:178a' | '0df6:0072')
+				echo "Loading AX88179 Gigabit Ethernet driver..."
+				modprobe ax88179_178a
+				;;
+			'1004:61aa' | '046d:c11f' | '1410:b001' | '1410:9010' | '413c:8195' |\
+			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac')
+				echo "Loading USB CDC Ethernet driver..."
+				modprobe cdc_ether
+				;;
+			'0bda:8152')
+				echo "Loading Realtek RTL8152 driver..."
+				modprobe r8152
+				;;
+			esac
+		done
+	fi
+
+	# Manually load any other Ethernet Drivers if asked for
+	if [[ "$ENABLE_USB_ETH_MODULE_MANUAL" != "" ]]; then
+		for i in $(echo "$ENABLE_USB_ETH_MODULE_MANUAL" | tr "," "\n")
+		do
+			insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
+		done
+	fi
 
 	bonding_setup eth0 wlan0
 
@@ -325,7 +356,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 	netloop eth0
 
 	else
-	echo "usb ethernet disabled"
+	echo "USB Ethernet disabled"
 fi
 
 if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
@@ -369,28 +400,32 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
         sleep 1
 	done
 	else
-	echo "usb direct disabled"
+	echo "USB Direct disabled"
 fi
 
 if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+        if [[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
+                echo "RNDIS is not compatible with ENABLE_USB_ETH or ENABLE_USB_DIRECT.  Please enable only ENABLE_USB_RNDIS"
+        else
 
-	insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
-	insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
-	insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
+                insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
 
-	sleep 1
+                sleep 1
 
-	swap_enable
+                swap_enable
 
-	#loop begin
-	while true
-	do
-	wpa_check usb0
-	echo "wlan0 not ready yet..."
-        sleep 1
-	done
-	else
-	echo "usb direct disabled"
+                #loop begin
+                while true
+                do
+                wpa_check usb0
+                echo "wlan0 not ready yet..."
+                sleep 1
+                done
+        fi
+else
+        echo "usb rndis disabled"
 fi
 
 if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
@@ -645,7 +680,7 @@ if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "tru
 	echo "delay RTMP server"
 	#Follow the delay from the RTSP server
 	sleep 5
-	/opt/wz_mini/bin/rtmp-stream.sh "$RMTP_STREAM_SERVICE" "$RTMP_AUDIO"
+	/opt/wz_mini/bin/rtmp-stream.sh "$RMTP_STREAM_SERVICE" "$RTMP_AUDIO" &
 fi
 
 if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then

@@ -44,4 +44,3 @@ kernel/net/sunrpc/auth_gss/auth_rpcgss.ko: kernel/lib/oid_registry.ko
 kernel/net/wireguard/wireguard.ko: kernel/net/ipv4/ip_tunnel.ko
 kernel/net/dns_resolver/dns_resolver.ko:
 kernel/lib/oid_registry.ko:
-extra/v4l2loopback.ko:
