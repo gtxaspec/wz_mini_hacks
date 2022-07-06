@@ -229,6 +229,5 @@ f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 090bdf50db1c1d05720f276295ac17ca  v2_install/compile_image.sh
 53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh
-75785f2e0f996e08e1ad8475cbfb0bda  v2_install/demo.bin
 2f9f07a88d8a0f08c83c0b954fd012e6  v2_install/v2_kernel.bin
 f01d641b98388e273c1f0ba682ebc75b  v2_install/.gitignore
