@@ -52,6 +52,7 @@ mkdir /opt/wz_mini/tmp/.bin
 #PANv2=HL_PAN2
 #V3=WYZE_CAKP2JFUS
 #DB3=WYZEDB3
+#V3C=ATOM_CamV3C
 
 #mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
 if [ -b /dev/mtdblock9 ]; then
