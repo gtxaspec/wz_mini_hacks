@@ -530,54 +530,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -609,50 +562,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
                 echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -662,6 +572,9 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
 	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 &
+	sleep 1
+        echo "Set imp variables via helper"
+        /opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
 fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
