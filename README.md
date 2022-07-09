@@ -454,6 +454,7 @@ run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the 
 
 ## Latest Updates
 
+* 07-08-22:  Added support for multiple custom scripts, simply create scripts ending in .sh in wz_mini/etc/rc.local.d. You can prefix them with numbers to order execution if desired.
 * 07-08-22:  Updated T31 Kernel & Modules, added cp210x serial kernel module to support car.  Add motor disable, fsck on boot. Disable debug logging for wifi drivers to prevent log spam, improved method of setting imp variables, fixed soundcard issues in the kernel, revert libcallback to account for this change.
 * 06-24-22:  BIG UPGRADE!  Updated & improved WiFi Drivers - 8189fs and 6032i - Drivers work across all supported camera models.  This update requires you to copy over a new wz_mini.conf before upgrading!  Drivers required for operation, do not disable!  Updated upgrade-run.sh script to prevent broken boot during a rare corrupted file situation.  Added connection bonding, for network fail-over support.  
 * 06-19-22:  Fixed no rtsp video when wz_mini is used with the old stock rtsp firmware.
