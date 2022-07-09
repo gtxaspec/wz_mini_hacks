@@ -9,7 +9,7 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
 DELAY_BETWEEN=2
-RE_RUN_DELAY=5
+RE_RUN_DELAY=45
 PARM=1
 
 hi_res_monitor() {
