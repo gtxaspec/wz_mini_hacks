@@ -440,8 +440,21 @@ Enabled by default.  These options control the WiFi Drivers.  V2/V3 use the 8189
 
 ---
 
+DISABLE_MOTOR="true"
+
+Disable the movement capability on motorized devices.  You will no longer be able to move the device from the mobile app, or command line.  Best used to convert a motorized unit to fixed
+
+---
+
+ENABLE_FSCK_ON_BOOT="false"
+
+run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the micro sd card, automatically repairing most issues, including corruption.  Increases boot time.  During the repair process, the LEDs on the camera will flash RED-off-BLUE-off-PURPLE-off to inform the user the repair program is running.  Once the program has completed, the LED will switch to RED, resuming the normal boot process.
+
+---
+
 ## Latest Updates
 
+* 07-08-22:  Updated T31 Kernel & Modules, added cp210x serial kernel module to support car.  Add motor disable, fsck on boot. Disable debug logging for wifi drivers to prevent log spam, improved method of setting imp variables, fixed soundcard issues in the kernel, revert libcallback to account for this change.
 * 06-24-22:  BIG UPGRADE!  Updated & improved WiFi Drivers - 8189fs and 6032i - Drivers work across all supported camera models.  This update requires you to copy over a new wz_mini.conf before upgrading!  Drivers required for operation, do not disable!  Updated upgrade-run.sh script to prevent broken boot during a rare corrupted file situation.  Added connection bonding, for network fail-over support.  
 * 06-19-22:  Fixed no rtsp video when wz_mini is used with the old stock rtsp firmware.
 * 06-18-22:  Added night drop feature preventing fps drop during nightvision.  Upgrade script can now work unattended.  Add -F0 flag to rtsp server.
