@@ -78,22 +78,22 @@ fi
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
         echo "Enable 8189fs"
         if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-                sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=2/g' /opt/wz_mini/tmp/.storage/app_init.sh
+                sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
         elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
-                sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=2/g' /opt/wz_mini/tmp/.storage/app_init.sh
+                sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
         elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
-                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=2/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
         elif [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=2/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
         fi
 fi
 
 if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == "" ]]; then
 	echo "Enable atbm603x_wifi_sdio"
         if [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-		sed -i 's/\/thirdlib\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
+		sed -i 's/\/thirdlib\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
 	elif [ -f /opt/wz_mini/tmp/.T31 ] && ! [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
+		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
 	fi
 fi
 
