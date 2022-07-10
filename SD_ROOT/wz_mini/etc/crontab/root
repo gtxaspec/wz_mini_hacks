@@ -8,3 +8,5 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 #45 05 * * * /sbin/reboot
+#Use example below to update the hosts file with the correct ip to c1ybkrkbr1j10x.credentials.iot.us-west-2.amazonaws.com
+#00 00 * * * /opt/wz_mini/etc/rc.local.d/setup_hosts.sh
