@@ -320,7 +320,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 				modprobe ax88179_178a
 				;;
 			'1004:61aa' | '046d:c11f' | '1410:b001' | '1410:9010' | '413c:8195' |\
-			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac' | '0bda:8152')
+			'413c:8196' | '413c:819b' | '16d5:650a' | '12d1:14ac')
 				echo "Loading USB CDC Ethernet driver..."
 				modprobe cdc_ether
 				;;
@@ -334,7 +334,7 @@ if [[ "$ENABLE_USB_ETH" == "true" ]]; then
 
 	# Manually load any other Ethernet Drivers if asked for
 	if [[ "$ENABLE_USB_ETH_MODULE_MANUAL" != "" ]]; then
-		for i in $(echo "$ENABLE_USB_ETH_MODULES" | tr "," "\n")
+		for i in $(echo "$ENABLE_USB_ETH_MODULE_MANUAL" | tr "," "\n")
 		do
 			insmod $KMOD_PATH/kernel/drivers/net/usb/$i.ko
 		done
@@ -530,54 +530,7 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 		echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -609,50 +562,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
                 echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -662,6 +572,9 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
 	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 &
+	sleep 1
+        echo "Set imp variables via helper"
+        /opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
 fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
@@ -678,11 +591,6 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
 fi
 
-if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
-	#Reduce dmesg log spam by driver
-	echo "LOG_ERR=OFF LOG_WARN=ON LOG_LMAC=ON LOG_SCAN=OFF" > /sys/module/atbm603x_wifi_sdio/atbmfs/atbm_printk_mask
-fi
-
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
@@ -696,7 +604,18 @@ if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
 	echo "starting custom script"
 	$CUSTOM_SCRIPT_PATH &
 else
-	echo "custom script not found"
+	echo "no custom script configured in wz_mini.conf"
 fi
+
+echo "searching for custom scripts in /opt/wz_mini/etc/rc.local.d"
+if [ -d "${1:-/opt/wz_mini/etc/rc.local.d}" ] ; then
+  for filename in $(find /opt/wz_mini/etc/rc.local.d/ -name "*.sh" | /opt/wz_mini/bin/busybox sort) ; do
+    if [ -f "${filename}" ] && [ -x "${filename}" ]; then
+      echo "running ${filename}"
+      "${filename}"
+    fi
+  done
+fi
+echo "finished executing custom scripts from /opt/wz_mini/etc/rc.local.d"
 
 echo "wz_user.sh done" > /dev/kmsg

@@ -18,6 +18,8 @@ kernel/drivers/usb/gadget/libcomposite.ko:
 kernel/drivers/usb/gadget/u_ether.ko:
 kernel/drivers/usb/gadget/usb_f_ncm.ko: kernel/drivers/usb/gadget/u_ether.ko kernel/drivers/usb/gadget/libcomposite.ko
 kernel/drivers/usb/gadget/g_ncm.ko: kernel/drivers/usb/gadget/u_ether.ko kernel/drivers/usb/gadget/libcomposite.ko
+kernel/drivers/usb/serial/usbserial.ko:
+kernel/drivers/usb/serial/cp210x.ko: kernel/drivers/usb/serial/usbserial.ko
 kernel/drivers/scsi/scsi_mod.ko:
 kernel/drivers/scsi/sd_mod.ko: kernel/drivers/scsi/scsi_mod.ko
 kernel/net/netfilter/nf_conntrack.ko:
@@ -44,4 +46,3 @@ kernel/net/sunrpc/auth_gss/auth_rpcgss.ko: kernel/lib/oid_registry.ko
 kernel/net/wireguard/wireguard.ko: kernel/net/ipv4/ip_tunnel.ko
 kernel/net/dns_resolver/dns_resolver.ko:
 kernel/lib/oid_registry.ko:
-extra/v4l2loopback.ko:

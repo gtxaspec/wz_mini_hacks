@@ -2,6 +2,8 @@
 
 #custom for V2
 
+set -x
+
 ACTION=$1
 
 KERNEL_OFFSET=$((64))
@@ -22,7 +24,12 @@ if [ "$ACTION" = "unpack" ]; then
     dd if=${DEMO_IN} of=$OUT_DIR/driver.bin skip=$DRIVER_OFFSET count=$(($APPFS_OFFSET-$DRIVER_OFFSET)) bs=1
     md5sum $OUT_DIR/driver.bin
 
+    if [ "$(uname -s)" = "Darwin" ]; then
+    IMAGE_END=$(($(stat -f %z ${DEMO_IN})))
+    else
     IMAGE_END=$(($(stat -c %s ${DEMO_IN})))
+    fi
+
     dd if=${DEMO_IN} of=$OUT_DIR/appfs.bin  skip=$APPFS_OFFSET count=$(($IMAGE_END-$APPFS_OFFSET)) bs=1
     md5sum $OUT_DIR/appfs.bin
 

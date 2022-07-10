@@ -28,6 +28,40 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 echo "welcome to wz_post.sh"
 echo "PID $$"
 
+#CAMERA CONFIGURATION FILES BACKUP
+if [ -d /opt/.wz_backup ]; then
+        echo "backup directory missing"
+else
+	echo "creating backup directory"
+        mkdir /opt/.wz_backup
+fi
+
+if [ -f /opt/wz_mini/tmp/.T31 ]; then
+        echo "T31 platform backup"
+        if [ -d /opt/.wz_backup/configs ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /configs"
+                cp -R /configs/ /opt/.wz_backup/
+        fi
+elif [ -f /opt/wz_mini/tmp/.T20 ]; then
+        echo "T20 platform backup"
+        if [ -d /opt/.wz_backup/configs ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /configs"
+                cp -R /configs/ /opt/.wz_backup/
+        fi
+
+        if [ -d /opt/.wz_backup/params ]; then
+                echo "configs backup directory present, not backing up again"
+        else
+                echo "backup /params"
+                cp -R /params/ /opt/.wz_backup/
+        fi
+fi
+
+#SWAP FILE, REQUIRED FOR OPERATION!
 if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
         echo "swap file found, enable"
         swapon /opt/wz_mini/swap
@@ -41,28 +75,36 @@ if [ -d /lib/modules ]; then
 fi
 
 ## REPLACE STOCK MODULES
-
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
         echo "Enable 8189fs"
         if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-                sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=3/g' /opt/wz_mini/tmp/.storage/app_init.sh
+                sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
         elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
-                sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=3/g' /opt/wz_mini/tmp/.storage/app_init.sh
+                sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
         elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
-                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=4/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+        elif [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
         fi
 fi
 
 if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == "" ]]; then
 	echo "Enable atbm603x_wifi_sdio"
-	if [ -f /opt/wz_mini/tmp/.T31 ]; then
-		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko/g' /opt/wz_mini/tmp/.storage/app_init.sh
+        if [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+		sed -i 's/\/thirdlib\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+	elif [ -f /opt/wz_mini/tmp/.T31 ] && ! [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
 	fi
 fi
 
-##RTSP SERVER INIT
+##ENABLE LIBCALLBACK BY DEFAULT
+if [[ "$LIBCALLBACK_ENABLE" == "true" ]] || ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]); then
+        echo "set path for iCamera"
+        sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
+fi
 
-if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && ! [[ -e /tmp/dbgflag ]]; then
+#RTSP SERVER
+if ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]) && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
 		        echo "load video loopback driver at video6 video7"
@@ -88,8 +130,12 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]] ||  [[ "$RTSP_LOW_RES_ENABLED" == "tru
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
 		fi
 	fi
-	echo "set path for iCamera"
-	sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
+fi
+
+#MOTORIZED CAMERA CONTROL
+if [[ "$DISABLE_MOTOR" == "true" ]]; then
+	echo "Motor Disabled"
+	touch /opt/wz_mini/tmp/.ms
 fi
 
 /opt/wz_mini/etc/init.d/wz_user.sh &

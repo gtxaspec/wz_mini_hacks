@@ -1,7 +1,4 @@
 #!/bin/sh
-###
-###DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING
-###
 
 ###This file is run by switch_root, from the initramfs in the kernel.
 LOG_NAME=/opt/wz_mini/log/wz_init
@@ -36,13 +33,13 @@ echo '
 
 set -x
 
-#replace stock busybox
+echo "replace stock busybox"
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
 echo "replace stock fstab"
 mount --bind /opt/wz_mini/etc/fstab /etc/fstab
 
-echo "mount workplace dir"
+echo "mount wz_mini tmpfs"
 mount -t tmpfs /opt/wz_mini/tmp
 
 echo "install busybox applets"
@@ -55,6 +52,7 @@ mkdir /opt/wz_mini/tmp/.bin
 #PANv2=HL_PAN2
 #V3=WYZE_CAKP2JFUS
 #DB3=WYZEDB3
+#V3C=ATOM_CamV3C
 
 #mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
 if [ -b /dev/mtdblock9 ]; then
@@ -96,14 +94,21 @@ else
 	fi
 fi
 
-touch /opt/wz_mini/etc/.first_boot
 
+if [ -f /opt/wz_mini/etc/.first_boot ]; then
+	echo "Not first_boot"
+else
+	echo "Set first_boot"
+	touch /opt/wz_mini/etc/.first_boot
+fi
+
+echo "replace stock inittab"
 mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 
 echo "bind /etc/profile for local/ssh shells"
 mount --bind /opt/wz_mini/etc/profile /etc/profile
 
-echo "mounting tmpfs"
+echo "mounting global tmpfs"
 mount -t tmpfs /tmp
 
 echo "mount system to replace factorycheck with dummy, to prevent bind unmount"
@@ -122,7 +127,7 @@ cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
 
 echo "add wz_post inject to stock rcS"
 sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/^# Mount configs.*/i/opt/wz_mini/etc/init.d/wz_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
+sed -i '/^# Run init script.*/i/opt/wz_mini/etc/init.d/wz_post.sh\n' /opt/wz_mini/tmp/.storage/rcS
 
 sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
 sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
