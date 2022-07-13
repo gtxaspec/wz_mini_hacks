@@ -1,0 +1,22 @@
+.ii_info_line {
+  font-weight:bold;
+}
+.ii {
+ width:100%;
+ position:relative;
+ display:flex;
+}
+.ii_key_DIV {
+
+ flex:0 0 40vw;
+ font-weight:bold;
+}
+.ii_value_DIV {
+ flex: 0 0 40vw;
+ text-align:right;
+}
+.ii_value {
+  width:75%;
+}
+
+
