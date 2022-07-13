@@ -44,6 +44,7 @@ aba4bad7530f7f702d4c27b103cc970d  SD_ROOT/wz_mini/bin/scp
 c5d2801b7117b8db6275647110e6c8f1  SD_ROOT/wz_mini/bin/iwconfig.sh
 67ab51181a29f16e60d879d793d4407f  SD_ROOT/wz_mini/bin/audioplay_t20
 78aaf46b312749d71c1f93a97f80fa74  SD_ROOT/wz_mini/bin/nm
+e6bcaf0465750b67cff55eb3e380e624  SD_ROOT/wz_mini/bin/curl
 02c62618633915a282a547411524ed3c  SD_ROOT/wz_mini/bin/v4l2rtspserver
 a9b8e51b956806e27021e6524ba917ed  SD_ROOT/wz_mini/bin/ranlib
 2393ba8bfe8c86775b8eb7b40fa2fe57  SD_ROOT/wz_mini/bin/dnsmasq
