@@ -518,13 +518,13 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
-	/opt/wz_mini/bin/cmd video on
+	/opt/wz_mini/bin/cmd video 0 on
 
         if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on
+		/opt/wz_mini/bin/cmd audio 0 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE1="$HI_VIDEO_DEV,hw:Loopback,0"
+		DEVICE1="$HI_VIDEO_DEV,hw:0,0"
         else
                 DEVICE1="$HI_VIDEO_DEV"
 		echo "rtsp audio disabled"
@@ -546,17 +546,17 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 	swap_enable
 
-	/opt/wz_mini/bin/cmd video on1
+	/opt/wz_mini/bin/cmd video 1 on
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on1
+		/opt/wz_mini/bin/cmd audio 1 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE2="$LOW_VIDEO_DEV,hw:Loopback,1"
+		DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
         else
                 DEVICE2="$LOW_VIDEO_DEV"
                 echo "rtsp audio disabled"

@@ -1,7 +1,7 @@
 # wz_mini_hacks
-### v2/v3/PANv2 devices ONLY
+### v2/PANv1/v3/PANv2 devices ONLY
 
-Run whatever firmware you want on your v2/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
+Run whatever firmware you want on your v2/PANv1/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
 
 **Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
 
@@ -18,6 +18,7 @@ Using this project can potentially expose your device to the open internet depen
 * Custom kernel loads all required files from micro-sd card at boot time
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Works on ANY firmware release (so far!)
+  * Compatability is not guaranteed with really old firmware versions!
   * Update to the latest stable or beta firmware, this mod should still work!
   * Block remote or app initiated firmware updates
   * DNS Spoofing or Telnet mod are *not* required prior to installation
@@ -26,6 +27,7 @@ Using this project can potentially expose your device to the open internet depen
   * ASIX AX88xxx Based USB 2.0 Ethernet Adapters
   * ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet
   * Realtek RTL8152 Based USB 2.0 Ethernet Adapters
+  * CDC-Ether Based Adapters
 * USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required, using USB CDC_NCM.
 * Custom script support included
 * RTSP Server included, stream video and or audio over LAN
@@ -84,16 +86,17 @@ Using this project can potentially expose your device to the open internet depen
 4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.
 5. You may also login via the serial console, password is WYom2020
 
-## Setup v2
+## Setup v2/PanV1
 
 1. git clone the repo or download the repo zip
 2. perform a fresh format on your micro-sd card, using fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
 3. Run `compile_image.sh` using linux, wait for the script to finish.
+   - PANv1: Run `compile_image.sh pan` using linux, wait for the script to finish.
 4. Copy all the files inside of SD_ROOT to your micro sd card
 5. Copy the generated `demo.bin` to root of your micro sd card
 6. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
-## Installation v2
+## Installation v2/PanV1
 
 1. Insert the micro sd memory card into the camera
 2. Hold down reset button while powering unit on.  This is the standard manual firmware restore procedure.
@@ -454,6 +457,7 @@ run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the 
 
 ## Latest Updates
 
+* 07-13-22:  Includes latest build of libcallback, better RTSP video and audio performance: fixed broken audio caused by motor_stop on T20 devices, fixed waitMotion errors. `cmd jpeg` currently still broken on T20 devices,  updated scripts to account for changes.  Some usage of `cmd` has changes, please see command output.  Kernel & modules updated to prepare for H265 support on T31.
 * 07-08-22:  Added support for multiple custom scripts, simply create scripts ending in .sh in wz_mini/etc/rc.local.d. You can prefix them with numbers to order execution if desired.
 * 07-08-22:  Updated T31 Kernel & Modules, added cp210x serial kernel module to support car.  Add motor disable, fsck on boot. Disable debug logging for wifi drivers to prevent log spam, improved method of setting imp variables, fixed soundcard issues in the kernel, revert libcallback to account for this change.
 * 06-24-22:  BIG UPGRADE!  Updated & improved WiFi Drivers - 8189fs and 6032i - Drivers work across all supported camera models.  This update requires you to copy over a new wz_mini.conf before upgrading!  Drivers required for operation, do not disable!  Updated upgrade-run.sh script to prevent broken boot during a rare corrupted file situation.  Added connection bonding, for network fail-over support.  
