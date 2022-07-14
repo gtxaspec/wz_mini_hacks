@@ -3,9 +3,9 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 28cf061770da7b83fbc3752c455a02c3  SD_ROOT/wz_mini/etc/dnsmasq.conf
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
-4fa268615ba8103545b062ca403bd6e8  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
+7dadce0e93f83d3adbef52b75c393eb4  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
 52c9d41071b59825a9b8c66e55289f0d  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
-24d3dbf789915507ce7aee7537ec0826  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
+d87991fe006c4dc0d554b1517d8f1b2c  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
@@ -85,6 +85,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
 3777d9e80c8b517c01a124e6360b6525  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
+fc4bd4bc2cf30f35018b9f8641249d7a  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so

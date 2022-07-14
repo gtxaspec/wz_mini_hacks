@@ -1,7 +1,7 @@
 # wz_mini_hacks
-### v2/PANv1/v3/PANv2 devices ONLY
+### v2/car/PANv1/v3/PANv2 devices ONLY
 
-Run whatever firmware you want on your v2/PANv1/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
+Run whatever firmware you want on your v2/car/PANv1/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
 
 **Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
 
@@ -102,6 +102,7 @@ Using this project can potentially expose your device to the open internet depen
 2. Hold down reset button while powering unit on.  This is the standard manual firmware restore procedure.
 3. Wait for camera to flash the latest modified firmware, and reboot, do not remove the micro sd card.
 4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.  You should hear audio prompts from the camera once it has booted successfully.
+5. If you have a car, you will now need to convert the camera to the car firmware.  Use the car app to do this.  After the conversion is complete, wz_mini remains active.
 5. You may also login via the serial console, password is WYom2020
 
 ## Removal

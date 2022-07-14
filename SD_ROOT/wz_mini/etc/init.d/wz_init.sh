@@ -71,6 +71,13 @@ elif [ -b /dev/mtdblock6 ]; then
         rm -rf /opt/wz_mini/tmp/configs
 fi
 
+#Check for Car FW
+if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+	if cat /system/bin/app.ver | grep 4.55; then
+		touch /opt/wz_mini/tmp/.CAR
+	fi
+fi
+
 #Set the correct GPIO for the audio driver (T31 only)
 if [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
         GPIO=7
