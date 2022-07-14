@@ -139,7 +139,7 @@ if [[ "$DISABLE_MOTOR" == "true" ]]; then
 fi
 
 #Enable serial driver for car
-if [ -f /opt/wz_mini/tmp/.CAR ]; then
+if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true"]]; then
 	modprobe cp210x
 fi
 
