@@ -71,13 +71,6 @@ elif [ -b /dev/mtdblock6 ]; then
         rm -rf /opt/wz_mini/tmp/configs
 fi
 
-#Check for Car FW
-if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-	if cat /system/bin/app.ver | grep 4.55; then
-		touch /opt/wz_mini/tmp/.CAR
-	fi
-fi
-
 #Set the correct GPIO for the audio driver (T31 only)
 if [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
         GPIO=7
@@ -145,6 +138,13 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -t jffs2 /dev/mtdblock4 /system
+fi
+
+#Check for Car FW
+if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+        if cat /system/bin/app.ver | grep 4.55; then
+                touch /opt/wz_mini/tmp/.CAR
+        fi
 fi
 
 echo "Copy factory app_init.sh"
