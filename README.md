@@ -17,7 +17,7 @@ Using this project can potentially expose your device to the open internet depen
 * No modification is done to the device filesystem. **_Zero!_** (T31 only)
 * Custom kernel loads all required files from micro-sd card at boot time
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
-* Works on ANY firmware release (so far!)
+* Works on ANY firmware release up to 4.36.9.139 (DO NOT UPGRADE BEYOND THIS FW IF YOU WANT RTSP or any `cmd` FEATURES!)
   * Compatability is not guaranteed with really old firmware versions!
   * Update to the latest stable or beta firmware, this mod should still work!
   * Block remote or app initiated firmware updates

@@ -85,10 +85,8 @@ elif [ "$input" = "e" ]; then
 elif [ "$input" = "z" ]; then
 	#reverse left
 	if [ "$1" == "low_speed" ] || [ "$2" == "low_speed" ]; then
-		echo "low speed"
 		echo -ne "\xaa\x55\x43\x06\x29\x76\x3b\x00\x02\x22" > /dev/ttyUSB0
 	else
-		echo "hi speed"
 		echo -ne "\xaa\x55\x43\x06\x29\x76\x36\x00\x02\x1d" > /dev/ttyUSB0
 	fi
 
