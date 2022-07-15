@@ -138,6 +138,11 @@ if [[ "$DISABLE_MOTOR" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.ms
 fi
 
+#Enable serial driver for car
+if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
+	modprobe cp210x
+fi
+
 /opt/wz_mini/etc/init.d/wz_user.sh &
 
 ##LIBRARY DEBUG

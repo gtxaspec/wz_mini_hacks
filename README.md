@@ -1,7 +1,7 @@
 # wz_mini_hacks
-### v2/PANv1/v3/PANv2 devices ONLY
+### v2/car/PANv1/v3/PANv2 devices ONLY
 
-Run whatever firmware you want on your v2/PANv1/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
+Run whatever firmware you want on your v2/car/PANv1/v3/PANv2 and have root access to the device.  This is in early stages of testing, use CAUTION if you are unsure of what you are doing.  No support whatsoever is offered with this release.  
 
 **Do not contact the manufacturer for information or support, they will not be able to assist or advise you!**
 
@@ -17,7 +17,7 @@ Using this project can potentially expose your device to the open internet depen
 * No modification is done to the device filesystem. **_Zero!_** (T31 only)
 * Custom kernel loads all required files from micro-sd card at boot time
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
-* Works on ANY firmware release (so far!)
+* Works on ANY firmware release up to 4.36.9.139 (DO NOT UPGRADE BEYOND THIS FW IF YOU WANT RTSP or any `cmd` FEATURES!)
   * Compatability is not guaranteed with really old firmware versions!
   * Update to the latest stable or beta firmware, this mod should still work!
   * Block remote or app initiated firmware updates
@@ -102,6 +102,7 @@ Using this project can potentially expose your device to the open internet depen
 2. Hold down reset button while powering unit on.  This is the standard manual firmware restore procedure.
 3. Wait for camera to flash the latest modified firmware, and reboot, do not remove the micro sd card.
 4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.  You should hear audio prompts from the camera once it has booted successfully.
+5. If you have a car, you will now need to convert the camera to the car firmware.  Use the car app to do this.  After the conversion is complete, wz_mini remains active.
 5. You may also login via the serial console, password is WYom2020
 
 ## Removal
@@ -449,15 +450,27 @@ Disable the movement capability on motorized devices.  You will no longer be abl
 
 ---
 
-ENABLE_FSCK_ON_BOOT="false"
+ENABLE_FSCK_ON_BOOT="true"
 
 run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the micro sd card, automatically repairing most issues, including corruption.  Increases boot time.  During the repair process, the LEDs on the camera will flash RED-off-BLUE-off-PURPLE-off to inform the user the repair program is running.  Once the program has completed, the LED will switch to RED, resuming the normal boot process.
 
 ---
 
+ENABLE_CAR_DRIVER="true"
+
+Loads the appropriate driver for the car to function.  On devices other than a V2 with the car firmware, the car may be controlled via `car_control.sh` on the command line.  experimental!
+
+`car_control.sh` defaults to high speed
+`car_control.sh low_speed` low speed
+`car_control constant` direction is constant, car keeps moving the direction you select without holding down any keys.
+`car_control.sh constant low_speed` like above, but in low speed
+
+---
+
 ## Latest Updates
 
-* 07-13-22:  Includes latest build of libcallback, better RTSP video and audio performance: fixed broken audio caused by motor_stop on T20 devices, fixed waitMotion errors. `cmd jpeg` currently still broken on T20 devices,  updated scripts to account for changes.  Some usage of `cmd` has changes, please see command output.  Kernel & modules updated to prepare for H265 support on T31.
+* 07-14-22:  Add car compatability with normally unsupported devices.
+* 07-13-22:  Includes latest build of libcallback, better RTSP video and audio performance: fixed broken audio caused by motor_stop on T20 devices, fixed waitMotion errors. `cmd jpeg` currently still broken on T20 devices,  updated scripts to account for changed.  Some usage of `cmd` has changes, please see command output.  Kernel & modules updated to prepare for H265 support on T31.
 * 07-08-22:  Added support for multiple custom scripts, simply create scripts ending in .sh in wz_mini/etc/rc.local.d. You can prefix them with numbers to order execution if desired.
 * 07-08-22:  Updated T31 Kernel & Modules, added cp210x serial kernel module to support car.  Add motor disable, fsck on boot. Disable debug logging for wifi drivers to prevent log spam, improved method of setting imp variables, fixed soundcard issues in the kernel, revert libcallback to account for this change.
 * 06-24-22:  BIG UPGRADE!  Updated & improved WiFi Drivers - 8189fs and 6032i - Drivers work across all supported camera models.  This update requires you to copy over a new wz_mini.conf before upgrading!  Drivers required for operation, do not disable!  Updated upgrade-run.sh script to prevent broken boot during a rare corrupted file situation.  Added connection bonding, for network fail-over support.  
