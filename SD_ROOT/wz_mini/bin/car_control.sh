@@ -16,6 +16,7 @@ echo "CAR: c: reverse right"
 echo "CAR: x: all stop"
 echo "CAR: h: headlight on/off"
 echo "CAR: j: irled on/off"
+echo "CAR: b: honk"
 echo -e ""
 echo "CAR: 1: quit ASAP!"
 echo -e ""
@@ -132,6 +133,9 @@ elif [ "$input" = "h" ]; then
 
 elif [ "$input" = "j" ]; then
 	irled
+
+elif [ "$input" = "b" ]; then
+	/opt/wz_mini/bin/cmd aplay /opt/wz_mini/usr/share/audio/honk.wav 70 > /dev/null 2>&1 &
 
 elif [ "$input" = "1" ]; then
 	#exit
