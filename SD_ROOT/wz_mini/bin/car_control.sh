@@ -14,10 +14,36 @@ echo "CAR: e: forward right"
 echo "CAR: z: reverse left"
 echo "CAR: c: reverse right"
 echo "CAR: x: all stop"
+echo "CAR: h: headlight on/off"
+echo "CAR: j: irled on/off"
 
 echo "CAR: use 1 to quit ASAP!"
 echo -e ""
 echo "Ready!"
+
+
+headlight_state=false
+irled_state=false
+
+function headlight {
+if [ "$headlight_state" = false ]; then
+	echo -ne "\xaa\x55\x43\x04\x1e\x01\x01\x65" > /dev/ttyUSB0
+	headlight_state=true
+else
+	echo -ne "\xaa\x55\x43\x04\x1e\x02\x01\x66" > /dev/ttyUSB0
+	headlight_state=false
+fi
+}
+
+function irled {
+if [ "$irled_state" = false ]; then
+	cmd irled on
+	irled_state=true
+else
+	cmd irled off
+	irled_state=false
+fi
+}
 
 trap control_c SIGINT
 
@@ -100,6 +126,12 @@ elif [ "$input" = "c" ]; then
 
 elif [ "$input" = "c" ]; then
 	echo -ne "\xaa\x55\x43\x06\x29\x80\x80\x00\x02\x71" > /dev/ttyUSB0
+
+elif [ "$input" = "h" ]; then
+	headlight
+
+elif [ "$input" = "j" ]; then
+	irled
 
 elif [ "$input" = "1" ]; then
 	#exit
