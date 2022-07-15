@@ -1,5 +1,6 @@
 #!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
+base_dir=/opt/wz_mini/
 hack_ini=/opt/wz_mini/wz_mini.conf
 camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
@@ -13,6 +14,7 @@ echo ""
 
 
 shft() {
+    cd $base_dir
     # https://stackoverflow.com/questions/3690936/change-file-name-suffixes-using-sed/3691279#3691279
     # Change this '8' to one less than your desired maximum rollover file.
     # Must be in reverse order for renames to work (n..1, not 1..n).
@@ -48,8 +50,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
 
   #switch back to going through the config file
   IFS=$'\n'
-  output=wz_mini.conf.new
-  shft $output
+  output="$hack_ini.new"
 
   #name our output file
   for ARGUMENT in $(cat $hack_ini) 
@@ -59,7 +60,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
     #copy through all comments
     if [[ ${ARGUMENT:0:1} == "#" ]] ; then
        #echo $ARGUMENT $'\n' 
-       echo $ARGUMENT >> $output
+       echo -ne  $ARGUMENT"\n"  >> $output
     else
     #for non-comments check to see if we have an entry in the POST data by deciphering the key from the ini file and using eval for our fake array
         KEY=$(echo $ARGUMENT | cut -f1 -d=)
@@ -68,18 +69,21 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
      if [[ "$test" ]]; then
         #if in the fake array then we use the new value
 	#echo "<div style=\"color:#c00\">matched </div>"
-	echo $KEY="$test"  >> $output
+	echo -ne $KEY=\"$test\""\n"  >> $output
       else
         #if not in the fake array we use the current value
 	#echo "<div>key not found</div>"
-	echo $ARGUMENT >> $output
+	echo -ne $ARGUMENT"\n" >> $output
       fi
 
     fi
   done
 
-
-
+  shft $hack_ini
+  mv $output $hack_ini
+  echo "rebooting! wait a bit -- and go the same url"
+  reboot
+  exit
 fi
 
 
