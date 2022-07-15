@@ -479,8 +479,10 @@ fi
 if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mkdir /tmp/Upgrade
 	mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
-	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+	#Setting this host causes iCamera to segfault, lets ignore it for now
+	#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
+	#mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
 else
         mkdir /tmp/Upgrade
         /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
@@ -612,7 +614,7 @@ if [ -d "${1:-/opt/wz_mini/etc/rc.local.d}" ] ; then
   for filename in $(find /opt/wz_mini/etc/rc.local.d/ -name "*.sh" | /opt/wz_mini/bin/busybox sort) ; do
     if [ -f "${filename}" ] && [ -x "${filename}" ]; then
       echo "running ${filename}"
-      "${filename}"
+      "${filename}" &
     fi
   done
 fi

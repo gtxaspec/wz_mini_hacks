@@ -2,6 +2,10 @@
 
 DEBUG=false
 
+export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
+
+[ -f $WZMINI_CFG ] && source $WZMINI_CFG
+
 if [ "$DEBUG" == "true" ]; then
 
 	if [ -L /dev/fd ]; then
@@ -16,6 +20,11 @@ if [ "$DEBUG" == "true" ]; then
 fi
 
 set -x
+
+if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
+	#Reboot as soon as we see "img", this means an update is incoiming
+	reboot
+fi
 
 event="$1"
 directory="$2"
