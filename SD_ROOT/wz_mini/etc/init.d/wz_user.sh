@@ -591,6 +591,10 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
 fi
 
+if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
+        httpd -p 80 -h /opt/wz_mini/web
+fi
+
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
