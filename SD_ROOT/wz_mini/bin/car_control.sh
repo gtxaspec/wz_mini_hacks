@@ -16,8 +16,8 @@ echo "CAR: c: reverse right"
 echo "CAR: x: all stop"
 echo "CAR: h: headlight on/off"
 echo "CAR: j: irled on/off"
-
-echo "CAR: use 1 to quit ASAP!"
+echo -e ""
+echo "CAR: 1: quit ASAP!"
 echo -e ""
 echo "Ready!"
 

@@ -21,11 +21,6 @@ fi
 
 set -x
 
-if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
-	#Reboot as soon as we see "img", this means an update is incoiming
-	reboot
-fi
-
 event="$1"
 directory="$2"
 file="$3"
@@ -34,6 +29,11 @@ case "$event" in
   n)  date; if [[ "$file" == "img" ]]; then
 
 set -x
+
+	if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
+		#Reboot as soon as we see "img", this means an update is incoiming
+		reboot
+	fi
 
 	#hook the v2
 	if cat /params/config/.product_config | grep WYZEC1-JZ; then
