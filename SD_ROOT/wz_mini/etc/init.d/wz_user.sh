@@ -479,8 +479,10 @@ fi
 if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mkdir /tmp/Upgrade
 	mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
-	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+	#Setting this host causes iCamera to segfault, lets ignore it for now
+	#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
+	#mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
 else
         mkdir /tmp/Upgrade
         /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
@@ -518,13 +520,13 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
-	/opt/wz_mini/bin/cmd video on
+	/opt/wz_mini/bin/cmd video 0 on
 
         if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on
+		/opt/wz_mini/bin/cmd audio 0 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE1="$HI_VIDEO_DEV,hw:Loopback,0"
+		DEVICE1="$HI_VIDEO_DEV,hw:0,0"
         else
                 DEVICE1="$HI_VIDEO_DEV"
 		echo "rtsp audio disabled"
@@ -546,17 +548,17 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 	swap_enable
 
-	/opt/wz_mini/bin/cmd video on1
+	/opt/wz_mini/bin/cmd video 1 on
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on1
+		/opt/wz_mini/bin/cmd audio 1 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE2="$LOW_VIDEO_DEV,hw:Loopback,1"
+		DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
         else
                 DEVICE2="$LOW_VIDEO_DEV"
                 echo "rtsp audio disabled"
@@ -612,7 +614,7 @@ if [ -d "${1:-/opt/wz_mini/etc/rc.local.d}" ] ; then
   for filename in $(find /opt/wz_mini/etc/rc.local.d/ -name "*.sh" | /opt/wz_mini/bin/busybox sort) ; do
     if [ -f "${filename}" ] && [ -x "${filename}" ]; then
       echo "running ${filename}"
-      "${filename}"
+      "${filename}" &
     fi
   done
 fi
