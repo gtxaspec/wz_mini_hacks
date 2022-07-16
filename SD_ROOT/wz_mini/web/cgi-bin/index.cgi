@@ -87,27 +87,40 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
 fi
 
 
+
+function documentation_to_html
+{
+        if [[ -f "$web_dir$1.md" ]];  then
+                printf '<div class="ii_explain"><pre>'
+                cat $web_dir$1.md
+                printf '</pre></div>'
+        fi
+}
+  
+  
 function ini_to_html_free
 {
-	printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV"><input class="ii_value" type="text" name="%s" value="%s" /></div></div>' $1 $1  $2
+        printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV"><input class="ii_value" type="text" name="%s" value="%s" /></div>' $1 $1  $2
+        documentation_to_html $1
+        printf '</div>'
 }
-
+       
 function ini_to_html_tf
 {
         printf '<div class="ii"><div class="ii_key_DIV">%s</div>' $1
-	printf '<div class="ii_value_DIV">'
-	if [[ "$2" == "true" ]]; then 
-	printf '<input class="ii_radio" type="radio" name="%s" value="true" checked="checked" /> True &nbsp;' $1
-	printf '<input class="ii_radio" type="radio" name="%s" value="false" /> False &nbsp;' $1
-	else
+        printf '<div class="ii_value_DIV">'
+        if [[ "$2" == "true" ]]; then
+        printf '<input class="ii_radio" type="radio" name="%s" value="true" checked="checked" /> True &nbsp;' $1
+        printf '<input class="ii_radio" type="radio" name="%s" value="false" /> False &nbsp;' $1
+        else
         printf '<input class="ii_radio" type="radio" name="%s" value="true" /> True &nbsp;' $1
         printf '<input class="ii_radio" type="radio" name="%s" value="false" checked="checked" /> False &nbsp;' $1
-
-	fi
-	printf '</div></div>'   
+        
+        fi
+        printf '</div>'
+        documentation_to_html $1
+        printf '</div>'
 }
-
-
 echo -ne "<html><head><title>$title</title>"
 echo -ne "<style type=\"text/css\">"
 cat wz_mini_web.css
