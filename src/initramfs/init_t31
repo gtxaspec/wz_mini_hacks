@@ -51,7 +51,7 @@ run_stock() { # Boot stock
 WZMINI_CONF=/sdcard/wz_mini/wz_mini.conf
 ## Stock boot or debug mode
 if [ ! -f $WZMINI_CONF ]; then
-	echo "Unable to find /sdcard/wz_mini/etc/init.d/wz_mini.conf, booting to stock"
+	echo "Unable to find $WZMINI_CONF, booting to stock"
 	run_stock
 else
 	source $WZMINI_CONF
