@@ -1,5 +1,6 @@
-.ii_info_line {
+.ii_info {
   font-weight:bold;
+  background-color:#ccc;
 }
 .ii {
  width:100%;
@@ -8,7 +9,7 @@
 }
 .ii_key_DIV {
 
- flex:0 0 40vw;
+ flex:0 0 30vw;
  font-weight:bold;
 }
 .ii_value_DIV {
@@ -18,5 +19,8 @@
 .ii_value {
   width:75%;
 }
-
-
+.ii_explain {
+ width:29vw;
+ overflow:scroll;
+ max-height:140px;
+}
