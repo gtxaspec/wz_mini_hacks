@@ -4,7 +4,7 @@ base_dir=/opt/wz_mini/
 hack_ini=/opt/wz_mini/wz_mini.conf
 camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
-hackver="unknown"
+hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
 hostname=$(uname -n)
 title="Wyze $camver on $camfirmware running wz_mini $hackver as $hostname"
 
