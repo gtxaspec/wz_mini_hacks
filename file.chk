@@ -4,7 +4,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/mnt/.gitignore
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 ad7d1a2f9db3079617731b5854ce3b6a  SD_ROOT/wz_mini/etc/init.d/wz_cam.sh
 f97ffcb1482d564bf2557684a4c68846  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-52c9d41071b59825a9b8c66e55289f0d  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
+470ce77070b8f8abb3a0a9d059fac6fa  SD_ROOT/wz_mini/etc/init.d/wz_user.sh
 4eaf541a47e60035992435b115463541  SD_ROOT/wz_mini/etc/init.d/wz_post.sh
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -42,7 +42,7 @@ c77675d150e2274de3cfe08c5c295f8f  SD_ROOT/wz_mini/bin/ld
 14e944353e335cff9430080e1ca007f6  SD_ROOT/wz_mini/bin/busybox
 aba4bad7530f7f702d4c27b103cc970d  SD_ROOT/wz_mini/bin/scp
 c5d2801b7117b8db6275647110e6c8f1  SD_ROOT/wz_mini/bin/iwconfig.sh
-52f9e7711ae7ae75ff42d63a42e31d41  SD_ROOT/wz_mini/bin/car_control.sh
+877b9603d5435aced2be7787473ea476  SD_ROOT/wz_mini/bin/car_control.sh
 67ab51181a29f16e60d879d793d4407f  SD_ROOT/wz_mini/bin/audioplay_t20
 78aaf46b312749d71c1f93a97f80fa74  SD_ROOT/wz_mini/bin/nm
 e6bcaf0465750b67cff55eb3e380e624  SD_ROOT/wz_mini/bin/curl
@@ -79,14 +79,15 @@ e2e7f9190edcfb31af42fb00c59919ab  SD_ROOT/wz_mini/usr/share/audio/upgrade_mode_v
 eaf86f91cb1b15b2191a8845ae88e3c8  SD_ROOT/wz_mini/usr/share/audio/init_v2.wav
 02fed0e4b2382d839f630ce0477aba26  SD_ROOT/wz_mini/usr/share/audio/init.wav
 5754f767c1334df202983aed2a20a050  SD_ROOT/wz_mini/usr/share/audio/binbin_v3.wav
+6e01838f67f7e6e51a6891e1c411318a  SD_ROOT/wz_mini/usr/share/audio/honk.wav
 ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 7626ba23cc36b88491b010dd6eff72de  SD_ROOT/wz_mini/usr/bin/iCamera
-cf049b9446094cc8a7e07a33cf91c4a8  SD_ROOT/wz_mini/usr/bin/watch_up.sh
+1e64fdad40c82ecce420f71701ec3d6d  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
 3777d9e80c8b517c01a124e6360b6525  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-0a0d0aaf0eb4ba6be237ea4511cae1fe  SD_ROOT/wz_mini/usr/bin/app.ver
+d13b4da22fb1f5878284395ae8da398f  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
