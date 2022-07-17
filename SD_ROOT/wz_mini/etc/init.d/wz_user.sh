@@ -594,7 +594,7 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 fi
 
 if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
-        httpd -p 80 -h /opt/wz_mini/web
+        httpd -p 80 -h /opt/wz_mini/www
 fi
 
 hostname_set
