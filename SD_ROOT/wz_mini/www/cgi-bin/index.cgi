@@ -1,7 +1,8 @@
-#!/bin/sh
+#we!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
 base_dir=/opt/wz_mini/
 hack_ini=/opt/wz_mini/wz_mini.conf
+www_dir=/opt/wz_mini/www/cgi-bin/
 camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
 hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
@@ -90,7 +91,7 @@ fi
 
 function documentation_to_html
 {
-        if [[ -f "$web_dir$1.md" ]];  then
+        if [[ -f "$www_dir$1.md" ]];  then
                 printf '<div class="ii_explain"><pre>'
                 cat $web_dir$1.md
                 printf '</pre></div>'
