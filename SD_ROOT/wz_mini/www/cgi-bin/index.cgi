@@ -122,6 +122,13 @@ function ini_to_html_tf
         documentation_to_html $1
         printf '</div>'
 }
+
+#function to handle camera feed
+function html_cam_feed
+{
+	printf '<img src="/cgi-bin/jpeg.cgi" class="feed" >'
+}
+
 echo -ne "<html><head><title>$title</title>"
 echo -ne "<style type=\"text/css\">"
 cat wz_mini_web.css
@@ -131,6 +138,9 @@ echo -ne "</head>"
 
 echo -ne '<body>'
 echo -ne "<h1>$title</h1>";
+
+html_cam_feed
+
 echo -ne '<form name="wz_mini_hack_FORM" method="POST" enctype="application/x-www-form-urlencoded"  >'
 
 IFS=$'\n'
