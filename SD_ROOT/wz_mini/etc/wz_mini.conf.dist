@@ -94,7 +94,7 @@ ENABLE_FSCK_ON_BOOT="false"
 ENABLE_CAR_DRIVER="false"
 
 #####WEB#####
-WEB_SERVER_ENABLED="true"
+WEB_SERVER_ENABLED="false"
 
 #####DEBUG#####
 #drops you to a shell via serial, doesn't load app_init.sh
