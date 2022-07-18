@@ -1,4 +1,4 @@
-.button {
+.wz_car_BUTTON {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
@@ -11,6 +11,8 @@
   cursor: pointer;
 }
 
-.button1 {width: 60px;}
-.button2 {width: 5%;}
-.button3 {width: 100%;}
+.wz_car_TABLE {
+  width: 55%;
+  border-collapse: collapse; 
+  float: left;
+}
