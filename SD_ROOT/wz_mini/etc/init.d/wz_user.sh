@@ -168,20 +168,28 @@ eth_wlan_up() {
 
 wpa_check() {
 #Check if wpa_supplicant has been created by iCamera
-	if [ -e /tmp/wpa_supplicant.conf ]; then
-		wait_wlan
-		echo "wpa_supplicant.conf ready"
-		wlanold_check $1
-	else
-		echo "wpa_supplicant.conf not ready, wait some time for creation."
-		COUNT=0
-		ATTEMPTS=15
-		until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
-		echo -e "$(( COUNT++ ))... \c"
-		sleep 5
-		done
-		[[ $COUNT -eq $ATTEMPTS ]] && echo "time exceeded waiting for iCamera, continue potentially broken condition without network." && wlanold_check $1
-	fi
+        if [ -e /tmp/wpa_supplicant.conf ]; then
+                wait_wlan
+                echo "wpa_supplicant.conf ready"
+
+                if  ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
+                wlanold_check $1
+                fi
+        else
+                echo "wpa_supplicant.conf not ready, wait some time for creation."
+                COUNT=0
+                ATTEMPTS=15
+                until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
+                echo -e "$(( COUNT++ ))... \c"
+                sleep 5
+                done
+                if [[ $COUNT -eq $ATTEMPTS ]]; then
+                        echo "time exceeded waiting for iCamera, continue potentially broken condition without network."
+                        if  ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
+                        wlanold_check $1
+                        fi
+                fi
+        fi
 }
 
 wlanold_check() {
@@ -250,6 +258,7 @@ done
 }
 
 first_run_check
+wpa_check
 
 #Set module dir depending on platform
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
