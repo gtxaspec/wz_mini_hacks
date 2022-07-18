@@ -388,7 +388,7 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 	#loop begin
 	while true
 	do
-	wpa_check usb0
+	netloop usb0
 	echo "wlan0 not ready yet..."
         sleep 1
 	done
