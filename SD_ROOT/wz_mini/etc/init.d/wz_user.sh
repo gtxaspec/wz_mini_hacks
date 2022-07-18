@@ -48,10 +48,10 @@ wait_wlan() {
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
     while true
     do
-        if ifconfig wlan0 | grep "inet addr"; then
+        if ifconfig wlan0 | grep "HWaddr"; then
 	        store_mac
 		break
-        elif ifconfig wlan0 | grep "inet addr" && [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
+        elif ifconfig wlan0 | grep "HWaddr" && [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
 	        store_mac
         	break
         fi
@@ -169,6 +169,7 @@ eth_wlan_up() {
 wpa_check() {
 #Check if wpa_supplicant has been created by iCamera
 	if [ -e /tmp/wpa_supplicant.conf ]; then
+		wait_wlan
 		echo "wpa_supplicant.conf ready"
 		wlanold_check $1
 	else
@@ -249,7 +250,6 @@ done
 }
 
 first_run_check
-wait_wlan
 
 #Set module dir depending on platform
 if [ -f /opt/wz_mini/tmp/.T20 ]; then

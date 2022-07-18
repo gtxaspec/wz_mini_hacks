@@ -1,4 +1,4 @@
-#we!/bin/sh
+#!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
 base_dir=/opt/wz_mini/
 hack_ini=/opt/wz_mini/wz_mini.conf
