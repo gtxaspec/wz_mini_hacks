@@ -385,13 +385,8 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	swap_enable
 
-	#loop begin
-	while true
-	do
 	netloop usb0
-	echo "wlan0 not ready yet..."
-        sleep 1
-	done
+
 	else
 	echo "USB Direct disabled"
 fi
@@ -409,13 +404,8 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 
                 swap_enable
 
-                #loop begin
-                while true
-                do
-                wpa_check usb0
-                echo "wlan0 not ready yet..."
-                sleep 1
-                done
+                netloop usb0
+
         fi
 else
         echo "usb rndis disabled"
