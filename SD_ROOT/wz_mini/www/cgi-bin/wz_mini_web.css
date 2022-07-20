@@ -38,4 +38,48 @@ H1 {
   height:calc(108px * var(--feed_ratio));
   z-index:10;
 }
-
+.ii_explain {
+   height:25px;
+   overflow:hidden;
+   width:25px;
+   position:relative;
+}
+.ii_explain:hover {
+    height: auto;
+    position: absolute;
+    left: 10%;
+    width: 80%;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: #ccc;
+    z-index: 10;
+    border: 3px solid blue;
+    font-family: monospace;
+    white-space:pre-wrap;
+}
+.ii_explain:hover PRE {
+ white-space:pre-wrap;
+}
+.ii_explain:hover:after {
+  content:"";
+  border:none;
+  margin:0;
+  padding:0;
+  width:0;
+  height:0;
+}
+.ii_explain:after {
+ color:white;
+ content:"?";
+ text-align:center;
+ background-color:blue;
+ border:2px solid #ccc;
+ border-radius:3px;
+ padding-left:2px;
+ padding-right:2px;
+ position:absolute;
+ left:0;
+ top:0;
+ width:100%;
+ height:100%;
+}

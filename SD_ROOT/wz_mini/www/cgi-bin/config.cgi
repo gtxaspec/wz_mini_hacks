@@ -6,8 +6,7 @@ www_dir=/opt/wz_mini/www/cgi-bin/
 camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
 hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
-hostname=$(uname -n)
-title="Wyze $camver on $camfirmware running wz_mini $hackver as $hostname"
+title="Wyze $camver on $camfirmware running wz_mini $hackver as $HOSTNAME"
 
 echo "HTTP/1.1 200"
 echo -e "Content-type: text/html\n\n"
@@ -126,13 +125,16 @@ function ini_to_html_tf
 #function to handle camera feed
 function html_cam_feed
 {
-	printf '<img src="/cgi-bin/jpeg.cgi" class="feed" >'
+	printf '<img id="current_feed" src="/cgi-bin/jpeg.cgi?channel=1" class="feed" />'
 }
+
+
 
 echo -ne "<html><head><title>$title</title>"
 echo -ne "<style type=\"text/css\">"
 cat wz_mini_web.css
 echo -ne '</style>';
+echo '<script type="text/javascript" src="/config.js" ></script>'
 echo -ne "</head>"
 
 
@@ -163,5 +165,8 @@ done
 echo -ne '<input type="submit" name="update" value="Update" />'
 echo -ne '</form>'
 
+
+
+html_cam_feed_js
 
 echo -ne '</body></html>'
