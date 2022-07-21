@@ -55,6 +55,8 @@ cp /system/bin/app.ver /opt/wz_mini/tmp/log_gather/system_app.ver
 echo "gather mmc info"
 cat /sys/bus/mmc/devices/mmc1\:0001/mmc1\:0001\:1/* > /opt/wz_mini/tmp/log_gather/mmc_sys.log
 
+echo "gather lsusb"
+lsusb > /opt/wz_mini/tmp/log_gather/lsusb.log
 
 if [ -f /tmp/sd_check_result.txt ]; then
 	echo "copy sd_check_result.txt"
