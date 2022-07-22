@@ -3,7 +3,7 @@
 <head>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="car.js"></script>
+<script type="text/javascript" src="car.js"></script>
 <link rel="stylesheet" href="car.css">
 
 </head>
@@ -27,14 +27,31 @@
 <tr style="height: 18px;">
 <td style="width: 33.3333%; height: 18px; text-align: left;"><button id="reverse_left" class="wz_car_BUTTON">z: rear left</button></td>
 <td style="width: 33.3333%; height: 18px; text-align: center;"><button id="all_stop" class="wz_car_BUTTON">x: all stop</button></td>
-<td style="width: 33.3333%; height: 18px; text-align: right;"><button  id="reverse_right" class="wz_car_BUTTON">c: rear right</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: right;"><button id="reverse_right" class="wz_car_BUTTON">c: rear right</button></td>
 </tr>
-<td style="width: 33.3333%; height: 21px; text-align: left;"><button id="headlight" class="wz_car_BUTTON">H: headlight</button></td>
-<td style="width: 33.3333%; height: 18px; text-align: center;"><button  id="irled" class="wz_car_BUTTON">j: ir led</button></td>
-<td style="width: 33.3333%; height: 18px; text-align: center;"><button id="honk" class="wz_car_BUTTON">b: honk</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: center;">
+<button id="headlight_on" class="wz_car_BUTTON_N">h: headlight on</button>
+<button id="headlight_off" class="wz_car_BUTTON_N">g: headlight off</button>
+</td>
+<td style="width: 33.3333%; height: 18px; text-align: center;"><button id="irled_on" class="wz_car_BUTTON">j: ir led on</button><button id="irled_off" class="wz_car_BUTTON">k: ir led off</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: right;"><button id="honk" class="wz_car_BUTTON">b: honk</button></td>
 </tr>
 </tbody>
 </table>
+
+<p><img id="car_feed" src="/cgi-bin/jpeg.cgi?channel=1" /></p>
+
+Speed Sleep: <input type="text" size=5 id="sleep_timer" name="sleep_timer" value="0.15">
+
+Car Speed:
+
+<input type="radio" id="speed_fast" class="speed" name="fast" value="fast">
+<label for="fast">Fast</label>
+
+<input type="radio" id="speed_slow" class="speed" name="slow" value="slow">
+<label for="slow">Slow</label>
+
+<button onclick="set_vars()">Set Variables</button>
 
 </body>
 </html>
