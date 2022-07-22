@@ -7,25 +7,80 @@ camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
 hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
 title="Wyze $camver on $camfirmware running wz_mini $hackver as $HOSTNAME"
+updated=false
 
 echo "HTTP/1.1 200"
 echo -e "Content-type: text/html\n\n"
 echo ""
 
 
+reboot_camera()  {
+    echo "rebooting camera (refreshing screen in 90 seconds)"
+    echo '<script type="text/javascript">setTimeout(function(){ document.location.reload (); },90 * 1000)</script>'
+    exit
+}
+
 shft() {
-    cd $base_dir
-    # https://stackoverflow.com/questions/3690936/change-file-name-suffixes-using-sed/3691279#3691279
-    # Change this '8' to one less than your desired maximum rollover file.
-    # Must be in reverse order for renames to work (n..1, not 1..n).
-    for suff in {8..1} ; do
-        if [[ -f "$1.${suff}" ]] ; then
-            ((nxt = suff + 1))
-            mv -f "$1.${suff}" "$1.${nxt}"
+    # SE loop did not work -- thanks ash!
+   suff=8 
+   while [ "$suff" -gt 0 ] ;
+    do
+        if [[ -f "$1.$suff" ]] ; then
+            nxt=$((suff + 1))
+            mv -f "$1.$suff" "$1.$nxt"
+        fi
+   suff=$((suff-1))
+   done 
+   mv -f "$1" "$1.1"
+}
+
+
+function revert_config
+{
+  mv "$hack_ini" "$hack_ini.old"
+  mv "$hack_ini.$1" "$hack_ini"
+
+}
+
+
+function revert_menu
+{
+   echo '<a href="revert" >Revert Menu</a>'
+   echo '<div class="old_configs">'
+   echo 'Prior Versions : ' 
+  xuff=0
+   while [ "$xuff" -lt 9 ] ; 
+   do 
+	xuff=$((xuff + 1))  
+        if [[ -f "$1.$xuff" ]] ; then
+	    echo '&nbsp;<a href="?action=revert&version='"$xuff"'">'"$xuff</a>"
         fi
     done
-    mv -f "$1" "$1.1"
+    echo '</div>'
 }
+
+
+
+if [[ $REQUEST_METHOD = 'GET' ]]; then
+
+  #since ash does not handle arrays we create variables using eval
+  IFS='&'
+  for PAIR in $QUERY_STRING
+  do
+      K=$(echo $PAIR | cut -f1 -d=)
+      VA=$(echo $PAIR | cut -f2 -d=)
+      eval GET_$K=$VA
+  done
+
+  if [[ "$GET_action" = "reboot" ]];  then
+    reboot_camera
+  fi
+  if [[ "$GET_action" = "revert"  ]]; then
+    revert_config "$GET_version"
+  fi
+
+fi
+
 
 #test for post
 if [[ $REQUEST_METHOD = 'POST' ]]; then
@@ -81,10 +136,10 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
 
   shft $hack_ini
   mv $output $hack_ini
-  echo "rebooting! wait a bit -- and go the same url"
-  reboot
-  exit
+  updated=true
+
 fi
+
 
 
 
@@ -92,7 +147,7 @@ function documentation_to_html
 {
         if [[ -f "$www_dir$1.md" ]];  then
                 printf '<div class="ii_explain"><pre>'
-                cat $web_dir$1.md
+                cat "$web_dir$1.md"
                 printf '</pre></div>'
         fi
 }
@@ -130,6 +185,7 @@ function html_cam_feed
 
 
 
+
 echo -ne "<html><head><title>$title</title>"
 echo -ne "<style type=\"text/css\">"
 cat wz_mini_web.css
@@ -138,8 +194,17 @@ echo '<script type="text/javascript" src="/config.js" ></script>'
 echo -ne "</head>"
 
 
+
+
 echo -ne '<body>'
 echo -ne "<h1>$title</h1>";
+
+
+if [ "$updated" = true ];
+then
+   echo '<div class="message_DIV">configuration file updated. <a href="?action=reboot">Reboot<a/> to use changes. Or <a href="#revert">Revert</a> to a prior configuration</div>';
+
+fi
 
 html_cam_feed
 
@@ -166,7 +231,11 @@ echo -ne '<input type="submit" name="update" value="Update" />'
 echo -ne '</form>'
 
 
+revert_menu $hack_ini
+
+
 
 html_cam_feed_js
+
 
 echo -ne '</body></html>'
