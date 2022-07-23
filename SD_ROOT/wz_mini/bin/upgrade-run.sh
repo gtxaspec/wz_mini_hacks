@@ -79,6 +79,7 @@ cp /opt/wz_mini/wz_mini.conf /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
+cp -r /opt/wz_mini/etc/rc.local.d /opt/Upgrade/preserve/
 sync
 
 echo "Rebooting into UPGRADE MODE"
@@ -154,6 +155,7 @@ fi
 cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
 cp /opt/Upgrade/preserve/configs/*  /opt/wz_mini/etc/configs
 cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
+cp -r /opt/Upgrade/preserve/rc.local.d  /opt/wz_mini/etc/
 rm -rf /opt/Upgrade
 sync
 reboot

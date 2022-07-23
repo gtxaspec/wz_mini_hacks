@@ -41,7 +41,7 @@ echo "replace factory kernel"
 cp v2_kernel.bin v2_ro/fw_dir/kernel.bin
 
 echo "pack firmware image with new kernel"
-./fw_tool.sh pack v2_ro/fw_dir/ demo.bin
+./fw_tool.sh pack v2_ro/fw_dir demo.bin
 
 echo "remove temporary work directory"
 rm -rf v2_ro

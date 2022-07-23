@@ -15,6 +15,8 @@ kernel/drivers/net/usb/usbnet.ko:
 kernel/drivers/usb/storage/usb-storage.ko: kernel/drivers/scsi/scsi_mod.ko
 kernel/drivers/usb/gadget/libcomposite.ko:
 kernel/drivers/usb/gadget/g_ncm.ko: kernel/drivers/usb/gadget/libcomposite.ko
+kernel/drivers/usb/serial/usbserial.ko:
+kernel/drivers/usb/serial/cp210x.ko: kernel/drivers/usb/serial/usbserial.ko
 kernel/drivers/scsi/scsi_mod.ko:
 kernel/drivers/scsi/sd_mod.ko: kernel/drivers/scsi/scsi_mod.ko
 kernel/net/netfilter/nf_conntrack.ko:

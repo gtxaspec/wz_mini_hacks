@@ -2,6 +2,10 @@
 
 DEBUG=false
 
+export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
+
+[ -f $WZMINI_CFG ] && source $WZMINI_CFG
+
 if [ "$DEBUG" == "true" ]; then
 
 	if [ -L /dev/fd ]; then
@@ -25,6 +29,11 @@ case "$event" in
   n)  date; if [[ "$file" == "img" ]]; then
 
 set -x
+
+	if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
+		#Reboot as soon as we see "img", this means an update is incoiming
+		reboot
+	fi
 
 	#hook the v2
 	if cat /params/config/.product_config | grep WYZEC1-JZ; then

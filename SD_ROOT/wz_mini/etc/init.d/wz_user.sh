@@ -53,16 +53,64 @@ wait_wlan() {
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
     while true
     do
-        if ifconfig wlan0 | grep "inet addr"; then
+        if ifconfig wlan0 | grep "HWaddr"; then
+		echo "wlan0 hwaddr is up"
 	        store_mac
 		break
-        elif ifconfig wlan0 | grep "inet addr" && [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
-	        store_mac
-        	break
-        fi
-	        echo " wlan0 not ready yet..."
+        else
+	        echo "wlan0 hwaddr not ready yet..."
         	sleep 5
+	fi
     done
+}
+
+wpa_check() {
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
+        rename_interface $1
+    fi
+
+##Check if wpa_supplicant has been created by iCamera
+	if [ -e /tmp/wpa_supplicant.conf ]; then
+		wait_wlan
+		echo "wpa_supplicant.conf ready"
+	else
+		echo "wpa_supplicant.conf not ready, wait some time for creation."
+		COUNT=0
+		ATTEMPTS=15
+		until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
+		echo -e "$(( COUNT++ ))... \c"
+		sleep 5
+		wpa_check
+		done
+		if [[ $COUNT -eq $ATTEMPTS ]]; then
+			echo "time exceeded waiting for iCamera, continue potentially broken condition without network."
+		fi
+	fi
+}
+
+wlanold_check() {
+#Have we renamed interfaces yet?
+	if [ -d /sys/class/net/wlanold ]; then
+		echo "wlanold exist"
+		eth_wlan_up
+	else
+		echo "wlanold doesn't exist"
+                if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
+			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
+		else
+			rename_interface $1
+		fi
+	fi
+}
+
+netloop() {
+##While loop for check
+        while true
+        do
+	wlanold_check $1
+        echo "wlan0 not ready yet..."
+        sleep 5
+        done
 }
 
 rename_interface() {
@@ -171,52 +219,6 @@ eth_wlan_up() {
 	break
 }
 
-wpa_check() {
-    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
-        rename_interface $1
-    fi
-
-#Check if wpa_supplicant has been created by iCamera
-	if [ -e /tmp/wpa_supplicant.conf ]; then
-		echo "wpa_supplicant.conf ready"
-		wlanold_check $1
-	else
-		echo "wpa_supplicant.conf not ready, wait some time for creation."
-		COUNT=0
-		ATTEMPTS=15
-		until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
-		echo -e "$(( COUNT++ ))... \c"
-		sleep 5
-		done
-		[[ $COUNT -eq $ATTEMPTS ]] && echo "time exceeded waiting for iCamera, continue potentially broken condition without network." && wlanold_check $1
-	fi
-}
-
-wlanold_check() {
-#Have we renamed interfaces yet?
-	if [ -d /sys/class/net/wlanold ]; then
-		echo "wlanold exist"
-		eth_wlan_up
-	else
-		echo "wlanold doesn't exist"
-                if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
-			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
-		else
-			rename_interface $1
-		fi
-	fi
-}
-
-netloop() {
-##While loop for check
-        while true
-        do
-        wpa_check $1
-        echo "wlan0 not ready yet..."
-        sleep 5
-        done
-}
-
 swap_enable() {
         if [ -e /opt/wz_mini/swap ]; then
                 echo "Swap file exists"
@@ -258,7 +260,7 @@ done
 }
 
 first_run_check
-wait_wlan
+wpa_check
 
 #Set module dir depending on platform
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
@@ -392,13 +394,8 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	swap_enable
 
-	#loop begin
-	while true
-	do
-	wpa_check usb0
-	echo "wlan0 not ready yet..."
-        sleep 1
-	done
+	netloop usb0
+
 	else
 	echo "USB Direct disabled"
 fi
@@ -416,13 +413,8 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 
                 swap_enable
 
-                #loop begin
-                while true
-                do
-                wpa_check usb0
-                echo "wlan0 not ready yet..."
-                sleep 1
-                done
+                netloop usb0
+
         fi
 else
         echo "usb rndis disabled"
@@ -488,8 +480,10 @@ fi
 if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
 	mkdir /tmp/Upgrade
 	mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-	echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
-	mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+	#Setting this host causes iCamera to segfault, lets ignore it for now
+	#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
+	#mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
 else
         mkdir /tmp/Upgrade
         /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
@@ -527,66 +521,19 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
-	/opt/wz_mini/bin/cmd video on
+	/opt/wz_mini/bin/cmd video 0 on
 
         if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on
+		/opt/wz_mini/bin/cmd audio 0 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE1="$HI_VIDEO_DEV,hw:Loopback,0"
+		DEVICE1="$HI_VIDEO_DEV,hw:0,0"
         else
                 DEVICE1="$HI_VIDEO_DEV"
 		echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_HI_RES_ENC_PARAMETER" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:0:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_HI_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:44:4:$RTSP_HI_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_HI_RES_MAX_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:28:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:52:4:$RTSP_HI_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_TARGET_BITRATE" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:48:4:$RTSP_HI_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-	if [[ "$RTSP_HI_RES_FPS" != "" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:8:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 0:80:4:$RTSP_HI_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -602,66 +549,23 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 
 	swap_enable
 
-	/opt/wz_mini/bin/cmd video on1
+	/opt/wz_mini/bin/cmd video 1 on
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
-		/opt/wz_mini/bin/cmd audio on1
+		/opt/wz_mini/bin/cmd audio 1 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
-		DEVICE2="$LOW_VIDEO_DEV,hw:Loopback,1"
+		DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
         else
                 DEVICE2="$LOW_VIDEO_DEV"
                 echo "rtsp audio disabled"
         fi
 
-        if [[ "$RTSP_LOW_RES_ENC_PARAMETER" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:0:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-				sleep 5
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                else
-                        if [[ $RTSP_LOW_RES_ENC_PARAMETER =~ "^[0|1|2|4|8]$" ]]; then
-                                watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:44:4:$RTSP_LOW_RES_ENC_PARAMETER" > /dev/null 2>&1 &
-                        else
-                                echo "Invalid encoder value"
-                        fi
-                fi
-        fi
-
-	if [[ "$RTSP_LOW_RES_MAX_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:28:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:52:4:$RTSP_LOW_RES_MAX_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_TARGET_BITRATE" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			echo "not supported on T20"
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:48:4:$RTSP_LOW_RES_TARGET_BITRATE" > /dev/null 2>&1 &
-		fi
-	fi
-
-	if [[ "$RTSP_LOW_RES_FPS" != "" ]]; then
-		if [ -f /opt/wz_mini/tmp/.T20 ]; then
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:8:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-			sleep 5
-		else
-			watch -n30 -t "/system/bin/impdbg --enc_rc_s 1:80:4:$RTSP_LOW_RES_FPS" > /dev/null 2>&1 &
-		fi
-	fi
-
-        else
+else
         echo "rtsp disabled"
 
 fi
@@ -671,6 +575,9 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true
 	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
 	sleep 5
 	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 &
+	sleep 1
+        echo "Set imp variables via helper"
+        /opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
 fi
 
 if ([[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]) && [[ "$RTMP_STREAM_ENABLED" == "true" ]] && ([[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]] || [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]); then
@@ -687,9 +594,14 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
 fi
 
-if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]]; then
-	#Reduce dmesg log spam by driver
-	echo "LOG_ERR=OFF LOG_WARN=ON LOG_LMAC=ON LOG_SCAN=OFF" > /sys/module/atbm603x_wifi_sdio/atbmfs/atbm_printk_mask
+if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+	dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+	rm -f /tmp/resolv.conf
+	cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+fi
+
+if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
+        httpd -p 80 -h /opt/wz_mini/www
 fi
 
 hostname_set
@@ -705,7 +617,18 @@ if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
 	echo "starting custom script"
 	$CUSTOM_SCRIPT_PATH &
 else
-	echo "custom script not found"
+	echo "no custom script configured in wz_mini.conf"
 fi
+
+echo "searching for custom scripts in /opt/wz_mini/etc/rc.local.d"
+if [ -d "${1:-/opt/wz_mini/etc/rc.local.d}" ] ; then
+  for filename in $(find /opt/wz_mini/etc/rc.local.d/ -name "*.sh" | /opt/wz_mini/bin/busybox sort) ; do
+    if [ -f "${filename}" ] && [ -x "${filename}" ]; then
+      echo "running ${filename}"
+      "${filename}" &
+    fi
+  done
+fi
+echo "finished executing custom scripts from /opt/wz_mini/etc/rc.local.d"
 
 echo "wz_user.sh done" > /dev/kmsg

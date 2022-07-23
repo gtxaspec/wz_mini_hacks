@@ -52,6 +52,7 @@ mkdir /opt/wz_mini/tmp/.bin
 #PANv2=HL_PAN2
 #V3=WYZE_CAKP2JFUS
 #DB3=WYZEDB3
+#V3C=ATOM_CamV3C
 
 #mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
 if [ -b /dev/mtdblock9 ]; then
@@ -137,6 +138,13 @@ sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
         mount -t jffs2 /dev/mtdblock4 /system
+fi
+
+#Check for Car FW
+if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+        if cat /system/bin/app.ver | grep 4.55; then
+                touch /opt/wz_mini/tmp/.CAR
+        fi
 fi
 
 if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then

@@ -3,16 +3,16 @@
 if [ "$1" == "" ]; then
 	echo -e "welcome to: cmd <arg>\n"
 	echo -e "arg can be:"
-	echo -e "jpeg (will dump raw jpeg to stdout)"
-	echo -e "video on on1 or off off1"
-	echo -e "audio on on1 or off off1"
-	echo -e "move (movable camera only)"
+	echo -e "jpeg <channel> <-n>\n Note: -n denotes no header"
+	echo -e "video <channel> <on/off>"
+	echo -e "audio <channel> <on/off>"
+	echo -e "move <x> <y>"
 	echo -e "waitMotion <timeout> (you must enable motion tagging in the app first)"
-	echo -e "irled on or off"
+	echo -e "irled <on/off>"
 	echo -e "aplay <file path> <volume 1-100>"
-	echo -e "curlDebug on or off"
-	echo -e "mp4write on or off (t31 only)"
-	echo -e "imp_control <variable> <value> (see readme)"
+	echo -e "curlDebug on, off, disable_video"
+	echo -e "mp4write <on/off> (t31 only)"
+	echo -e "timelapse <file> <interval> <count>"
 else
 	echo "$*" | /opt/wz_mini/bin/busybox nc localhost 4000
 fi

@@ -41,6 +41,7 @@ alias symbol:__fscache_update_cookie fscache
 alias symbol:ip6t_unregister_table ip6_tables
 alias symbol:mb_cache_entry_insert mbcache
 alias symbol:scsi_release_buffers scsi_mod
+alias symbol:usb_serial_suspend usbserial
 alias symbol:nf_ct_iterate_cleanup nf_conntrack
 alias symbol:usb_add_config libcomposite
 alias symbol:xt_check_target x_tables
@@ -50,6 +51,7 @@ alias symbol:scsi_eh_restore_cmnd scsi_mod
 alias symbol:jbd2_journal_destroy jbd2
 alias symbol:xt_table_unlock x_tables
 alias symbol:scsi_prep_state_check scsi_mod
+alias symbol:usb_serial_generic_submit_read_urbs usbserial
 alias symbol:__nf_ct_kill_acct nf_conntrack
 alias symbol:ip_tunnel_get_stats64 ip_tunnel
 alias symbol:jbd2_journal_forget jbd2
@@ -80,11 +82,14 @@ alias symbol:__starget_for_each_device scsi_mod
 alias symbol:scsi_rescan_device scsi_mod
 alias symbol:jbd2_log_start_commit jbd2
 alias symbol:scsi_kunmap_atomic_sg scsi_mod
+alias symbol:usb_serial_port_softint usbserial
 alias symbol:scsi_free_host_dev scsi_mod
 alias symbol:usb_copy_descriptors libcomposite
 alias symbol:__fscache_uncache_all_inode_pages fscache
 alias symbol:usb_composite_setup_continue libcomposite
 alias symbol:scsi_bios_ptable scsi_mod
+alias symbol:usb_serial_generic_get_icount usbserial
+alias symbol:usb_serial_resume usbserial
 alias symbol:mb_cache_entry_find_first mbcache
 alias symbol:nf_ct_expect_hsize nf_conntrack
 alias symbol:nf_defrag_ipv4_enable nf_defrag_ipv4
@@ -96,7 +101,9 @@ alias symbol:jbd2_journal_extend jbd2
 alias symbol:nf_ct_helper_expectfn_find_by_symbol nf_conntrack
 alias symbol:nf_conntrack_in nf_conntrack
 alias symbol:fscache_object_lookup_negative fscache
+alias symbol:usb_serial_generic_write usbserial
 alias symbol:usb_function_unregister libcomposite
+alias symbol:usb_serial_generic_process_read_urb usbserial
 alias symbol:scsi_dev_info_list_del_keyed scsi_mod
 alias symbol:nf_ct_l3proto_register nf_conntrack
 alias symbol:__fscache_read_or_alloc_page fscache
@@ -108,9 +115,11 @@ alias symbol:gether_get_host_addr u_ether
 alias symbol:nf_ct_invert_tuplepr nf_conntrack
 alias symbol:scsi_allocate_command scsi_mod
 alias symbol:jbd2_journal_update_sb_errno jbd2
+alias symbol:usb_serial_generic_chars_in_buffer usbserial
 alias symbol:nf_ct_free_hashtable nf_conntrack
 alias symbol:scsi_flush_work scsi_mod
 alias symbol:usbnet_write_cmd_async usbnet
+alias symbol:usb_serial_generic_read_bulk_callback usbserial
 alias symbol:scsi_remove_host scsi_mod
 alias symbol:usb_string_ids_n libcomposite
 alias symbol:nf_ct_l4proto_pernet_register nf_conntrack
@@ -132,10 +141,13 @@ alias symbol:nfs4_set_ds_client nfsv4
 alias symbol:gether_disconnect u_ether
 alias symbol:scsi_command_normalize_sense scsi_mod
 alias symbol:scsi_show_extd_sense scsi_mod
+alias symbol:usb_serial_generic_resume usbserial
 alias symbol:fscache_io_error fscache
 alias symbol:nf_ct_dying_timeout nf_conntrack
 alias symbol:nf_conntrack_hash_check_insert nf_conntrack
+alias symbol:usb_serial_generic_tiocmiwait usbserial
 alias symbol:nf_conntrack_helper_unregister nf_conntrack
+alias symbol:usb_serial_generic_unthrottle usbserial
 alias symbol:sprint_oid oid_registry
 alias symbol:usb_stor_probe2 usb_storage
 alias symbol:ip_tunnel_init ip_tunnel
@@ -154,6 +166,7 @@ alias symbol:xt_proto_init x_tables
 alias symbol:unregister_gadget_item libcomposite
 alias symbol:scsi_device_type scsi_mod
 alias symbol:nf_ct_l4proto_find_get nf_conntrack
+alias symbol:usb_serial_register_drivers usbserial
 alias symbol:__fscache_check_page_write fscache
 alias symbol:jbd2__journal_start jbd2
 alias symbol:nf_ct_remove_expectations nf_conntrack
@@ -198,6 +211,7 @@ alias symbol:scsi_host_get scsi_mod
 alias symbol:scsi_get_command scsi_mod
 alias symbol:ip_tunnel_lookup ip_tunnel
 alias symbol:mb_cache_entry_free mbcache
+alias symbol:usb_serial_generic_close usbserial
 alias symbol:scsi_report_device_reset scsi_mod
 alias symbol:jbd2_journal_get_undo_access jbd2
 alias symbol:usbnet_get_settings usbnet
@@ -226,6 +240,7 @@ alias symbol:jbd2_journal_wipe jbd2
 alias symbol:usbnet_probe usbnet
 alias symbol:jbd2_journal_init_inode jbd2
 alias symbol:__nf_ct_ext_add_length nf_conntrack
+alias symbol:usb_serial_handle_break usbserial
 alias symbol:gether_cleanup u_ether
 alias symbol:usbnet_unlink_rx_urbs usbnet
 alias symbol:scsicam_bios_param scsi_mod
@@ -252,6 +267,7 @@ alias symbol:scsi_bus_type scsi_mod
 alias symbol:nf_conntrack_alloc nf_conntrack
 alias symbol:nf_ct_l3proto_pernet_register nf_conntrack
 alias symbol:scsi_print_sense_hdr scsi_mod
+alias symbol:usb_serial_handle_sysrq_char usbserial
 alias symbol:nf_conntrack_l4proto_udp4 nf_conntrack
 alias symbol:fscache_wait_bit fscache
 alias symbol:scsi_report_bus_reset scsi_mod
@@ -265,6 +281,7 @@ alias symbol:scsi_eh_get_sense scsi_mod
 alias symbol:fscache_object_states fscache
 alias symbol:scsi_init_io scsi_mod
 alias symbol:jbd2_journal_release_jbd_inode jbd2
+alias symbol:usb_serial_generic_throttle usbserial
 alias symbol:jbd2_journal_start_commit jbd2
 alias symbol:fscache_object_sleep_till_congested fscache
 alias symbol:nf_ct_helper_hsize nf_conntrack
@@ -286,6 +303,7 @@ alias symbol:usb_add_config_only libcomposite
 alias symbol:xfrm4_tunnel_deregister tunnel4
 alias symbol:usbnet_write_cmd_nopm usbnet
 alias symbol:usbnet_stop usbnet
+alias symbol:usb_serial_generic_wait_until_sent usbserial
 alias symbol:nf_ct_untracked_status_or nf_conntrack
 alias symbol:__nf_ct_l4proto_find nf_conntrack
 alias symbol:xt_unregister_target x_tables
@@ -304,6 +322,7 @@ alias symbol:usb_gstrings_attach libcomposite
 alias symbol:__fscache_read_or_alloc_pages fscache
 alias symbol:usbnet_link_change usbnet
 alias symbol:__fscache_wait_on_invalidate fscache
+alias symbol:usb_serial_generic_open usbserial
 alias symbol:__nf_ct_refresh_acct nf_conntrack
 alias symbol:nf_ct_extend_register nf_conntrack
 alias symbol:nf_ct_l3proto_try_module_get nf_conntrack
@@ -353,6 +372,7 @@ alias symbol:nf_ct_alloc_hashtable nf_conntrack
 alias symbol:usb_stor_bulk_srb usb_storage
 alias symbol:g_make_token_header auth_rpcgss
 alias symbol:scsi_set_medium_removal scsi_mod
+alias symbol:usb_serial_deregister_drivers usbserial
 alias symbol:ip6t_register_table ip6_tables
 alias symbol:usbnet_cdc_status cdc_ether
 alias symbol:usb_stor_sense_invalidCDB usb_storage
@@ -464,6 +484,7 @@ alias symbol:jbd2_journal_try_to_free_buffers jbd2
 alias symbol:usbnet_cdc_unbind cdc_ether
 alias symbol:scsi_track_queue_full scsi_mod
 alias symbol:__scsi_print_command scsi_mod
+alias symbol:usb_serial_generic_write_bulk_callback usbserial
 alias symbol:usbnet_start_xmit usbnet
 alias symbol:nf_conntrack_l4proto_tcp6 nf_conntrack
 alias symbol:scsi_build_sense_buffer scsi_mod
@@ -476,6 +497,7 @@ alias symbol:ip_tunnel_newlink ip_tunnel
 alias symbol:gether_get_host_addr_cdc u_ether
 alias symbol:jbd2_trans_will_send_data_barrier jbd2
 alias symbol:scsi_host_set_state scsi_mod
+alias symbol:usb_serial_handle_dcd_change usbserial
 alias symbol:scsi_extd_sense_format scsi_mod
 alias symbol:scsi_target_unblock scsi_mod
 alias symbol:jbd2_journal_errno jbd2
