@@ -585,6 +585,12 @@ if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
 fi
 
+if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+	dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+	rm -f /tmp/resolv.conf
+	cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+fi
+
 if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
         httpd -p 80 -h /opt/wz_mini/www
 fi
