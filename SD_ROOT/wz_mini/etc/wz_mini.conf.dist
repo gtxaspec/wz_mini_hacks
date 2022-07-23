@@ -92,9 +92,7 @@ NIGHT_DROP_DISABLE="false"
 DISABLE_MOTOR="false"
 ENABLE_FSCK_ON_BOOT="false"
 ENABLE_CAR_DRIVER="false"
-
-#####WEB#####
-WEB_SERVER_ENABLED="false"
+ENABLE_LOCAL_DNS="false"
 
 #####DEBUG#####
 #drops you to a shell via serial, doesn't load app_init.sh
@@ -102,6 +100,8 @@ DEBUG_ENABLED="false"
 DEBUG_INITRAMFS_ENABLED="false"
 DEBUG_PASSWORD="false"
 
+####WEB####
+WEB_SERVER_ENABLED="false"
 
 #####SCRIPTING#####
 CUSTOM_SCRIPT_PATH=""
