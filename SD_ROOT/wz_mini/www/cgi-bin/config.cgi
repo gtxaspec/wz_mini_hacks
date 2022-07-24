@@ -1,7 +1,8 @@
 #!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
 base_dir=/opt/wz_mini/
-hack_ini=/opt/wz_mini/wz_mini.conf
+base_hack_ini=/opt/wz_mini/wz_mini.conf
+hack_ini=$base_hack_ini
 www_dir=/opt/wz_mini/www/cgi-bin/
 camver=V3
 camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
@@ -39,7 +40,6 @@ function revert_config
 {
   mv "$hack_ini" "$hack_ini.old"
   mv "$hack_ini.$1" "$hack_ini"
-
 }
 
 
@@ -48,15 +48,31 @@ function revert_menu
    echo '<a href="revert" >Revert Menu</a>'
    echo '<div class="old_configs">'
    echo 'Prior Versions : ' 
-  xuff=0
+   xuff=0
    while [ "$xuff" -lt 9 ] ; 
    do 
 	xuff=$((xuff + 1))  
         if [[ -f "$1.$xuff" ]] ; then
-	    echo '&nbsp;<a href="?action=revert&version='"$xuff"'">'"$xuff</a>"
+	    filedate=$(date -r "$1.$xuff" )	
+            class=""
+	    if [ "$1.$xuff" = "$2" ];
+	    then
+               class="current_revert"
+            fi
+	    echo '<div class="revert_DIV '$class'"><div><a href="?action=show_revert&version='"$xuff"'">'"$xuff </a></div><div> $filedate</div></div>"
         fi
     done
     echo '</div>'
+}
+
+function version_info
+{
+ echo "<div id='$1'>"
+ echo "<div class='ver_DIV' vertype='Camera'>$camver</div>"
+ echo "<div class='ver_DIV' vertype='Camera Firmware'>$camfirmware</div>"
+ echo "<div class='ver_DIV' vertype='wz_mini'>$hackver</div>"
+ echo "<div class='ver_DIV' vertype='Hostname'> $HOSTNAME</div>"
+ echo "</div>"
 }
 
 
@@ -78,7 +94,9 @@ if [[ $REQUEST_METHOD = 'GET' ]]; then
   if [[ "$GET_action" = "revert"  ]]; then
     revert_config "$GET_version"
   fi
-
+  if [[ "$GET_action" = "show_revert" ]]; then
+    hack_ini="$hack_ini.$GET_version"
+  fi
 fi
 
 
@@ -104,16 +122,15 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
 
 
   #switch back to going through the config file
-  IFS=$'\n'
   output="$hack_ini.new"
 
   #name our output file
-  for ARGUMENT in $(cat $hack_ini) 
-  do
+  while IFS= read -r \ARGUMENT; do
     #cycle through each line of the current config
-
     #copy through all comments
-    if [[ ${ARGUMENT:0:1} == "#" ]] ; then
+    if [ -z "$ARGUMENT" ]; then
+       echo -ne "\n" >> $output
+    elif [[ ${ARGUMENT:0:1} == "#" ]] ; then
        #echo $ARGUMENT $'\n' 
        echo -ne  $ARGUMENT"\n"  >> $output
     else
@@ -132,7 +149,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
       fi
 
     fi
-  done
+  done < $hack_ini
 
   shft $hack_ini
   mv $output $hack_ini
@@ -155,7 +172,14 @@ function documentation_to_html
   
 function ini_to_html_free
 {
-        printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV"><input class="ii_value" type="text" name="%s" value="%s" /></div>' $1 $1  $2
+        classes=""
+        if [ "$1" =  "USB_DIRECT_MAC_ADDR" ]; then
+           classes=" mac_addr"
+        fi 
+	if grep -q -wi "$1" numerics.txt; then
+	   classes=" numeric"
+	fi
+        printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV"><input class="ii_value'$classes'" type="text" name="%s" value="%s" /></div>' $1 $1  $2
         documentation_to_html $1
         printf '</div>'
 }
@@ -185,16 +209,19 @@ function html_cam_feed
 
 
 
+function handle_css
+{
+echo -ne "<style type=\"text/css\">"
+cat config.css
+echo -ne '</style>';
+}
+
 
 echo -ne "<html><head><title>$title</title>"
-echo -ne "<style type=\"text/css\">"
-cat wz_mini_web.css
-echo -ne '</style>';
+handle_css wz_mini_web.css
+
 echo '<script type="text/javascript" src="/config.js" ></script>'
 echo -ne "</head>"
-
-
-
 
 echo -ne '<body>'
 echo -ne "<h1>$title</h1>";
@@ -208,13 +235,32 @@ fi
 
 html_cam_feed
 
-echo -ne '<form name="wz_mini_hack_FORM" method="POST" enctype="application/x-www-form-urlencoded"  >'
 
-IFS=$'\n'
-for ARGUMENT in $(cat $hack_ini)
-do
-    if [[ ${ARGUMENT:0:1} == "#" ]] ; then
- 	echo -ne '<div class="ii_info">'$ARGUMENT'</div>'
+if [ $base_hack_ini != $hack_ini ]; then
+
+  echo '<div><a href="?action=revert&version='$GET_version'">Revert</a> to this version</a></div>'
+fi 
+
+echo -ne '<form name="update_config" method="POST" enctype="application/x-www-form-urlencoded"  >'
+
+
+CONFIG_BLOCK=0
+
+while IFS= read -r ARGUMENT; do
+    if [ -z "$ARGUMENT" ] ; then
+	echo -ne "" 
+    elif [[ ${ARGUMENT:0:1} == "#" ]] ; then
+	if [[ ${ARGUMENT:0:4} == "####" ]]; then
+           if [ "$CONFIG_BLOCK" -gt 0 ]; then
+	      echo '</div>'
+           fi
+           CONFIG_BLOCK=$((CONFIG_BLOCK + 1))
+	   echo '<div class="ii_block" block_number="'$CONFIG_BLOCK'" >'
+	   BTITLE=${ARGUMENT//#/ }
+           echo -ne '<div class="ii_block_name">'$BTITLE'</div>'
+	else
+            echo -ne '<div class="ii_info">'$ARGUMENT'</div>'
+	fi
     else
       KEY=$(echo $ARGUMENT | cut -f1 -d=)
       VAL=$(echo $ARGUMENT | cut -f2 -d=)   
@@ -225,17 +271,20 @@ do
 	*) ini_to_html_free $KEY $VALUE
       esac
     fi
-done
+done < $hack_ini
+           if [ "$CONFIG_BLOCK" -gt 0 ]; then
+              echo '</div>'
+           fi
+
+
 
 echo -ne '<input type="submit" name="update" value="Update" />'
 echo -ne '</form>'
 
 
-revert_menu $hack_ini
+revert_menu $base_hack_ini $hack_ini
 
 
-
-html_cam_feed_js
-
+version_info "display_BAR"
 
 echo -ne '</body></html>'
