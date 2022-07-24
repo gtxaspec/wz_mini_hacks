@@ -134,6 +134,9 @@ elif [ "$input" = "h" ]; then
 elif [ "$input" = "j" ]; then
 	irled
 
+elif [ "$input" = "x" ]; then
+	echo -ne "\xaa\x55\x43\x06\x29\x80\x80\x00\x02\x71" > /dev/ttyUSB0
+
 elif [ "$input" = "b" ]; then
 	/opt/wz_mini/bin/cmd aplay /opt/wz_mini/usr/share/audio/honk.wav 70 > /dev/null 2>&1 &
 
