@@ -281,6 +281,7 @@ ENABLE_NFSv4="true"
 ```
 
 ---
+
 RTSP streaming:
 The RTSP server supports the two video streams provided by the camera, 1080p/360p (1296p/480p for the DB3).  You can choose to enable a single stream of your choice, or both.  Audio is also available.  Set your login credentials here, server listening port, and the stream bitrate.
 (ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
@@ -341,6 +342,8 @@ Run a custom script:
 ```
 CUSTOM_SCRIPT_PATH=""
 ```
+
+Note: any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, regardless of the custom script specified in the configuration.
 
 ---
 
@@ -444,19 +447,25 @@ Enabled by default.  These options control the WiFi Drivers.  V2/V3 use the 8189
 
 ---
 
+```
 DISABLE_MOTOR="true"
+```
 
 Disable the movement capability on motorized devices.  You will no longer be able to move the device from the mobile app, or command line.  Best used to convert a motorized unit to fixed
 
 ---
 
+```
 ENABLE_FSCK_ON_BOOT="true"
+```
 
 run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the micro sd card, automatically repairing most issues, including corruption.  Increases boot time.  During the repair process, the LEDs on the camera will flash RED-off-BLUE-off-PURPLE-off to inform the user the repair program is running.  Once the program has completed, the LED will switch to RED, resuming the normal boot process.
 
 ---
 
+```
 ENABLE_CAR_DRIVER="true"
+```
 
 Loads the appropriate driver for the car to function.  On devices other than a V2 with the car firmware, the car may be controlled via `car_control.sh` on the command line.  experimental!
 
@@ -467,8 +476,25 @@ Loads the appropriate driver for the car to function.  On devices other than a V
 
 ---
 
+```
+"ENABLE_LOCAL_DNS" == "true"
+```
+
+Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes DNS flooding on the network.
+
+---
+
+```
+WEB_SERVER_ENABLED="true"
+```
+
+Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<ip>/`  Thank you @virmaior!
+
+---
+
 ## Latest Updates
 
+* 07-25-22:  Add dnsmasq local dns option in configuration to prevent dns flooding on local networks.  Added web server capability for configuration and car control.
 * 07-14-22:  Add car compatability with normally unsupported devices.
 * 07-13-22:  Includes latest build of libcallback, better RTSP video and audio performance: fixed broken audio caused by motor_stop on T20 devices, fixed waitMotion errors. `cmd jpeg` currently still broken on T20 devices,  updated scripts to account for changed.  Some usage of `cmd` has changes, please see command output.  Kernel & modules updated to prepare for H265 support on T31.
 * 07-08-22:  Added support for multiple custom scripts, simply create scripts ending in .sh in wz_mini/etc/rc.local.d. You can prefix them with numbers to order execution if desired.
