@@ -8,14 +8,16 @@ ffc9d653967b2c25d9635d3240209db0  SD_ROOT/wz_mini/www/cgi-bin/DISABLE_FW_UPGRADE
 d5012a6758e30050b1dc8528e7968ac0  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_STORAGE.md
 b8f611d1dee2db10c8adf9f57e7274ad  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_ETH.md
 4c911538bfc2f9190f6be19f6a63513c  SD_ROOT/wz_mini/www/cgi-bin/BONDING_ENABLED.md
+111c98593be14b3ac82526aa0e233b70  SD_ROOT/wz_mini/www/cgi-bin/config.css
 bd74b1a5dfb722ea1109ea89a039a3e5  SD_ROOT/wz_mini/www/cgi-bin/RTMP_STREAM_ENABLED.md
 8e14bf2616556d8a45dbb9b183d86d57  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_MP4_WRITE.md
+a2820a7dcfb92bb21fe17de185a16ee9  SD_ROOT/wz_mini/www/cgi-bin/numerics.txt
 1013ee7201755bcf9047635b637e17c9  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_WIREGUARD.md
 842b228d85468ab31c99e1521b35e37e  SD_ROOT/wz_mini/www/cgi-bin/REMOTE_SPOTLIGHT.md
-555bb860c40d1f39e0fa0d2b1d698a4a  SD_ROOT/wz_mini/www/cgi-bin/config.cgi
+2c026425a683013f4d7eb06c544a75ce  SD_ROOT/wz_mini/www/cgi-bin/config.cgi
 d43f6b975afedc1f7a5e5c4999dbcbbd  SD_ROOT/wz_mini/www/cgi-bin/car.sh
 042848359c3840f5973baffca2457a5d  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_DIRECT.md
-ddfa6179dc16a38d3b53a4353460dc25  SD_ROOT/wz_mini/www/config.js
+f3ce2f03c67b1996b2ea33c02baffcfe  SD_ROOT/wz_mini/www/config.js
 e344ffc55222c029c5d324037a5aa1f3  SD_ROOT/wz_mini/www/car/car.js
 540acfdf2638c341e1d168f1af5203de  SD_ROOT/wz_mini/www/car/car.css
 63b23f78d6703f0c9a2e970604104996  SD_ROOT/wz_mini/www/car/car.html
@@ -65,7 +67,7 @@ c77675d150e2274de3cfe08c5c295f8f  SD_ROOT/wz_mini/bin/ld
 14e944353e335cff9430080e1ca007f6  SD_ROOT/wz_mini/bin/busybox
 aba4bad7530f7f702d4c27b103cc970d  SD_ROOT/wz_mini/bin/scp
 c5d2801b7117b8db6275647110e6c8f1  SD_ROOT/wz_mini/bin/iwconfig.sh
-877b9603d5435aced2be7787473ea476  SD_ROOT/wz_mini/bin/car_control.sh
+982eb631746ad427d96d28c9a2ea7b25  SD_ROOT/wz_mini/bin/car_control.sh
 67ab51181a29f16e60d879d793d4407f  SD_ROOT/wz_mini/bin/audioplay_t20
 78aaf46b312749d71c1f93a97f80fa74  SD_ROOT/wz_mini/bin/nm
 e6bcaf0465750b67cff55eb3e380e624  SD_ROOT/wz_mini/bin/curl
@@ -111,7 +113,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
 3777d9e80c8b517c01a124e6360b6525  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-45463b5b7537ce512a177574b2a5a820  SD_ROOT/wz_mini/usr/bin/app.ver
+65e466ffca31c323ec43391db68fe7d2  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
@@ -262,7 +264,7 @@ bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 ac436b39b69f26fb65e993c2dfefb421  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
-30cd28d6e52753c4afe5d6bca209bfc7  v2_install/compile_image.sh
+283fca97d62c1c199eb2b04877998879  v2_install/compile_image.sh
 53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh
 71f103530794f9cb15aa6bb7f1e5b8a7  v2_install/v2_kernel.bin
 f01d641b98388e273c1f0ba682ebc75b  v2_install/.gitignore
