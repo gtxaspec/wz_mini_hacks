@@ -229,7 +229,11 @@ Note: In my testing, the micro-usb cables included with the various cameras do n
 
 Remote Accessories:
 
-When USB Direct connectivity is enabled, the camera will be unable to communicate with accessories.  To enable remote spotlight accessory support, enable the following variable and set the IP Address of the host as follows:
+When USB Direct connectivity is enabled, the camera will be unable to communicate with accessories.  To enable remote usb accessory support, enable the following variable and set the IP Address of the host as follows:
+
+Scenario:  Spotlight accessory needs to be located away from the camera, yet we desire spotlight control from within the app and camera.  Plug the Spotlight into the nearby router running linux.  Configure variables as below on camera, and run socat on the router.  The app will now detect the spotlight accessory, just as if it was plugged in to the camera directly!
+
+
 ```
 REMOTE_SPOTLIGHT="true"
 REMOTE_SPOTLIGHT_HOST="0.0.0.0"
@@ -241,7 +245,7 @@ Then, run the following command on the host where the spotlight is attached to:
 socat TCP4-LISTEN:9000,reuseaddr,fork /dev/ttyUSB0,raw,echo=0
 ```
 
-Change ```/dev/ttyUSB0``` to whatever path your spotlight enumerated to if necessary.  The camera will now be able to control the spotlight.
+Change ```/dev/ttyUSB0``` to whatever path your accessory enumerated to if necessary.  The camera will now be able to control the usb accessory.
 
 ---
 
@@ -304,7 +308,6 @@ RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 RTSP_LOW_RES_FPS=""
-
 ```
 the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
@@ -343,7 +346,7 @@ Run a custom script:
 CUSTOM_SCRIPT_PATH=""
 ```
 
-Note: any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, regardless of the custom script specified in the configuration.
+Note: any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, irregardless of the custom script variable specified in the configuration.
 
 ---
 
@@ -477,10 +480,10 @@ Loads the appropriate driver for the car to function.  On devices other than a V
 ---
 
 ```
-"ENABLE_LOCAL_DNS" == "true"
+ENABLE_LOCAL_DNS="true"
 ```
 
-Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes DNS flooding on the network.
+Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes potential DNS flooding on the local network.  Upstream DNS servers may be specified at `/wz_mini/etc/resolv.dnsmasq`
 
 ---
 
