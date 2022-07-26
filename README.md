@@ -483,7 +483,7 @@ Loads the appropriate driver for the car to function.  On devices other than a V
 ENABLE_LOCAL_DNS="true"
 ```
 
-Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes potential DNS flooding on the local network.  Upstream DNS servers may be specified at `/wz_mini/etc/resolv.dnsmasq`
+Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes potential DNS flooding on the local network.  Upstream DNS servers may be specified in `wz_mini/etc/resolv.dnsmasq`
 
 ---
 
