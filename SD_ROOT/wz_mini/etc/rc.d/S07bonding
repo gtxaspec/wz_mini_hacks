@@ -3,8 +3,6 @@
 source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
 
-set -x
-
 bonding_setup() {
 
 	#we need to wait until wlan0 is up with the modified HWaddr
@@ -14,6 +12,9 @@ bonding_setup() {
 
 	## $1 Bonding Interface, $2 Primary Interface, $3 Secondary Interface
         echo "renaming interfaces"
+
+	#Prevent iCamera from cycling the wlan0 interface
+        mount --bind /opt/wz_mini/usr/bin/restart_wlan0.sh /system/bin/restart_wlan0.sh
 
         # Bring all interfaces down
         ifconfig bond0 down
@@ -71,6 +72,6 @@ bonding_setup() {
 
 }
 
-if [[ "$BONDING_ENABLED" == "true" ]]; then
+if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
 	bonding_setup &
 fi

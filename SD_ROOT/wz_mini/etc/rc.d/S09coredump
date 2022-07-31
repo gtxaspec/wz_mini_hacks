@@ -1,10 +1,18 @@
 #!/bin/sh
 
+source /opt/wz_mini/etc/rc.common
+
+set -x
+
 core() {
-	while ! pgrep -f "dumpload" > /dev/null; do
-		pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
-	done
+
+	#Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
+	wait_for_wlan_wpa
+
+	echo "killing dumpload"
+	/opt/wz_mini/bin/busybox pkill -f dumpload
 }
 
 sysctl -w kernel.core_pattern='|/bin/false'
+
 core &
