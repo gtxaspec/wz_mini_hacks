@@ -1,0 +1,23 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+#Set system FPS if greater than default
+
+if [ $RTSP_HI_RES_FPS -gt 20 ]; then
+
+        if cat /configs/.user_config |  grep fps; then
+                sed -i "s/fps.*/fps\=$RTSP_HI_RES_FPS/" /configs/.user_config
+        else
+                sed -i "/\[SETTING\].*/a fps=$RTSP_HI_RES_FPS" /configs/.user_config
+        fi
+
+elif [ $RTSP_LOW_RES_FPS -gt 20 ]; then
+
+        if cat /configs/.user_config |  grep fps; then
+                sed -i "s/fps.*/fps\=$RTSP_LOW_RES_FPS/" /configs/.user_config
+        else
+                sed -i "/\[SETTING\].*/a fps=$RTSP_LOW_RES_FPS" /configs/.user_config
+        fi
+
+fi

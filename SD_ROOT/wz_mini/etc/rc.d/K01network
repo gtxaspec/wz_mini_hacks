@@ -3,6 +3,11 @@
 source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
 
+if [ -e /tmp/dbgflag ]; then
+        echo "debug enabled, network.d disabled."
+        exit 0
+fi
+
 wait_for_wlan
 
 for i in /opt/wz_mini/etc/network/S??* ;do

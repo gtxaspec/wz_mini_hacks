@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -e /tmp/dbgflag ]; then
+        echo "debug enabled, rc.d disabled."
+        exit 0
+fi
+
 for i in /opt/wz_mini/etc/rc.d/S??* ;do
 
      # Ignore dangling symlinks (if any).
