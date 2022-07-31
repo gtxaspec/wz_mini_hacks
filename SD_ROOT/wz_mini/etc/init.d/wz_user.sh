@@ -595,6 +595,11 @@ if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
         httpd -p 80 -h /opt/wz_mini/www
 fi
 
+if [[ "$ENABLE_CRON" == "true" ]]; then
+	until ping -c1 www.google.com >/dev/null 2>&1; do :; done
+	/opt/wz_mini/tmp/.bin/crond -b -c /opt/wz_mini/etc/crontab/
+fi
+
 hostname_set
 touch /opt/wz_mini/tmp/.wz_user_firstrun
 pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
