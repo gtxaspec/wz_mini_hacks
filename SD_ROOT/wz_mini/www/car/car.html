@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="car.js"></script>
+<link rel="stylesheet" href="car.css">
+
+</head>
+
+<body>
+
+<h2>wz_mini Car Control</h2>
+
+<table class="wz_car_TABLE" border="1">
+<tbody>
+<tr style="height: 21px;">
+<td style="width: 33.3333%; height: 21px; text-align: left;"><button id="forward_left" class="wz_car_BUTTON">q: forward left</button></td>
+<td style="width: 33.3333%; height: 21px; text-align: center;"><button id="forward" class="wz_car_BUTTON">w: forward</button></td>
+<td style="width: 33.3333%; height: 21px; text-align: right;"><button id="forward_right" class="wz_car_BUTTON">e: forward right</button></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 33.3333%; height: 18px; text-align: left;"><button id="left" class="wz_car_BUTTON">a; left</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: center;"><button id="reverse" class="wz_car_BUTTON">s: rear</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: right;"><button id="right" class="wz_car_BUTTON">d: right</button></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 33.3333%; height: 18px; text-align: left;"><button id="reverse_left" class="wz_car_BUTTON">z: rear left</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: center;"><button id="all_stop" class="wz_car_BUTTON">x: all stop</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: right;"><button id="reverse_right" class="wz_car_BUTTON">c: rear right</button></td>
+</tr>
+<td style="width: 33.3333%; height: 18px; text-align: center;">
+<button id="headlight_on" class="wz_car_BUTTON_N">h: headlight on</button>
+<button id="headlight_off" class="wz_car_BUTTON_N">g: headlight off</button>
+</td>
+<td style="width: 33.3333%; height: 18px; text-align: center;"><button id="irled_on" class="wz_car_BUTTON">j: ir led on</button><button id="irled_off" class="wz_car_BUTTON">k: ir led off</button></td>
+<td style="width: 33.3333%; height: 18px; text-align: right;"><button id="honk" class="wz_car_BUTTON">b: honk</button></td>
+</tr>
+</tbody>
+</table>
+
+<p><img id="car_feed" src="/cgi-bin/jpeg.cgi?channel=1" /></p>
+
+Speed Sleep: <input type="text" size=5 id="sleep_timer" name="sleep_timer" value="0.15">
+
+Car Speed:
+
+<input type="radio" id="speed_fast" class="speed" name="fast" value="fast">
+<label for="fast">Fast</label>
+
+<input type="radio" id="speed_slow" class="speed" name="slow" value="slow">
+<label for="slow">Slow</label>
+
+<button onclick="set_vars()">Set Variables</button>
+
+</body>
+</html>

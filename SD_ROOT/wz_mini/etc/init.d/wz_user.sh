@@ -48,16 +48,60 @@ wait_wlan() {
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
     while true
     do
-        if ifconfig wlan0 | grep "inet addr"; then
+        if ifconfig wlan0 | grep "HWaddr"; then
+		echo "wlan0 hwaddr is up"
 	        store_mac
 		break
-        elif ifconfig wlan0 | grep "inet addr" && [[ "$ENABLE_USB_ETH" == "true" || "$ENABLE_USB_DIRECT" == "true" ]]; then
-	        store_mac
-        	break
-        fi
-	        echo " wlan0 not ready yet..."
+        else
+	        echo "wlan0 hwaddr not ready yet..."
         	sleep 5
+	fi
     done
+}
+
+wpa_check() {
+##Check if wpa_supplicant has been created by iCamera
+	if [ -e /tmp/wpa_supplicant.conf ]; then
+		wait_wlan
+		echo "wpa_supplicant.conf ready"
+	else
+		echo "wpa_supplicant.conf not ready, wait some time for creation."
+		COUNT=0
+		ATTEMPTS=15
+		until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
+		echo -e "$(( COUNT++ ))... \c"
+		sleep 5
+		wpa_check
+		done
+		if [[ $COUNT -eq $ATTEMPTS ]]; then
+			echo "time exceeded waiting for iCamera, continue potentially broken condition without network."
+		fi
+	fi
+}
+
+wlanold_check() {
+#Have we renamed interfaces yet?
+	if [ -d /sys/class/net/wlanold ]; then
+		echo "wlanold exist"
+		eth_wlan_up
+	else
+		echo "wlanold doesn't exist"
+                if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
+			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
+		else
+			rename_interface $1
+		fi
+	fi
+}
+
+netloop() {
+##While loop for check
+        while true
+        do
+	wlanold_check $1
+        echo "wlan0 not ready yet..."
+        sleep 5
+        done
 }
 
 rename_interface() {
@@ -166,48 +210,6 @@ eth_wlan_up() {
 	break
 }
 
-wpa_check() {
-#Check if wpa_supplicant has been created by iCamera
-	if [ -e /tmp/wpa_supplicant.conf ]; then
-		echo "wpa_supplicant.conf ready"
-		wlanold_check $1
-	else
-		echo "wpa_supplicant.conf not ready, wait some time for creation."
-		COUNT=0
-		ATTEMPTS=15
-		until [[ -e /tmp/wpa_supplicant.conf ]] || [[ $COUNT -eq $ATTEMPTS ]]; do
-		echo -e "$(( COUNT++ ))... \c"
-		sleep 5
-		done
-		[[ $COUNT -eq $ATTEMPTS ]] && echo "time exceeded waiting for iCamera, continue potentially broken condition without network." && wlanold_check $1
-	fi
-}
-
-wlanold_check() {
-#Have we renamed interfaces yet?
-	if [ -d /sys/class/net/wlanold ]; then
-		echo "wlanold exist"
-		eth_wlan_up
-	else
-		echo "wlanold doesn't exist"
-                if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
-			rename_interface_and_setup_bonding bond0 "$BONDING_PRIMARY_INTERFACE" "$BONDING_SECONDARY_INTERFACE"
-		else
-			rename_interface $1
-		fi
-	fi
-}
-
-netloop() {
-##While loop for check
-        while true
-        do
-        wpa_check $1
-        echo "wlan0 not ready yet..."
-        sleep 5
-        done
-}
-
 swap_enable() {
         if [ -e /opt/wz_mini/swap ]; then
                 echo "Swap file exists"
@@ -249,7 +251,7 @@ done
 }
 
 first_run_check
-wait_wlan
+wpa_check
 
 #Set module dir depending on platform
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
@@ -383,13 +385,8 @@ if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
 
 	swap_enable
 
-	#loop begin
-	while true
-	do
-	wpa_check usb0
-	echo "wlan0 not ready yet..."
-        sleep 1
-	done
+	netloop usb0
+
 	else
 	echo "USB Direct disabled"
 fi
@@ -407,13 +404,8 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
 
                 swap_enable
 
-                #loop begin
-                while true
-                do
-                wpa_check usb0
-                echo "wlan0 not ready yet..."
-                sleep 1
-                done
+                netloop usb0
+
         fi
 else
         echo "usb rndis disabled"
@@ -591,6 +583,16 @@ fi
 
 if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
 	touch /opt/wz_mini/tmp/.nd
+fi
+
+if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+	dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+	rm -f /tmp/resolv.conf
+	cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+fi
+
+if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
+        httpd -p 80 -h /opt/wz_mini/www
 fi
 
 hostname_set
