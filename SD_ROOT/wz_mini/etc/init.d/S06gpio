@@ -1,9 +1,0 @@
-#!/bin/sh
-
-#Set the correct GPIO for the audio driver (T31 only)
-if [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
-        GPIO=7
-elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
-        GPIO=63
-fi
-
