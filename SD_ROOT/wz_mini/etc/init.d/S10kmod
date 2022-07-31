@@ -1,78 +1,9 @@
 #!/bin/sh
 
-### This file is called by /etc/init.d/rcS, and is run before app_init.sh
+source /opt/wz_mini/etc/rc.common
+source /opt/wz_mini/wz_mini.conf
 
-LOG_NAME=/opt/wz_mini/log/wz_post
-if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
-    i=0
-    while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
-        let i++
-    done
-        mv $LOG_NAME.log $LOG_NAME.log.$i
-    LOG_NAME=$LOG_NAME
-fi
-touch -- "$LOG_NAME".log
-exec 1> $LOG_NAME.log 2>&1
-
-set -x
-
-if [ -e /tmp/dbgflag ];then
-	echo "debug mode, disabled"
-	exit 0
-fi
-
-export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
-
-[ -f $WZMINI_CFG ] && source $WZMINI_CFG
-
-echo "welcome to wz_post.sh"
-echo "PID $$"
-
-#CAMERA CONFIGURATION FILES BACKUP
-if [ -d /opt/.wz_backup ]; then
-        echo "backup directory missing"
-else
-	echo "creating backup directory"
-        mkdir /opt/.wz_backup
-fi
-
-if [ -f /opt/wz_mini/tmp/.T31 ]; then
-        echo "T31 platform backup"
-        if [ -d /opt/.wz_backup/configs ]; then
-                echo "configs backup directory present, not backing up again"
-        else
-                echo "backup /configs"
-                cp -R /configs/ /opt/.wz_backup/
-        fi
-elif [ -f /opt/wz_mini/tmp/.T20 ]; then
-        echo "T20 platform backup"
-        if [ -d /opt/.wz_backup/configs ]; then
-                echo "configs backup directory present, not backing up again"
-        else
-                echo "backup /configs"
-                cp -R /configs/ /opt/.wz_backup/
-        fi
-
-        if [ -d /opt/.wz_backup/params ]; then
-                echo "configs backup directory present, not backing up again"
-        else
-                echo "backup /params"
-                cp -R /params/ /opt/.wz_backup/
-        fi
-fi
-
-#SWAP FILE, REQUIRED FOR OPERATION!
-if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
-        echo "swap file found, enable"
-        swapon /opt/wz_mini/swap
-else
-        echo "swap file missing"
-fi
-
-if [ -d /lib/modules ]; then
-	echo "mount kernel modules"
-	mount --bind /opt/wz_mini/lib/modules /lib/modules
-fi
+set -x 
 
 ## REPLACE STOCK MODULES
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
@@ -97,10 +28,9 @@ if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == 
 	fi
 fi
 
-##ENABLE LIBCALLBACK BY DEFAULT
-if [[ "$LIBCALLBACK_ENABLE" == "true" ]] || ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]); then
-        echo "set path for iCamera"
-        sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
+#Enable serial driver for car
+if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
+        modprobe cp210x
 fi
 
 #RTSP SERVER
@@ -132,22 +62,88 @@ if ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "tru
 	fi
 fi
 
-#MOTORIZED CAMERA CONTROL
-if [[ "$DISABLE_MOTOR" == "true" ]]; then
-	echo "Motor Disabled"
-	touch /opt/wz_mini/tmp/.ms
+
+if [[ "$ENABLE_NFSv4" == "true" ]]; then
+        insmod $KMOD_PATH/kernel/lib/oid_registry.ko
+        insmod $KMOD_PATH/kernel/net/dns_resolver/dns_resolver.ko
+        insmod $KMOD_PATH/kernel/fs/nfs/nfsv4.ko
+        insmod $KMOD_PATH/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
+        echo nfsv4 enabled
+else
+        echo nfsv4 disabled
 fi
 
-#Enable serial driver for car
-if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
-	modprobe cp210x
+if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
+
+        insmod $KMOD_PATH/kernel/net/netfilter/x_tables.ko
+        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ip_tables.ko
+        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
+        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
+        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
+        echo "iptables ipv4 enabled"
+
+        if [[ "$ENABLE_IPV6" == "true" ]]; then
+                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
+                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
+                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_filter.ko
+                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_mangle.ko
+                echo "iptables ipv6 enabled"
+        fi
+else
+        echo "iptables disabled"
 fi
 
-/opt/wz_mini/etc/init.d/wz_user.sh &
+if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
+        insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
+        insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
+        insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
+fi
 
-##LIBRARY DEBUG
-#cp /opt/wz_mini/lib/uClibc.tar /tmp
-#tar -xf /tmp/uClibc.tar -C /tmp
-#mount --bind /tmp/lib /lib
-#cp /system/bin/iCamera /opt/wz_mini/tmp/.storage/
-#mount -o ro,bind /opt/wz_mini/usr/bin/iCamera-dbg /system/bin/iCamera
+if [[ "$ENABLE_CIFS" == "true" ]]; then
+        insmod $KMOD_PATH/kernel/fs/cifs/cifs.ko
+else
+        echo "cifs disabled"
+fi
+
+if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
+        insmod $KMOD_PATH/kernel/drivers/scsi/scsi_mod.ko
+        insmod $KMOD_PATH/kernel/drivers/scsi/sd_mod.ko
+        insmod $KMOD_PATH/kernel/drivers/usb/storage/usb-storage.ko
+else
+        echo "usb_storage disabled"
+fi
+
+if [[ "$ENABLE_EXT4" == "true" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+        insmod $KMOD_PATH/kernel/lib/crc16.ko
+        fi
+
+        insmod $KMOD_PATH/kernel/fs/jbd2/jbd2.ko
+        insmod $KMOD_PATH/kernel/fs/mbcache.ko
+        insmod $KMOD_PATH/kernel/fs/ext4/ext4.ko
+fi
+
+echo "bonding kernel module setup"
+if [[ "$BONDING_ENABLED" == "true" ]]; then
+	if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
+        	BONDING_LINK_MONITORING_FREQ_MS="100"
+	fi
+	if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
+            BONDING_DOWN_DELAY_MS="5000"
+        fi
+        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
+            BONDING_UP_DELAY_MS="5000"
+        fi
+        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
+            BONDING_PRIMARY_INTERFACE="eth0"
+        fi
+        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
+            BONDING_SECONDARY_INTERFACE="wlan0"
+        fi
+        if [[ "$BONDING_FAIL_OVER_MAC" == "" ]]; then
+            BONDING_FAIL_OVER_MAC="0"
+        fi
+
+	# Insert the bonding driver into the kernel
+	insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE" fail_over_mac="$BONDING_FAIL_OVER_MAC"
+fi

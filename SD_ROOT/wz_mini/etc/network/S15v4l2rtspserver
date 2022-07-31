@@ -1,0 +1,74 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+	HI_VIDEO_DEV="/dev/video6"
+	else
+	HI_VIDEO_DEV="/dev/video1"
+	fi
+
+	if [[ "$RTSP_PASSWORD" = "" ]]; then
+	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+	fi
+
+	/opt/wz_mini/bin/cmd video 0 on
+
+        if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+		/opt/wz_mini/bin/cmd audio 0 on
+		AUDIO_CH="-C 1"
+		AUDIO_FMT="-a S16_LE"
+		DEVICE1="$HI_VIDEO_DEV,hw:0,0"
+        else
+                DEVICE1="$HI_VIDEO_DEV"
+		echo "rtsp audio disabled"
+        fi
+
+else
+        echo "rtsp disabled"
+
+fi
+
+
+if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
+
+	if [ -f /opt/wz_mini/tmp/.T20 ]; then
+	LOW_VIDEO_DEV="/dev/video7"
+	else
+	LOW_VIDEO_DEV="/dev/video2"
+	fi
+
+	/opt/wz_mini/bin/cmd video 1 on
+
+	if [[ "$RTSP_PASSWORD" = "" ]]; then
+	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+	fi
+
+        if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
+		/opt/wz_mini/bin/cmd audio 1 on
+		AUDIO_CH="-C 1"
+		AUDIO_FMT="-a S16_LE"
+		DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
+        else
+                DEVICE2="$LOW_VIDEO_DEV"
+                echo "rtsp audio disabled"
+        fi
+
+else
+        echo "rtsp disabled"
+
+fi
+
+if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+	echo "delay RTSP for iCamera"
+	#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
+	sleep 5
+	LD_LIBRARY_PATH=/opt/wz_mini/lib /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 &
+	sleep 1
+        echo "Set imp variables via helper"
+        /opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
+fi
+
+sync;echo 3 > /proc/sys/vm/drop_caches

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [ -e /opt/wz_mini/etc/.first_boot ]; then
+        echo "first boot already completed"
+else
+        echo "first boot, initializing"
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+                #May need different gpio for PANv1
+                #We don't rmmod this module, as it is marked [permanent] by the kernel on T20
+                insmod /opt/wz_mini/lib/modules/3.10.14/extra/audio.ko sign_mode=0
+                LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/init_v2.wav $AUDIO_PROMPT_VOLUME
+        else
+                insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+                /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/init.wav $AUDIO_PROMPT_VOLUME
+                rmmod audio
+        fi
+fi
+
+if [ -f /opt/wz_mini/etc/.first_boot ]; then
+        echo "Not first_boot"
+else
+        echo "Set first_boot"
+        touch /opt/wz_mini/etc/.first_boot
+fi
+

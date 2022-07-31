@@ -1,0 +1,44 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+#Set module dir depending on platform
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
+	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
+else
+	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
+fi
+
+if [[ "$ENABLE_USB_ETH" == "true" ]]; then
+        ALT_IFACE=eth0
+elif [[ "$ENABLE_USB_DIRECT" == "true" ]] || [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+	ALT_IFACE=usb0
+fi
+
+if [[ "$ENABLE_USB_ETH_ORIGINAL_MAC" == "true" ]]; then
+	CONFIG="inet addr"
+else
+	CONFIG="HWaddr"
+fi
+
+wait_for_wlan() {
+while true; do
+        if ifconfig wlan0 | grep "$CONFIG"; then
+            break
+        fi
+
+        echo " network not ready yet, try again in 5"
+        sleep 5
+done
+}
+
+wait_for_wlan_ip() {
+while true; do
+        if ifconfig wlan0 | grep "inet addr"; then
+            break
+        fi
+
+        echo " network not ready yet, try again in 5"
+        sleep 5
+done
+}

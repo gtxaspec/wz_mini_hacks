@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "Run dropbear ssh server"
+/opt/wz_mini/bin/dropbear -R -s -g
+

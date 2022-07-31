@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "replace factorycheck with dummy, to prevent bind unmount"
+if [ -f /opt/wz_mini/tmp/.T31 ]; then
+        mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
+	touch /tmp/usrflag
+fi

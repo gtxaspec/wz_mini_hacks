@@ -1,0 +1,24 @@
+#!/bin/sh
+
+set -x
+
+case "$1" in
+  start)
+
+        echo "install busybox applets"
+        mkdir /opt/wz_mini/tmp/.bin
+        /opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
+        ;;
+  stop)
+        ;;
+  restart|reload)
+        "$0" stop
+        "$0" start
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+esac
+
+exit $?
+

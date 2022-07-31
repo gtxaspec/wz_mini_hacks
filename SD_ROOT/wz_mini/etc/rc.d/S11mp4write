@@ -1,0 +1,14 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+                echo "mp4_write is not supported on T20"
+        else
+                /opt/wz_mini/bin/cmd mp4write on
+                echo "mp4_write enabled"
+        fi
+else
+        echo "mp4 write disabled"
+fi

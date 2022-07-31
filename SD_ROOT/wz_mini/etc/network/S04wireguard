@@ -1,0 +1,32 @@
+#!/bin/sh 
+
+source /opt/wz_mini/etc/rc.common
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
+
+	if [[ "$WIREGUARD_IPV4" != "" ]]; then
+
+		if [ -d /opt/wz_mini/etc/wireguard ]; then
+			echo "wireguard dir exists"
+		else
+			mkdir -p /opt/wz_mini/etc/wireguard
+		fi
+
+	if [ ! -f /opt/wz_mini/etc/wireguard/privatekey ]; then
+		(umask 277 && /opt/wz_mini/bin/wg  genkey | /opt/wz_mini/bin/busybox tee /opt/wz_mini/etc/wireguard/privatekey | /opt/wz_mini/bin/wg  pubkey > /opt/wz_mini/etc/wireguard/publickey)
+	fi
+
+	/opt/wz_mini/bin/busybox ip link add dev wg0 type wireguard
+	/opt/wz_mini/bin/busybox ip address add dev wg0 "$WIREGUARD_IPV4"
+	/opt/wz_mini/bin/wg set wg0 private-key /opt/wz_mini/etc/wireguard/privatekey
+	/opt/wz_mini/bin/busybox ip link set wg0 up
+	fi
+
+	if [[ "$WIREGUARD_PEER_PUBLIC_KEY" != "" ]] && [[ "$WIREGUARD_PEER_ALLOWED_IPS" != "" ]] && [[ "$WIREGUARD_PEER_ENDPOINT" != "" ]] && [[ "$WIREGUARD_PEER_KEEP_ALIVE" != "" ]]; then
+		/opt/wz_mini/bin/wg set wg0 peer "$WIREGUARD_PEER_PUBLIC_KEY" allowed-ips "$WIREGUARD_PEER_ALLOWED_IPS" endpoint "$WIREGUARD_PEER_ENDPOINT" persistent-keepalive "$WIREGUARD_PEER_KEEP_ALIVE"
+		/opt/wz_mini/bin/busybox ip route add "$WIREGUARD_PEER_ALLOWED_IPS" dev wg0
+	fi
+else
+	echo "wireguard disabled"
+fi

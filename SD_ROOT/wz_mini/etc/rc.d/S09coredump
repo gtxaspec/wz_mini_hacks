@@ -1,0 +1,10 @@
+#!/bin/sh
+
+core() {
+	while ! pgrep -f "dumpload" > /dev/null; do
+		pkill -f dumpload #Kill dumpload so it won't waste cpu or ram gathering cores and uploading them when something crashes
+	done
+}
+
+sysctl -w kernel.core_pattern='|/bin/false'
+core &

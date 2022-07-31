@@ -1,0 +1,6 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+echo "set hostname to $CUSTOM_HOSTNAME"
+hostname $CUSTOM_HOSTNAME

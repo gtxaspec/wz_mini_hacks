@@ -1,0 +1,8 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
+        httpd -p 80 -h /opt/wz_mini/www
+fi
+

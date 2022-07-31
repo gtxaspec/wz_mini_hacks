@@ -1,0 +1,7 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
+	touch /opt/wz_mini/tmp/.nd
+fi

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+source /opt/wz_mini/etc/rc.common
+
+wait_for_wlan_ip
+
+echo "store original mac"
+cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+

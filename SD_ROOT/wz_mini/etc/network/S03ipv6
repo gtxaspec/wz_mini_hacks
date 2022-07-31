@@ -1,0 +1,10 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [[ "$ENABLE_IPV6" == "true" ]]; then
+        echo "ipv6 enabled"
+else
+        echo "ipv6 disabled"
+        sysctl -w net.ipv6.conf.all.disable_ipv6=1
+fi

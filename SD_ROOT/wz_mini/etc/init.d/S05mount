@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
+        mount -t jffs2 /dev/mtdblock4 /system
+elif [ -f /opt/wz_mini/tmp/.T31 ]; then
+        mount /dev/mtdblock3 /system
+fi

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+source /opt/wz_mini/wz_mini.conf
+
+if [ -e /opt/wz_mini/swap.gz ]; then
+        if [ -f /opt/wz_mini/tmp/.T20 ]; then
+                LD_LIBRARY_PATH='/opt/wz_mini/lib' /opt/wz_mini/bin/audioplay_t20 /opt/wz_mini/usr/share/audio/swap_v2.wav $AUDIO_PROMPT_VOLUME
+        else
+                insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/audio.ko spk_gpio=$GPIO alc_mode=0 mic_gain=0
+                /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav $AUDIO_PROMPT_VOLUME
+                rmmod audio
+        fi
+        echo "swap archive present, extracting"
+        gzip -d /opt/wz_mini/swap.gz
+        mkswap /opt/wz_mini/swap
+        sync;echo 3 > /proc/sys/vm/drop_caches
+else
+        echo "swap archive missing, not extracting"
+fi
+
+#SWAP FILE, REQUIRED FOR OPERATION!
+if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
+        echo "swap file found, enable"
+        /opt/wz_mini/bin/busybox swapon /opt/wz_mini/swap
+else
+        echo "swap file missing"
+fi
