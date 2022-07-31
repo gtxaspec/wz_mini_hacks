@@ -10,5 +10,5 @@ if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
                 echo "mp4_write enabled"
         fi
 else
-        echo "mp4 write disabled"
+        echo "mp4_write disabled"
 fi

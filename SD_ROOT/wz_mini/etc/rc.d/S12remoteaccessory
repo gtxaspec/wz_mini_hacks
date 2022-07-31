@@ -4,7 +4,7 @@ source /opt/wz_mini/wz_mini.conf
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
         /opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
-        echo "remote accessory enabled"
+        echo "Remote accessory support enabled"
 else
-        echo "remote accessory disabled"
+        echo "Remote accessory support disabled"
 fi

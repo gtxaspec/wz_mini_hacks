@@ -2,11 +2,12 @@
 
 source /opt/wz_mini/wz_mini.conf
 
-echo "replace stock password"
+echo "Replace stock password"
 cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
 
 if [[ "$DEBUG_PASSWORD" == "true" ]]; then
 sed -i 's/:[^:]*/:/' /opt/wz_mini/tmp/.storage/shadow
+echo "Remove stock password"
 fi
 
 mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow

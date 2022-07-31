@@ -2,19 +2,19 @@
 
 source /opt/wz_mini/wz_mini.conf
 
-echo "replace stock busybox"
+echo "Replace stock busybox"
 mount --bind /opt/wz_mini/bin/busybox /bin/busybox
 
-echo "replace stock fstab"
+echo "Replace stock fstab"
 mount --bind /opt/wz_mini/etc/fstab /etc/fstab
 
-echo "replace stock inittab"
+echo "Replace stock inittab"
 mount --bind /opt/wz_mini/etc/inittab /etc/inittab
 
-echo "bind /etc/profile for local/ssh shells"
+echo "Bind /etc/profile for local/ssh shells"
 mount --bind /opt/wz_mini/etc/profile /etc/profile
 
 if [ -d /lib/modules ]; then
-        echo "mount kernel modules"
+        echo "Mount kernel modules in /lib"
         mount --bind /opt/wz_mini/lib/modules /lib/modules
 fi

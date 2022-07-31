@@ -10,18 +10,18 @@ if [ -e /opt/wz_mini/swap.gz ]; then
                 /opt/wz_mini/bin/audioplay_t31 /opt/wz_mini/usr/share/audio/swap.wav $AUDIO_PROMPT_VOLUME
                 rmmod audio
         fi
-        echo "swap archive present, extracting"
+        echo "Swap archive present, extracting"
         gzip -d /opt/wz_mini/swap.gz
         mkswap /opt/wz_mini/swap
         sync;echo 3 > /proc/sys/vm/drop_caches
 else
-        echo "swap archive missing, not extracting"
+        echo "Swap archive missing, not extracting"
 fi
 
-#SWAP FILE, REQUIRED FOR OPERATION!
+#SWAP FILE IS REQUIRED FOR OPERATION!
 if [[ "$ENABLE_SWAP" == "true" ]] && [[ -e /opt/wz_mini/swap ]]; then
-        echo "swap file found, enable"
+        echo "Swap file found, enable"
         /opt/wz_mini/bin/busybox swapon /opt/wz_mini/swap
 else
-        echo "swap file missing"
+        echo "Swap file missing"
 fi

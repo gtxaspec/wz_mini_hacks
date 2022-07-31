@@ -14,9 +14,11 @@ if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 	fi
 
+	echo "Enable video ch 0"
 	/opt/wz_mini/bin/cmd video 0 on
 
         if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+		echo "Enable audio ch 0"
 		/opt/wz_mini/bin/cmd audio 0 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"
@@ -40,6 +42,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	LOW_VIDEO_DEV="/dev/video2"
 	fi
 
+	echo "Enable video ch 1"
 	/opt/wz_mini/bin/cmd video 1 on
 
 	if [[ "$RTSP_PASSWORD" = "" ]]; then
@@ -47,6 +50,7 @@ if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	fi
 
         if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
+		echo "Enable video ch 1"
 		/opt/wz_mini/bin/cmd audio 1 on
 		AUDIO_CH="-C 1"
 		AUDIO_FMT="-a S16_LE"

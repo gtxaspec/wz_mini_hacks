@@ -13,9 +13,6 @@ fi
 touch -- "$LOG_NAME".log
 exec 1> $LOG_NAME.log 2>&1
 
-
-set -x
-
 echo "welcome to wz_init.sh"
 echo "PID $$"
 

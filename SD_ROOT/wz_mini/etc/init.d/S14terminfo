@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ -d /opt/wz_mini/usr/share/terminfo ]; then
-        echo "terminfo already present"
+        echo "Terminfo already present"
 else
-        echo "terminfo not present, extract"
+        echo "Terminfo not present, extract"
         tar xf /opt/wz_mini/usr/share/terminfo.tar -C /opt/wz_mini/usr/share/
 fi

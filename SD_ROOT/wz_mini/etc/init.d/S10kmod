@@ -3,9 +3,6 @@
 source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
 
-set -x 
-
-## REPLACE STOCK MODULES
 if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
         echo "Enable 8189fs"
         if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
@@ -28,8 +25,8 @@ if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == 
 	fi
 fi
 
-#Enable serial driver for car
 if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
+	echo "Enable cp210x serial driver for car"
         modprobe cp210x
 fi
 
@@ -37,26 +34,26 @@ fi
 if ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]) && ! [[ -e /tmp/dbgflag ]]; then
 	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "load video loopback driver at video6 video7"
+		        echo "Load video loopback driver at video6 video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6,7
 		else
-		        echo "load video loopback driver at video1 video2"
+		        echo "Load video loopback driver at video1 video2"
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1,2
 		fi
 	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
 	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "load video loopback driver at video7"
+		        echo "Load video loopback driver at video7"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=7
 		else
-		        echo "load video loopback driver at video2"
+		        echo "Load video loopback driver at video2"
 	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=2
 		fi
 	elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
 	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "load video loopback driver at video6"
+		        echo "Load video loopback driver at video6"
 		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6
 		else
-		        echo "load video loopback driver at video1"
+		        echo "Load video loopback driver at video1"
 		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
 		fi
 	fi
@@ -68,9 +65,7 @@ if [[ "$ENABLE_NFSv4" == "true" ]]; then
         insmod $KMOD_PATH/kernel/net/dns_resolver/dns_resolver.ko
         insmod $KMOD_PATH/kernel/fs/nfs/nfsv4.ko
         insmod $KMOD_PATH/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
-        echo nfsv4 enabled
-else
-        echo nfsv4 disabled
+        echo "NFSv4 enabled"
 fi
 
 if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
@@ -80,37 +75,35 @@ if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
         insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
         insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
         insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
-        echo "iptables ipv4 enabled"
+        echo "iptables IPv4 enabled"
 
         if [[ "$ENABLE_IPV6" == "true" ]]; then
                 insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
                 insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
                 insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_filter.ko
                 insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_mangle.ko
-                echo "iptables ipv6 enabled"
+                echo "iptables IPv6 enabled"
         fi
-else
-        echo "iptables disabled"
+
 fi
 
 if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
         insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
         insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
         insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
+	echo "Wireguard enabled"
 fi
 
 if [[ "$ENABLE_CIFS" == "true" ]]; then
         insmod $KMOD_PATH/kernel/fs/cifs/cifs.ko
-else
-        echo "cifs disabled"
+        echo "CIFS enabled"
 fi
 
 if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
         insmod $KMOD_PATH/kernel/drivers/scsi/scsi_mod.ko
         insmod $KMOD_PATH/kernel/drivers/scsi/sd_mod.ko
         insmod $KMOD_PATH/kernel/drivers/usb/storage/usb-storage.ko
-else
-        echo "usb_storage disabled"
+        echo "usb_storage enabled"
 fi
 
 if [[ "$ENABLE_EXT4" == "true" ]]; then
@@ -121,9 +114,9 @@ if [[ "$ENABLE_EXT4" == "true" ]]; then
         insmod $KMOD_PATH/kernel/fs/jbd2/jbd2.ko
         insmod $KMOD_PATH/kernel/fs/mbcache.ko
         insmod $KMOD_PATH/kernel/fs/ext4/ext4.ko
+	echo "ext4 support enabled"
 fi
 
-echo "bonding kernel module setup"
 if [[ "$BONDING_ENABLED" == "true" ]]; then
 	if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
         	BONDING_LINK_MONITORING_FREQ_MS="100"
@@ -146,4 +139,6 @@ if [[ "$BONDING_ENABLED" == "true" ]]; then
 
 	# Insert the bonding driver into the kernel
 	insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE" fail_over_mac="$BONDING_FAIL_OVER_MAC"
+
+	echo "Network bonding enabled"
 fi

@@ -2,11 +2,11 @@
 
 source /opt/wz_mini/wz_mini.conf
 
-echo "mount wz_mini tmpfs"
+echo "Mount wz_mini tmpfs"
 mount -t tmpfs /opt/wz_mini/tmp
 
-echo "create workspace directory"
+echo "Create workspace directory"
 mkdir /opt/wz_mini/tmp/.storage
 
-echo "mounting global tmpfs"
+echo "Mounting global tmpfs"
 mount -t tmpfs /tmp

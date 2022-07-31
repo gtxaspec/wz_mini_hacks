@@ -13,6 +13,9 @@ if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
                 insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
 
         fi
+
+        echo "USB RNDIS enabled"
 else
-        echo "usb rndis disabled"
+        echo "USB RNDIS disabled"
+
 fi

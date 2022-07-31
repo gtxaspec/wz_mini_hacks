@@ -5,9 +5,6 @@ source /opt/wz_mini/wz_mini.conf
 
 wait_for_wlan
 
-# Start all init scripts in /etc/init.d
-# executing them in numerical order.
-#
 for i in /opt/wz_mini/etc/network/S??* ;do
 
      # Ignore dangling symlinks (if any).
@@ -53,9 +50,12 @@ done
 
 
 if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
-        echo "starting custom script"
+        echo "Starting custom script"
         $CUSTOM_SCRIPT_PATH &
 else
-        echo "no custom script configured in wz_mini.conf"
+        echo "No custom script configured in wz_mini.conf"
 fi
+
+/opt/wz_mini/etc/rc.d/K15logging
+
 echo "wz_mini done" > /dev/kmsg

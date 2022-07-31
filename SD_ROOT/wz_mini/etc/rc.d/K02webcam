@@ -16,8 +16,6 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 
 [ -f $WZMINI_CFG ] && source $WZMINI_CFG
 
-set -x
-
 echo "welcome to wz_cam.sh"
 echo "PID $$"
 

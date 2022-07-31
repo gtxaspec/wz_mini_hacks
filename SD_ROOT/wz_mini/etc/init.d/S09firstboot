@@ -3,9 +3,9 @@
 source /opt/wz_mini/wz_mini.conf
 
 if [ -e /opt/wz_mini/etc/.first_boot ]; then
-        echo "first boot already completed"
+        echo "First boot already completed"
 else
-        echo "first boot, initializing"
+        echo "First boot, initializing"
         if [ -f /opt/wz_mini/tmp/.T20 ]; then
                 #May need different gpio for PANv1
                 #We don't rmmod this module, as it is marked [permanent] by the kernel on T20
@@ -24,4 +24,3 @@ else
         echo "Set first_boot"
         touch /opt/wz_mini/etc/.first_boot
 fi
-

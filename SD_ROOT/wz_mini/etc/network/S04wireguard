@@ -8,7 +8,7 @@ if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
 	if [[ "$WIREGUARD_IPV4" != "" ]]; then
 
 		if [ -d /opt/wz_mini/etc/wireguard ]; then
-			echo "wireguard dir exists"
+			echo "Wireguard dir exists"
 		else
 			mkdir -p /opt/wz_mini/etc/wireguard
 		fi
@@ -28,5 +28,5 @@ if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
 		/opt/wz_mini/bin/busybox ip route add "$WIREGUARD_PEER_ALLOWED_IPS" dev wg0
 	fi
 else
-	echo "wireguard disabled"
+	echo "Wireguard disabled"
 fi

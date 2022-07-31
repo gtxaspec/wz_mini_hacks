@@ -26,8 +26,7 @@ while true; do
         if ifconfig wlan0 | grep "$CONFIG"; then
             break
         fi
-
-        echo " network not ready yet, try again in 5"
+        echo "Network not ready yet, try again in 5 seconds"
         sleep 5
 done
 }
@@ -37,8 +36,7 @@ while true; do
         if ifconfig wlan0 | grep "inet addr"; then
             break
         fi
-
-        echo " network not ready yet, try again in 5"
+        echo "IP Address not aquired yet, try again in 5 seconds"
         sleep 5
 done
 }

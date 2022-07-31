@@ -1,13 +1,14 @@
 #!/bin/sh
 
-    while true
-    do
-        if ifconfig wlan0 | grep "HWaddr"; then
-                echo "wlan0 hwaddr is up"
-                break
-        else
-                echo "wlan0 hwaddr not ready yet..."
-                sleep 5
-        fi
-    done
+#Wait for wlan hardware to be intitialized in app_init.sh, this must be blocking.
+
+while true; do
+	if ifconfig wlan0 | grep "HWaddr"; then
+		echo "wlan0 hwaddr is up"
+		break
+	else
+		echo "wlan0 hwaddr not ready yet..."
+	        sleep 5
+	fi
+done
 

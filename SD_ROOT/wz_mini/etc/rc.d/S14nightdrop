@@ -3,5 +3,6 @@
 source /opt/wz_mini/wz_mini.conf
 
 if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
+	echo "Night Drop Disable, Enabled"
 	touch /opt/wz_mini/tmp/.nd
 fi

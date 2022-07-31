@@ -2,7 +2,6 @@
 
 source /opt/wz_mini/wz_mini.conf
 
-#MOTORIZED CAMERA CONTROL   
 if [[ "$DISABLE_MOTOR" == "true" ]]; then
         echo "Motor Disabled"
         touch /opt/wz_mini/tmp/.ms
