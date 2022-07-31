@@ -2,7 +2,7 @@
 
 source /opt/wz_mini/etc/rc.common
 
-wait_for_wlan_ip
+wait_for_wlan_wpa
 
 cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
 echo "store original mac"

@@ -4,21 +4,15 @@ source /opt/wz_mini/wz_mini.conf
 
 #Set module dir depending on platform
 if [ -f /opt/wz_mini/tmp/.T20 ]; then
-	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
+        KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14"
 else
-	KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
+        KMOD_PATH="/opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__"
 fi
 
 if [[ "$ENABLE_USB_ETH" == "true" ]]; then
         ALT_IFACE=eth0
 elif [[ "$ENABLE_USB_DIRECT" == "true" ]] || [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
-	ALT_IFACE=usb0
-fi
-
-if [[ "$ENABLE_USB_ETH_ORIGINAL_MAC" == "true" ]]; then
-	CONFIG="inet addr"
-else
-	CONFIG="HWaddr"
+        ALT_IFACE=usb0
 fi
 
 #Set the correct GPIO for the audio driver (T31 only)
@@ -30,10 +24,20 @@ fi
 
 wait_for_wlan() {
 while true; do
-        if ifconfig wlan0 | grep "$CONFIG"; then
+        if ifconfig wlan0 | grep "HWaddr"; then
             break
         fi
-        echo "Network not ready yet, try again in 5 seconds"
+        echo "Network HW not ready yet, try again in 5 seconds"
+        sleep 5
+done
+}
+
+wait_for_wlan_wpa() {
+while true; do
+        if [ -e /tmp/wpa_supplicant.conf ]; then
+            break
+        fi
+        echo "wpa_supplicant not initialized yet, try again in 5 seconds"
         sleep 5
 done
 }

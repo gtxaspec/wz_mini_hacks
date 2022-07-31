@@ -18,3 +18,7 @@ if [ -d /lib/modules ]; then
         echo "Mount kernel modules in /lib"
         mount --bind /opt/wz_mini/lib/modules /lib/modules
 fi
+
+echo "Replace hostname"
+echo $CUSTOM_HOSTNAME > /opt/wz_mini/etc/hostname
+mount --bind /opt/wz_mini/etc/hostname /etc/hostname

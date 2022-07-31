@@ -7,8 +7,8 @@ set -x
 
 bonding_setup() {
 
-	#we need to wait until wlan0 is up
-	wait_for_wlan
+	#we need to wait until wlan0 is up with the modified HWaddr
+	wait_for_wlan_wpa
 
 	##Fool iCamera by renaming the hardline interface to wlan0
 
@@ -27,7 +27,7 @@ bonding_setup() {
         if [[ "$BONDING_PRIMARY_INTERFACE" == "wlan0" ]]; then
                 /opt/wz_mini/bin/busybox ip link set $BONDING_PRIMARY_INTERFACE name wlanold
                 /opt/wz_mini/bin/busybox ip addr flush dev wlanold
-                primary_interface="wlanold"
+                BONDING_PRIMARY_INTERFACE="wlanold"
                 # Because we just changed the name of the primary interface, we need to
                 # tell the bonding driver about the name change as well.
                 echo "$BONDING_PRIMARY_INTERFACE" > /sys/devices/virtual/net/bond0/bonding/primary
@@ -35,7 +35,7 @@ bonding_setup() {
         if [[ "$BONDING_SECONDARY_INTERFACE" == "wlan0" ]]; then
                 /opt/wz_mini/bin/busybox ip link set $BONDING_SECONDARY_INTERFACE name wlanold
                 /opt/wz_mini/bin/busybox ip addr flush dev wlanold
-                secondary_interface="wlanold"
+                BONDING_SECONDARY_INTERFACE="wlanold"
         fi
 
         # Enslave the Ethernet and Original Wifi interfaces
@@ -68,9 +68,9 @@ bonding_setup() {
         else
 	        mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
         fi
-        
+
 }
 
 if [[ "$BONDING_ENABLED" == "true" ]]; then
 	bonding_setup &
-fi      
+fi

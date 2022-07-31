@@ -5,23 +5,18 @@ source /opt/wz_mini/wz_mini.conf
 
 alternate_iface() {
 
-wait_for_wlan
-
-if ! [[ "$BONDING_ENABLED" == "true" ]]; then
-    
 	if [[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]] || [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+
+	wait_for_wlan_wpa
 
 	##Fool iCamera by renaming the hardline interface to wlan0
         echo "Renaming interfaces"
         ifconfig $ALT_IFACE down
+
         ifconfig wlan0 down
         /opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
         /opt/wz_mini/bin/busybox ip addr flush dev wlanold
         /opt/wz_mini/bin/busybox ip link set $ALT_IFACE name wlan0
-
-        ifconfig wlan0 up
-        pkill udhcpc
-        udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
 
         if [ -f /opt/wz_mini/tmp/.T20 ]; then
 	        mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
@@ -32,7 +27,9 @@ if ! [[ "$BONDING_ENABLED" == "true" ]]; then
 	else
 		echo "No alternate iface enabled"
 	fi
-fi
+
 }
 
-alternate_iface &
+if ! [[ "$BONDING_ENABLED" == "true" ]]; then
+    alternate_iface &
+fi
