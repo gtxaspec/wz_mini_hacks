@@ -1,6 +1,11 @@
 #!/bin/sh
 
+source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
+
+remote() {
+
+wait_for_wlan_ip
 
 if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
         /opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
@@ -8,3 +13,6 @@ if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
 else
         echo "Remote accessory support disabled"
 fi
+}
+
+remote &

@@ -10,7 +10,7 @@ fi
 
 wait_for_wlan
 
-for i in /opt/wz_mini/etc/network/S??* ;do
+for i in /opt/wz_mini/etc/network.d/S??* ;do
 
      # Ignore dangling symlinks (if any).
      [ ! -f "$i" ] && continue
@@ -31,6 +31,7 @@ for i in /opt/wz_mini/etc/network/S??* ;do
     esac
 done
 
+wait_for_wlan_ip
 
 for i in /opt/wz_mini/etc/rc.local.d/* ;do
 

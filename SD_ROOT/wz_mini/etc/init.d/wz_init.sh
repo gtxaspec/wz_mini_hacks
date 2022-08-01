@@ -1,5 +1,10 @@
 #!/bin/sh
 
+#init.d/ = early boot, before inittab is run
+#rc.d/ = runs after /linuxrc, but before app_init.sh
+#network.d/ runs after app_init.sh, and after wlan hw is ready
+#rc.local.d/ = runs after app_init.sh and network has acquired an address
+
 ###This file is run by switch_root, from the initramfs in the kernel.
 LOG_NAME=/opt/wz_mini/log/wz_init
 if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
