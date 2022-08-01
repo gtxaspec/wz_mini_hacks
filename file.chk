@@ -25,7 +25,7 @@ bd11d9a8352eca6a16554c87be50b2f5  SD_ROOT/wz_mini/www/index.html
 9a30c16776ac6931a313de1a85f63367  SD_ROOT/wz_mini/etc/network/S16rtmp
 89c8beceeaf22c8633476994baee9da2  SD_ROOT/wz_mini/etc/network/S09dnsmasq
 6f914e6567dc00dcf988ddd7053f8b61  SD_ROOT/wz_mini/etc/network/S04wireguard
-94a469953d2dd4377aa344365ac96778  SD_ROOT/wz_mini/etc/network/S15v4l2rtspserver
+ac71f3b06fd9d303ffef72f5790136f6  SD_ROOT/wz_mini/etc/network/S15v4l2rtspserver
 195323ca0d9fe26cbb26e67d808737ae  SD_ROOT/wz_mini/etc/network/S01wlanhw
 4f191c79d1b755124a0dfa95dddca3e1  SD_ROOT/wz_mini/etc/network/S10httpd
 1e5365fc53f132424dec1ad73f21e9b9  SD_ROOT/wz_mini/etc/network/S03ipv6
@@ -49,7 +49,7 @@ d5c528b391309f6c4a33ce4f3dc120de  SD_ROOT/wz_mini/etc/init.d/S02tmpfs
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
-ac436b39b69f26fb65e993c2dfefb421  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+4e51a0eb0a3615ed8e9c115f4f7e2c7b  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
 a856cf7998a5e556654e649a15c3fba5  SD_ROOT/wz_mini/etc/rc.common
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
@@ -151,7 +151,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
 3777d9e80c8b517c01a124e6360b6525  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-0a5f7b2d4a3fd22db19ff5fb337b8549  SD_ROOT/wz_mini/usr/bin/app.ver
+542f35f53ab6d4562f1a1ad5e92742b7  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
@@ -300,7 +300,7 @@ c6a2e765996b4a8bfe351757785fb989  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 14865a6e2e2df87a8362c6f20377a934  SD_ROOT/wz_mini/lib/libtinyalsa.so.2
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-807d77869cac61b2bd3c543e06a04429  SD_ROOT/wz_mini/wz_mini.conf
+4e51a0eb0a3615ed8e9c115f4f7e2c7b  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 283fca97d62c1c199eb2b04877998879  v2_install/compile_image.sh
 53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh
