@@ -1,5 +1,13 @@
 #!/bin/sh
-#autostart crond
+
 source /opt/wz_mini/etc/rc.common
+source /opt/wz_mini/wz_mini.conf
+
+autostart_crond() {
 wait_for_wlan_ip
 /opt/wz_mini/tmp/.bin/crond -b -c /opt/wz_mini/etc/cron/
+}
+
+if [[ "$ENABLE_CRONTAB" == "true" ]]; then
+autostart_crond &
+fi

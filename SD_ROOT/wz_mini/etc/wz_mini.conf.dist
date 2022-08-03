@@ -95,6 +95,7 @@ DISABLE_MOTOR="false"
 ENABLE_FSCK_ON_BOOT="false"
 ENABLE_CAR_DRIVER="false"
 ENABLE_LOCAL_DNS="false"
+ENABLE_CRONTAB="false"
 
 #####DEBUG#####
 #drops you to a shell via serial, doesn't load app_init.sh
