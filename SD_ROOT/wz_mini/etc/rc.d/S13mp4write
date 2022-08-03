@@ -1,6 +1,12 @@
 #!/bin/sh
 
+source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
+
+
+mp4write() {
+
+wait_for_icamera
 
 if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
         if [ -f /opt/wz_mini/tmp/.T20 ]; then
@@ -12,3 +18,6 @@ if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
 else
         echo "mp4_write disabled"
 fi
+}
+
+mp4write &
