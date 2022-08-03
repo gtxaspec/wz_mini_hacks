@@ -5,7 +5,7 @@ source /opt/wz_mini/wz_mini.conf
 
 syslog_save() {
 
-wait_for_icamera &
+wait_for_icamera
 
 if [[ "$ENABLE_SYSLOG_SAVE" == "true" ]]; then
 echo "Store syslog logs"
