@@ -3,7 +3,9 @@
 source /opt/wz_mini/etc/rc.common
 source /opt/wz_mini/wz_mini.conf
 
-wait_for_icamera
+syslog_save() {
+
+wait_for_icamera &
 
 if [[ "$ENABLE_SYSLOG_SAVE" == "true" ]]; then
 echo "Store syslog logs"
@@ -20,3 +22,7 @@ fi
 touch -- "$SYSLOG_LOG".log
 logread -F > $SYSLOG_LOG.log &
 fi
+
+}
+
+syslog_save &
