@@ -1,0 +1,22 @@
+#!/bin/sh
+
+source /opt/wz_mini/etc/rc.common
+source /opt/wz_mini/wz_mini.conf
+
+wait_for_icamera
+
+if [[ "$ENABLE_SYSLOG_SAVE" == "true" ]]; then
+echo "Store syslog logs"
+
+SYSLOG_LOG=/opt/wz_mini/log/syslog
+if [[ -e $SYSLOG_LOG.log || -L $SYSLOG_LOG.log ]] ; then
+    i=0
+    while [[ -e $SYSLOG_LOG.log.$i || -L $SYSLOG_LOG.log.$i ]] ; do
+        let i++
+    done
+        mv $SYSLOG_LOG.log $SYSLOG_LOG.log.$i
+    SYSLOG_LOG=$SYSLOG_LOG
+fi
+touch -- "$SYSLOG_LOG".log
+logread -F > $SYSLOG_LOG.log &
+fi
