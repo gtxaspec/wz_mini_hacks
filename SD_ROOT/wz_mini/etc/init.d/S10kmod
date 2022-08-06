@@ -1,144 +1,160 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Load kernel modules
+# Description:       Load kernel modules depending on model and configuration
+### END INIT INFO
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
 
-if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
-        echo "Enable 8189fs"
-        if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-                sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
-        elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
-                sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
-        elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
-                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
-        elif [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-                sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
-        fi
-fi
+case "$1" in
+	start)
 
-if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == "" ]]; then
-	echo "Enable atbm603x_wifi_sdio"
-        if [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-		sed -i 's/\/thirdlib\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
-	elif [ -f /opt/wz_mini/tmp/.T31 ] && ! [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
-		sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
-	fi
-fi
+		echo "#####$(basename "$0")#####"
 
-if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
-	echo "Enable cp210x serial driver for car"
-        modprobe cp210x
-fi
-
-#RTSP SERVER
-if ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]) && ! [[ -e /tmp/dbgflag ]]; then
-	if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "Load video loopback driver at video6 video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6,7
-		else
-		        echo "Load video loopback driver at video1 video2"
-		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1,2
+		if [[ "$ENABLE_RTL8189FS_DRIVER" == "true" ]] || [[ "$ENABLE_RTL8189FS_DRIVER" == "" ]]; then
+			echo "Enable 8189fs"
+			if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+				sed -i 's/\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+			elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
+				sed -i 's/insmod \/driver\/8189es.ko/insmod \/opt\/wz_mini\/lib\/modules\/3.10.14\/extra\/8189es.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+			elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
+				sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+			elif [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+				sed  -i 's/\/system\/driver\/rtl8189ftv.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/8189fs.ko rtw_power_mgnt=0 rtw_enusbss=0 rtw_drv_log_level=0/g'  /opt/wz_mini/tmp/.storage/app_init.sh
+			fi
 		fi
-	elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "Load video loopback driver at video7"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=7
-		else
-		        echo "Load video loopback driver at video2"
-	        	insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=2
+
+		if [[ "$ENABLE_ATBM603X_DRIVER" == "true" ]] || [[ "$ENABLE_ATBM603X_DRIVER" == "" ]]; then
+			echo "Enable atbm603x_wifi_sdio"
+			if [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+				sed -i 's/\/thirdlib\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+			elif [ -f /opt/wz_mini/tmp/.T31 ] && ! [ -f /opt/wz_mini/tmp/.ATOM_CamV3C ]; then
+				sed -i 's/\/system\/driver\/atbm603x_wifi_sdio.ko/\/opt\/wz_mini\/lib\/modules\/3.10.14\_\_isvp_swan_1.0\_\_\/extra\/atbm603x_wifi_sdio.ko atbm_printk_mask=0/g' /opt/wz_mini/tmp/.storage/app_init.sh
+			fi
 		fi
-	elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
-	        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-		        echo "Load video loopback driver at video6"
-		        insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6
-		else
-		        echo "Load video loopback driver at video1"
-		        insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
+
+		if [ -f /opt/wz_mini/tmp/.CAR ] || [[ "$ENABLE_CAR_DRIVER" == "true" ]]; then
+			echo "Enable cp210x serial driver for car"
+			modprobe cp210x
 		fi
-	fi
-fi
+
+		if ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]) && ! [[ -e /tmp/dbgflag ]]; then
+			if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] && [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+				if [ -f /opt/wz_mini/tmp/.T20 ]; then
+					echo "Load video loopback driver at video6 video7"
+					insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6,7
+				else
+					echo "Load video loopback driver at video1 video2"
+					insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1,2
+				fi
+			elif [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
+				if [ -f /opt/wz_mini/tmp/.T20 ]; then
+					echo "Load video loopback driver at video7"
+					insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=7
+				else
+					echo "Load video loopback driver at video2"
+					insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=2
+				fi
+			elif [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+				if [ -f /opt/wz_mini/tmp/.T20 ]; then
+					echo "Load video loopback driver at video6"
+					insmod /opt/wz_mini/lib/modules/3.10.14/extra/v4l2loopback_V2.ko video_nr=6
+				else
+					echo "Load video loopback driver at video1"
+					insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/extra/v4l2loopback.ko video_nr=1
+				fi
+			fi
+		fi
 
 
-if [[ "$ENABLE_NFSv4" == "true" ]]; then
-        insmod $KMOD_PATH/kernel/lib/oid_registry.ko
-        insmod $KMOD_PATH/kernel/net/dns_resolver/dns_resolver.ko
-        insmod $KMOD_PATH/kernel/fs/nfs/nfsv4.ko
-        insmod $KMOD_PATH/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
-        echo "NFSv4 enabled"
-fi
+		if [[ "$ENABLE_NFSv4" == "true" ]]; then
+			insmod $KMOD_PATH/kernel/lib/oid_registry.ko
+			insmod $KMOD_PATH/kernel/net/dns_resolver/dns_resolver.ko
+			insmod $KMOD_PATH/kernel/fs/nfs/nfsv4.ko
+			insmod $KMOD_PATH/kernel/net/sunrpc/auth_gss/auth_rpcgss.ko
+			echo "NFSv4 enabled"
+		fi
 
-if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
+		if [[ "$ENABLE_IPTABLES" == "true"  ]]; then
 
-        insmod $KMOD_PATH/kernel/net/netfilter/x_tables.ko
-        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ip_tables.ko
-        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
-        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
-        insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
-        echo "iptables IPv4 enabled"
+			insmod $KMOD_PATH/kernel/net/netfilter/x_tables.ko
+			insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ip_tables.ko
+			insmod $KMOD_PATH/kernel/net/ipv4/netfilter/ipt_REJECT.ko
+			insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_filter.ko
+			insmod $KMOD_PATH/kernel/net/ipv4/netfilter/iptable_mangle.ko
+			echo "iptables IPv4 enabled"
 
-        if [[ "$ENABLE_IPV6" == "true" ]]; then
-                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
-                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
-                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_filter.ko
-                insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_mangle.ko
-                echo "iptables IPv6 enabled"
-        fi
+			if [[ "$ENABLE_IPV6" == "true" ]]; then
+				insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6_tables.ko
+				insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6t_REJECT.ko
+				insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_filter.ko
+				insmod $KMOD_PATH/kernel/net/ipv6/netfilter/ip6table_mangle.ko
+				echo "iptables IPv6 enabled"
+			fi
 
-fi
+		fi
 
-if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
-        insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
-        insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
-        insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
-	echo "Wireguard enabled"
-fi
+		if [[ "$ENABLE_WIREGUARD" == "true" ]]; then
+			insmod $KMOD_PATH/kernel/net/ipv4/tunnel4.ko
+			insmod $KMOD_PATH/kernel/net/ipv4/ip_tunnel.ko
+			insmod $KMOD_PATH/kernel/net/wireguard/wireguard.ko
+			echo "Wireguard enabled"
+		fi
 
-if [[ "$ENABLE_CIFS" == "true" ]]; then
-        insmod $KMOD_PATH/kernel/fs/cifs/cifs.ko
-        echo "CIFS enabled"
-fi
+		if [[ "$ENABLE_CIFS" == "true" ]]; then
+			insmod $KMOD_PATH/kernel/fs/cifs/cifs.ko
+			echo "CIFS enabled"
+		fi
 
-if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
-        insmod $KMOD_PATH/kernel/drivers/scsi/scsi_mod.ko
-        insmod $KMOD_PATH/kernel/drivers/scsi/sd_mod.ko
-        insmod $KMOD_PATH/kernel/drivers/usb/storage/usb-storage.ko
-        echo "usb_storage enabled"
-fi
+		if [[ "$ENABLE_USB_STORAGE" == "true" ]]; then
+			insmod $KMOD_PATH/kernel/drivers/scsi/scsi_mod.ko
+			insmod $KMOD_PATH/kernel/drivers/scsi/sd_mod.ko
+			insmod $KMOD_PATH/kernel/drivers/usb/storage/usb-storage.ko
+			echo "usb_storage enabled"
+		fi
 
-if [[ "$ENABLE_EXT4" == "true" ]]; then
-        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-        insmod $KMOD_PATH/kernel/lib/crc16.ko
-        fi
+		if [[ "$ENABLE_EXT4" == "true" ]]; then
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				insmod $KMOD_PATH/kernel/lib/crc16.ko
+			fi
 
-        insmod $KMOD_PATH/kernel/fs/jbd2/jbd2.ko
-        insmod $KMOD_PATH/kernel/fs/mbcache.ko
-        insmod $KMOD_PATH/kernel/fs/ext4/ext4.ko
-	echo "ext4 support enabled"
-fi
+			insmod $KMOD_PATH/kernel/fs/jbd2/jbd2.ko
+			insmod $KMOD_PATH/kernel/fs/mbcache.ko
+			insmod $KMOD_PATH/kernel/fs/ext4/ext4.ko
+			echo "ext4 support enabled"
+		fi
 
-if [[ "$BONDING_ENABLED" == "true" ]]; then
-	if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
-        	BONDING_LINK_MONITORING_FREQ_MS="100"
-	fi
-	if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
-            BONDING_DOWN_DELAY_MS="5000"
-        fi
-        if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
-            BONDING_UP_DELAY_MS="5000"
-        fi
-        if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
-            BONDING_PRIMARY_INTERFACE="eth0"
-        fi
-        if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
-            BONDING_SECONDARY_INTERFACE="wlan0"
-        fi
-        if [[ "$BONDING_FAIL_OVER_MAC" == "" ]]; then
-            BONDING_FAIL_OVER_MAC="0"
-        fi
+		if [[ "$BONDING_ENABLED" == "true" ]]; then
+			if [[ "$BONDING_LINK_MONITORING_FREQ_MS" == "" ]]; then
+				BONDING_LINK_MONITORING_FREQ_MS="100"
+			fi
+			if [[ "$BONDING_DOWN_DELAY_MS" == "" ]]; then
+				BONDING_DOWN_DELAY_MS="5000"
+			fi
+			if [[ "$BONDING_UP_DELAY_MS" == "" ]]; then
+				BONDING_UP_DELAY_MS="5000"
+			fi
+			if [[ "$BONDING_PRIMARY_INTERFACE" == "" ]]; then
+				BONDING_PRIMARY_INTERFACE="eth0"
+			fi
+			if [[ "$BONDING_SECONDARY_INTERFACE" == "" ]]; then
+				BONDING_SECONDARY_INTERFACE="wlan0"
+			fi
+			if [[ "$BONDING_FAIL_OVER_MAC" == "" ]]; then
+				BONDING_FAIL_OVER_MAC="0"
+			fi
 
-	# Insert the bonding driver into the kernel
-	insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE" fail_over_mac="$BONDING_FAIL_OVER_MAC"
+			echo "Insert the bonding driver into the kernel"
+			insmod $KMOD_PATH/kernel/drivers/net/bonding/bonding.ko mode=active-backup miimon="$BONDING_LINK_MONITORING_FREQ_MS" downdelay="$BONDING_DOWN_DELAY_MS" updelay="$BONDING_UP_DELAY_MS" primary="$BONDING_PRIMARY_INTERFACE" fail_over_mac="$BONDING_FAIL_OVER_MAC"
 
-	echo "Network bonding enabled"
-fi
+			echo "Network bonding enabled"
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

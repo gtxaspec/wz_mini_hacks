@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ -e /tmp/dbgflag ]; then
-        echo "debug enabled, rc.d disabled."
-        exit 0
+	echo "debug enabled, rc.d disabled."
+	exit 0
 fi
 
 for i in /opt/wz_mini/etc/rc.d/S??* ;do
@@ -11,17 +11,17 @@ for i in /opt/wz_mini/etc/rc.d/S??* ;do
      [ ! -f "$i" ] && continue
 
      case "$i" in
-        *.sh)
-            # Source shell script for speed.
-            (
-                trap - INT QUIT TSTP
-                set start
-                . $i
-            )
-            ;;
-        *)
-            # No sh extension, so fork subprocess.
-            $i start
-            ;;
-    esac
+	     *.sh)
+		     # Source shell script for speed.
+		     (
+		     trap - INT QUIT TSTP
+		     set start
+		     . $i
+	     )
+	     ;;
+     *)
+	     # No sh extension, so fork subprocess.
+	     $i start
+	     ;;
+esac
 done

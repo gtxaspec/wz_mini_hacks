@@ -1,33 +1,55 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Detect device model
+# Description:       Detect which model device we are, and configure the system accordingly
+### END INIT INFO
 
-##DETECT CAMERA MODEL & PLATFORM TYPE
-#V2=WYZEC1-JZ
-#PANv1=WYZECP1_JEF
-#PANv2=HL_PAN2
-#V3=WYZE_CAKP2JFUS
-#DB3=WYZEDB3
-#V3C=ATOM_CamV3C
 
-#mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
-if [ -b /dev/mtdblock9 ]; then
-        mkdir /opt/wz_mini/tmp/params
-        mount -t jffs2 /dev/mtdblock9 /opt/wz_mini/tmp/params
-        touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/params/config/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
-        touch /opt/wz_mini/tmp/.T20
-        umount /opt/wz_mini/tmp/params
-        rm -rf /opt/wz_mini/tmp/params
-elif [ -b /dev/mtdblock6 ]; then
-        mkdir /opt/wz_mini/tmp/configs
-        mount -t jffs2 /dev/mtdblock6 /opt/wz_mini/tmp/configs
-        touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/configs/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
-        touch /opt/wz_mini/tmp/.T31
-        umount /opt/wz_mini/tmp/configs
-        rm -rf /opt/wz_mini/tmp/configs
-fi
+case "$1" in
+	start)
 
-#Check for Car FW
-if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-        if cat /system/bin/app.ver | grep 4.55; then
-                touch /opt/wz_mini/tmp/.CAR
-        fi
-fi
+		echo "#####$(basename "$0")#####"
+
+		##DETECT CAMERA MODEL & PLATFORM TYPE
+		#V2=WYZEC1-JZ
+		#PANv1=WYZECP1_JEF
+		#PANv2=HL_PAN2
+		#V3=WYZE_CAKP2JFUS
+		#DB3=WYZEDB3
+		#V3C=ATOM_CamV3C
+
+		#mtdblock9 only exists on the T20 platform, indicating V2 or PANv1
+		if [ -b /dev/mtdblock9 ]; then
+			mkdir /opt/wz_mini/tmp/params
+			mount -t jffs2 /dev/mtdblock9 /opt/wz_mini/tmp/params
+			touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/params/config/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
+			touch /opt/wz_mini/tmp/.T20
+			echo "$(cat /opt/wz_mini/tmp/params/config/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#') detected"
+			umount /opt/wz_mini/tmp/params
+			rm -rf /opt/wz_mini/tmp/params
+		elif [ -b /dev/mtdblock6 ]; then
+			mkdir /opt/wz_mini/tmp/configs
+			mount -t jffs2 /dev/mtdblock6 /opt/wz_mini/tmp/configs
+			touch /opt/wz_mini/tmp/.$(cat /opt/wz_mini/tmp/configs/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#')
+			touch /opt/wz_mini/tmp/.T31
+			echo "$(cat /opt/wz_mini/tmp/configs/.product_config | grep PRODUCT_MODEL | sed -e 's#.*=\(\)#\1#') detected"
+			umount /opt/wz_mini/tmp/configs
+			rm -rf /opt/wz_mini/tmp/configs
+		fi
+
+		#Check for Car FW
+		if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+			if cat /system/bin/app.ver | grep 4.55; then
+				touch /opt/wz_mini/tmp/.CAR
+				echo "Car FW detected!"
+			fi
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+			exit 1
+		;;
+esac
+

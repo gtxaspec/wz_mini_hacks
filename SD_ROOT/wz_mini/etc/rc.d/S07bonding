@@ -1,78 +1,95 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Network bonding support
+# Description:       Enable bonding support as configured by user
+### END INIT INFO
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
 
 bonding_setup() {
 
-	#we need to wait until wlan0 is up with the modified HWaddr
-	wait_for_wlan_wpa
+	echo "#####$(basename "$0")#####"
+
+	echo "waiting until wlan0 is up with the modified HWaddr"
+	wait_for_wlan_wpa $(basename "$0")
 
 	##Fool iCamera by renaming the hardline interface to wlan0
 
 	## $1 Bonding Interface, $2 Primary Interface, $3 Secondary Interface
-        echo "renaming interfaces"
+	echo "renaming interfaces"
 
 	#Prevent iCamera from cycling the wlan0 interface
-        mount --bind /opt/wz_mini/usr/bin/restart_wlan0.sh /system/bin/restart_wlan0.sh
+	mount --bind /opt/wz_mini/usr/bin/restart_wlan0.sh /system/bin/restart_wlan0.sh
 
-        # Bring all interfaces down
-        ifconfig bond0 down
-        ifconfig $BONDING_PRIMARY_INTERFACE down
-        ifconfig $BONDING_SECONDARY_INTERFACE down
+	# Bring all interfaces down
+	ifconfig bond0 down
+	ifconfig $BONDING_PRIMARY_INTERFACE down
+	ifconfig $BONDING_SECONDARY_INTERFACE down
 
-        # Have to bring bonding interface up to be able to bond our slaves.
-        /opt/wz_mini/bin/busybox ip link set bond0 up
+	# Have to bring bonding interface up to be able to bond our slaves.
+	/opt/wz_mini/bin/busybox ip link set bond0 up
 
-        # Rename the real wlan0 interface if needed/used
-        if [[ "$BONDING_PRIMARY_INTERFACE" == "wlan0" ]]; then
-                /opt/wz_mini/bin/busybox ip link set $BONDING_PRIMARY_INTERFACE name wlanold
-                /opt/wz_mini/bin/busybox ip addr flush dev wlanold
-                BONDING_PRIMARY_INTERFACE="wlanold"
-                # Because we just changed the name of the primary interface, we need to
-                # tell the bonding driver about the name change as well.
-                echo "$BONDING_PRIMARY_INTERFACE" > /sys/devices/virtual/net/bond0/bonding/primary
-        fi
-        if [[ "$BONDING_SECONDARY_INTERFACE" == "wlan0" ]]; then
-                /opt/wz_mini/bin/busybox ip link set $BONDING_SECONDARY_INTERFACE name wlanold
-                /opt/wz_mini/bin/busybox ip addr flush dev wlanold
-                BONDING_SECONDARY_INTERFACE="wlanold"
-        fi
+	# Rename the real wlan0 interface if needed/used
+	if [[ "$BONDING_PRIMARY_INTERFACE" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $BONDING_PRIMARY_INTERFACE name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		BONDING_PRIMARY_INTERFACE="wlanold"
+		# Because we just changed the name of the primary interface, we need to
+		# tell the bonding driver about the name change as well.
+		echo "$BONDING_PRIMARY_INTERFACE" > /sys/devices/virtual/net/bond0/bonding/primary
+	fi
+	if [[ "$BONDING_SECONDARY_INTERFACE" == "wlan0" ]]; then
+		/opt/wz_mini/bin/busybox ip link set $BONDING_SECONDARY_INTERFACE name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		BONDING_SECONDARY_INTERFACE="wlanold"
+	fi
 
-        # Enslave the Ethernet and Original Wifi interfaces
-        # under the bonding interface.
-        /opt/wz_mini/tmp/.bin/ifenslave bond0 $BONDING_PRIMARY_INTERFACE $BONDING_SECONDARY_INTERFACE
+	# Enslave the Ethernet and Original Wifi interfaces
+	# under the bonding interface.
+	/opt/wz_mini/tmp/.bin/ifenslave bond0 $BONDING_PRIMARY_INTERFACE $BONDING_SECONDARY_INTERFACE
 
-        # Have to bring bonding interface down to be rename the interface
-        /opt/wz_mini/bin/busybox ip link set bond0 down
+	# Have to bring bonding interface down to be rename the interface
+	/opt/wz_mini/bin/busybox ip link set bond0 down
 
-        # Name the bonding interface to be the "new" wlan0 interface
-        /opt/wz_mini/bin/busybox ip link set bond0 name wlan0
+	# Name the bonding interface to be the "new" wlan0 interface
+	/opt/wz_mini/bin/busybox ip link set bond0 name wlan0
 
-        # Bring the newly renamed wlan0 (actually the bond interface) back up in the next step
+	# Bring the newly renamed wlan0 (actually the bond interface) back up in the next step
 
 	#Run the DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
-        ifconfig wlan0 up
-        pkill udhcpc
-        udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
+	ifconfig wlan0 up
+	pkill udhcpc
+	udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
 
 	# If running with Interface Bonding enabled, kill any existing
 	# wpa_supplicant that might be running and spawn our own instead
 
 	if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
-                echo "Restarting wpa_supplicant due to bonding"
+		echo "Restarting wpa_supplicant due to bonding"
 		/opt/wz_mini/bin/busybox killall wpa_supplicant
 		wpa_supplicant -D nl80211 -i wlanold -c /tmp/wpa_supplicant.conf -B -s
 	fi
 
-        if [ -f /opt/wz_mini/tmp/.T20 ]; then
-        	mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
-        else
-	        mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
-        fi
+	if [ -f /opt/wz_mini/tmp/.T20 ]; then
+		mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
+	else
+		mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
+	fi
 
 }
 
-if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
-	bonding_setup &
-fi
+
+case "$1" in
+	start)
+		if [[ "$BONDING_ENABLED" == "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]); then
+			bonding_setup &
+		fi
+                ;;
+		*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

@@ -1,52 +1,69 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Inject commands into app_init.sh
+# Description:       Patch app_init.sh to inject wz_mini's init.d scripts
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
 
-echo "Copy stock rcS"
-cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
+case "$1" in
+	start)
 
-echo "Add verbose debugging to rcS"
-sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
+		echo "#####$(basename "$0")#####"
 
-echo "Inject init.d scripts to rcS"
-sed -i '/^# Run init script.*/i/opt/wz_mini/etc/rc.d/K01network \&\n' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/^# Run init script.*/i/opt/wz_mini/etc/rc.d/K03rcd\n' /opt/wz_mini/tmp/.storage/rcS
+		echo "Copy stock rcS"
+		cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
 
-echo "Modify Global Paths in rcS"
-sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
+		echo "Add verbose debugging to rcS"
+		sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
 
-#Custom PATH hooks
-#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
-#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
+		echo "Inject init.d scripts to rcS"
+		sed -i '/^# Run init script.*/i/opt/wz_mini/etc/rc.d/K01network \&\n' /opt/wz_mini/tmp/.storage/rcS
+		sed -i '/^# Run init script.*/i/opt/wz_mini/etc/rc.d/K03rcd\n' /opt/wz_mini/tmp/.storage/rcS
 
-echo "Copy factory app_init.sh"
-cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+		echo "Modify Global Paths in rcS"
+		sed -i '/sbin:/s/$/:\/opt\/wz_mini\/bin/' /opt/wz_mini/tmp/.storage/rcS
+		sed -i '/system\/\lib/s/$/:\/opt\/wz_mini\/lib/' /opt/wz_mini/tmp/.storage/rcS
 
-echo "Replace factory app_init.sh path"
-sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh \&\n' /opt/wz_mini/tmp/.storage/rcS
-sed -i '/\/system\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
+		#Custom PATH hooks
+		#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
+		#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
+		echo "Copy factory app_init.sh"
+		cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
 
-if [[ "$DEBUG_ENABLED" == "true" ]]; then
-        sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
-        sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
-        touch /tmp/dbgflag
+		echo "Replace factory app_init.sh path"
+		sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+		sed -i '/Run init script.*/a /opt/wz_mini/tmp/.storage/app_init.sh \&\n' /opt/wz_mini/tmp/.storage/rcS
+		sed -i '/\/system\/init\/app_init.sh/,+2d' /opt/wz_mini/tmp/.storage/rcS
 
-elif [[ "$WEB_CAM_ENABLE" == "true" ]]; then
-        sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
-        sed -i '/^# Run init/i/opt/wz_mini/etc/rc.d/K02webcam &' /opt/wz_mini/tmp/.storage/rcS
-        touch /tmp/dbgflag
+		if [[ "$DEBUG_ENABLED" == "true" ]]; then
+			sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+			sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
+			touch /tmp/dbgflag
 
-elif [[ -d /opt/Upgrade ]]; then
-        sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
-        sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
-        sed -i '/^# Mount configs.*/i/opt/wz_mini/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
-        touch /tmp/dbgflag
-fi
+		elif [[ "$WEB_CAM_ENABLE" == "true" ]]; then
+			sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+			sed -i '/^# Run init/i/opt/wz_mini/etc/rc.d/K02webcam &' /opt/wz_mini/tmp/.storage/rcS
+			touch /tmp/dbgflag
 
-echo "Enable libcallback"
-if [[ "$LIBCALLBACK_ENABLE" == "true" ]] || ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]); then
-        echo "set path for iCamera"
-        sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
-fi
+		elif [[ -d /opt/Upgrade ]]; then
+			sed -i '/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS
+			sed -i '/^# Run init/i/bin/sh /etc/profile' /opt/wz_mini/tmp/.storage/rcS
+			sed -i '/^# Mount configs.*/i/opt/wz_mini/bin/upgrade-run.sh &\n' /opt/wz_mini/tmp/.storage/rcS
+			touch /tmp/dbgflag
+		fi
+
+		echo "Enable libcallback"
+		if [[ "$LIBCALLBACK_ENABLE" == "true" ]] || ([[ "$RTSP_HI_RES_ENABLED" == "true" ]] || [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]); then
+			echo "set path for iCamera"
+			sed -i 's/\/system\/bin\/iCamera/\/opt\/wz_mini\/usr\/bin\/iCamera/g' /opt/wz_mini/tmp/.storage/app_init.sh
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

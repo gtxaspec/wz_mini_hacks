@@ -2,12 +2,12 @@
 
 LOG_NAME=/opt/wz_mini/log/wz_cam
 if [[ -e $LOG_NAME.log || -L $LOG_NAME.log ]] ; then
-    i=0
-    while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
-        let i++
-    done
-        mv $LOG_NAME.log $LOG_NAME.log.$i
-    LOG_NAME=$LOG_NAME
+	i=0
+	while [[ -e $LOG_NAME.log.$i || -L $LOG_NAME.log.$i ]] ; do
+		let i++
+	done
+	mv $LOG_NAME.log $LOG_NAME.log.$i
+	LOG_NAME=$LOG_NAME
 fi
 touch -- "$LOG_NAME".log
 exec 1> $LOG_NAME.log 2>&1
@@ -19,16 +19,16 @@ export WZMINI_CFG=/opt/wz_mini/wz_mini.conf
 echo "welcome to wz_cam.sh"
 echo "PID $$"
 
-        if [ -f /opt/wz_mini/tmp/.T31 ]; then
+if [ -f /opt/wz_mini/tmp/.T31 ]; then
 
 	cp /opt/wz_mini/etc/uvc.config /opt/wz_mini/usr/bin/uvc.config
 
 	if [[ "WEB_CAM_FPS_RATE" != "" ]]; then
-	sed -i "s/fps_num         :30/fps_num         :$WEB_CAM_FPS_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
+		sed -i "s/fps_num         :30/fps_num         :$WEB_CAM_FPS_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 	fi
 
 	if [[ "WEB_CAM_BIT_RATE" != "" ]]; then
-	sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
+		sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 	fi
 
 	echo 1 > /proc/sys/vm/overcommit_memory
@@ -47,10 +47,10 @@ echo "PID $$"
 
 	sleep 1
 
-	#Set dwc2 ID_PIN driver memory
+	echo "Set dwc2 ID_PIN driver memory"
 	devmem 0x13500000 32 0x001100cc
 	devmem 0x10000040 32 0x0b000096
-	#wipe the bits to set the ID_PIN
+	echo "Wipe dwc2 memory bits to set the ID_PIN"
 	devmem 0x10000040 32 0x0b000FFF
 
 	sleep 1
@@ -69,11 +69,11 @@ else
 	cp /opt/wz_mini/etc/uvc_v2.config /opt/wz_mini/usr/bin/uvc.config
 
 	if [[ "WEB_CAM_FPS_RATE" != "" ]]; then
-	sed -i "s/fps_num         :30/fps_num         :$WEB_CAM_FPS_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
+		sed -i "s/fps_num         :30/fps_num         :$WEB_CAM_FPS_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 	fi
 
 	if [[ "WEB_CAM_BIT_RATE" != "" ]]; then
-	sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
+		sed -i "s/bitrate         :8000/bitrate         :$WEB_CAM_BIT_RATE/" "/opt/wz_mini/usr/bin/uvc.config"
 	fi
 
 	mount --bind /opt/wz_mini/usr/bin /system/bin

@@ -1,16 +1,34 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: FW Upgrade Intercept
+# Description:       Intercept FW Upgrades from vendor
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
 
-if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
-        mkdir /tmp/Upgrade
-        mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
-        #Setting this host causes iCamera to segfault, lets ignore it for now
-        #echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
-        #mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
-        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
-	echo "Firmware updates disabled"
-else
-        mkdir /tmp/Upgrade
-        /opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
-fi
+case "$1" in
+	start)
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$DISABLE_FW_UPGRADE" == "true" ]]; then
+			mkdir /tmp/Upgrade
+			mount -t tmpfs -o size=1,nr_inodes=1 none /tmp/Upgrade
+			#Setting this host causes iCamera to segfault, lets ignore it for now
+			#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
+			#mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
+			/opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
+			echo "Firmware updates disabled"
+		else
+			echo "Firmwware updates enabled, monitor script running"
+			mkdir /tmp/Upgrade
+			/opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

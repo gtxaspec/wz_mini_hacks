@@ -1,13 +1,31 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start cron daemon
+# Description:       Enable cron service
+### END INIT INFO
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
 
 autostart_crond() {
-wait_for_wlan_ip
-/opt/wz_mini/tmp/.bin/crond -b -c /opt/wz_mini/etc/cron/
+	wait_for_wlan_ip $(basename "$0")
+
+	echo "#####$(basename "$0")#####"
+
+	/opt/wz_mini/tmp/.bin/crond -b -c /opt/wz_mini/etc/cron/
 }
 
-if [[ "$ENABLE_CRONTAB" == "true" ]]; then
-autostart_crond &
-fi
+
+case "$1" in
+	start)
+		if [[ "$ENABLE_CRONTAB" == "true" ]]; then
+			autostart_crond &
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

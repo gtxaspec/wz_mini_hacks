@@ -6,12 +6,12 @@ echo "Store dmesg logs"
 
 DMESG_LOG=/opt/wz_mini/log/dmesg
 if [[ -e $DMESG_LOG.log || -L $DMESG_LOG.log ]] ; then
-    i=0
-    while [[ -e $DMESG_LOG.log.$i || -L $DMESG_LOG.log.$i ]] ; do
-        let i++
-    done
-        mv $DMESG_LOG.log $DMESG_LOG.log.$i
-    DMESG_LOG=$DMESG_LOG
+	i=0
+	while [[ -e $DMESG_LOG.log.$i || -L $DMESG_LOG.log.$i ]] ; do
+		let i++
+	done
+	mv $DMESG_LOG.log $DMESG_LOG.log.$i
+	DMESG_LOG=$DMESG_LOG
 fi
 touch -- "$DMESG_LOG".log
 dmesg > $DMESG_LOG.log 2>&1
@@ -19,5 +19,5 @@ dmesg > $DMESG_LOG.log 2>&1
 echo "Deleting logs older than 5 boots..."
 
 find /opt/wz_mini/log -name '*log*' | while read file; do
-  [ "${file#/opt/wz_mini/log/*log.}" -gt 5 ] && rm -v "$file"
+[ "${file#/opt/wz_mini/log/*log.}" -gt 5 ] && rm -v "$file"
 done

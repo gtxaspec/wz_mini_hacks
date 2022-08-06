@@ -1,14 +1,14 @@
 #!/bin/sh
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
 
 if [ -e /tmp/dbgflag ]; then
-        echo "debug enabled, network.d disabled."
-        exit 0
+	echo "debug enabled, network.d disabled."
+	exit 0
 fi
 
-wait_for_wlan
+wait_for_wlan $(basename "$0")
 
 for i in /opt/wz_mini/etc/network.d/S??* ;do
 
@@ -16,22 +16,22 @@ for i in /opt/wz_mini/etc/network.d/S??* ;do
      [ ! -f "$i" ] && continue
 
      case "$i" in
-        *.sh)
-            # Source shell script for speed.
-            (
-                trap - INT QUIT TSTP
-                set start
-                . $i
-            )
-            ;;
-        *)
-            # No sh extension, so fork subprocess.
-            $i start
-            ;;
-    esac
+	     *.sh)
+		     # Source shell script for speed.
+		     (
+		     trap - INT QUIT TSTP
+		     set start
+		     . $i
+	     )
+	     ;;
+     *)
+	     # No sh extension, so fork subprocess.
+	     $i start
+	     ;;
+esac
 done
 
-wait_for_wlan_ip
+wait_for_wlan_ip $(basename "$0")
 
 for i in /opt/wz_mini/etc/rc.local.d/* ;do
 
@@ -39,27 +39,27 @@ for i in /opt/wz_mini/etc/rc.local.d/* ;do
      [ ! -f "$i" ] && continue
 
      case "$i" in
-        *.sh)
-            # Source shell script for speed.
-            (
-                trap - INT QUIT TSTP
-                set start
-                . $i
-            )
-            ;;
-        *)
-            # No sh extension, so fork subprocess.
-            $i start
-            ;;
-    esac
+	     *.sh)
+		     # Source shell script for speed.
+		     (
+		     trap - INT QUIT TSTP
+		     set start
+		     . $i
+	     )
+	     ;;
+     *)
+	     # No sh extension, so fork subprocess.
+	     $i start
+	     ;;
+esac
 done
 
 
 if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
-        echo "Starting custom script"
-        $CUSTOM_SCRIPT_PATH &
+	echo "Starting custom script"
+	$CUSTOM_SCRIPT_PATH &
 else
-        echo "No custom script configured in wz_mini.conf"
+	echo "No custom script configured in wz_mini.conf"
 fi
 
 /opt/wz_mini/etc/rc.d/K15logging

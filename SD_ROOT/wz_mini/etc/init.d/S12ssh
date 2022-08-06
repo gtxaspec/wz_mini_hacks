@@ -1,5 +1,23 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start ssh daemon
+# Description:       Run the dropbear ssh daemon
+### END INIT INFO
 
-echo "Run dropbear ssh server"
-/opt/wz_mini/bin/dropbear -R -s -g
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		echo "Running dropbear ssh server"
+		/opt/wz_mini/bin/dropbear -R -s -g
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
 

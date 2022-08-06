@@ -1,18 +1,33 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Remote USB Accessory Support
+# Description:       If enabled, support remote usb accessories using socat
+### END INIT INFO
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
 
 remote() {
+	wait_for_wlan_ip $(basename "$0")
 
-wait_for_wlan_ip
+	echo "#####$(basename "$0")#####"
 
-if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
-        /opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
-        echo "Remote accessory support enabled"
-else
-        echo "Remote accessory support disabled"
-fi
+	if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
+		/opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
+		echo "Remote accessory support enabled"
+	else
+		echo "Remote accessory support disabled"
+	fi
 }
 
-remote &
+case "$1" in
+	start)
+		remote &
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

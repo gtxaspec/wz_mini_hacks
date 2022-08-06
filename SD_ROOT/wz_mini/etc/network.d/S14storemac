@@ -1,9 +1,29 @@
 #!/bin/sh
 
-source /opt/wz_mini/etc/rc.common
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Store WLAN HW Address
+# Description:       Store the WLAN HW Address for use by other scripts
+### END INIT INFO
 
-wait_for_wlan_wpa
+. /opt/wz_mini/etc/rc.common
 
-cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
-echo "store original mac"
+storemac() {
+	wait_for_wlan_wpa $(basename "$0")
+
+	echo "#####$(basename "$0")#####"
+
+	cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+	echo "store original mac"
+}
+
+case "$1" in
+	start)
+		storemac
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
 

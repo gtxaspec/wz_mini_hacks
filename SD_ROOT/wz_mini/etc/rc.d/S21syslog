@@ -1,28 +1,43 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Store syslogs
+# Description:       Enable storing of syslogs to media
+### END INIT INFO
 
-source /opt/wz_mini/etc/rc.common
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
 
 syslog_save() {
+	wait_for_icamera
 
-wait_for_icamera
+	echo "#####$(basename "$0")#####"
 
-if [[ "$ENABLE_SYSLOG_SAVE" == "true" ]]; then
-echo "Store syslog logs"
+	if [[ "$ENABLE_SYSLOG_SAVE" == "true" ]]; then
+		echo "Store syslog logs"
 
-SYSLOG_LOG=/opt/wz_mini/log/syslog
-if [[ -e $SYSLOG_LOG.log || -L $SYSLOG_LOG.log ]] ; then
-    i=0
-    while [[ -e $SYSLOG_LOG.log.$i || -L $SYSLOG_LOG.log.$i ]] ; do
-        let i++
-    done
-        mv $SYSLOG_LOG.log $SYSLOG_LOG.log.$i
-    SYSLOG_LOG=$SYSLOG_LOG
-fi
-touch -- "$SYSLOG_LOG".log
-logread -F > $SYSLOG_LOG.log &
-fi
+		SYSLOG_LOG=/opt/wz_mini/log/syslog
+		if [[ -e $SYSLOG_LOG.log || -L $SYSLOG_LOG.log ]] ; then
+			i=0
+			while [[ -e $SYSLOG_LOG.log.$i || -L $SYSLOG_LOG.log.$i ]] ; do
+				let i++
+			done
+			mv $SYSLOG_LOG.log $SYSLOG_LOG.log.$i
+			SYSLOG_LOG=$SYSLOG_LOG
+		fi
+		touch -- "$SYSLOG_LOG".log
+		logread -F > $SYSLOG_LOG.log &
+	fi
 
 }
 
-syslog_save &
+case "$1" in
+	start)
+		syslog_save &
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

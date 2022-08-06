@@ -1,7 +1,26 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Disable factorycheck
+# Description:       On T31 devices, we must disable factory check to prevent it from unmounting our binds.
+### END INIT INFO
 
-if [ -f /opt/wz_mini/tmp/.T31 ]; then
-        mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
-	touch /tmp/usrflag
-	echo "Replace factorycheck with dummy, to prevent bind unmount"
-fi
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [ -f /opt/wz_mini/tmp/.T31 ]; then
+			mount --bind /opt/wz_mini/bin/factorycheck /system/bin/factorycheck
+			touch /tmp/usrflag
+			echo "Replace factorycheck with dummy, to prevent bind unmount"
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

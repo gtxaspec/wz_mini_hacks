@@ -10,7 +10,7 @@ if [ -d /opt/wz_mini/tmp/log_gather ] ; then
 	rm -rf /opt/wz_mini/tmp/log_gather
 	create_dir
 else
-create_dir
+	create_dir
 fi
 
 echo "copy wz_mini logs"
@@ -64,8 +64,8 @@ if [ -f /tmp/sd_check_result.txt ]; then
 fi
 
 if [[ "$RTSP_PASSWORD" == "" ]]; then
-        echo "password is blank in config"
-        RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+	echo "password is blank in config"
+	RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
 fi
 
 cd /opt/wz_mini/tmp/log_gather

@@ -1,8 +1,27 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Check for terminfo directory
+# Description:       Provide the proper terminfo files for nano and shells
+### END INIT INFO
 
-if [ -d /opt/wz_mini/usr/share/terminfo ]; then
-        echo "Terminfo already present"
-else
-        echo "Terminfo not present, extract"
-        tar xf /opt/wz_mini/usr/share/terminfo.tar -C /opt/wz_mini/usr/share/
-fi
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [ -d /opt/wz_mini/usr/share/terminfo ]; then
+			echo "Terminfo already present"
+		else
+			echo "Terminfo not present, extract"
+			tar xf /opt/wz_mini/usr/share/terminfo.tar -C /opt/wz_mini/usr/share/
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

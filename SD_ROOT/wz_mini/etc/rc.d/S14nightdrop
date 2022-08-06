@@ -1,8 +1,25 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Enable NightDrop support
+# Description:       Prevent the system from dropping FPS during night mode
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
 
-if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
-	echo "Night Drop Disable, Enabled"
-	touch /opt/wz_mini/tmp/.nd
-fi
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$NIGHT_DROP_DISABLE" == "true" ]]; then
+			echo "Night Drop Disable, Enabled"
+			touch /opt/wz_mini/tmp/.nd
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

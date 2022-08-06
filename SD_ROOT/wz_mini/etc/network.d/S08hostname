@@ -1,6 +1,25 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Set system hostname
+# Description:       Set system hostname
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
 
-echo "Set hostname to $CUSTOM_HOSTNAME"
-hostname $CUSTOM_HOSTNAME
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+
+		echo "Set hostname to $CUSTOM_HOSTNAME"
+		hostname $CUSTOM_HOSTNAME
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

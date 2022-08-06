@@ -1,5 +1,23 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Setup BusyBox
+# Description:       Install BusyBox applets to wz_mini $PATH
+### END INIT INFO
 
-echo "Install busybox applets"
-mkdir /opt/wz_mini/tmp/.bin
-/opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		echo "Install busybox applets"
+		mkdir /opt/wz_mini/tmp/.bin
+		/opt/wz_mini/bin/busybox --install -s /opt/wz_mini/tmp/.bin
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

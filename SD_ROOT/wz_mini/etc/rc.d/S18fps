@@ -1,23 +1,39 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Set system FPS
+# Description:       Set system FPS if greater than factory defaults
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/wz_mini.conf
 
-#Set system FPS if greater than default
+case "$1" in
+	start)
 
-if [ $RTSP_HI_RES_FPS -gt 20 ]; then
+		echo "#####$(basename "$0")#####"
 
-        if cat /configs/.user_config |  grep fps; then
-                sed -i "s/fps.*/fps\=$RTSP_HI_RES_FPS/" /configs/.user_config
-        else
-                sed -i "/\[SETTING\].*/a fps=$RTSP_HI_RES_FPS" /configs/.user_config
-        fi
+		echo "Seting system FPS if greater than default"
 
-elif [ $RTSP_LOW_RES_FPS -gt 20 ]; then
+		if [ $RTSP_HI_RES_FPS -gt 20 ]; then
+			if cat /configs/.user_config |  grep fps; then
+				sed -i "s/fps.*/fps\=$RTSP_HI_RES_FPS/" /configs/.user_config
+			else
+				sed -i "/\[SETTING\].*/a fps=$RTSP_HI_RES_FPS" /configs/.user_config
+			fi
 
-        if cat /configs/.user_config |  grep fps; then
-                sed -i "s/fps.*/fps\=$RTSP_LOW_RES_FPS/" /configs/.user_config
-        else
-                sed -i "/\[SETTING\].*/a fps=$RTSP_LOW_RES_FPS" /configs/.user_config
-        fi
+		elif [ $RTSP_LOW_RES_FPS -gt 20 ]; then
+			if cat /configs/.user_config |  grep fps; then
+				sed -i "s/fps.*/fps\=$RTSP_LOW_RES_FPS/" /configs/.user_config
+			else
+				sed -i "/\[SETTING\].*/a fps=$RTSP_LOW_RES_FPS" /configs/.user_config
+			fi
 
-fi
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

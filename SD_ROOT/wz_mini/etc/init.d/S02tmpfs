@@ -1,12 +1,30 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Mount tmpfs
+# Description:       Mount tmpfs for system and wz_mini
+### END INIT INFO
 
-source /opt/wz_mini/wz_mini.conf
+./opt/wz_mini/wz_mini.conf
 
-echo "Mount wz_mini tmpfs"
-mount -t tmpfs /opt/wz_mini/tmp
+case "$1" in
+	start)
 
-echo "Create workspace directory"
-mkdir /opt/wz_mini/tmp/.storage
+		echo "#####$(basename "$0")#####"
 
-echo "Mounting global tmpfs"
-mount -t tmpfs /tmp
+		echo "Mount wz_mini tmpfs"
+		mount -t tmpfs /opt/wz_mini/tmp
+
+		echo "Create workspace directory"
+		mkdir /opt/wz_mini/tmp/.storage
+
+		echo "Mounting global tmpfs"
+		mount -t tmpfs /tmp
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
