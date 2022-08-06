@@ -45,7 +45,7 @@ function revert_config
 
 function revert_menu
 {
-   echo '<a href="revert" >Revert Menu</a>'
+   echo '<h2 id="revert" >Revert Menu</a>'
    echo '<div class="old_configs">'
    echo 'Prior Versions : ' 
    xuff=0
