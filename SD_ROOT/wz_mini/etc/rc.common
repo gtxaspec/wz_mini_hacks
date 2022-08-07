@@ -67,7 +67,7 @@ gateway_supervisor() {
 			ifconfig usb0 down
 			sleep 10
 		else
-			if [[ $con -ne 1 ]]
+			if [[ $count -ne 1 ]]
 			then
 				#echo "Connected."
 				count=1
