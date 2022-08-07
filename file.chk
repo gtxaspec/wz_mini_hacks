@@ -24,7 +24,7 @@ bd11d9a8352eca6a16554c87be50b2f5  SD_ROOT/wz_mini/www/index.html
 ad5cdda7609e706adb152c0c05e4133e  SD_ROOT/wz_mini/etc/network.d/S16rtmp
 a09fe94aa6f18319db58947a1f252c3f  SD_ROOT/wz_mini/etc/network.d/S09dnsmasq
 b77697b15e4d6e32e6e2c8c07cbceee2  SD_ROOT/wz_mini/etc/network.d/S04wireguard
-f533b22f12b6952e2567299fd58fc927  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
+8951687f507171ad88e79ad29aba4388  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
 5a3469d5e53cac8d59a0fb2feffaa9e3  SD_ROOT/wz_mini/etc/network.d/S15v4l2rtspserver
 d3ac671f88b6d639926b9f5f9a40da6e  SD_ROOT/wz_mini/etc/network.d/S01wlanhw
 6621e94ec289678afff70a2b51b42f77  SD_ROOT/wz_mini/etc/network.d/S10httpd
@@ -62,7 +62,7 @@ ca8d8d8a60b3dc255133151ba33e0eb3  SD_ROOT/wz_mini/etc/rc.d/S17motor
 03ca145794cedfe4748692dd6341839e  SD_ROOT/wz_mini/etc/rc.d/S10firmware
 5e81ec81999790b247ef2af25cc34cb6  SD_ROOT/wz_mini/etc/rc.d/K03rcd
 ebfa49291afc96c4dd306101b7dec31c  SD_ROOT/wz_mini/etc/rc.d/K02webcam
-13b64fc52cb799b9575517830ca357ba  SD_ROOT/wz_mini/etc/rc.d/S07bonding
+60d4ae31b12857888ae1643c89ef3a53  SD_ROOT/wz_mini/etc/rc.d/S07bonding
 de825dae173ec43983d6ffa1a293060e  SD_ROOT/wz_mini/etc/rc.d/S06networkalt
 10908c95aa008ffa6ae53c6583d16ad2  SD_ROOT/wz_mini/etc/rc.d/S14nightdrop
 264bd2ac40adf4c24c081b53f9763996  SD_ROOT/wz_mini/etc/rc.d/S03ethernet
@@ -152,9 +152,10 @@ ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 1e64fdad40c82ecce420f71701ec3d6d  SD_ROOT/wz_mini/usr/bin/watch_up.sh
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 20b061689308b2cee7edf3b9b906bca7  SD_ROOT/wz_mini/usr/bin/ucamera
+0eb84a5016aa5a58435e21348abea879  SD_ROOT/wz_mini/usr/bin/netmon.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-c78716b683ce1d2b180bfbfcfc02df42  SD_ROOT/wz_mini/usr/bin/app.ver
+d4f17fc273e3e1624de2977dd6eac28c  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
