@@ -25,6 +25,9 @@ case "$1" in
 	start)
 		remote &
 		;;
+	stop)
+		pkill socat
+		;;
 	*)
 		echo "Usage: $0 {start}"
 		exit 1

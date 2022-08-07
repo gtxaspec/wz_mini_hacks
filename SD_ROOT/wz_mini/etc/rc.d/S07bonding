@@ -78,6 +78,9 @@ bonding_setup() {
 		mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	fi
 
+	echo "Run network monitor for USB Direct"
+        /opt/wz_mini/usr/bin/netmon.sh &
+
 }
 
 
