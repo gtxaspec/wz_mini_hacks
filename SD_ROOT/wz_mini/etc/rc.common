@@ -58,3 +58,24 @@ wait_for_icamera() {
 	done
 }
 
+gateway_supervisor() {
+	count=0
+	while [ true ]; do
+		if ! ping -c1 -W 2 `/opt/wz_mini/bin/busybox ip route | awk '/default/ { print $3 }'` >& /dev/null; then
+			echo "$1: Unable to reach default route via USB Direct Link, ifdown usb0..."
+			count=0
+			ifconfig usb0 down
+			sleep 10
+		else
+			if [[ $con -ne 1 ]]
+			then
+				#echo "Connected."
+				count=1
+				sleep 5
+			fi
+			sleep 1
+		fi
+
+	done
+}
+
