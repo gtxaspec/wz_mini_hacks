@@ -347,7 +347,8 @@ Forces the camera to skip writing files to /tmp, and write them directly to your
 
 ---
 
-Use as a USB Video Class (UVC) Web Camera for your PC is supported.  I have tested with Windows 10, Linux, and Android TV, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
+### USB Video Class (UVC) Web Camera
+Use as a WebCam for your PC is supported.  I have tested with Windows 10, Linux, and Android TV, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
 
 Supported modes: MJPG,Video 360p/720p/1080p
 
@@ -359,17 +360,17 @@ WEB_CAM_FPS_RATE="25"
 
 ---
 
-Run a custom script:
+### Run a custom script:
 
 ```
 CUSTOM_SCRIPT_PATH=""
 ```
 
-Note: any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, irregardless of the custom script variable specified in the configuration.
+**Note:** any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, irregardless of the custom script variable specified in the configuration.
 
 ---
 
-RTMP Streaming:
+### RTMP Streaming:
 
 ```
 RTMP_STREAM_ENABLED="true"
@@ -385,7 +386,9 @@ Live stream DIRECTLY from the camera's local RTSP server to: `youtube` / `twitch
 
 ---
 
-IMP_CONTROL:  Tune various audio and video parameters supported by IMP.  Only available when RTSP server is enabled, values are reset to default upon reboot.
+### IMP_CONTROL:
+**Only available when RTSP server is enabled, values are reset to default upon reboot.**
+Tune various audio and video parameters supported by IMP.
 
 `cmd imp_control <command> <value>`
 
@@ -440,7 +443,7 @@ exposure value support
 
 ---
 
-Upgrade wz_mini over the air:
+### Upgrade wz_mini over the air:
 
 `upgrade-run.sh`
 
@@ -448,10 +451,11 @@ This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, a
 
 If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
 
-NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
+**NOTE:** if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
 
 ---
 
+### FPS Drop during NightVision:
 ```
 NIGHT_DROP_DISABLE="true"
 ```
@@ -460,15 +464,18 @@ Stop the camera from dropping the frame rate during nightvision.
 
 ---
 
+### WiFi Drivers (ADVANCED!!!):
+ **Disable only if you know what you are doing.**
+ 
 ```
 ENABLE_RTL8189FS_DRIVER="true"
 ENABLE_ATBM603X_DRIVER="true"
 ```
 
-Enabled by default.  These options control the WiFi Drivers.  V2/V3 use the 8189fs.ko driver, and certain v3 models and all currently shipping pan v2 models use the atbm603x driver.  These are required for operation of wz_mini, and disabling these will lead to a system crash, due to an updated kernel.  This change was required to support full iptables and connection tracking operation, since they are not supported on the really outdated factory drivers.  My testing shows better stability and performance.  Disable only if you know what you are doing.
+**Enabled by default.**  These options control the WiFi Drivers.  V2/V3 use the 8189fs.ko driver, and certain v3 models and all currently shipping pan v2 models use the atbm603x driver.  These are required for operation of wz_mini, and disabling these will lead to a system crash, due to an updated kernel.  This change was required to support full iptables and connection tracking operation, since they are not supported on the really outdated factory drivers.  My testing shows better stability and performance.
 
 ---
-
+### Disable Motor Controls:
 ```
 DISABLE_MOTOR="true"
 ```
@@ -477,6 +484,7 @@ Disable the movement capability on motorized devices.  You will no longer be abl
 
 ---
 
+### File System Check/Repair:
 ```
 ENABLE_FSCK_ON_BOOT="true"
 ```
@@ -485,6 +493,7 @@ run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the 
 
 ---
 
+### Car Driver:
 ```
 ENABLE_CAR_DRIVER="true"
 ```
@@ -498,6 +507,8 @@ Loads the appropriate driver for the car to function.  On devices other than a V
 
 ---
 
+### Local DNS resolver
+ *May fix DNS Flooding*
 ```
 ENABLE_LOCAL_DNS="true"
 ```
@@ -505,15 +516,16 @@ ENABLE_LOCAL_DNS="true"
 Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes potential DNS flooding on the local network.  Upstream DNS servers may be specified in `wz_mini/etc/resolv.dnsmasq`
 
 ---
-
+### Web Server:
 ```
 WEB_SERVER_ENABLED="true"
 ```
 
-Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<ip>/`  Thank you @virmaior!
+Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<Camera IP>/`  Thank you @virmaior!
 
 ---
 
+ ### SYSLOG:
 ```
 ENABLE_SYSLOG_SAVE="true"
 ```
@@ -521,7 +533,7 @@ ENABLE_SYSLOG_SAVE="true"
 Save the syslog to the `logs/` directory
 
 ---
-
+### Cron
 ```
 ENABLE_CRONTAB="true"
 ```
