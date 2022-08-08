@@ -22,7 +22,7 @@ e344ffc55222c029c5d324037a5aa1f3  SD_ROOT/wz_mini/www/car/car.js
 63b23f78d6703f0c9a2e970604104996  SD_ROOT/wz_mini/www/car/car.html
 bd11d9a8352eca6a16554c87be50b2f5  SD_ROOT/wz_mini/www/index.html
 ad5cdda7609e706adb152c0c05e4133e  SD_ROOT/wz_mini/etc/network.d/S16rtmp
-a09fe94aa6f18319db58947a1f252c3f  SD_ROOT/wz_mini/etc/network.d/S09dnsmasq
+f52d0d1cb2ab5411dc1039137e78a5a6  SD_ROOT/wz_mini/etc/network.d/S09dnsmasq
 b77697b15e4d6e32e6e2c8c07cbceee2  SD_ROOT/wz_mini/etc/network.d/S04wireguard
 8951687f507171ad88e79ad29aba4388  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
 5a3469d5e53cac8d59a0fb2feffaa9e3  SD_ROOT/wz_mini/etc/network.d/S15v4l2rtspserver
@@ -156,7 +156,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 071b974925501c4b83f2dd546d90febd  SD_ROOT/wz_mini/usr/bin/netmon.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-4e484211ce1db9390680d442bb712a42  SD_ROOT/wz_mini/usr/bin/app.ver
+0b79dc31cb0886064b5c7feb7526a45b  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so

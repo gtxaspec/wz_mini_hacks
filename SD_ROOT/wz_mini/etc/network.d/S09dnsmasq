@@ -6,18 +6,25 @@
 ### END INIT INFO
 
 . /opt/wz_mini/wz_mini.conf
+. /opt/wz_mini/etc/rc.common
+
+dnsmasq_launch() {
+
+	wait_for_wlan_ip
+
+	echo "#####$(basename "$0")#####"
+
+	if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+		dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+		rm -f /tmp/resolv.conf
+		cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+		echo "dnsmasq enabled"
+	fi
+}
 
 case "$1" in
 	start)
-
-		echo "#####$(basename "$0")#####"
-
-		if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
-			dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
-			rm -f /tmp/resolv.conf
-			cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
-			echo "dnsmasq enabled"
-		fi
+		dnsmasq_launch &
 		;;
 	stop)
 		pkill dnsmasq
