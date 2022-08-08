@@ -38,18 +38,10 @@ case "$1" in
 			rm -rf /opt/wz_mini/tmp/configs
 		fi
 
-		#Check for Car FW
-		if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
-			if cat /system/bin/app.ver | grep 4.55; then
-				touch /opt/wz_mini/tmp/.CAR
-				echo "Car FW detected!"
-			fi
-		fi
-
 		;;
 	*)
 		echo "Usage: $0 {start}"
-			exit 1
+		exit 1
 		;;
 esac
 
