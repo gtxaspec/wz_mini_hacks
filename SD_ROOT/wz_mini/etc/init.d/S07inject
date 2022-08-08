@@ -16,7 +16,7 @@ case "$1" in
 		cp /etc/init.d/rcS /opt/wz_mini/tmp/.storage/rcS
 
 		echo "Add verbose debugging to rcS"
-		sed -i '/^".*/aset -x' /opt/wz_mini/tmp/.storage/rcS
+		sed -i '/^\# Set mdev.*/iset -x\n' /opt/wz_mini/tmp/.storage/rcS
 
 		echo "Inject init.d scripts to rcS"
 		sed -i '/^# Run init script.*/i/opt/wz_mini/etc/rc.d/K01network \&\n' /opt/wz_mini/tmp/.storage/rcS
