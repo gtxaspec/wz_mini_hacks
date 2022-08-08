@@ -1,0 +1,38 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: MP4WRITE Support
+# Description:       Prevent system trashing with mp4write support provided by libcallback, temporary video files are written direct to media instead of /tmp
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+mp4write() {
+
+	wait_for_icamera
+
+	echo "#####$(basename "$0")#####"
+
+	if [[ "$ENABLE_MP4_WRITE" == "true" ]]; then
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
+			echo "mp4_write is not supported on T20"
+		else
+			/opt/wz_mini/bin/cmd mp4write on > /dev/null
+			echo "mp4_write enabled"
+		fi
+	else
+		echo "mp4_write disabled"
+	fi
+}
+
+case "$1" in
+	start)
+		mp4write &
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

@@ -300,7 +300,7 @@ RTSP_HI_RES_ENABLE_AUDIO="true"
 RTSP_HI_RES_MAX_BITRATE="2048"
 RTSP_HI_RES_TARGET_BITRATE="1024"
 RTSP_HI_RES_ENC_PARAMETER="2"
-RTSP_HI_RES_FPS="15"
+RTSP_HI_RES_FPS=""
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
@@ -308,9 +308,16 @@ RTSP_LOW_RES_MAX_BITRATE=""
 RTSP_LOW_RES_TARGET_BITRATE=""
 RTSP_LOW_RES_ENC_PARAMETER=""
 RTSP_LOW_RES_FPS=""
+
+RTSP_AUTH_DISABLE="false"
+
 ```
 the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
 multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
+
+You may disable authentication by setting `RTSP_AUTH_DISABLE` to true.
+
+Setting the FPS is not required unless you want to change the default device settings.
 
 Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
@@ -321,7 +328,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 mp4_write:
 
 ```
-ENABLE_MP4_WRITE="false"
+ENABLE_MP4_WRITE="true"
 ```
 
 Forces the camera to skip writing files to /tmp, and write them directly to your storage medium or network mount, prevents trashing.  Normally videos are written to /tmp then moved using `mv`, which can overload camera and or remote network connections. Useful for NFS/CIFS remote video storage.
@@ -434,7 +441,7 @@ NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you m
 ---
 
 ```
-NIGHT_DROP_DISABLE="false"
+NIGHT_DROP_DISABLE="true"
 ```
 
 Stop the camera from dropping the frame rate during nightvision.
@@ -495,8 +502,25 @@ Enables the local webserver, for configuration, car control, or to retreive an i
 
 ---
 
+```
+ENABLE_SYSLOG_SAVE="true"
+```
+
+Save the syslog to the `logs/` directory
+
+---
+
+```
+ENABLE_CRONTAB="true"
+```
+
+Enable crontab.  Located at `wz_mini/etc/cron/root`
+
+---
+
 ## Latest Updates
 
+* 08-07-22:  Updated init.d scripts.  Added syslog save feature.  Fixed orientation issue on T31 devices in webcam mode.  Added crontab support.
 * 07-25-22:  Add dnsmasq local dns option in configuration to prevent dns flooding on local networks.  Added web server capability for configuration and car control.
 * 07-14-22:  Add car compatability with normally unsupported devices.
 * 07-13-22:  Includes latest build of libcallback, better RTSP video and audio performance: fixed broken audio caused by motor_stop on T20 devices, fixed waitMotion errors. `cmd jpeg` currently still broken on T20 devices,  updated scripts to account for changed.  Some usage of `cmd` has changes, please see command output.  Kernel & modules updated to prepare for H265 support on T31.

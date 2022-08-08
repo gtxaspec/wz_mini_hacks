@@ -1,0 +1,34 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+			dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+			rm -f /tmp/resolv.conf
+			cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+			echo "dnsmasq enabled"
+		fi
+		;;
+	stop)
+		pkill dnsmasq
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop}"
+		exit 1
+		;;
+esac
+

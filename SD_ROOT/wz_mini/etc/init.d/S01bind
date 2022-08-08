@@ -1,0 +1,41 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Bind mount system files.
+# Description:       Replace specific system files with our customized versions via bind mount
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		echo "Replace stock busybox"
+		mount --bind /opt/wz_mini/bin/busybox /bin/busybox
+
+		echo "Replace stock fstab"
+		mount --bind /opt/wz_mini/etc/fstab /etc/fstab
+
+		echo "Replace stock inittab"
+		mount --bind /opt/wz_mini/etc/inittab /etc/inittab
+
+		echo "Replace /etc/profile for local/ssh shells"
+		mount --bind /opt/wz_mini/etc/profile /etc/profile
+
+		if [ -d /lib/modules ]; then
+			echo "Mount kernel modules in /lib"
+			mount --bind /opt/wz_mini/lib/modules /lib/modules
+		fi
+
+		echo "Replace system hostname"
+
+		echo $CUSTOM_HOSTNAME > /opt/wz_mini/etc/hostname
+		mount --bind /opt/wz_mini/etc/hostname /etc/hostname
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac

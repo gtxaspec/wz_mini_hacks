@@ -1,0 +1,67 @@
+#!/bin/sh
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+if [ -e /tmp/dbgflag ]; then
+	echo "debug enabled, network.d disabled."
+	exit 0
+fi
+
+wait_for_wlan $(basename "$0")
+
+for i in /opt/wz_mini/etc/network.d/S??* ;do
+
+     # Ignore dangling symlinks (if any).
+     [ ! -f "$i" ] && continue
+
+     case "$i" in
+	     *.sh)
+		     # Source shell script for speed.
+		     (
+		     trap - INT QUIT TSTP
+		     set start
+		     . $i
+	     )
+	     ;;
+     *)
+	     # No sh extension, so fork subprocess.
+	     $i start
+	     ;;
+esac
+done
+
+wait_for_wlan_ip $(basename "$0")
+
+for i in /opt/wz_mini/etc/rc.local.d/* ;do
+
+     # Ignore dangling symlinks (if any).
+     [ ! -f "$i" ] && continue
+
+     case "$i" in
+	     *.sh)
+		     # Source shell script for speed.
+		     (
+		     trap - INT QUIT TSTP
+		     set start
+		     . $i
+	     )
+	     ;;
+     *)
+	     # No sh extension, so fork subprocess.
+	     $i start
+	     ;;
+esac
+done
+
+
+if [ -f "$CUSTOM_SCRIPT_PATH" ]; then
+	echo "Starting custom script"
+	$CUSTOM_SCRIPT_PATH &
+else
+	echo "No custom script configured in wz_mini.conf"
+fi
+
+/opt/wz_mini/etc/rc.d/K15logging
+
+echo "wz_mini done" > /dev/kmsg

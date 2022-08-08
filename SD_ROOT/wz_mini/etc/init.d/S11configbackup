@@ -1,0 +1,52 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Backup critical device files
+# Description:       Backup /configs and /params directory, these files are unique to the device, and if lost the camera is unusable.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [ -d /opt/.wz_backup ]; then
+			echo "Factory config backup directory missing"
+		else
+			echo "Creating factory config backup directory"
+			mkdir /opt/.wz_backup
+		fi
+
+		if [ -f /opt/wz_mini/tmp/.T31 ]; then
+			echo "T31 platform backup"
+			if [ -d /opt/.wz_backup/configs ]; then
+				echo "Factory configs backup directory present, not backing up again"
+			else
+				echo "Backup /configs"
+				cp -R /configs/ /opt/.wz_backup/
+			fi
+		elif [ -f /opt/wz_mini/tmp/.T20 ]; then
+			echo "T20 platform backup"
+			if [ -d /opt/.wz_backup/configs ]; then
+				echo "Factory configs backup directory present, not backing up again"
+			else
+				echo "Backup /configs"
+				cp -R /configs/ /opt/.wz_backup/
+			fi
+
+			if [ -d /opt/.wz_backup/params ]; then
+				echo "Factory params backup directory present, not backing up again"
+			else
+				echo "Backup /params"
+				cp -R /params/ /opt/.wz_backup/
+			fi
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
