@@ -101,7 +101,7 @@ Using this project can potentially expose your device to the open internet depen
 1. Insert the micro sd memory card into the camera
 2. Hold down reset button while powering unit on.  This is the standard manual firmware restore procedure.
 3. Wait for camera to flash the latest modified firmware, and reboot, do not remove the micro sd card.
-4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  Be patient.  You should hear audio prompts from the camera once it has booted successfully.
+4. The camera will proceed to boot, then you may connect via the IP address of your device using SSH, port 22.  The username is root.  It may take a few minutes for the device to finish booting and connect to Wi-Fi, then launch the SSH server.  **Be patient.**  *You should hear audio prompts from the camera once it has booted successfully.*
 5. If you have a car, you will now need to convert the camera to the car firmware.  Use the car app to do this.  After the conversion is complete, wz_mini remains active.
 5. You may also login via the serial console, password is WYom2020
 
@@ -110,11 +110,12 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Customization
 
-Edit wz_mini.conf, this is stored on the micro sd card inside the wz_mini folder, and loads the configuration variables when the camera boots.  You can change the hostname of the camera, add a path to a script to mount NFS, add ping commands, anything you like.
+Edit `wz_mini.conf`, this is stored on the micro sd card inside the wz_mini folder, and loads the configuration variables when the camera boots.  You can change the hostname of the camera, add a path to a script to mount NFS, add ping commands, anything you like.
 
 ---
 
-Wireguard support is available as a kernel module:
+### Wireguard:
+*Support is available as a kernel module*
 
 ```
 ENABLE_WIREGUARD="true"
@@ -140,7 +141,7 @@ To retrieve the public key that you'll need to add the peer to your wireguard en
 
 ---
 
-Disable automatic firmware updates:
+### Disable automatic firmware updates:
 
 ```
 DISABLE_FW_UPGRADE="true"
@@ -152,7 +153,7 @@ When a firmware update is initiated, due to a bootloader issue (bug?), we interc
 
 ---
 
-USB Ethernet Adapter support:
+### USB Ethernet Adapter:
 
 ```
 ENABLE_USB_ETH="true"
@@ -165,15 +166,15 @@ To have the Ethernet NIC be auto-detected and loaded automatically, set the ENAB
 To load a specific USB Ethernet NIC driver, set ENABLE_USB_ETH_MODULE_MANUAL to one of the following:
 asix, ax88179_178a, cdc_ether, r8152
 
-NOTE: There is a possibility of a conflict between Ethernet NIC adapters that report themselves as PCI ID '0bda:8152'.  (Realtek 8152 and CDC Ethernet)
+**NOTE:** There is a possibility of a conflict between Ethernet NIC adapters that report themselves as PCI ID '0bda:8152'.  (Realtek 8152 and CDC Ethernet)
 Since the 8152 is Realtek's product, that driver will be the one used for products that report that PCI ID.
-If you happen to have a CDC Ethernet product that uses that specific PCI ID, please set the ENABLE_USB_ETH_MODULE_AUTODETECT option to false, and set ENABLE_USB_ETH_MODULE_MANUAL to "cdc_ether"
+If you happen to have a CDC Ethernet product that uses that specific PCI ID, please set `ENABLE_USB_ETH_MODULE_AUTODETECT="false"` and set `ENABLE_USB_ETH_MODULE_MANUAL="cdc_ether"`
 
 The next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet. The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
 
 ---
 
-Network Interface Bonding Support
+### Network Interface Bonding:
 
 ```
 BONDING_ENABLED="false"
@@ -196,24 +197,24 @@ From the outside (=network) view it doesn't matter which interface is active. Th
 The dhcp server will use this MAC to assign an ip address to the bond0 device. So the computer has one unique ip address under which it can be identified. Without bonding each interface would have its own ip address. 
 Currenly supported with ethernet adapters and usb-direct mode.
 
-BONDING_PRIMARY_INTERFACE
+**BONDING_PRIMARY_INTERFACE**
 Specifies the interface that should be the primary.  Typically "eth0".
 
-BONDING_SECONDARY_INTERFACE
+**BONDING_SECONDARY_INTERFACE**
 Specifies the interface that should be the secondary.  Typically "wlan0".
 
-BONDING_LINK_MONITORING_FREQ_MS
+**BONDING_LINK_MONITORING_FREQ_MS**
 Specifies the MII link monitoring frequency in milliseconds. This determines how often the link state of each slave is inspected for link failures.
 
-BONDING_DOWN_DELAY_MS
+**BONDING_DOWN_DELAY_MS**
 Specifies the time, in milliseconds, to wait before disabling a slave after a link failure has been detected. This option is only valid for the miimon link monitor. The downdelay value should be a multiple of the miimon value; if not, it will be rounded down to the nearest multiple.
 
-BONDING_UP_DELAY_MS
+**BONDING_UP_DELAY_MS**
 Specifies the time, in milliseconds, to wait before enabling a slave after a link recovery has been detected. This option is only valid for the miimon link monitor. The updelay value should be a multiple of the miimon value; if not, it will be rounded down to the nearest multiple.
 
 ---
 
-USB Direct Support:
+### USB Direct:
 
 ```
 ENABLE_USB_DIRECT="true"
@@ -227,7 +228,7 @@ Note: In my testing, the micro-usb cables included with the various cameras do n
 
 ---
 
-Remote Accessories:
+### Remote Accessories:
 
 When USB Direct connectivity is enabled, the camera will be unable to communicate with accessories.  To enable remote usb accessory support, enable the following variable and set the IP Address of the host as follows:
 
@@ -249,12 +250,12 @@ Change ```/dev/ttyUSB0``` to whatever path your accessory enumerated to if neces
 
 ---
 
-USB Mass Storage Support:
+### USB Mass Storage Support:
 
 ```
 ENABLE_USB_STORAGE="true"
 ```
-If you would like to mount an EXT3/4 filesystem, also change:
+**If you would like to mount an EXT3/4 filesystem** make sure to enable ext4 support:
 
 ```
 ENABLE_EXT4="true"
@@ -262,7 +263,7 @@ ENABLE_EXT4="true"
 
 ---
 
-CIFS is now supported:
+**CIFS is now supported**.
 
 ```
 ENABLE_CIFS="true"
@@ -270,7 +271,8 @@ ENABLE_CIFS="true"
 
 ---
 
-iptables (ipv4 and ipv6) is available:
+### iptables:
+*ipv4 and ipv6 available*
 
 ```
 ENABLE_IPTABLES="true"
@@ -278,7 +280,7 @@ ENABLE_IPTABLES="true"
 
 ---
 
-NFSv4 support is available:
+### NFSv4
 
 ```
 ENABLE_NFSv4="true"
@@ -286,9 +288,11 @@ ENABLE_NFSv4="true"
 
 ---
 
-RTSP streaming:
-The RTSP server supports the two video streams provided by the camera, 1080p/360p (1296p/480p for the DB3).  You can choose to enable a single stream of your choice, or both.  Audio is also available.  Set your login credentials here, server listening port, and the stream bitrate.
-(ENC_PARAMETER variable accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  Currently only 2, 4, and 8 are working)
+### RTSP streaming:
+The RTSP server supports up to two video streams provided by the camera, 1080p/360p (1296p/480p for the DB3 [DoorBell3]).  You can choose to enable a single stream of your choice (HI or LOW), or both.  Audio is also available.  If you do not have `RTSP_AUTH_DISABLE="true"` **MAKE SURE TO SET** your login credentials!
+#### NOTES
+- `ENC_PARAMETER` accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  **Currently only 2, 4, and 8 are working**
+- V2 and V3 endpoints are not the same!
 
 ```
 RTSP_LOGIN="admin"
@@ -312,12 +316,20 @@ RTSP_LOW_RES_FPS=""
 RTSP_AUTH_DISABLE="false"
 
 ```
+
+#### Single Stream
 the singular stream will be located at ```rtsp://login:password@IP_ADDRESS:8554/unicast```
-multiple streams are located at ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
 
-You may disable authentication by setting `RTSP_AUTH_DISABLE` to true.
+#### Multiple Streams
+multiple streams are located at 
 
-Setting the FPS is not required unless you want to change the default device settings.
+- **V3** - ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
+- **V2** - ```rtsp://login:password@IP_ADDRESS:8554/video6_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video7_unicast```
+
+
+You may disable authentication by setting `RTSP_AUTH_DISABLE="true"`
+
+Setting the FPS is not required unless you want to change the default device settings (20 day/15 night FPS for V3, 15 day/10 night FPS for V2).
 
 Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
 
@@ -325,7 +337,7 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ---
 
-mp4_write:
+### mp4_write:
 
 ```
 ENABLE_MP4_WRITE="true"
@@ -335,7 +347,8 @@ Forces the camera to skip writing files to /tmp, and write them directly to your
 
 ---
 
-Use as a USB Video Class (UVC) Web Camera for your PC is supported.  I have tested with Windows 10, Linux, and Android TV, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
+### USB Video Class (UVC) Web Camera
+Use as a WebCam for your PC is supported.  I have tested with Windows 10, Linux, and Android TV, and it appears as a Generic HD Camera.  Audio is supported.  This mode disables all other functionality, and only works as a USB Web Camera for your PC.  Experimental.  Note that the cables typically included with the camera do not data, use a known working micro-usb cable which supports data.
 
 Supported modes: MJPG,Video 360p/720p/1080p
 
@@ -347,17 +360,17 @@ WEB_CAM_FPS_RATE="25"
 
 ---
 
-Run a custom script:
+### Run a custom script:
 
 ```
 CUSTOM_SCRIPT_PATH=""
 ```
 
-Note: any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, irregardless of the custom script variable specified in the configuration.
+**Note:** any executable files placed in `wz_mini/etc/rc.local.d` will be automatically run at boot time, irregardless of the custom script variable specified in the configuration.
 
 ---
 
-RTMP Streaming:
+### RTMP Streaming:
 
 ```
 RTMP_STREAM_ENABLED="true"
@@ -373,7 +386,9 @@ Live stream DIRECTLY from the camera's local RTSP server to: `youtube` / `twitch
 
 ---
 
-IMP_CONTROL:  Tune various audio and video parameters supported by IMP.  Only available when RTSP server is enabled, values are reset to default upon reboot.
+### IMP_CONTROL:
+**Only available when RTSP server is enabled, values are reset to default upon reboot.**
+Tune various audio and video parameters supported by IMP.
 
 `cmd imp_control <command> <value>`
 
@@ -428,7 +443,7 @@ exposure value support
 
 ---
 
-Upgrade wz_mini over the air:
+### Upgrade wz_mini over the air:
 
 `upgrade-run.sh`
 
@@ -436,10 +451,11 @@ This script will upgrade wz_mini over the air.  It will backup `wz_mini.conf`, a
 
 If there are any line differences between the old `wz_mini.conf` and the new release, the script will preserve the current config in place.  Note that this means any missing or additional lines.  It is recommended to download the latest wz_mini.conf from github, if there are any major changes to the file, copy the new one to your system first, set your parameteres, save the file, then perform the upgrade.
 
-NOTE: if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
+**NOTE:** if you are upgrading a V2 camera from a release older than 06-16-22, you must manually download the upgrade-run.sh script from this repo and place it in `wz_mini/bin/upgrade-run.sh`, then run it from there !
 
 ---
 
+### FPS Drop during NightVision:
 ```
 NIGHT_DROP_DISABLE="true"
 ```
@@ -448,15 +464,18 @@ Stop the camera from dropping the frame rate during nightvision.
 
 ---
 
+### WiFi Drivers (ADVANCED!!!):
+ **Disable only if you know what you are doing.**
+ 
 ```
 ENABLE_RTL8189FS_DRIVER="true"
 ENABLE_ATBM603X_DRIVER="true"
 ```
 
-Enabled by default.  These options control the WiFi Drivers.  V2/V3 use the 8189fs.ko driver, and certain v3 models and all currently shipping pan v2 models use the atbm603x driver.  These are required for operation of wz_mini, and disabling these will lead to a system crash, due to an updated kernel.  This change was required to support full iptables and connection tracking operation, since they are not supported on the really outdated factory drivers.  My testing shows better stability and performance.  Disable only if you know what you are doing.
+**Enabled by default.**  These options control the WiFi Drivers.  V2/V3 use the 8189fs.ko driver, and certain v3 models and all currently shipping pan v2 models use the atbm603x driver.  These are required for operation of wz_mini, and disabling these will lead to a system crash, due to an updated kernel.  This change was required to support full iptables and connection tracking operation, since they are not supported on the really outdated factory drivers.  My testing shows better stability and performance.
 
 ---
-
+### Disable Motor Controls:
 ```
 DISABLE_MOTOR="true"
 ```
@@ -465,6 +484,7 @@ Disable the movement capability on motorized devices.  You will no longer be abl
 
 ---
 
+### File System Check/Repair:
 ```
 ENABLE_FSCK_ON_BOOT="true"
 ```
@@ -473,6 +493,7 @@ run fsck.vfat on boot.  This runs fsck.vfat, the FAT disk repair utility on the 
 
 ---
 
+### Car Driver:
 ```
 ENABLE_CAR_DRIVER="true"
 ```
@@ -486,6 +507,8 @@ Loads the appropriate driver for the car to function.  On devices other than a V
 
 ---
 
+### Local DNS resolver
+ *May fix DNS Flooding*
 ```
 ENABLE_LOCAL_DNS="true"
 ```
@@ -493,15 +516,16 @@ ENABLE_LOCAL_DNS="true"
 Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixes potential DNS flooding on the local network.  Upstream DNS servers may be specified in `wz_mini/etc/resolv.dnsmasq`
 
 ---
-
+### Web Server:
 ```
 WEB_SERVER_ENABLED="true"
 ```
 
-Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<ip>/`  Thank you @virmaior!
+Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<Camera IP>/`  Thank you @virmaior!
 
 ---
 
+ ### SYSLOG:
 ```
 ENABLE_SYSLOG_SAVE="true"
 ```
@@ -509,7 +533,7 @@ ENABLE_SYSLOG_SAVE="true"
 Save the syslog to the `logs/` directory
 
 ---
-
+### Cron
 ```
 ENABLE_CRONTAB="true"
 ```
