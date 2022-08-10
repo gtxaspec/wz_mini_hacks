@@ -1,14 +1,12 @@
 #!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
-base_dir=/opt/wz_mini/
-base_hack_ini=/opt/wz_mini/wz_mini.conf
-hack_ini=$base_hack_ini
-www_dir=/opt/wz_mini/www/cgi-bin/
-camver=V3
-camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
-hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
-title="Wyze $camver on $camfirmware running wz_mini $hackver as $HOSTNAME"
+. /opt/wz_mini/www/cgi-bin/shared.cgi
+
+title="$camver on $camfirmware running wz_mini $hackver as $HOSTNAME"
 updated=false
+
+
+
 
 echo "HTTP/1.1 200"
 echo -e "Content-type: text/html\n\n"
@@ -64,17 +62,6 @@ function revert_menu
     done
     echo '</div>'
 }
-
-function version_info
-{
- echo "<div id='$1'>"
- echo "<div class='ver_DIV' vertype='Camera'>$camver</div>"
- echo "<div class='ver_DIV' vertype='Camera Firmware'>$camfirmware</div>"
- echo "<div class='ver_DIV' vertype='wz_mini'>$hackver</div>"
- echo "<div class='ver_DIV' vertype='Hostname'> $HOSTNAME</div>"
- echo "</div>"
-}
-
 
 
 if [[ $REQUEST_METHOD = 'GET' ]]; then
