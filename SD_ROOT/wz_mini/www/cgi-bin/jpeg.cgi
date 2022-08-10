@@ -4,7 +4,6 @@
 #test for jpeg
 if [[ $REQUEST_METHOD = 'GET' ]]; then
 
-  echo "entered GET"
   #since ash does not handle arrays we create variables using eval
   IFS='&'
   for PAIR in $QUERY_STRING

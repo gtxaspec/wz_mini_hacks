@@ -127,10 +127,12 @@ H1 {
   padding-right:15px;
 }
 .ver_DIV {
-  padding-left:60px;
-  min-width:120px;
-  font-family:monospace;
-  flex: 1 0 120px;
+    padding-left: 2vw;
+    min-width: 12vw;
+    font-family: monospace;
+    flex: 1 0 9vw;
+    overflow: hidden;
+    font-size: 1.1vw;
 }
 .ver_DIV:before {
   content:attr(vertype);
