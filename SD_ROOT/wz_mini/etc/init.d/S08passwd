@@ -1,0 +1,30 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Change system password
+# Description:       Replace system password with wz_mini's version
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+                echo "#####$(basename "$0")#####"
+
+		echo "Replace stock password"
+		cp /opt/wz_mini/etc/shadow /opt/wz_mini/tmp/.storage/shadow
+
+		if [[ "$DEBUG_PASSWORD" == "true" ]]; then
+			sed -i 's/:[^:]*/:/' /opt/wz_mini/tmp/.storage/shadow
+			echo "Remove stock password"
+		fi
+
+		mount --bind /opt/wz_mini/tmp/.storage/shadow /etc/shadow
+		chmod 400 /etc/shadow
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac

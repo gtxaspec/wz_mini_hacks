@@ -1,0 +1,54 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: USB Direct Networking
+# Description:       Enable USB Direct Networking kernel modules and support
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
+
+			HOST_MACADDR=$(echo "$CUSTOM_HOSTNAME"|md5sum|sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/')
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				echo connect > /sys/devices/platform/jz-dwc2/dwc2/udc/dwc2/soft_connect
+				sleep 1
+				devmem 0x10000040 32 0x0b800096
+				sleep 1
+				devmem 0x13500000 32 0x001100cc
+			else
+				echo "Set dwc2 ID_PIN driver memory"
+				devmem 0x13500000 32 0x001100cc
+				devmem 0x10000040 32 0x0b000096
+				echo "wipe dwc2 memory bits to set the ID_PIN, only for the V3"
+				devmem 0x10000040 32 0x0b000FFF
+			fi
+
+			insmod $KMOD_PATH/kernel/drivers/usb/gadget/libcomposite.ko
+
+			if [ -f /opt/wz_mini/tmp/.T31 ]; then
+				insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/u_ether.ko
+				insmod /opt/wz_mini/lib/modules/3.10.14__isvp_swan_1.0__/kernel/drivers/usb/gadget/usb_f_ncm.ko
+			fi
+
+			insmod $KMOD_PATH/kernel/drivers/usb/gadget/g_ncm.ko iManufacturer=wz_mini_ncm host_addr="$HOST_MACADDR" dev_addr="$USB_DIRECT_MAC_ADDR"
+
+			echo "USB Direct enabled"
+
+		else
+			echo "USB Direct disabled"
+
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

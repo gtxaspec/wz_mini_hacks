@@ -1,0 +1,31 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Disable coredump
+# Description:       Disable dumpload and disable kernel coredump support
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+
+core() {
+	wait_for_wlan_wpa $(basename "$0")
+
+	echo "#####$(basename "$0")#####"
+
+	echo "Killing dumpload"
+	/opt/wz_mini/bin/busybox pkill -f dumpload
+
+	echo "Setting kernel core pattern"
+	sysctl -w kernel.core_pattern='|/bin/false' > /dev/null
+}
+
+case "$1" in
+	start)
+		core &
+		;;
+		*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

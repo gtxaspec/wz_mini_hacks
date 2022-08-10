@@ -1,0 +1,35 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: USB RNDIS Tethering Support
+# Description:       Enable USB RNDIS Tethering kernel modules and support
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		if [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+			if [[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
+				echo "RNDIS is not compatible with ENABLE_USB_ETH or ENABLE_USB_DIRECT.  Please enable only ENABLE_USB_RNDIS"
+			else
+
+				insmod $KMOD_PATH/kernel/drivers/net/usb/usbnet.ko
+				insmod $KMOD_PATH/kernel/drivers/net/usb/cdc_ether.ko
+				insmod $KMOD_PATH/kernel/drivers/net/usb/rndis_host.ko
+
+			fi
+
+			echo "USB RNDIS enabled"
+		else
+			echo "USB RNDIS disabled"
+
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac

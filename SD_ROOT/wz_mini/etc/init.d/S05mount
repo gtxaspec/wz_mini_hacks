@@ -1,0 +1,28 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Mount /system
+# Description:       Mount /system for manipulation, before app_init.sh does
+### END INIT INFO
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
+			echo "mounting /system"
+			mount -t jffs2 /dev/mtdblock4 /system
+		elif [ -f /opt/wz_mini/tmp/.T31 ]; then
+			echo "mounting /system"
+			mount /dev/mtdblock3 /system
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

@@ -1,0 +1,30 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Detect device CAR  
+# Description:       Detect which CAR device                                               
+### END INIT INFO
+
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		echo "Checking for CAR FW"
+		if [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+			if cat /system/bin/app.ver | grep 4.55; then
+				touch /opt/wz_mini/tmp/.CAR
+				echo "CAR FW detected!"
+			else
+				echo "CAR not detected"
+			fi
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

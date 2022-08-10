@@ -1,0 +1,32 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Basic Web Server
+# Description:       If enabled, start the httpd web server
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
+			httpd -p 80 -h /opt/wz_mini/www
+			echo "httpd enabled"
+		fi
+		;;
+	stop)
+		pkill dnsmasq
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop}"
+		exit 1
+		;;
+esac
+

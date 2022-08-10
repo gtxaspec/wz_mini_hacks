@@ -1,0 +1,129 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start RTSP Server
+# Description:       Provide RTSP Streaming Video over IP
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+RTSP=/opt/wz_mini/log/v4l2rtspserver
+if [[ -e $RTSP.log || -L $RTSP.log ]] ; then
+	i=0
+	while [[ -e $RTSP.log.$i || -L $RTSP.log.$i ]] ; do
+		let i++
+	done
+	mv $RTSP.log $RTSP.log.$i
+	RTSP=$RTSP
+fi
+touch -- "$RTSP".log
+
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				HI_VIDEO_DEV="/dev/video6"
+			else
+				HI_VIDEO_DEV="/dev/video1"
+			fi
+
+			if [[ "$RTSP_PASSWORD" = "" ]]; then
+				RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+			fi
+
+			echo "Enable video ch 0"
+			/opt/wz_mini/bin/cmd video 0 on > /dev/null
+
+			if [[ "$RTSP_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+				echo "Enable audio ch 0"
+				/opt/wz_mini/bin/cmd audio 0 on > /dev/null
+				AUDIO_CH="-C 1"
+				AUDIO_FMT="-a S16_LE"
+				DEVICE1="$HI_VIDEO_DEV,hw:0,0"
+			else
+				DEVICE1="$HI_VIDEO_DEV"
+				echo "rtsp audio disabled"
+			fi
+
+		else
+			echo "rtsp disabled"
+
+		fi
+
+
+		if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]]; then
+
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				LOW_VIDEO_DEV="/dev/video7"
+			else
+				LOW_VIDEO_DEV="/dev/video2"
+			fi
+
+			echo "Enable video ch 1"
+			/opt/wz_mini/bin/cmd video 1 on > /dev/null
+
+			if [[ "$RTSP_PASSWORD" = "" ]]; then
+				RTSP_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+			fi
+
+			if [[ "$RTSP_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
+				echo "Enable video ch 1"
+				/opt/wz_mini/bin/cmd audio 1 on > /dev/null
+				AUDIO_CH="-C 1"
+				AUDIO_FMT="-a S16_LE"
+				DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
+			else
+				DEVICE2="$LOW_VIDEO_DEV"
+				echo "rtsp audio disabled"
+			fi
+
+		else
+			echo "rtsp disabled"
+
+		fi
+
+		if [[ "$RTSP_LOW_RES_ENABLED" == "true" ]] || [[ "$RTSP_HI_RES_ENABLED" == "true" ]]; then
+			echo "delay RTSP for iCamera"
+			#This delay is required. Sometimes, if you start the rtsp server too soon, live view will break on the app.
+			sleep 5
+
+			if [[ "$RTSP_AUTH_DISABLE" == "true" ]]; then
+				echo "Starting RTSP server"
+				LD_LIBRARY_PATH=/opt/wz_mini/lib LD_PRELOAD=/system/lib/libsetunbuf.so /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -P "$RTSP_PORT" $DEVICE1 $DEVICE2 > $RTSP.log 2>&1 &
+			else
+				echo "Starting RTSP server"
+				LD_LIBRARY_PATH=/opt/wz_mini/lib LD_PRELOAD=/system/lib/libsetunbuf.so /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 > $RTSP.log 2>&1 &
+			fi
+
+			sleep 1
+			echo "Set imp variables via helper"
+			/opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
+		fi
+
+		sync;echo 3 > /proc/sys/vm/drop_caches
+		;;
+	stop)
+		pkill v4l2rtspserver
+		cmd video 0 off
+		cmd audio 0 off
+		cmd video 1 off
+		cmd audio 1 off
+		pkill imp_helper.sh
+
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop}"
+		exit 1
+		;;
+esac
+

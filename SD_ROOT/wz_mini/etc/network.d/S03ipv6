@@ -1,0 +1,25 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Enable/Disable IPv6
+# Description:       Enable/Disable IPv6 based on the user configuration
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if ! [[ "$ENABLE_IPV6" == "true" ]]; then
+			sysctl -w net.ipv6.conf.all.disable_ipv6=1
+			echo "ipv6 disabled"
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

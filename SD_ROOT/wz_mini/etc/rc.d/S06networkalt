@@ -1,0 +1,51 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Configure alternate networking
+# Description:       Configure networking that is not onboard WLAN
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+alternate_iface() {
+
+	if [[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]] || [[ "$ENABLE_USB_RNDIS" == "true" ]]; then
+		wait_for_wlan_wpa $(basename "$0")
+
+		echo "#####$(basename "$0")#####"
+
+		echo "Renaming interfaces"
+		ifconfig $ALT_IFACE down
+
+		ifconfig wlan0 down
+		/opt/wz_mini/bin/busybox ip link set wlan0 name wlanold
+		/opt/wz_mini/bin/busybox ip addr flush dev wlanold
+		/opt/wz_mini/bin/busybox ip link set $ALT_IFACE name wlan0
+
+		if [ -f /opt/wz_mini/tmp/.T20 ]; then
+			mount -o bind /opt/wz_mini/bin/wpa_cli.sh /system/bin/wpa_cli
+		else
+			mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
+		fi
+
+	else
+		echo "No alternate iface enabled"
+	fi
+
+}
+
+case "$1" in
+	start)
+
+		if ! [[ "$BONDING_ENABLED" == "true" ]]; then
+			alternate_iface &
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

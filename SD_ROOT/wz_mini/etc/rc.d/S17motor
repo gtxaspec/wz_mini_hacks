@@ -1,0 +1,27 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Disable Motor
+# Description:       Disable Motor on specified devices
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$DISABLE_MOTOR" == "true" ]]; then
+			echo "Motor Disabled"
+			touch /opt/wz_mini/tmp/.ms
+		else
+			echo "Motor enabled"
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
