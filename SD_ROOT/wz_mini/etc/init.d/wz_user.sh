@@ -45,9 +45,9 @@ store_mac() {
 }
 
 wait_wlan() {
-    if [[ "$DISABLE_WZ_FIFI" == "true"  ]]; then
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
         echo $WZ_WIFI_MAC > /opt/wz_mini/tmp/wlan0_mac
-	return
+		return
     fi
 
 ##Check if the driver has been loaded for the onboard wlan0, store the MAC.
