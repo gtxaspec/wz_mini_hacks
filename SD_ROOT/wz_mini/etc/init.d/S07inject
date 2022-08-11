@@ -29,8 +29,15 @@ case "$1" in
 		#Custom PATH hooks
 		#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
 		#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
-		echo "Copy factory app_init.sh"
-		cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+
+		if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
+			echo "Copy and modify factory app_init.sh"
+			sed -r 's/.sys.bus.+mmc.+devices.+vendor/\/sys\/class\/net\/wlan0\/address/g' /system/init/app_init.sh > /opt/wz_mini/tmp/.storage/app_init.sh
+			chmod +x /opt/wz_mini/tmp/.storage/app_init.sh
+		else
+			echo "Copy factory app_init.sh"
+			cp /system/init/app_init.sh /opt/wz_mini/tmp/.storage/app_init.sh
+		fi
 
 		echo "Replace factory app_init.sh path"
 		sed -i '/\/system\/init\/app_init.sh/,+4d' /opt/wz_mini/tmp/.storage/rcS

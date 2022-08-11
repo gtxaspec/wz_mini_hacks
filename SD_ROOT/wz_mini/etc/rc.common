@@ -23,6 +23,10 @@ elif [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
 fi
 
 wait_for_wlan() {
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
+		return
+    fi
+
 	while true; do
 		if ifconfig wlan0 | grep "HWaddr" > /dev/null; then
 			break
@@ -33,6 +37,10 @@ wait_for_wlan() {
 }
 
 wait_for_wlan_wpa() {
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
+		return
+    fi
+
 	while true; do
 		if [ -e /tmp/wpa_supplicant.conf ]; then
 			break

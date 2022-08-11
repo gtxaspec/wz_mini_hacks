@@ -12,8 +12,11 @@ storemac() {
 	wait_for_wlan_wpa $(basename "$0")
 
 	echo "#####$(basename "$0")#####"
-
-	cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+    if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
+        echo $WZ_WIFI_MAC > /opt/wz_mini/tmp/wlan0_mac
+	else 
+		cat /sys/class/net/wlan0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/wlan0_mac
+	fi
 	echo "store original mac"
 }
 
