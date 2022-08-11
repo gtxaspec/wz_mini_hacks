@@ -7,7 +7,7 @@ ffc9d653967b2c25d9635d3240209db0  SD_ROOT/wz_mini/www/cgi-bin/DISABLE_FW_UPGRADE
 8a756026f05a35173b8748260b694e7d  SD_ROOT/wz_mini/www/cgi-bin/RTSP_HI_RES_ENABLED.md
 d5012a6758e30050b1dc8528e7968ac0  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_STORAGE.md
 b8f611d1dee2db10c8adf9f57e7274ad  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_ETH.md
-5020fe24294d8456d3dcbf6f90012586  SD_ROOT/wz_mini/www/cgi-bin/shared.cgi
+178fc7dbf69ebffa45676206b4cd1c54  SD_ROOT/wz_mini/www/cgi-bin/shared.cgi
 4c911538bfc2f9190f6be19f6a63513c  SD_ROOT/wz_mini/www/cgi-bin/BONDING_ENABLED.md
 55daa4b8bda93f9d790df55ecc4fe4ff  SD_ROOT/wz_mini/www/cgi-bin/config.css
 bd74b1a5dfb722ea1109ea89a039a3e5  SD_ROOT/wz_mini/www/cgi-bin/RTMP_STREAM_ENABLED.md
@@ -158,7 +158,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 071b974925501c4b83f2dd546d90febd  SD_ROOT/wz_mini/usr/bin/netmon.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-72e47a9fa3b87da92431e3f52c3662a2  SD_ROOT/wz_mini/usr/bin/app.ver
+646020c5d2bb5aa38357710f21fdd8d1  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
