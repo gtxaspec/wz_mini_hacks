@@ -4,21 +4,20 @@ base_dir=/opt/wz_mini/
 base_hack_ini=/opt/wz_mini/wz_mini.conf
 hack_ini=$base_hack_ini
 www_dir=/opt/wz_mini/www/cgi-bin/
-camver=V3
 
 if [ -f /opt/wz_mini/tmp/.T31 ]; then
-camtype=T31
+  camtype=T31
+  camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
 elif [ -f /opt/wz_mini/tmp/.T20 ]; then
-camtype=T20
+  camtype=T20
+  camfirmware=$(tail -n1 /system/bin/app.ver | cut -f2 -d= )
 fi
 
 cammodel=$(/opt/wz_mini/etc/init.d/s04model start | grep detected | cut -f1 -d ' ' )
 
 camver="$camtype($cammodel)"
 
-camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
 hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
-
 
 function version_info
 {          
