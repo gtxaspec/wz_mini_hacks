@@ -1,0 +1,80 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Stock Firmware Detection and Upgrade
+# Description:       Detect the firmware version of the stock firmware and process upgrades, based off atomcam_tools S32fwupdate.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+flash_copy() {
+  size=`awk '{ if($1 == MTD ":") print ("0x" $2)/1024; }' MTD=${1##*/} /proc/mtd`
+  echo "flash_copy $1 $2 ${size}"
+  dd if=$1 of=/tmp/mtd bs=1k count=${size}
+  [ $? != 0 ] && return
+
+  flash_eraseall $2
+  [ $? != 0 ] && return
+
+  flashcp -v /tmp/mtd $2
+  [ $? != 0 ] && return
+
+  rm -f /tmp/mtd
+}
+
+flash_update() {
+  FWGRADEUP=`awk '/FWGRADEUP=/ { gsub(/^.*=/, ""); print $0; }' /dev/mtd7`
+
+  if [ "${FWGRADEUP}" = "kernel+app" ] ; then
+    flash_copy /dev/mtd4 /dev/mtd1
+    [ $? != 0 ] && return
+    flash_copy /dev/mtd5 /dev/mtd3
+    [ $? != 0 ] && return
+    flash_eraseall /dev/mtd7
+  fi
+
+  if [ "${FWGRADEUP}" = "kernel+rootfs" ] ; then
+    flash_copy /dev/mtd4 /dev/mtd1
+    [ $? != 0 ] && return
+    flash_copy /dev/mtd5 /dev/mtd2
+    [ $? != 0 ] && return
+    flash_eraseall /dev/mtd7
+  fi
+
+  if [ "${FWGRADEUP}" = "kernel" ] ; then
+    flash_copy /dev/mtd4 /dev/mtd1
+    [ $? != 0 ] && return
+    flash_eraseall /dev/mtd7
+  fi
+
+  if [ "${FWGRADEUP}" = "rootfs" ] ; then
+    flash_copy /dev/mtd5 /dev/mtd2
+    [ $? != 0 ] && return
+    flash_eraseall /dev/mtd7
+  fi
+
+  if [ "${FWGRADEUP}" = "app" ] ; then
+    flash_copy /dev/mtd5 /dev/mtd3
+    [ $? != 0 ] && return
+    flash_eraseall /dev/mtd7
+  fi
+}
+
+case "$1" in
+	start)
+		echo "#####$(basename "$0")#####"
+
+		if [ -f /system/bin/app.ver ]; then
+			echo "Current stock firmware version:"
+			cat /system/bin/app.ver
+		else
+			echo "/system/bin/app.ver not found"
+		fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
