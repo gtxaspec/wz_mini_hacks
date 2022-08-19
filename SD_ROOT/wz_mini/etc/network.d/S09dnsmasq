@@ -15,6 +15,8 @@ dnsmasq_launch() {
 	echo "#####$(basename "$0")#####"
 
 	if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
+                echo "wait for resolv.conf creation from iCamera"
+                sleep 5
 		dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
 		rm -f /tmp/resolv.conf
 		cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
