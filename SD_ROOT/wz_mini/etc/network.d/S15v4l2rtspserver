@@ -48,11 +48,11 @@ case "$1" in
 				DEVICE1="$HI_VIDEO_DEV,hw:0,0"
 			else
 				DEVICE1="$HI_VIDEO_DEV"
-				echo "rtsp audio disabled"
+				echo "rtsp hi_res audio disabled"
 			fi
 
 		else
-			echo "rtsp disabled"
+			echo "rtsp hi_res disabled"
 
 		fi
 
@@ -80,11 +80,11 @@ case "$1" in
 				DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
 			else
 				DEVICE2="$LOW_VIDEO_DEV"
-				echo "rtsp audio disabled"
+				echo "rtsp low_res audio disabled"
 			fi
 
 		else
-			echo "rtsp disabled"
+			echo "rtsp low_res disabled"
 
 		fi
 
