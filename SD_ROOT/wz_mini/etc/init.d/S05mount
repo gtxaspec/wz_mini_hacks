@@ -19,6 +19,9 @@ case "$1" in
 			mount /dev/mtdblock3 /system
 		fi
 
+                echo "Current Mounts:"
+                mount
+
 		;;
 	*)
 		echo "Usage: $0 {start}"
