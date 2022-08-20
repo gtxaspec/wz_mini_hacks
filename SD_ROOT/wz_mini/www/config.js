@@ -18,6 +18,44 @@ window.scrollTo({
 }
 
 
+function compose_rtsp_block(stype)
+{
+  const formElement = document.querySelector("form");
+  var fdata = new FormData(formElement);
+
+  var stype = (typeof stype !== "undefined") ? stype: "RTSP_HI_RES";
+
+
+  if (fdata.get(stype + "_ENABLED") != "true") {
+ 	console.log(stype + " not enabled");
+    return false;
+  } 
+  
+  var auth = "";
+  if (fdata.get('RTSP_AUTH_DISABLE') != "true") {
+	auth = fdata.get('RTSP_LOGIN') + ':';
+	if (fdata.get('RTSP_PASSWORD') != '') {
+		auth += fdata.get('RTSP_PASSWORD');
+	} else {
+		auth += document.body.getAttribute('mac');
+	}
+	auth += "@";
+  } 
+
+  
+  stream = "/unicast";
+  if ((fdata.get('RTSP_HI_RES_ENABLED') == "true") && (fdata.get('RTSP_LOW_RES_ENABLED') == "true")) {
+	if (stype == "RTSP_HI") {  stream = "/video1_unicast"  } else { stream ="/video2_unicast" }
+  }
+
+  var link = "rtsp://" + auth + document.body.getAttribute("ip") + ":" + fdata.get('RTSP_PORT') + stream;  
+
+  var vb = document.querySelectorAll('[block_name="VIDEOSTREAM"]')[0];
+  var url_block = document.createElement('DIV');
+  url_block.innerHTML = 'Stream ' + stype + ' URL: ' + '<a href="' + link +  '">' + link +  '</a>' ;
+  vb.appendChild(url_block);
+}
+
 window.onload = function()
 {
 	var feed = document.getElementById("current_feed");
@@ -27,6 +65,8 @@ window.onload = function()
 	}
 	feed_interval = setInterval(update_image, feed_interval_frequency);
 	
+	compose_rtsp_block('RTSP_HI_RES');
+	compose_rtsp_block('RTSP_LOW_RES');
 
 	document.querySelector('[name="update_config"]').addEventListener('submit',
 	function(e){
