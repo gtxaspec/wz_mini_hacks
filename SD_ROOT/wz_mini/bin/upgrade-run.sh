@@ -80,6 +80,9 @@ cp -r /opt/wz_mini/etc/configs /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/ssh /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/rc.local.d /opt/Upgrade/preserve/
+cp -r /opt/wz_mini/etc/cron /opt/Upgrade/preserve/
+cp -r /opt/wz_mini/etc/resolv.dnsmasq /opt/Upgrade/preserve/
+
 sync
 
 echo "Rebooting into UPGRADE MODE"
@@ -156,6 +159,9 @@ cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
 cp /opt/Upgrade/preserve/configs/*  /opt/wz_mini/etc/configs
 cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
 cp -r /opt/Upgrade/preserve/rc.local.d  /opt/wz_mini/etc/
+cp -r /opt/Upgrade/preserve/cron /opt/wz_mini/etc/cron
+cp -r /opt/Upgrade/preserve/resolv.dnsmasq /opt/wz_mini/etc/resolv.dnsmasq
+
 rm -rf /opt/Upgrade
 sync
 reboot

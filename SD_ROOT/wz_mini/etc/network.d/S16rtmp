@@ -18,7 +18,7 @@ case "$1" in
 			echo "delay RTMP server"
 			#Follow the delay from the RTSP server
 			sleep 5
-			/opt/wz_mini/bin/rtmp-stream.sh "$RMTP_STREAM_SERVICE" "$RTMP_AUDIO" &
+			/opt/wz_mini/bin/rtmp-stream.sh "$RTMP_STREAM_SERVICE" "$RTMP_AUDIO" &
 		fi
 		;;
 	stop)
