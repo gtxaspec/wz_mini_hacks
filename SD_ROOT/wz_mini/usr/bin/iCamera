@@ -6,4 +6,9 @@ echo "inject callback library and run"
 
 export LD_LIBRARY_PATH='/thirdlib:/system/lib:/opt/wz_mini/lib'
 
-LD_PRELOAD='libcallback.so:libtinyalsa.so.2.0.0' /system/bin/iCamera
+if [ -f /opt/wz_mini/tmp/.T20 ]; then
+	echo "libcallback for T20"
+	LD_PRELOAD='libcallback_t20.so:libtinyalsa.so.2.0.0' /system/bin/iCamera
+else
+	LD_PRELOAD='libcallback.so:libtinyalsa.so.2.0.0' /system/bin/iCamera
+fi
