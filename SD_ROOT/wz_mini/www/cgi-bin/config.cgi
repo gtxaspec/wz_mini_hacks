@@ -16,6 +16,7 @@ echo ""
 reboot_camera()  {
     echo "rebooting camera (refreshing screen in 90 seconds)"
     echo '<script type="text/javascript">setTimeout(function(){ document.location.reload (); },90 * 1000)</script>'
+    reboot 
     exit
 }
 
@@ -210,7 +211,8 @@ handle_css wz_mini_web.css
 echo '<script type="text/javascript" src="/config.js" ></script>'
 echo -ne "</head>"
 
-echo -ne '<body>'
+
+echo -ne '<body ip="'$ipaddr'" mac="'$macaddr'"  >'
 echo -ne "<h1>$title</h1>";
 
 
@@ -242,9 +244,10 @@ while IFS= read -r ARGUMENT; do
 	      echo '</div>'
            fi
            CONFIG_BLOCK=$((CONFIG_BLOCK + 1))
-	   echo '<div class="ii_block" block_number="'$CONFIG_BLOCK'" >'
 	   BTITLE=${ARGUMENT//#/ }
-           echo -ne '<div class="ii_block_name">'$BTITLE'</div>'
+           BN=$(echo $BTITLE | tr -d ' ')
+           echo '<div class="ii_block" block_number="'$CONFIG_BLOCK'" block_name="'$BN'" >'
+           echo -ne '<div class="ii_block_name" >'$BTITLE'</div>'
 	else
             echo -ne '<div class="ii_info">'$ARGUMENT'</div>'
 	fi

@@ -19,6 +19,9 @@ camver="$camtype($cammodel)"
 
 hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
 
+ipaddr=$(ifconfig wlan0  | grep inet | cut -d ':' -f2 | cut -d ' ' -f0)
+macaddr=$(ifconfig wlan0  | grep HWaddr | cut -d 'HW' -f2 | cut -d ' ' -f2)
+
 function version_info
 {          
  echo "<div id='$1'>"
