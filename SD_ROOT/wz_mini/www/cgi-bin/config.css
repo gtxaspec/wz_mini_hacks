@@ -57,10 +57,11 @@ H1 {
   z-index:10;
 }
 .ii_explain {
-   height:25px;
+   height:20px;
    overflow:hidden;
-   width:25px;
+   width:20px;
    position:relative;
+   color:transparent;
 }
 .ii_explain:hover {
     height: auto;
@@ -74,6 +75,7 @@ H1 {
     border: 3px solid blue;
     font-family: monospace;
     white-space:pre-wrap;
+    color:black;
 }
 .ii_explain:hover PRE {
  white-space:pre-wrap;
@@ -91,10 +93,7 @@ H1 {
  content:"?";
  text-align:center;
  background-color:blue;
- border:2px solid #ccc;
- border-radius:3px;
- padding-left:2px;
- padding-right:2px;
+ border-radius:50%;
  position:absolute;
  left:0;
  top:0;
