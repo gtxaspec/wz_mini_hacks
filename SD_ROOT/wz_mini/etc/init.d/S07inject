@@ -30,8 +30,9 @@ case "$1" in
 		#sed -i '/^# Run init script.*/i#Hook Library PATH here\nexport LD_LIBRARY_PATH=/tmp/test/lib:$LD_LIBRARY_PATH\n' /opt/wz_mini/tmp/.storage/rcS
 		#sed -i '/^# Run init script.*/i#Hook system PATH here\nexport PATH=/tmp/test/bin:$PATH\n' /opt/wz_mini/tmp/.storage/rcS
 
-		if [[ "$DISABLE_WZ_WIFI" == "true"  ]]; then
-			echo "Copy and modify factory app_init.sh"
+		if [[ "$DISABLE_WZ_WIFI" != "false"  ]] && [[ "$BONDING_ENABLED" != "true" ]] && ([[ "$ENABLE_USB_ETH" == "true" ]] || [[ "$ENABLE_USB_DIRECT" == "true" ]] || [[ "$ENABLE_USB_RNDIS" == "true" ]]); then
+			# Disable internal wifi if alternate used (and BONDING not enabeld or DISABLE_WZ_WIFI not forced to false)
+			echo "Copy and modify factory app_init.sh (disable internal wifi drivers)"
 			sed -r 's/.sys.bus.+mmc.+devices.+vendor/\/sys\/class\/net\/wlan0\/address/g' /system/init/app_init.sh > /opt/wz_mini/tmp/.storage/app_init.sh
 			chmod +x /opt/wz_mini/tmp/.storage/app_init.sh
 		else
