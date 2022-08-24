@@ -13,9 +13,34 @@ echo -e "Content-type: text/html\n\n"
 echo ""
 
 
+die_no_config() 
+{
+if [ -f ${hack_ini} ]
+then
+    if [ -s ${hack_ini} ]
+    then
+        echo "$hack_ini exists and not empty"
+    else
+ echo "$hack_ini exists but empty"
+ echo "if you reboot then the hack will fail "
+ exit
+    fi
+else
+ echo "$hack_ini file does  not exist"
+ echo "if you reboot then the hack will fail. Please insure you have a wz_hack.conf file.."
+ exit 
+fi
+
+}
+
+
 reboot_camera()  {
-    echo "rebooting camera (refreshing screen in 90 seconds)"
-    echo '<script type="text/javascript">setTimeout(function(){ document.location.reload (); },90 * 1000)</script>'
+    die_no_config
+    reboot_wait=90
+    echo "rebooting camera (refreshing screen in $reboot_wait seconds)"
+    echo '<script type="text/javascript">setTimeout(function(){ document.location.href = "/cgi-bin/config.cgi"; },'$reboot_wait' * 1000)</script>'
+    handle_css config.css
+    version_info "display_BAR"
     reboot 
     exit
 }
@@ -197,16 +222,9 @@ function html_cam_feed
 
 
 
-function handle_css
-{
-echo -ne "<style type=\"text/css\">"
-cat config.css
-echo -ne '</style>';
-}
-
 
 echo -ne "<html><head><title>$title</title>"
-handle_css wz_mini_web.css
+handle_css config.css
 
 echo '<script type="text/javascript" src="/config.js" ></script>'
 echo -ne "</head>"
