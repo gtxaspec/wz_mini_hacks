@@ -45,7 +45,7 @@ d59a0e8db7cec700c7ce4e7b2882e25e  SD_ROOT/wz_mini/etc/init.d/S11configbackup
 0113d8e9beb7d393c61959889193ba0e  SD_ROOT/wz_mini/etc/init.d/S01bind
 74f398e735e66f91bb5ff1ea42c3760d  SD_ROOT/wz_mini/etc/init.d/S03busybox
 a27d4a0dd6582ae51db92c35cf396ac3  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
-b34aa0369213d35924fb3d0d79a06b1a  SD_ROOT/wz_mini/etc/init.d/S15fwupdate
+97a80881dc10548cd2b2206914baa677  SD_ROOT/wz_mini/etc/init.d/S15fwupdate
 93ac3cc23a532f73921244aa61b62362  SD_ROOT/wz_mini/etc/init.d/S16factorycheck
 c457995a14d408c18bf03c6b0d613b58  SD_ROOT/wz_mini/etc/init.d/S04model
 df3911f5443239982e184af022a15815  SD_ROOT/wz_mini/etc/init.d/S14terminfo
@@ -159,7 +159,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 071b974925501c4b83f2dd546d90febd  SD_ROOT/wz_mini/usr/bin/netmon.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-ecb7182f4055ab74049a0673cd16bf8c  SD_ROOT/wz_mini/usr/bin/app.ver
+e1e155be349496d7c63a54c7e8c21ddc  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
