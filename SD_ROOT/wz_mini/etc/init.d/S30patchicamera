@@ -15,17 +15,19 @@ case "$1" in
 		if [[ "$ENABLE_ICAMERA_PATCH" == "true" ]] ; then
 			# Apply the patch. The script here is idempotent.
 			if /opt/wz_mini/bin/bash /opt/wz_mini/usr/bin/patch_icamera.sh ; then
-				echo "Patch applied."
+				echo "iCamera patch applied successfully."
+				exit 0
 			else
-				echo "Patch failed."
+				# If the patch failed, ensure the iCamera shim script calls the stock version (Eg. in the event of a system upgrade to an unsupported version)
+				echo "iCamera patch failed."
 			fi
-		else
-			# Remove the patch if it exists.
-			if [ -f /opt/wz_mini/usr/bin/iCamera.patched ] ; then
-				echo "Reverting iCamera patch."
-				rm -v /opt/wz_mini/usr/bin/iCamera.patched
-				sed -i 's/\/opt\/wz_mini\/usr\/bin\/iCamera.patched/\/system\/bin\/iCamera/' /opt/wz_mini/usr/bin/iCamera
-			fi
+		fi
+
+		# If ENABLE_ICAMERA_PATCH != "true" or if the patch failed, remove the patch if it exists.
+		if [ -f /opt/wz_mini/usr/bin/iCamera.patched ] ; then
+			echo "Reverting iCamera patch."
+			rm -v /opt/wz_mini/usr/bin/iCamera.patched
+			sed -i 's/\/opt\/wz_mini\/usr\/bin\/iCamera.patched/\/system\/bin\/iCamera/' /opt/wz_mini/usr/bin/iCamera
 		fi
 		
 		;;
