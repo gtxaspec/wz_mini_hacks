@@ -1,0 +1,37 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Patches the iCamera binary if requested
+# Description:       The stock iCamera binary will reset the network if it is unable to reach the internet. This binary patch will change this behavior.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		if [[ "$ENABLE_ICAMERA_PATCH" == "true" ]] ; then
+			# Apply the patch. The script here is idempotent.
+			if /opt/wz_mini/bin/bash /opt/wz_mini/usr/bin/patch_icamera.sh ; then
+				echo "Patch applied."
+			else
+				echo "Patch failed."
+			fi
+		else
+			# Remove the patch if it exists.
+			if [ -f /opt/wz_mini/usr/bin/iCamera.patched ] ; then
+				echo "Reverting iCamera patch."
+				rm -v /opt/wz_mini/usr/bin/iCamera.patched
+				sed -i 's/\/opt\/wz_mini\/usr\/bin\/iCamera.patched/\/system\/bin\/iCamera/' /opt/wz_mini/usr/bin/iCamera
+			fi
+		fi
+		
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
