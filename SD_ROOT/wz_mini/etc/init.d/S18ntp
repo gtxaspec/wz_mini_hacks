@@ -13,8 +13,8 @@ case "$1" in
 		echo "#####$(basename "$0")#####"
 		
 		if [ ! -z "$NTP_SERVER" ] ; then
-			# Slight delay required or else time may get reset by iCamera
-			(sleep 30 && /opt/wz_mini/tmp/.bin/ntpd -p "$NTP_SERVER") &
+			# Slight delay required so that we can kill timesync from interfering
+			(sleep 30 && kill -9 $(pgrep -f timesync) ; /opt/wz_mini/tmp/.bin/ntpd -p "$NTP_SERVER") &
 		fi
 		
 		;;
