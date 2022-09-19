@@ -1,7 +1,7 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:
-# Short-Description: Patches the iCamera binary if requested
+# Short-Description: Patches the iCamera binary if in self-hosted mode
 # Description:       The stock iCamera binary will reset the network if it is unable to reach the internet. This binary patch will change this behavior.
 ### END INIT INFO
 
@@ -12,7 +12,7 @@ case "$1" in
 
 		echo "#####$(basename "$0")#####"
 		
-		if [[ "$ENABLE_ICAMERA_PATCH" == "true" ]] ; then
+		if [[ "$ENABLE_SELFHOSTED_MODE" == "true" ]] ; then
 			# Apply the patch. The script here is idempotent.
 			if /opt/wz_mini/bin/bash /opt/wz_mini/usr/bin/patch_icamera.sh ; then
 				echo "iCamera patch applied successfully."
@@ -23,13 +23,16 @@ case "$1" in
 			fi
 		fi
 
-		# If ENABLE_ICAMERA_PATCH != "true" or if the patch failed, remove the patch if it exists.
+		# If ENABLE_SELFHOSTED_MODE != "true" or if the patch failed, remove the patch if it exists.
 		if [ -f /opt/wz_mini/usr/bin/iCamera.patched ] ; then
 			echo "Reverting iCamera patch."
 			rm -v /opt/wz_mini/usr/bin/iCamera.patched
+		fi
+		# Ensure iCamera shim script points to /system/bin/iCamera
+		if grep -q iCamera.patched /opt/wz_mini/usr/bin/iCamera ; then
 			sed -i 's/\/opt\/wz_mini\/usr\/bin\/iCamera.patched/\/system\/bin\/iCamera/' /opt/wz_mini/usr/bin/iCamera
 		fi
-		
+
 		;;
 	*)
 		echo "Usage: $0 {start}"
