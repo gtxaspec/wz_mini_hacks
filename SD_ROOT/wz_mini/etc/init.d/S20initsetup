@@ -12,18 +12,34 @@ case "$1" in
 
 		echo "#####$(basename "$0")#####"
 		
-		if [[ "$ENABLE_AUTO_BIND" != "true" ]] ; then
+		# If not enabled or on T20 which is unsupported by this script
+		if [[ "$ENABLE_AUTO_BIND" != "true" ]] || [ ! -f /opt/wz_mini/tmp/.T31 ]; then
 			exit 0
 		fi
 
-		# If autobind is enabled, we will set bindOk=1 when WiFi configs are detected.
-		if grep -q bindOk=1 /configs/.user_config ; then
-			echo "Initial setup is done. Nothing to do."
-			exit 0
+		# Note: At the time of this boot stage, /configs isn't mounted. If it's not mounted, we have to mount it to check the wifi status
+		if mount | grep -q /configs ; then
+			# Is it already set?
+			if grep -q bindOk=1 /configs/.user_config ; then
+				echo "Initial setup is done. Nothing to do."
+				exit 0
+			fi
+		else
+			mount -t jffs2 /dev/mtdblock6 /configs
+
+			# Is it already set?
+			if grep -q bindOk=1 /configs/.user_config ; then
+				echo "Initial setup is done. Nothing to do."
+				exit 0
+			fi
+
+			umount /configs
 		fi
 
 		echo "Initial setup not completed yet."
 
+		# Wait until these wifi settings are set in /configs later on.
+		# Note that /configs will be mounted eventually by the second stage boot.
 		while true ; do
 			if [ -f /configs/.wifipasswd ] && [ -s /configs/.wifipasswd ] && [ -f /configs/.wifissid ] && [ -s /configs/.wifissid ] ; then
 				echo "Detected WiFi configs. "
