@@ -26,11 +26,16 @@ case "$1" in
 
 		while true ; do
 			if [ -f /configs/.wifipasswd ] && [ -s /configs/.wifipasswd ] && [ -f /configs/.wifissid ] && [ -s /configs/.wifissid ] ; then
-				echo "Detected WiFi configs. Updating bindOk=1."
-				sed -i 's/bindOk=0/bindOk=1/g' /configs/.user_config
+				echo "Detected WiFi configs. "
+				if wpa_cli -p /var/run/wpa_supplicant -i wlan0 STATUS | grep -q wpa_state=COMPLETED ; then
+					echo "WiFi connection seems Good. Updating bindOk=1."
+					sed -i 's/bindOk=0/bindOk=1/g' /configs/.user_config
 
-				grep bindOk /configs/.user_config
-				exit 0
+					/opt/wz_mini/bin/cmd aplay /usr/share/notify/CN/connect_wifi_ok.wav 60
+
+					grep bindOk /configs/.user_config
+					exit 0
+				fi
 			fi
 
 			echo "Waiting for WiFi settings from QR code..."
