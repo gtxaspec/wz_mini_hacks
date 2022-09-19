@@ -1,7 +1,7 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:
-# Short-Description: Setup bindOk=1 once WiFi settings are detected.
+# Short-Description: Setup bindOk=1 once WiFi settings are detected when in self-hosted mode
 # Description:       Update .user_config so bindOk=1 when QR code containing WiFi settings are scanned. Allows for WiFi to work on next reboot without needing Wyze App/Cloud initial setup.
 ### END INIT INFO
 
@@ -13,7 +13,7 @@ case "$1" in
 		echo "#####$(basename "$0")#####"
 		
 		# If not enabled or on T20 which is unsupported by this script
-		if [[ "$ENABLE_AUTO_BIND" != "true" ]] || [ ! -f /opt/wz_mini/tmp/.T31 ]; then
+		if [[ "$ENABLE_SELFHOSTED_MODE" != "true" ]] || [ ! -f /opt/wz_mini/tmp/.T31 ]; then
 			exit 0
 		fi
 
