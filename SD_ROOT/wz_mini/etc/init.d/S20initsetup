@@ -1,0 +1,46 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Setup bindOk=1 once WiFi settings are detected.
+# Description:       Update .user_config so bindOk=1 when QR code containing WiFi settings are scanned. Allows for WiFi to work on next reboot without needing Wyze App/Cloud initial setup.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		if [[ "$ENABLE_AUTO_BIND" != "true" ]] ; then
+			exit 0
+		fi
+
+		# If autobind is enabled, we will set bindOk=1 when WiFi configs are detected.
+		if grep -q bindOk=1 /configs/.user_config ; then
+			echo "Initial setup is done. Nothing to do."
+			exit 0
+		fi
+
+		echo "Initial setup not completed yet."
+
+		while true ; do
+			if [ -f /configs/.wifipasswd ] && [ -s /configs/.wifipasswd ] && [ -f /configs/.wifissid ] && [ -s /configs/.wifissid ] ; then
+				echo "Detected WiFi configs. Updating bindOk=1."
+				sed -i 's/bindOk=0/bindOk=1/g' /configs/.user_config
+
+				grep bindOk /configs/.user_config
+				exit 0
+			fi
+
+			echo "Waiting for WiFi settings from QR code..."
+			sleep 5
+		done &
+		
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
