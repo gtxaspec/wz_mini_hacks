@@ -35,7 +35,9 @@ case "$1" in
 				echo "Factory configs backup directory present, not backing up again"
 			else
 				echo "Backup /configs"
+				mount -t jffs2 /dev/mtdblock8 /configs
 				cp -R /configs/ /opt/.wz_backup/
+				umount /configs
 			fi
 
 			if [ -d /opt/.wz_backup/params ]; then
