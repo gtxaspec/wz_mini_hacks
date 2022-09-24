@@ -88,13 +88,19 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Setup v2/PanV1
 
-1. git clone the repo or download the repo zip
-2. perform a fresh format on your micro-sd card, using fat-32 ( this is a hard requirement, the bootloader does not support ex-fat or ext, and thus will not load wz_mini ), DOS partition map type, volume name does not matter.
-3. Run `compile_image.sh` using linux, wait for the script to finish.
+1. `git clone` the repo or download the repo zip and unzip
+2. Open a terminal and `cd` into the `v2_install` folder
+3. Ensure you have u-boot build tools installed
+  - Debian: `sudo apt install u-boot-tools`
+4. Perform a fresh format on your microSD card, using FAT32 filesystem
+  - This is a hard requirement, the bootloader does not support exFAT or ext, and thus will not load wz_mini
+  - DOS partition map type and volume name does not matter
+5. Run `compile_image.sh` using linux, wait for the script to finish.
    - PANv1: Run `compile_image.sh pan` using linux, wait for the script to finish.
-4. Copy all the files inside of SD_ROOT to your micro sd card
-5. Copy the generated `demo.bin` to root of your micro sd card
-6. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
+   - In the event that the script complains about missing wget URL, you will have to manually download the [latest/relevant firmware from Wyze](https://support.wyze.com/hc/en-us/articles/360024852172-Release-Notes-Firmware) and rename "demo.zip" in the `v2_install` folder
+6. After the script completes, copy all the files inside of SD_ROOT to your micro sd card
+7. Copy the generated `demo.bin` to root of your micro sd card
+8. __SSH is enabled, but is secured using public key authentication for security.  Edit the file ```wz_mini/etc/ssh/authorized_keys``` and enter your public key here.  If you need a simple guide, [how to use public key authentication](https://averagelinuxuser.com/how-to-use-public-key-authentication/)__
 
 ## Installation v2/PanV1
 
