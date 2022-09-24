@@ -550,7 +550,9 @@ When enabled, the `iCamera` program will be patched to work nicely in a self-hos
 
 Normally, the firmware will restart the network interface periodically when it is unable to reach Wyze's servers which results in intermittent network drops. For advanced users that intend to run the Wyze Cam without internet access or on a controlled network, this option will patch the `iCamera` process to function without the Wyze servers.
 
-Feature supported on firmwares 4.36.9.139 and 4.61.0.1
+Feature supported on:
+* Wyze Cam v3 firmware: 4.36.9.139, 4.61.0.1
+* Wyze Cam v2 firmware: 4.9.8.1002
 
 ---
 
