@@ -49,8 +49,8 @@ function apply_patch() {
 	# Check to see if the patched version is installed and is up to date
 	if [ -f /opt/wz_mini/usr/bin/iCamera.patched ] ; then
 		# Check the build date. (this check may be brittle?)
-		OriginalDate=$(strings /system/bin/iCamera | grep Build -A 1 | tail -n 1)
-		PatchedDate=$(strings /opt/wz_mini/usr/bin/iCamera.patched | grep Build -A 1 | tail -n 1)
+		OriginalDate=$(strings /system/bin/iCamera | grep "Build date" -A 1 | tail -n 1)
+		PatchedDate=$(strings /opt/wz_mini/usr/bin/iCamera.patched | grep "Build date" -A 1 | tail -n 1)
 
 		if [[ "$OriginalDate" == "$PatchedDate" ]] ; then
 			echo "Patch already applied to current iCamera version."
