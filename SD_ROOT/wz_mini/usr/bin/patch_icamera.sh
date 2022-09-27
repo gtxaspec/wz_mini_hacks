@@ -256,15 +256,17 @@ function patch_v2_led_connect_led () {
 
 	echo -e "\n\n====> Calling ${FUNCNAME[0]}\n"
 
-	# at 0x089b4, 1st param to func, was 3
-	i="0x089b4"
-	echo -e "\nOriginal at $i"
+	# Use the big NOP space from patch_out_jobs_after_connect to call led_ctrl_run_action_by_state(5)
+
+	i="0x089c8"
+	# li 5 a0
+	printf '\x05\x00\x04\x24' | dd conv=notrunc of=iCamera bs=1 seek=$(($i)) 2> /dev/null
 	dd if=iCamera bs=1 count=4 skip=$(($i)) 2>/dev/null | xxd
 
-	echo "Patched"
-	# load 1 to $a0 when calling the network led function
-	# This value determines the 'state' of the network. 0 seems to make it off. 1 - 4 makes it blink at various speeds
-	printf '\x00\x00\x04\x24' | dd conv=notrunc of=iCamera bs=1 seek=$(($i)) 2> /dev/null
+
+	i="0x089cc"
+	# jal led_ctrl_run_action_by_state
+	printf '\xcc\xc4\x10\x0c' | dd conv=notrunc of=iCamera bs=1 seek=$(($i)) 2> /dev/null
 	dd if=iCamera bs=1 count=4 skip=$(($i)) 2>/dev/null | xxd
 }
 
