@@ -80,6 +80,7 @@ function apply_patch() {
 	patch_out_code_test_enable
 	# v2 specific
 	patch_wzutil_testconnectbyurl_skip_check
+	patch_v2_led_connect_led
 
 	echo -e "\n\nPatching done."
 	md5sum iCamera
@@ -245,6 +246,26 @@ function patch_wzutil_testconnectbyurl_skip_check() {
 	echo "Patched" # patch with 00 00 10 24, should load s0 to 0 before returning
 	printf '\x00\x00\x10\x24' | dd conv=notrunc of=libwyzeUtils.so bs=1 seek=$(($i)) 2> /dev/null
 	dd if=libwyzeUtils.so bs=1 count=4 skip=$(($i)) 2>/dev/null | xxd
+}
+
+# Patch LED state in iCamera binary so LED stays off after connecting
+# Applies only to the v2
+function patch_v2_led_connect_led () {
+	# Applies only to this particular firmware in the v2.
+	[[ "$Version" == "4.9.8.1002" ]] || return
+
+	echo -e "\n\n====> Calling ${FUNCNAME[0]}\n"
+
+	# at 0x089b4, 1st param to func, was 3
+	i="0x089b4"
+	echo -e "\nOriginal at $i"
+	dd if=iCamera bs=1 count=4 skip=$(($i)) 2>/dev/null | xxd
+
+	echo "Patched"
+	# load 1 to $a0 when calling the network led function
+	# This value determines the 'state' of the network. 0 seems to make it off. 1 - 4 makes it blink at various speeds
+	printf '\x00\x00\x04\x24' | dd conv=notrunc of=iCamera bs=1 seek=$(($i)) 2> /dev/null
+	dd if=iCamera bs=1 count=4 skip=$(($i)) 2>/dev/null | xxd
 }
 
 
