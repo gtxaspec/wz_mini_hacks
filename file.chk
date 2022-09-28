@@ -36,9 +36,11 @@ edebe65d895650235f05291618814ebe  SD_ROOT/wz_mini/etc/network.d/S08hostname
 32373fa3531a11c1aad41d12830b9c04  SD_ROOT/wz_mini/etc/dnsmasq.conf
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 071acd61334923a9a3e5b799e012697e  SD_ROOT/wz_mini/etc/init.d/S09firstboot
-d59a0e8db7cec700c7ce4e7b2882e25e  SD_ROOT/wz_mini/etc/init.d/S11configbackup
+f87cc24ebff2766fad6d52ebcbf19a0e  SD_ROOT/wz_mini/etc/init.d/S11configbackup
 1b4037ffff5b86b31939ef20f2ec2a2c  SD_ROOT/wz_mini/etc/init.d/S10kmod
 0e868d15fb8b09915975bab48f5a78f2  SD_ROOT/wz_mini/etc/init.d/S06car
+1f68c6d818e92386d6c7bcb00350ccc1  SD_ROOT/wz_mini/etc/init.d/S18ntp
+0ed5e2bce4fa5774cef30dfa276db3a8  SD_ROOT/wz_mini/etc/init.d/S30patchicamera
 5e27d90e6888f9665da2fb442ebd500c  SD_ROOT/wz_mini/etc/init.d/S08passwd
 8d9b5da920bf9c739517de3843631334  SD_ROOT/wz_mini/etc/init.d/S12ssh
 366d62ff81290c520180f8ccf31a42d1  SD_ROOT/wz_mini/etc/init.d/S05mount
@@ -54,9 +56,9 @@ ce899168f0a576809238b338dec6a666  SD_ROOT/wz_mini/etc/init.d/S02tmpfs
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
-2c8c7710a76804fb13573472f93553ff  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+646b276762495f93691eaf7565a9ddcb  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
-28b080026eba00bcd2c7ee98ef2cf9e3  SD_ROOT/wz_mini/etc/rc.common
+7b8db8382548ae23eaab8c53f77b305a  SD_ROOT/wz_mini/etc/rc.common
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
 574a0198606cf3a2255843cd1ed7860a  SD_ROOT/wz_mini/etc/cron/root
 2c2df1b9cb603f9c31c46162d6ac307f  SD_ROOT/wz_mini/etc/alsa/alsa.conf
@@ -157,9 +159,10 @@ ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 0de553a920d30d1e9d84c9ab4136df0d  SD_ROOT/wz_mini/usr/bin/ucamera
 071b974925501c4b83f2dd546d90febd  SD_ROOT/wz_mini/usr/bin/netmon.sh
+7c9763cc29b7d241fcb317e2ad336b32  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-e1e155be349496d7c63a54c7e8c21ddc  SD_ROOT/wz_mini/usr/bin/app.ver
+db534acee2584cbd195b45260674c386  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
@@ -309,7 +312,7 @@ c6a2e765996b4a8bfe351757785fb989  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 46791b695c5acd7d813f2a7198790a8a  SD_ROOT/wz_mini/lib/libcallback_t20.so
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-2c8c7710a76804fb13573472f93553ff  SD_ROOT/wz_mini/wz_mini.conf
+646b276762495f93691eaf7565a9ddcb  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 283fca97d62c1c199eb2b04877998879  v2_install/compile_image.sh
 53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh

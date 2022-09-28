@@ -558,6 +558,7 @@ Feature supported on:
 
 ## Latest Updates
 
+* 09-27-22:  Add self_hosted iCamera patch by @kohrar, fix config backup script, add ntp client on boot.
 * 08-07-22:  Updated init.d scripts.  Added syslog save feature.  Fixed orientation issue on T31 devices in webcam mode.  Added crontab support.
 * 07-25-22:  Add dnsmasq local dns option in configuration to prevent dns flooding on local networks.  Added web server capability for configuration and car control.
 * 07-14-22:  Add car compatability with normally unsupported devices.
