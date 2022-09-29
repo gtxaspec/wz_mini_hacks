@@ -52,6 +52,7 @@ a27d4a0dd6582ae51db92c35cf396ac3  SD_ROOT/wz_mini/etc/init.d/wz_init.sh
 c457995a14d408c18bf03c6b0d613b58  SD_ROOT/wz_mini/etc/init.d/S04model
 df3911f5443239982e184af022a15815  SD_ROOT/wz_mini/etc/init.d/S14terminfo
 9427dddfbba0d1f3931ee8fcb1f22347  SD_ROOT/wz_mini/etc/init.d/S07inject
+8b91d33cf56ab16361581424f431e484  SD_ROOT/wz_mini/etc/init.d/S20initsetup
 ce899168f0a576809238b338dec6a666  SD_ROOT/wz_mini/etc/init.d/S02tmpfs
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
@@ -159,10 +160,10 @@ ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 0de553a920d30d1e9d84c9ab4136df0d  SD_ROOT/wz_mini/usr/bin/ucamera
 071b974925501c4b83f2dd546d90febd  SD_ROOT/wz_mini/usr/bin/netmon.sh
-7c9763cc29b7d241fcb317e2ad336b32  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
+b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 3e15a736b79854c35abb7fd4f7207064  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-db534acee2584cbd195b45260674c386  SD_ROOT/wz_mini/usr/bin/app.ver
+eb77636bf7d3371faadcd7aefc6d81bb  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
