@@ -21,8 +21,8 @@ then
     then
         echo "$cam_config exists and not empty"
     else
- echo "$hack_ini exists but empty"
- echo "if you reboot then the hack will fail "
+ echo "$cam_config exists but empty"
+ echo "if you reboot then the camera will revert to defaults or possibly fail "
  exit
     fi
 else
@@ -103,7 +103,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
 
 
   #switch back to going through the config file
-  output="$hack_ini.new"
+  output="$cam_config.new"
 
   #name our output file
   while IFS= read -r \ARGUMENT; do
@@ -130,10 +130,10 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
       fi
 
     fi
-  done < $hack_ini
+  done < $cam_config
 
-  shft $hack_ini
-  mv $output $hack_ini
+  shft $cam_config
+  mv $output $cam_config
   updated=true
 
 fi
