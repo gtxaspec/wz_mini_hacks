@@ -144,3 +144,13 @@ H1 {
 .fail_val {
  background-color:#fcc;
 }
+.error_title {
+ width:200px;
+ order:0;
+}
+
+.error_message {
+ display:flex;
+ color:red;
+ font-family: monospace;
+}

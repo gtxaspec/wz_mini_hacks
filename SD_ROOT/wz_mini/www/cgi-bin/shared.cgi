@@ -8,9 +8,11 @@ www_dir=/opt/wz_mini/www/cgi-bin/
 if [ -f /opt/wz_mini/tmp/.T31 ]; then
   camtype=T31
   camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
+  cam_config="/configs/.user_config"
 elif [ -f /opt/wz_mini/tmp/.T20 ]; then
   camtype=T20
   camfirmware=$(tail -n1 /system/bin/app.ver | cut -f2 -d= )
+  cam_config="/configs//parameters"
 fi
 
 cammodel=$(/opt/wz_mini/etc/init.d/s04model start | grep detected | cut -f1 -d ' ' )
@@ -38,6 +40,7 @@ function version_info
  echo "<div class='ver_DIV' vertype='Firmware'>$camfirmware</div>"
  echo "<div class='ver_DIV' vertype='wz_mini'>$hackver</div>"
  echo "<div class='ver_DIV' vertype='Hostname'> $HOSTNAME</div>"
+ echo '<div class="github_link" ><a style="color:white" href="https://github.com/gtxaspec/wz_mini_hacks">Project</a></div>';
  echo "</div>"
 }
 
