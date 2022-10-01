@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>Multicam</title>
+<meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0">
+<style type="text/css">
+BODY {
+  --cc_bar_height: 20px;
+}
+.za_images {
+display:flex;
+flex-direction:column;
+flex-wrap:wrap;
+height:calc(100% - var(--cc_bar_height));
+width:100%;
+background-color:#cff;
+}
+.za_images .cam_DIV  {
+ border:2px solid blue;
+ border-radius:5px;
+ padding:2px;
+ margin:1px;
+ height:calc(21% - 10px);
+ text-align:center;
+ width:17%;
+}
+.za_images .first_CAM  {
+  flex:0 0 calc(100% - 40px);
+  width:75%;
+  order:0;
+}
+.za_images .first_CAM 
+{
+  width:calc(100% - 17% - 16px);
+}
+
+.za_images IMG {
+ max-height:100%;
+ max-width:100%;
+}
+.cam_control {
+ width:calc(100% - 18px);
+ position:absolute;
+ bottom:0;
+ height:var(--cc_bar_height);
+ margin:1px;
+ padding:2px;
+ background-color:lightgreen;
+ border-radius:5px;
+ border:2px solid green;
+}
+.cam_control BUTTON {
+ width:calc(40% - 4px);
+}
+.cam_control INPUT {
+ width:calc(20% - 4px);
+}
+
+@media (orientation: portrait) and (max-device-width: 450px) {
+  .cam_control {
+    top:0;
+   }
+  .za_images {
+    flex-direction:row;
+    margin-top:30px;
+    padding-top:20px;
+  } 
+  .za_images .cam_DIV {
+      width:calc(50% - 10px);
+   } 
+  .za_images .first_CAM {
+    width:calc(100% - 3px) !important;
+    flex:0 0 calc(100% - 5px) !important;
+    height:auto !important;
+    max-height:30%;
+  }
+}
+
+</style>
+<script type="text/javascript">
+const cam_tool = {
+  feed_interval_frequency : 500,
+  feed_interval : false,
+  tick: 0,
+  feeds : false,
+  divs : false,
+  click : function() {
+           for (var i = 0; i < cam_tool.divs.length; i++) {
+                        cam_tool.divs[i].classList.remove("first_CAM");
+                        cam_tool.divs[i].style.order = parseInt(cam_tool.divs[i].getAttribute("cam")) + 1;
+                }
+       this.classList.add("first_CAM");
+       this.style.order = 0; 
+ },
+  init : function() {
+        cam_tool.divs = document.getElementsByClassName('cam_DIV');
+        	for (var i = 0; i < cam_tool.divs.length; i++) {
+           	     cam_tool.divs[i].addEventListener('click', cam_tool.click); 
+		}
+
+        cam_tool.feeds = document.getElementsByClassName('cam_img');
+        cam_tool.divs[0].click();
+        cam_tool.start();
+
+
+  },
+  update: function() {
+	if (((cam_tool.tick *10)  % cam_tool.feed_interval_frequency) == 0)  { 
+                for (var i= 0; i < cam_tool.feeds.length; i++) {
+                        cam_tool.feeds[i].src = cam_tool.feeds[i].src.split("&")[0] + "&load=" + new Date().getTime();
+                }
+	}
+	cam_tool.tick++;
+  },
+  update_freq(event) {
+	cam_tool.feed_interval_frequency = event.target.value;	
+  },
+  pause: function() {
+	clearInterval(cam_tool.feed_interval);
+	cam_tool.tick = 0;
+  },
+  start : function() {
+                if (cam_tool.feed_interval) { cam_tool.pause(); }
+                cam_tool.feed_interval = setInterval(cam_tool.update, 10);
+  },
+  compose:function(cam_count,url) {
+    var zam =  document.getElementById("za_images"); 
+    for (var i = 1; i <= cam_count; i++) 
+     { 	
+	var id =  document.createElement('DIV');
+	id.innerHTML = '<img class="cam_img" src="' + url.replace('%d',i) + '">';
+	id.setAttribute('cam',i);
+	id.className = "cam_DIV";
+	if (i == 1) {  id.className += " first_CAM";  }
+	zam.appendChild(id);
+     }
+  }
+  
+}
+
+
+window.onload = function()
+{
+  cam_tool.compose(5,'/z%d/cgi-bin/jpeg.cgi?channel=0');
+  cam_tool.init();
+};
+</script>
+</head>
+<body>
+<div class="za_images" id="za_images" ></div>
+<div class="cam_control" >
+        <button onclick="cam_tool.start();">Live</button>
+        <button onclick="cam_tool.pause();">Pause</button>
+	<input type="number" onclick="cam_tool.update_freq(event);" min="50" value="500" />
+</div>
+
+<video width="1" height="1" loop style="position:absolute;top:0;right:0" >
+<source src="/z1/cgi-bin/jpeg.cgi?channel=0" type="image/jpeg"> 
+
+Your browser does not support the video tag.
+
+</video> 
+
+</body>
+</html>
