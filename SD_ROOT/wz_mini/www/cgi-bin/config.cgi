@@ -214,13 +214,6 @@ function ini_to_html_tf
         printf '</div>'
 }
 
-#function to handle camera feed
-function html_cam_feed
-{
-	printf '<img id="current_feed" src="/cgi-bin/jpeg.cgi?channel=1" class="feed" />'
-}
-
-
 
 
 echo -ne "<html><head><title>$title</title>"

@@ -1,4 +1,4 @@
-#!/bin/sh
+$#!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
@@ -12,6 +12,9 @@ echo "HTTP/1.1 200"
 echo -e "Content-type: text/html\n\n"
 echo ""
 
+echo "what"
+
+exit
 
 die_no_config() 
 {
@@ -169,17 +172,16 @@ function documentation_to_html
 function select_block
 {
 	fname="$www_dir"'cam-values.txt'
-	testval=$(grep "$1" "$fname" | cut -f2 -d# | cut -f2 -d"(" | cut -f1 -d")" | tr " " "Q")
-
+	testval=$(grep "$1" "$fname")
 	if [[ -n "$testval" ]]; then
-           echo '<select class="ii_select" name="'SELECT_$2'" row="'$2'"><option value="">...</option>'
-	   IFS=" "
-           for OPTI in ${testval//,/ }
-	   do
-		pv=$(echo $OPTI | tr "Q" " " | xargs )
-	   	val=$(echo $pv | cut -f1 -d= | tr "Q" " " | xargs )
-	   	echo '<option value="'$val'">'$pv'</option>'
-	   done   
+	   echo '<select name="'SELECT_$3'" row="'$3'"><option value="">...</option>'
+	   real=$(echo $testval | cut -f2 -d# | cut -f2 -d"(")
+	   real=${real:0:-1}
+           #for v in "$real"
+	   #do
+	   #val=$(echo $v | cut -f1 -d=)
+	   #echo '<option value="'$val'">'$v'</option>'
+	   #done   
 	
 	   echo '</select>'
 	fi
@@ -190,7 +192,7 @@ function ini_to_html_free
 {
         classes=""
         printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV">' $1
-	select_block $1 $3	
+	#select_block $1 $3	
 	printf '<input class="ii_value'$classes'" type="text" name="%s" value="%s" default_value="%s"  row="%s"  /></div>' "row_$3[$1]" $2 $2 $3
         documentation_to_html $1
         printf '</div>'

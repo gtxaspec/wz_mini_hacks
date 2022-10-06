@@ -1,4 +1,4 @@
-#!/bin/sh
+$#!/bin/sh
 # This serves a rudimentary webpage based on wz_mini.conf
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
@@ -169,16 +169,15 @@ function documentation_to_html
 function select_block
 {
 	fname="$www_dir"'cam-values.txt'
-	testval=$(grep "$1" "$fname" | cut -f2 -d# | cut -f2 -d"(" | cut -f1 -d")" | tr " " "Q")
-
+	testval=$(grep "$1" "$fname")
 	if [[ -n "$testval" ]]; then
-           echo '<select class="ii_select" name="'SELECT_$2'" row="'$2'"><option value="">...</option>'
-	   IFS=" "
-           for OPTI in ${testval//,/ }
+	   echo '<select name="'SELECT_$3'" row="'$3'"><option value="">...</option>'
+	   real=$(echo $testval | cut -f2 -d# | cut -f2 -d"(")
+	   real=${real:0:-1}
+           for v in "$real"
 	   do
-		pv=$(echo $OPTI | tr "Q" " " | xargs )
-	   	val=$(echo $pv | cut -f1 -d= | tr "Q" " " | xargs )
-	   	echo '<option value="'$val'">'$pv'</option>'
+	   val=$(echo $v | cut -f1 -d=)
+	   echo '<option value="'$val'">'$v'</option>'
 	   done   
 	
 	   echo '</select>'
