@@ -52,4 +52,62 @@ function html_cam_feed
         printf '<img id="current_feed" src="/cgi-bin/jpeg.cgi?channel=1" class="feed" />'
 }
             
-       
+#code for rebooting the camera       
+reboot_camera()  {  
+    die_no_config
+    reboot_wait=90
+    echo "rebooting camera (refreshing screen in $reboot_wait seconds)"
+    echo '<script type="text/javascript">setTimeout(function(){ 
+	document.location.href = window.location.href.split('?')[0] + "?" + load=" + new Date().getTime();         
+    },'$reboot_wait' * 1000)</script>'
+    handle_css config.css
+    version_info "display_BAR"
+    reboot
+    exit
+}
+            
+#creates backup files
+shft() {
+    # SE loop did not work -- thanks ash!
+   suff=8
+   while [ "$suff" -gt 0 ] ;
+    do
+        if [[ -f "$1.$suff" ]] ; then
+            nxt=$((suff + 1))
+            mv -f "$1.$suff" "$1.$nxt"
+        fi
+   suff=$((suff-1))
+   done
+   mv -f "$1" "$1.1"
+}
+
+#displays backup files using $1 to identify the file and $2 to identify if one is currently open
+function revert_menu
+{
+   echo '<h2 id="revert" >Revert Menu</a>'
+   echo '<div class="old_configs">'
+   echo 'Prior Versions : '
+   xuff=0
+   while [ "$xuff" -lt 9 ] ;
+   do
+        xuff=$((xuff + 1))
+        if [[ -f "$1.$xuff" ]] ; then
+            filedate=$(date -r "$1.$xuff" )
+            class=""
+            if [ "$1.$xuff" = "$2" ];
+            then
+               class="current_revert"
+            fi
+            echo '<div class="revert_DIV '$class'"><div><a href="?action=show_revert&version='"$xuff"'">'"$xuff </a></div><div> $filedate</div></div>"
+        fi
+    done
+    echo '</div>'
+}
+
+
+urldecode(){
+ a=${1//+/ }
+ b=${a//%/\\x}
+ echo -e "$b"
+}
+
