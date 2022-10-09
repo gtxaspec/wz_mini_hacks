@@ -159,8 +159,8 @@ cp /opt/Upgrade/preserve/ssh/*  /opt/wz_mini/etc/ssh/
 cp /opt/Upgrade/preserve/configs/*  /opt/wz_mini/etc/configs
 cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
 cp -r /opt/Upgrade/preserve/rc.local.d  /opt/wz_mini/etc/
-cp -r /opt/Upgrade/preserve/cron /opt/wz_mini/etc/cron
-cp -r /opt/Upgrade/preserve/resolv.dnsmasq /opt/wz_mini/etc/resolv.dnsmasq
+cp /opt/Upgrade/preserve/cron/* /opt/wz_mini/etc/cron/
+cp /opt/Upgrade/preserve/resolv.dnsmasq /opt/wz_mini/etc/resolv.dnsmasq
 
 rm -rf /opt/Upgrade
 sync
