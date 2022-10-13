@@ -13,8 +13,8 @@ case "$1" in
 		echo "#####$(basename "$0")#####"
 		
 		if [ ! -z "$NTP_SERVER" ] ; then
-			# Slight delay required so that we can kill timesync from interfering
-			(sleep 30 && kill -9 $(pgrep -f timesync) ; /opt/wz_mini/tmp/.bin/ntpd -p "$NTP_SERVER") &
+			# Replace timesync call with our own ntpd using a custom NTP server
+			sed -i "s/\/system\/bin\/timesync/\/opt\/wz_mini\/tmp\/.bin\/ntpd -ndp '$NTP_SERVER'/" /opt/wz_mini/tmp/.storage/app_init.sh
 		fi
 		
 		;;
