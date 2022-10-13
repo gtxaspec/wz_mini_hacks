@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/opt/wz_mini/bin/bash
 # This serves a rudimentary webpage based on wz_mini.conf
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
@@ -22,7 +22,7 @@ then
         echo "$cam_config exists and not empty"
     else
  echo "$cam_config exists but empty"
- echo "if you reboot then the camera will revert to defaults or possibly fail "
+ echo "if you reboot then the camera will revert to defaults "
  exit
     fi
 else
@@ -34,32 +34,13 @@ fi
 }
 
 
-reboot_camera()  {
-    die_no_config
-    reboot_wait=90
-    echo "rebooting camera (refreshing screen in $reboot_wait seconds)"
-    echo '<script type="text/javascript">setTimeout(function(){ document.location.href = "/cgi-bin/cam.cgi"; },'$reboot_wait' * 1000)</script>'
-    handle_css config.css
-    version_info "display_BAR"
-    reboot 
-    exit
+function revert_config
+{   
+  mv "$cam_config" "$cam_config.old"
+  mv "$cam_config.$1" "$cam_config"
 }
-
-shft() {
-    # SE loop did not work -- thanks ash!
-   suff=8 
-   while [ "$suff" -gt 0 ] ;
-    do
-        if [[ -f "$1.$suff" ]] ; then
-            nxt=$((suff + 1))
-            mv -f "$1.$suff" "$1.$nxt"
-        fi
-   suff=$((suff-1))
-   done 
-   mv -f "$1" "$1.1"
-}
-
-
+        
+ 
 
 
 
@@ -78,6 +59,15 @@ if [[ $REQUEST_METHOD = 'GET' ]]; then
   if [[ "$GET_action" = "reboot" ]];  then
     reboot_camera
   fi
+
+  if [[ "$GET_action" = "revert"  ]]; then
+    revert_config "$GET_version"
+  fi
+  if [[ "$GET_action" = "show_revert" ]]; then
+    cam_config="$cam_config.$GET_version"
+  fi
+
+
 fi
 
 
@@ -90,54 +80,31 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
         done
     fi
 
+  output="$cam_config.new"
+  cp $cam_config $output
+
   #since ash does not handle arrays we create variables using eval
   IFS='&'
   for PAIR in $POST_DATA
   do
-      K=$(echo $PAIR | cut -f1 -d=)
-      VA=$(echo $PAIR | cut -f2 -d=)
-      VB=\"${VA//%3A/:}\"
-      #echo "<div>$K=$VB</div>"
-      eval POST_$K=\"$VB\"
-  done
+      FK=$(echo $PAIR | cut -f1 -d= )
+      VA=$(echo $PAIR | cut -f2 -d= )
 
+      FK=$(urldecode "$FK")
+      VA=$(urldecode "$VA")
 
-  #switch back to going through the config file
-  output="$cam_config.new"
-
-  #name our output file
-  while IFS= read -r \ARGUMENT; do
-    #cycle through each line of the current config
-    #copy through all comments
-    if [ -z "$ARGUMENT" ]; then
-       echo -ne "\n" >> $output
-    elif [[ ${ARGUMENT:0:1} == "#" ]] ; then
-       #echo $ARGUMENT $'\n' 
-       echo -ne  $ARGUMENT"\n"  >> $output
-    else
-    #for non-comments check to see if we have an entry in the POST data by deciphering the key from the ini file and using eval for our fake array
-        KEY=$(echo $ARGUMENT | cut -f1 -d=)
-	test=$(eval echo \$POST_$KEY)
-	#echo "key was $KEY test was ...   $test <br /> "
-     if [[ "$test" ]]; then
-        #if in the fake array then we use the new value
-	#echo "<div style=\"color:#c00\">matched </div>"
-	echo -ne $KEY=\"$test\""\n"  >> $output
-      else
-        #if not in the fake array we use the current value
-	#echo "<div>key not found</div>"
-	echo -ne $ARGUMENT"\n" >> $output
+      if [ "${FK:0:3}" == "row" ]; then
+	K=$(echo "$FK" | cut -f2 -d[ | cut -f1 -d])
+#       echo "<div>match: $K=$VA</div>"
+	sed -i s/$K.*/$K=$VA/ $output
       fi
-
-    fi
-  done < $cam_config
+  done
 
   shft $cam_config
   mv $output $cam_config
   updated=true
 
 fi
-
 
 
 
@@ -150,44 +117,37 @@ function documentation_to_html
                 printf '</pre></div>'
         fi
 }
-  
+
+function select_block
+{
+	fname="$www_dir"'cam-values.txt'
+	testval=$(grep "$1" "$fname" | cut -f2 -d# | cut -f2 -d"(" | cut -f1 -d")" | tr " " "Q")
+
+	if [[ -n "$testval" ]]; then
+           echo '<select class="ii_select" name="'SELECT_$2'" row="'$2'"><option value="">...</option>'
+	   IFS=" "
+           for OPTI in ${testval//,/ }
+	   do
+		pv=$(echo $OPTI | tr "Q" " " | xargs )
+	   	val=$(echo $pv | cut -f1 -d= | tr "Q" " " | xargs )
+	   	echo '<option value="'$val'">'$pv'</option>'
+	   done   
+	
+	   echo '</select>'
+	fi
+}
+ 
   
 function ini_to_html_free
 {
         classes=""
-        if [ "$1" =  "USB_DIRECT_MAC_ADDR" ]; then
-           classes=" mac_addr"
-        fi 
-	if grep -q -wi "$1" cam-numerics.txt; then
-	   classes=" numeric"
-	fi
-        printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV"><input class="ii_value'$classes'" type="text" name="%s" value="%s" /></div>' $1 $1  $2
+        printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV">' $1
+	select_block $1 $3	
+	printf '<input class="ii_value'$classes'" type="text" name="%s" value="%s" default_value="%s"  row="%s"  /></div>' "row_$3[$1]" $2 $2 $3
         documentation_to_html $1
         printf '</div>'
 }
        
-function ini_to_html_tf
-{
-        printf '<div class="ii"><div class="ii_key_DIV">%s</div>' $1
-        printf '<div class="ii_value_DIV">'
-        if [[ "$2" == "true" ]]; then
-        printf '<input class="ii_radio" type="radio" name="%s" value="true" checked="checked" /> True &nbsp;' $1
-        printf '<input class="ii_radio" type="radio" name="%s" value="false" /> False &nbsp;' $1
-        else
-        printf '<input class="ii_radio" type="radio" name="%s" value="true" /> True &nbsp;' $1
-        printf '<input class="ii_radio" type="radio" name="%s" value="false" checked="checked" /> False &nbsp;' $1
-        
-        fi
-        printf '</div>'
-        documentation_to_html $1
-        printf '</div>'
-}
-
-#function to handle camera feed
-function html_cam_feed
-{
-	printf '<img id="current_feed" src="/cgi-bin/jpeg.cgi?channel=1" class="feed" />'
-}
 
 
 
@@ -195,7 +155,7 @@ function html_cam_feed
 echo -ne "<html><head><title>$title</title>"
 handle_css config.css
 
-echo '<script type="text/javascript" src="/config.js" ></script>'
+echo '<script type="text/javascript" src="/cam.js" ></script>'
 echo -ne "</head>"
 
 
@@ -212,12 +172,19 @@ fi
 html_cam_feed
 
 
+if [ $base_cam_config != $cam_config ]; then
+    
+  echo '<div><a href="?action=revert&version='$GET_version'">Revert</a> to this version</a></div>'
+fi
+        
+
 echo -ne '<form name="update_config" method="POST" enctype="application/x-www-form-urlencoded"  >'
 
 
 CONFIG_BLOCK=0
-
+row=0
 while IFS= read -r ARGUMENT; do
+    row=$((row+1))
     if [ -z "$ARGUMENT" ] ; then
 	echo -ne "" 
     elif [[ ${ARGUMENT:0:1} == "[" ]] ; then
@@ -232,12 +199,7 @@ while IFS= read -r ARGUMENT; do
     else
       KEY=$(echo $ARGUMENT | cut -f1 -d=)
       VAL=$(echo $ARGUMENT | cut -f2 -d=)   
-      VALUE=${VAL//\"/}
-      case "$VALUE" in
-	"true") ini_to_html_tf $KEY $VALUE ;;
-	"false") ini_to_html_tf $KEY $VALUE ;;
-	*) ini_to_html_free $KEY $VALUE
-      esac
+      ini_to_html_free $KEY $VAL $row
     fi
 done < $cam_config
            if [ "$CONFIG_BLOCK" -gt 0 ]; then
@@ -249,6 +211,8 @@ done < $cam_config
 echo -ne '<input type="submit" name="update" id="update" value="Update" disabled="disabled" />'
 echo -ne '</form>'
 echo -ne '<button onclick="enable_submit();" >Enable Submit</button>';
+
+revert_menu $base_hack_ini $cam_config
 
 
 version_info "display_BAR"
