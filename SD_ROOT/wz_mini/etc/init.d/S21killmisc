@@ -1,0 +1,30 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Kills unwanted processes in selfhosted mode (sinker and hl_client)
+# Description:       sinker and hl_client phones home. In self-hosted mode, these two processes can be killed to save CPU cycles (and reduce log spam).
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		# If not enabled, quit
+		if [[ "$ENABLE_SELFHOSTED_MODE" != "true" ]] ; then
+			exit 0
+		fi
+
+		# Remove sinker/hl_client lines from the startup script
+		sed -i '/sinker/d' /opt/wz_mini/tmp/.storage/app_init.sh
+		sed -i '/hl_client/d' /opt/wz_mini/tmp/.storage/app_init.sh
+		
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
