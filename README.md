@@ -170,7 +170,7 @@ asix, ax88179_178a, cdc_ether, r8152
 Since the 8152 is Realtek's product, that driver will be the one used for products that report that PCI ID.
 If you happen to have a CDC Ethernet product that uses that specific PCI ID, please set `ENABLE_USB_ETH_MODULE_AUTODETECT="false"` and set `ENABLE_USB_ETH_MODULE_MANUAL="cdc_ether"`
 
-The next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet. The camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed, as long as you are using the USB Ethernet Adapter.  Note that using USB Ethernet disables the onboard Wi-Fi.
+The next time you boot your camera, make sure your USB Ethernet Adapter is connected to the camera and ethernet.  Note that using USB Ethernet disables the onboard Wi-Fi.
 
 ---
 
@@ -220,7 +220,7 @@ Specifies the time, in milliseconds, to wait before enabling a slave after a lin
 ENABLE_USB_DIRECT="true"
 ```
 
-the next time you boot your camera, make sure your USB cable is connected to the router.  Remember, the camera has to be setup initially with Wi-Fi for this to work.  After setup, Wi-Fi is no longer needed.  Note that using USB Direct disables the onboard Wi-Fi.  Change the MAC Address if you desire via USB_DIRECT_MAC_ADDR variable.
+the next time you boot your camera, make sure your USB cable is connected to the router.  Note that using USB Direct disables the onboard Wi-Fi.  Change the MAC Address if you desire via USB_DIRECT_MAC_ADDR variable.
 
 Connectivity is supported using a direct USB connection only... this means a single cable from the camera, to a supported host (An OpenWRT router, for example) that supports the usb-cdc-ncm specification. (NCM, not ECM) If you have an OpenWrt based router, install the ```kmod-usb-net-cdc-ncm``` package.  The camera should automatically pull the IP from the router with most configurations.  You can also use any modern linux distro to provide internet to the camera, provided it supports CDC_NCM.  enjoy!
 
