@@ -36,6 +36,8 @@ ENABLE_NFSv4="false"
 ENABLE_RTL8189FS_DRIVER="true"
 ENABLE_ATBM603X_DRIVER="true"
 
+NTP_SERVER=
+
 ##### NETWORK INTERFACE BONDING #####
 BONDING_ENABLED="false"
 BONDING_PRIMARY_INTERFACE="eth0"
@@ -96,6 +98,7 @@ ENABLE_FSCK_ON_BOOT="false"
 ENABLE_CAR_DRIVER="false"
 ENABLE_LOCAL_DNS="false"
 ENABLE_CRONTAB="false"
+ENABLE_SELFHOSTED_MODE="false"
 
 #####DEBUG#####
 #drops you to a shell via serial, doesn't load app_init.sh

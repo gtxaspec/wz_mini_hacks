@@ -48,6 +48,13 @@ H1 {
 .ii_value {
   width:75%;
 }
+.ii_shared {
+ width:20% !important;
+}
+.ii_select {
+ width: 55%;
+}
+
 .feed {
   position:absolute;
   top:10px;
@@ -143,4 +150,27 @@ H1 {
 }
 .fail_val {
  background-color:#fcc;
+}
+.error_title {
+ width:200px;
+ order:0;
+}
+
+.error_message {
+ display:flex;
+ color:red;
+ font-family: monospace;
+}
+
+.github_link {
+ border:1px solid white;
+ border-radius:5px;
+ padding:2px;
+ padding-right:2px !important;
+ width:40px;
+ margin-right:15px;
+}
+.github_link A {
+ color:white;
+ font-size:12px;
 }

@@ -547,9 +547,24 @@ ENABLE_CRONTAB="true"
 Enable crontab.  Located at `wz_mini/etc/cron/root`
 
 ---
+### Self-Hosted / Isolated Mode
+```
+ENABLE_SELFHOSTED_MODE="true"
+```
+
+When enabled, the `iCamera` program will be patched to work nicely in a self-hosted environment. This can be reverted by setting the value to `false` and rebooting. Intended for advanced users only! Do not enable if you use the Wyze App. Disabled by default.
+
+Normally, the firmware will restart the network interface periodically when it is unable to reach Wyze's servers which results in intermittent network drops. For advanced users that intend to run the Wyze Cam without internet access or on a controlled network, this option will patch the `iCamera` process to function without the Wyze servers.
+
+Feature supported on:
+* Wyze Cam v3 firmware: 4.36.9.139, 4.61.0.1
+* Wyze Cam v2 firmware: 4.9.8.1002
+
+---
 
 ## Latest Updates
 
+* 09-27-22:  Add self_hosted iCamera patch by @kohrar, fix config backup script, add ntp client on boot.
 * 08-07-22:  Updated init.d scripts.  Added syslog save feature.  Fixed orientation issue on T31 devices in webcam mode.  Added crontab support.
 * 07-25-22:  Add dnsmasq local dns option in configuration to prevent dns flooding on local networks.  Added web server capability for configuration and car control.
 * 07-14-22:  Add car compatability with normally unsupported devices.

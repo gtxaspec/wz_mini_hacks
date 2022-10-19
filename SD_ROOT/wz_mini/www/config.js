@@ -56,6 +56,13 @@ function compose_rtsp_block(stype)
   vb.appendChild(url_block);
 }
 
+function enable_submit()
+{
+	alert("no guarantees at all on this one. Change values at your own risk");
+       document.getElementById("update").disabled = false;
+
+}
+
 window.onload = function()
 {
 	var feed = document.getElementById("current_feed");

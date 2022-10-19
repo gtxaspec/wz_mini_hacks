@@ -17,7 +17,7 @@ dmesg_test()
 {
 x=$(dmesg | grep "$1")
 if [ -n "$x" ]; then
-        echo "<div>$2 error found</div>"
+        echo "<div class="error_message"><div class="error_title">$2 error found</div>$x</div>"
 else    
         echo "<div>no $2 error</div>"
 fi
@@ -29,7 +29,7 @@ logread_test()
 x=$(logread | grep "$1")
 
 if [ -n "$x" ]; then
-        echo "<div>$2 error found</div>"
+        echo "<div class="error_message"><div class="error_title">$2 error found</div>$x</div>"
 else
         echo "<div>no $2 error</div>"
 fi

@@ -1,0 +1,26 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Starts ntpd against a custom NTP server
+# Description:       The clock will synchronize against a user defined NTP server. Useful if the camera is on an isolated network.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		if [ ! -z "$NTP_SERVER" ] ; then
+			# Replace timesync call with our own ntpd using a custom NTP server
+			sed -i "s/\/system\/bin\/timesync/\/opt\/wz_mini\/tmp\/.bin\/ntpd -ndp '$NTP_SERVER'/" /opt/wz_mini/tmp/.storage/app_init.sh
+		fi
+		
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

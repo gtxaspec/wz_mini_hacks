@@ -25,7 +25,9 @@ case "$1" in
 				echo "Factory configs backup directory present, not backing up again"
 			else
 				echo "Backup /configs"
+				mount -t jffs2 /dev/mtdblock6 /configs
 				cp -R /configs/ /opt/.wz_backup/
+				umount /configs
 			fi
 		elif [ -f /opt/wz_mini/tmp/.T20 ]; then
 			echo "T20 platform backup"
@@ -33,14 +35,18 @@ case "$1" in
 				echo "Factory configs backup directory present, not backing up again"
 			else
 				echo "Backup /configs"
+				mount -t jffs2 /dev/mtdblock8 /configs
 				cp -R /configs/ /opt/.wz_backup/
+				umount /configs
 			fi
 
 			if [ -d /opt/.wz_backup/params ]; then
 				echo "Factory params backup directory present, not backing up again"
 			else
 				echo "Backup /params"
+				mount -t jffs2 /dev/mtdblock9 /params
 				cp -R /params/ /opt/.wz_backup/
+				umount /params
 			fi
 		fi
 		;;

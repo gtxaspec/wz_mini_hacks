@@ -34,59 +34,10 @@ fi
 }
 
 
-reboot_camera()  {
-    die_no_config
-    reboot_wait=90
-    echo "rebooting camera (refreshing screen in $reboot_wait seconds)"
-    echo '<script type="text/javascript">setTimeout(function(){ document.location.href = "/cgi-bin/config.cgi"; },'$reboot_wait' * 1000)</script>'
-    handle_css config.css
-    version_info "display_BAR"
-    reboot 
-    exit
-}
-
-shft() {
-    # SE loop did not work -- thanks ash!
-   suff=8 
-   while [ "$suff" -gt 0 ] ;
-    do
-        if [[ -f "$1.$suff" ]] ; then
-            nxt=$((suff + 1))
-            mv -f "$1.$suff" "$1.$nxt"
-        fi
-   suff=$((suff-1))
-   done 
-   mv -f "$1" "$1.1"
-}
-
-
 function revert_config
 {
   mv "$hack_ini" "$hack_ini.old"
   mv "$hack_ini.$1" "$hack_ini"
-}
-
-
-function revert_menu
-{
-   echo '<h2 id="revert" >Revert Menu</a>'
-   echo '<div class="old_configs">'
-   echo 'Prior Versions : ' 
-   xuff=0
-   while [ "$xuff" -lt 9 ] ; 
-   do 
-	xuff=$((xuff + 1))  
-        if [[ -f "$1.$xuff" ]] ; then
-	    filedate=$(date -r "$1.$xuff" )	
-            class=""
-	    if [ "$1.$xuff" = "$2" ];
-	    then
-               class="current_revert"
-            fi
-	    echo '<div class="revert_DIV '$class'"><div><a href="?action=show_revert&version='"$xuff"'">'"$xuff </a></div><div> $filedate</div></div>"
-        fi
-    done
-    echo '</div>'
 }
 
 
@@ -128,6 +79,7 @@ if [[ $REQUEST_METHOD = 'POST' ]]; then
   do
       K=$(echo $PAIR | cut -f1 -d=)
       VA=$(echo $PAIR | cut -f2 -d=)
+      VA=$(urldecode $VA)
       VB=\"${VA//%3A/:}\"
       #echo "<div>$K=$VB</div>"
       eval POST_$K=\"$VB\"
@@ -213,13 +165,6 @@ function ini_to_html_tf
         documentation_to_html $1
         printf '</div>'
 }
-
-#function to handle camera feed
-function html_cam_feed
-{
-	printf '<img id="current_feed" src="/cgi-bin/jpeg.cgi?channel=1" class="feed" />'
-}
-
 
 
 
