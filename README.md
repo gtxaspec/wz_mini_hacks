@@ -523,6 +523,14 @@ WEB_SERVER_ENABLED="true"
 
 Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<Camera IP>/`  Thank you @virmaior!
 
+```
+WEB_SERVER_OPTIONS="cam config car jpeg"`
+```
+This adds access controls limiting which parts of the web server are exposed. 
+ * cam = cam.cgi
+ * config = config.cgi
+ * car = car.sh
+ * jpeg = jpeg.cgi
 ---
 
  ### SYSLOG:
