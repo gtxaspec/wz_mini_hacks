@@ -1,5 +1,6 @@
 #!/bin/sh
-
+. /opt/wz_mini/www/cgi-bin/shared.cgi
+test_area_access jpeg
 
 #test for jpeg
 if [[ $REQUEST_METHOD = 'GET' ]]; then

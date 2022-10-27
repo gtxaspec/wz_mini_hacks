@@ -1,5 +1,5 @@
 BODY {
- --feed_ratio: 2.5;
+ --feed_ratio: 1;
  --display_bar_height: 20px;
  --border-color: #ccc;
  padding-bottom: var(--display_bar_height);
@@ -7,10 +7,9 @@ BODY {
 H1 {
  background-color:blue;
  color:white;
- height:calc(108px * (var(--feed_ratio) - 1));
+ height:calc(108px * (var(--feed_ratio)));
  margin-top:0;
  padding:5px;
- margin-bottom:108px;
  width:calc(100% - (192px * var(--feed_ratio)));
 }
 
@@ -56,7 +55,7 @@ H1 {
 }
 
 .feed {
-  position:absolute;
+  position:fixed;
   top:10px;
   right:0px;
   width:calc(192px * var(--feed_ratio));
@@ -167,10 +166,17 @@ H1 {
  border-radius:5px;
  padding:2px;
  padding-right:2px !important;
- width:40px;
+ width:125px;
  margin-right:15px;
 }
 .github_link A {
  color:white;
  font-size:12px;
+}
+
+.full_JPEG {
+  max-height:100%;
+  max-width:100%;
+  height:auto;
+  width:auto;
 }

@@ -1,5 +1,4 @@
 
-var feed_interval_frequency = 1000;
 var mac_re = /^[0-9a-f]{1,2}([\.:-])(?:[0-9a-f]{1,2}\1){4}[0-9a-f]{1,2}$/mi;
 
 // https://stackoverflow.com/questions/14636536/how-to-check-if-a-variable-is-an-integer-in-javascript#14794066
@@ -63,15 +62,8 @@ function enable_submit()
 
 }
 
-window.onload = function()
+window.addEventListener("load", function()
 {
-	var feed = document.getElementById("current_feed");
-	function update_image()
-	{
-		feed.src = feed.src.split("&")[0] + "&load=" + new Date().getTime();
-	}
-	feed_interval = setInterval(update_image, feed_interval_frequency);
-	
 	compose_rtsp_block('RTSP_HI_RES');
 	compose_rtsp_block('RTSP_LOW_RES');
 
@@ -103,4 +95,4 @@ window.onload = function()
 
 	}
 	);
-}
+});

@@ -64,6 +64,9 @@ echo "Firmware Version: $camfirmware <br />"
 if [ "$camfirmware" = "4.36.10.2163" ]; then
 	echo "<div>this version is broken. Please downgrade to a working version</div>"
 fi
+if [ "$camfirmware" = "4.61.0.3"]; then
+	echo "<div>wz_mini_hacks does not support the official RTSP firmware.</div>"
+fi 
 
 
 echo "<pre>"

@@ -1,5 +1,7 @@
 #!/bin/sh
 # This provides shared values for webpages
+
+
 base_dir=/opt/wz_mini/
 base_hack_ini=/opt/wz_mini/wz_mini.conf
 hack_ini=$base_hack_ini
@@ -37,11 +39,11 @@ echo -ne '</style>';
 function version_info
 {          
  echo "<div id='$1'>"
+ echo '<div class="github_link" ><a target="_new" href="https://github.com/gtxaspec/wz_mini_hacks">GitHub: wz_mini_hack</a></div>';
  echo "<div class='ver_DIV' vertype='Model'>$camver</div>"
  echo "<div class='ver_DIV' vertype='Firmware'>$camfirmware</div>"
  echo "<div class='ver_DIV' vertype='wz_mini'>$hackver</div>"
  echo "<div class='ver_DIV' vertype='Hostname'> $HOSTNAME</div>"
- echo '<div class="github_link" ><a target="_new" href="https://github.com/gtxaspec/wz_mini_hacks">Project</a></div>';
  echo "</div>"
 }
 
@@ -109,5 +111,43 @@ urldecode(){
  a=${1//+/ }
  b=${a//%/\\x}
  echo -e "$b"
+}
+
+
+stringContain() { [ -z "${2##*$1*}" ] && [ -z "$1" -o -n "$2" ]; }
+
+
+test_area_access()
+{
+echo "search: $1"
+values=$(cat "$base_hack_ini" | grep "WEB_SERVER_OPTIONS" | cut -f2 -d=  ) 
+
+
+if [ -z "$values" ]
+then
+	values="cam config car jpeg"
+fi
+
+
+if [[ "$values" =~ "$1" ]]
+then
+        :
+else
+
+        echo "HTTP/1.1 200"
+        echo -e "Content-type: text/html\n\n"
+        echo ""
+	echo "<html><head><title>Access Denied</title>"
+	handle_css config.css
+	echo "</head><body>"
+        echo "<h1>access denied to $1</h1>"
+        echo "<div>access allowed for : $values</div>"
+        echo "you need to enable access using wz_mini.conf WEB_SERVER_OPTIONS "
+	version_info display_BAR
+	echo "</body></html>"
+        exit
+fi
+
+
 }
 

@@ -2,8 +2,10 @@
 # This serves a rudimentary webpage based on wz_mini.conf
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
+test_area_access config
 title="$camver on $camfirmware running wz_mini $hackver as $HOSTNAME"
 updated=false
+
 
 
 
@@ -172,6 +174,8 @@ echo -ne "<html><head><title>$title</title>"
 handle_css config.css
 
 echo '<script type="text/javascript" src="/config.js" ></script>'
+echo '<script type="text/javascript" src="/feed.js" ></script>'
+
 echo -ne "</head>"
 
 
