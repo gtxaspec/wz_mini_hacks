@@ -40,7 +40,8 @@ elif [ "$ACTION" = "pack" ]; then
     #need to pad kernel is its smaller than the stock kernel size, 2097152 bytes
     dd if=/dev/zero of=$TMP_DIR/kernel.bin bs=1 count=1 seek=2097151
 
-    cat $TMP_DIR/kernel.bin $TMP_DIR/rootfs.bin $TMP_DIR/driver.bin $TMP_DIR/appfs.bin > $TMP_DIR/flash.bin
+    #only run mkimage if cat succeeds, otherwise it's possible that a bad image is created
+    cat $TMP_DIR/kernel.bin $TMP_DIR/rootfs.bin $TMP_DIR/driver.bin $TMP_DIR/appfs.bin > $TMP_DIR/flash.bin && \
     mkimage -A MIPS -O linux -T firmware -C none -a 0 -e 0 -n jz_fw -d $TMP_DIR/flash.bin $DEMO_OUT
 
 else

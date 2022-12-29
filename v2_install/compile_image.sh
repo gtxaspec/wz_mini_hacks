@@ -12,6 +12,16 @@ command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip is not installed.  Abortin
 echo "tools OK"
 }
 
+cleanup() {
+local version="${1:-firmware}"
+
+echo "saving original firmware"
+mv ./v2_ro/demo*.zip "./demo_${version// /_}-orig.zip"
+
+echo "removing temporary work directory"
+rm -rf v2_ro
+}
+
 download(){
 rm -f demo.bin
 
@@ -32,18 +42,20 @@ else
 		echo "build for v2"
 		wget $DL_URL -O ./v2_ro/demo.zip
 	fi
-
-	if [[ $(md5sum ./v2_ro/demo.zip) == *"a69b6d5ffdbce89463fa83f7f06ec10b"* ]]; then
-		echo "v2 4.9.8.1002"
-	elif [[ $(md5sum ./v2_ro/demo.zip) == *"91793d32fd797a10df572f4f5d72bc55"* ]]; then
-		echo "pan v1 4.10.8.1002"
-	else
-		echo "md5sum failed check, please manually supply file"
-		rm -rf v2_ro
-		exit 1
-	fi
 fi
 
+# check the firmware to see if it's supported
+local version_found=""
+if [[ $(md5sum ./v2_ro/demo*.zip) == *"a69b6d5ffdbce89463fa83f7f06ec10b"* ]]; then
+	version_found="v2 4.9.8.1002"
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"91793d32fd797a10df572f4f5d72bc55"* ]]; then
+	version_found="pan v1 4.10.8.1002"
+else
+	cleanup
+	echo "md5sum failed check, please supply a supported demo.zip file"
+	exit 1
+fi
+echo "$version_found"
 
 echo "extracting firmware to temporary work directory"
 unzip v2_ro/demo*.zip -d ./v2_ro/
@@ -60,10 +72,16 @@ cp v2_kernel.bin v2_ro/fw_dir/kernel.bin
 echo "pack firmware image with new kernel"
 ./fw_tool.sh pack v2_ro/fw_dir demo.bin
 
-echo "remove temporary work directory"
-rm -rf v2_ro
+cleanup "$version_found"
 
-echo "demo.bin ready.  Please copy demo.bin to your memory card"
+# check to see if the modified demo.bin has been created
+if [ ! -f "demo.bin" ]; then
+  echo "demo.bin was not created.  Aborting."
+  exit 1
+else
+  echo "demo.bin ready for $version_found.  Please copy demo.bin to your memory card"
+fi
+
 }
 
 
