@@ -525,9 +525,14 @@ Enables `dnsmasq`, a lightweight, local, caching DNS server on the camera.  Fixe
 ### Web Server:
 ```
 WEB_SERVER_ENABLED="true"
+WEB_SERVER_AUTH="true"
+WEB_SERVER_LOGIN="admin"
+WEB_SERVER_PASSWORD=""
 ```
 
 Enables the local webserver, for configuration, car control, or to retreive an image snapshot via a web browser.  Available at : `http://<Camera IP>/`  Thank you @virmaior!
+Similar to the RTSP default password, if you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons.
+If you do not want to have an authentication prompt for the local webserver, set WEB_SERVER_AUTH to false.
 
 ```
 WEB_SERVER_OPTIONS="cam config car jpeg"`
