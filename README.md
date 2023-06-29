@@ -19,7 +19,7 @@ Using this project can potentially expose your device to the open internet depen
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Works on ANY firmware release up to 4.36.9.139 (DO NOT UPGRADE BEYOND THIS FW IF YOU WANT RTSP or any `cmd` FEATURES!)
   * Compatability is not guaranteed with really old firmware versions!
-  * Update to the latest stable or beta firmware, this mod should still work!
+  * Update to the latest stable or beta firmware, this mod should still work! (most features!)
   * Block remote or app initiated firmware updates
   * DNS Spoofing or Telnet mod are *not* required prior to installation
 * Wireguard and IPv6 support enabled
