@@ -11,10 +11,8 @@ case "$1" in
 	start)
 		echo "#####$(basename "$0")#####"
 
-		#Wait for wlan hardware to be intitialized in app_init.sh, this must be blocking.
-		#Lets come up with a solution for some cameras with failed wlan hw, someone on reddit mentioned it"
+		#Wait for wlan hardware to be intitialized in app_init.sh, this must be blocking
 		echo "Waiting for wlan hw init"
-
 		wait_for_wlan $(basename "$0")
 		;;
 	*)
