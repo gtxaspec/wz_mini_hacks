@@ -119,7 +119,7 @@ stringContain() { [ -z "${2##*$1*}" ] && [ -z "$1" -o -n "$2" ]; }
 
 test_area_access()
 {
-echo "search: $1"
+echo -ne "search: $1\r\n"
 values=$(cat "$base_hack_ini" | grep "WEB_SERVER_OPTIONS" | cut -f2 -d=  ) 
 
 
