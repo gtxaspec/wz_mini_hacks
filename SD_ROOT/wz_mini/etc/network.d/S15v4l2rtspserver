@@ -111,8 +111,6 @@ case "$1" in
 		cmd audio 0 off
 		cmd video 1 off
 		cmd audio 1 off
-		pkill imp_helper.sh
-
 		;;
 	restart)
 		$0 stop
