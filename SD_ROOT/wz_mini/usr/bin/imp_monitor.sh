@@ -2,7 +2,7 @@
 
 INTERVAL=60
 LOCKFILE="/media/mmc/wz_mini/tmp/daemon.lock"
-LOGFILE="/media/mmc/wz_mini/tmp/daemon.log"
+LOGFILE="/media/mmc/wz_mini/log/daemon.log"
 SCRIPT_PATH=$(cd $(dirname "$0") && pwd -P)/$(basename "$0")
 
 check() {
