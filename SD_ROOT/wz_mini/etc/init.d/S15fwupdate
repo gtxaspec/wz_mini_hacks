@@ -71,7 +71,7 @@ case "$1" in
 			echo "/system/bin/app.ver not found"
 		fi
 
-		if [-f /system/bin/liveMediaServer ]; then
+		if [ -f /system/bin/liveMediaServer ]; then
 			echo "WARNING: Stock RTSP firmware detected."
 			echo "WARNING: The stock RTSP firmware is old, unmaintained, and insecure."
 			echo "WARNING: Compatability with wz_mini is NOT guaranteed, and not supported"
