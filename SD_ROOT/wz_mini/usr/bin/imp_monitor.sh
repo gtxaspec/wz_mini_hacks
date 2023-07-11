@@ -14,9 +14,9 @@ check() {
         uTargetBitRate=$(echo "$output" | grep -A 32 "CHANNEL $i" | grep "uTargetBitRate" | awk -F '[=()]' '{print $2}' | xargs)
         uMaxBitRate=$(echo "$output" | grep -A 32 "CHANNEL $i" | grep "uMaxBitRate" | awk -F '[=()]' '{print $2}' | xargs)
         echo "Channel $i: rcMode=$rcMode, uTargetBitRate=$uTargetBitRate, uMaxBitRate=$uMaxBitRate"
-        eval desired_rcMode=\$CH${i}_rcMode
-        eval desired_uTargetBitRate=\$CH${i}_uTargetBitRate
-        eval desired_uMaxBitRate=\$CH${i}_uMaxBitRate
+        eval desired_rcMode=\$VIDEO_${i}_ENC_PARAMETER
+        eval desired_uTargetBitRate=\$VIDEO_${i}_TARGET_BITRATE
+        eval desired_uMaxBitRate=\$VIDEO_${i}_MAX_BITRATE
         if [ "$rcMode" != "$desired_rcMode" ]; then
             echo "Channel $i: rcMode is different from desired value ($desired_rcMode)"
             exit_status=1
@@ -42,9 +42,9 @@ set_values() {
         uTargetBitRate=$(echo "$output" | grep -A 32 "CHANNEL $i" | grep "uTargetBitRate" | awk -F '[=()]' '{print $2}' | xargs)
         uMaxBitRate=$(echo "$output" | grep -A 32 "CHANNEL $i" | grep "uMaxBitRate" | awk -F '[=()]' '{print $2}' | xargs)
 
-        eval desired_rcMode=\$CH${i}_rcMode
-        eval desired_uTargetBitRate=\$CH${i}_uTargetBitRate
-        eval desired_uMaxBitRate=\$CH${i}_uMaxBitRate
+        eval desired_rcMode=\$VIDEO_${i}_ENC_PARAMETER
+        eval desired_uTargetBitRate=\$VIDEO_${i}_TARGET_BITRATE
+        eval desired_uMaxBitRate=\$VIDEO_${i}_MAX_BITRATE
 
         if [ "$rcMode" != "$desired_rcMode" ]; then
             impdbg --enc_rc_s ${i}:44:4:$desired_rcMode
