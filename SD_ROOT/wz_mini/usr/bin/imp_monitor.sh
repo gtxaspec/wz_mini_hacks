@@ -88,9 +88,11 @@ daemon_loop() {
     echo "Starting daemon with PID $$"
 
     while true; do
+        echo $(date)
         echo "Checking values..."
         check
         if [ $? -eq 1 ]; then
+            echo $(date)
             echo "Setting values..."
             set_values
         fi
