@@ -5,6 +5,7 @@
 # Description:       Set system FPS in the hualai config based on user settings
 ### END INIT INFO
 
+. /opt/wz_mini/etc/rc.common
 . /opt/wz_mini/wz_mini.conf
 
 imp_fps() {
