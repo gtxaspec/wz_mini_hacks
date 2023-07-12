@@ -44,7 +44,7 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Coming Soon
 * onvif - maybe
-* overlayfs support
+* overlayfs support - maybe
 
 ## How you can help!
 * Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
@@ -294,10 +294,29 @@ ENABLE_NFSv4="true"
 
 ---
 
+### Video Settings
+
+You can configure the following settings that will apply to the video streams:
+
+```
+VIDEO_0_MAX_BITRATE=""
+VIDEO_0_TARGET_BITRATE=""
+VIDEO_0_ENC_PARAMETER=""
+VIDEO_0_FPS=""
+```
+
+VIDEO_0 = 1080p stream
+VIDEO_1 = 360p stream
+
+- Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
+- Setting the FPS is not required unless you want to change the default device settings (20 day/15 night FPS for V3, 15 day/10 night FPS for V2).
+- `ENC_PARAMETER` accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  **Currently only 2, 4, and 8 are working**
+
+---
+
 ### RTSP streaming:
 The RTSP server supports up to two video streams provided by the camera, 1080p/360p (1296p/480p for the DB3 [DoorBell3]).  You can choose to enable a single stream of your choice (HI or LOW), or both.  Audio is also available.  If you do not have `RTSP_AUTH_DISABLE="true"` **MAKE SURE TO SET** your login credentials!
 #### NOTES
-- `ENC_PARAMETER` accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  **Currently only 2, 4, and 8 are working**
 - V2 and V3 endpoints are not the same!
 
 ```
@@ -307,17 +326,9 @@ RTSP_PORT="8554"
 
 RTSP_HI_RES_ENABLED="true"
 RTSP_HI_RES_ENABLE_AUDIO="true"
-RTSP_HI_RES_MAX_BITRATE="2048"
-RTSP_HI_RES_TARGET_BITRATE="1024"
-RTSP_HI_RES_ENC_PARAMETER="2"
-RTSP_HI_RES_FPS=""
 
 RTSP_LOW_RES_ENABLED="false"
 RTSP_LOW_RES_ENABLE_AUDIO="false"
-RTSP_LOW_RES_MAX_BITRATE=""
-RTSP_LOW_RES_TARGET_BITRATE=""
-RTSP_LOW_RES_ENC_PARAMETER=""
-RTSP_LOW_RES_FPS=""
 
 RTSP_AUTH_DISABLE="false"
 
@@ -332,12 +343,9 @@ multiple streams are located at
 - **V3** - ```rtsp://login:password@IP_ADDRESS:8554/video1_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video2_unicast```
 - **V2** - ```rtsp://login:password@IP_ADDRESS:8554/video6_unicast``` and ```rtsp://login:password@IP_ADDRESS:8554/video7_unicast```
 
-
 You may disable authentication by setting `RTSP_AUTH_DISABLE="true"`
 
-Setting the FPS is not required unless you want to change the default device settings (20 day/15 night FPS for V3, 15 day/10 night FPS for V2).
-
-Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.  Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
+Note:  If you don't set the password, the password will be set to the unique MAC address of the camera, in all uppercase, including the colons... for example:. AA:BB:CC:00:11:22.  It's typically printed on the camera.
 
 Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 
