@@ -612,6 +612,7 @@ Feature supported on:
 
 ## Latest Updates
 
+* 07-12-23:  Fixed RTSP urls for v2 camera's in web config, set config modification in web server to read-only, set lib-opus as default in go2rtc config
 * 07-11-23:  Support 30fps. Add new go2rtc server support for rtsp/hls/webrtc/etc. go2rtc fixed audio in tinycam app. Make video parameters, bitrate, rcmode, and fps independent of rtsp server settings.  fixed various init scripts.  Recommend to start from a fresh install.
 * 06-28-23:  Add basic auth to web server portal, clarify v2/panv1 setup instructions, http/1.1 RFC7230 compliance
 * 09-27-22:  Add self_hosted iCamera patch by @kohrar, fix config backup script, add ntp client on boot.
