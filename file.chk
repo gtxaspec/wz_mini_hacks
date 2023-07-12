@@ -173,7 +173,7 @@ eaf86f91cb1b15b2191a8845ae88e3c8  SD_ROOT/wz_mini/usr/share/audio/init_v2.wav
 02fed0e4b2382d839f630ce0477aba26  SD_ROOT/wz_mini/usr/share/audio/init.wav
 5754f767c1334df202983aed2a20a050  SD_ROOT/wz_mini/usr/share/audio/binbin_v3.wav
 6e01838f67f7e6e51a6891e1c411318a  SD_ROOT/wz_mini/usr/share/audio/honk.wav
-185e1ad831f19039e51d3637aa078f32  SD_ROOT/wz_mini/usr/bin/imp_monitor.sh
+e12b13c3d3d35c399ad47c9ab61abea0  SD_ROOT/wz_mini/usr/bin/imp_monitor.sh
 71b26aa98e14c4a1f5798b3e3a2d9bab  SD_ROOT/wz_mini/usr/bin/restart_wlan0.sh
 ac9f3a5d097d25d5d972c3d2ad288df9  SD_ROOT/wz_mini/usr/bin/ucamera_v2
 1080fd8fab00be80a333e004c6a5bd9c  SD_ROOT/wz_mini/usr/bin/iCamera
@@ -184,7 +184,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-ba031bf379e2fccd609b20999ec14db1  SD_ROOT/wz_mini/usr/bin/app.ver
+157ea3c12fcc8aed7c93463fc73495f7  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so

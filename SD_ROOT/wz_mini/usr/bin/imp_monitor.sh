@@ -111,7 +111,7 @@ daemon() {
         fi
     fi
 
-    nohup bash "$SCRIPT_PATH" --daemon-loop > "$LOGFILE" 2>&1 & disown
+    /opt/wz_mini/tmp/.bin/nohup /opt/wz_mini/bin/bash "$SCRIPT_PATH" --daemon-loop > "$LOGFILE" 2>&1 & disown
     exit 0
 }
 
