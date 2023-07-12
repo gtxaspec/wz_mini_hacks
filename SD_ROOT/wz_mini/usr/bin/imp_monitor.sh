@@ -1,4 +1,4 @@
-#!/media/mmc/wz_mini/bin/bash
+#!/opt/wz_mini/bin/bash
 
 INTERVAL=60
 LOCKFILE="/media/mmc/wz_mini/tmp/daemon.lock"
