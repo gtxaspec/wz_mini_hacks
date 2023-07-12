@@ -179,7 +179,7 @@ echo '<script type="text/javascript" src="/feed.js" ></script>'
 echo -ne "</head>"
 
 
-echo -ne '<body ip="'$ipaddr'" mac="'$macaddr'"  >'
+echo -ne '<body ip="'$ipaddr'" mac="'$macaddr'" camtype="'$camtype'"  >'
 echo -ne "<h1>$title</h1>";
 
 
