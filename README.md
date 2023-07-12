@@ -353,7 +353,6 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ### go2rtc streaming server:
 #### EXPERIMENTAL:
-#### AUDIO DOES NOT WORK YET!
 
 Included go2rtc streaming server by @AlexxIT.  Thank You!
 
@@ -371,6 +370,7 @@ HLS
 RTMP
 RTSP
 and more
+libopus & aac audio
 
 See [https://github.com/AlexxIT/go2rtc](https://github.com/AlexxIT/go2rtc) for details on how to configure.  Config file is located at `/opt/wz_mini/etc/go2rtc.yml`
 

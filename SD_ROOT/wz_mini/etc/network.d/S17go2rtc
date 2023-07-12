@@ -89,9 +89,11 @@ case "$1" in
 
 		if [[ "$GO2RTC_LOW_RES_ENABLED" == "true" ]] || [[ "$GO2RTC_HI_RES_ENABLED" == "true" ]]; then
 			echo "delay go2rtc for iCamera"
+
 			#This delay is required. Sometimes, if you start the go2rtc server too soon, live view will break on the app.
 			sleep 5
 
+                        export ALSA_CONFIG_PATH=/opt/wz_mini/etc/alsa/alsa.conf
 			/opt/wz_mini/bin/go2rtc_linux_mipsel -config /opt/wz_mini/etc/go2rtc.yml > $GO2RTC.log 2>&1 &
 
 		fi
