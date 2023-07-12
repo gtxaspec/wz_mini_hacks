@@ -351,6 +351,33 @@ Huge credit to @mnakada for his libcallback library: [https://github.com/mnakada
 
 ---
 
+### go2rtc streaming server:
+#### EXPERIMENTAL:
+#### AUDIO DOES NOT WORK YET!
+
+Included go2rtc streaming server by @AlexxIT.  Thank You!
+
+```
+GO2RTC_SERVER_ENABLED="true"
+GO2RTC_HI_RES_ENABLED="true"
+GO2RTC_HI_RES_ENABLE_AUDIO="true"
+GO2RTC_LOW_RES_ENABLED="true"
+GO2RTC_LOW_RES_ENABLE_AUDIO="true"
+```
+
+Supports:
+WebRTC
+HLS
+RTMP
+RTSP
+and more
+
+See [https://github.com/AlexxIT/go2rtc](https://github.com/AlexxIT/go2rtc) for details on how to configure.  Config file is located at `/opt/wz_mini/etc/go2rtc.yml`
+
+go2rtc WebUI is located at `http://<camera_ip>:1984`
+
+---
+
 ### mp4_write:
 
 ```
@@ -585,6 +612,8 @@ Feature supported on:
 
 ## Latest Updates
 
+* 07-11-23:  Support 30fps. Add new go2rtc server support for rtsp/hls/webrtc/etc. Make video parameters, bitrate, rcmode, and fps independent of rtsp server settings.  fixed various init scripts.  Recommend to start from a fresh install.
+* 06-28-23:  Add basic auth to web server portal, clarify v2/panv1 setup instructions, http/1.1 RFC7230 compliance
 * 09-27-22:  Add self_hosted iCamera patch by @kohrar, fix config backup script, add ntp client on boot.
 * 08-07-22:  Updated init.d scripts.  Added syslog save feature.  Fixed orientation issue on T31 devices in webcam mode.  Added crontab support.
 * 07-25-22:  Add dnsmasq local dns option in configuration to prevent dns flooding on local networks.  Added web server capability for configuration and car control.
