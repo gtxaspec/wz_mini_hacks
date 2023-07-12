@@ -144,7 +144,7 @@ function ini_to_html_free
         classes=""
         printf '<div class="ii"><div class="ii_key_DIV">%s</div><div class="ii_value_DIV">' $1
 	select_block $1 $3	
-	printf '<input class="ii_value'$classes'" type="text" name="%s" value="%s" default_value="%s"  row="%s"  /></div>' "row_$3[$1]" $2 $2 $3
+	printf '<input disabled=TRUE class="ii_value'$classes'" type="text" name="%s" value="%s" default_value="%s"  row="%s"  /></div>' "row_$3[$1]" $2 $2 $3
         documentation_to_html $1
         printf '</div>'
 }
@@ -164,7 +164,7 @@ echo -ne "</head>"
 echo -ne '<body ip="'$ipaddr'" mac="'$macaddr'"  >'
 echo -ne "<h1>$title</h1>";
 
-echo -ne "<div>cam.cgi only lists values in your current configuration file. To add other values, edit manually! </div>"
+echo -ne "<div>cam.cgi only lists values in your current configuration file. <div style='font-weight:bold;color:red' >To Prevent Bricking This Form is Disabled!</div> </div>"
 
 if [ "$updated" = true ];
 then
@@ -182,7 +182,7 @@ fi
 
         
 
-echo -ne '<form name="update_config" method="POST" enctype="application/x-www-form-urlencoded"  >'
+echo -ne '<form action="#" onsubmit="return false;" name="update_config" method="POST" enctype="application/x-www-form-urlencoded"  >'
 
 
 CONFIG_BLOCK=0
@@ -212,9 +212,9 @@ done < $cam_config
 
 
 
-echo -ne '<input type="submit" name="update" id="update" value="Update" disabled="disabled" />'
+#echo -ne '<input type="submit" name="update" id="update" value="Update" disabled="disabled" />'
 echo -ne '</form>'
-echo -ne '<button onclick="enable_submit();" >Enable Submit</button>';
+#echo -ne '<button onclick="enable_submit();" >Enable Submit</button>';
 
 revert_menu $base_hack_ini $cam_config
 
