@@ -5,6 +5,7 @@
 # Description:       Set system video bitrates for video channels
 ### END INIT INFO
 
+. /opt/wz_mini/etc/rc.common
 . /opt/wz_mini/wz_mini.conf
 
 case "$1" in
