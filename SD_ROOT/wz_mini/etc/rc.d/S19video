@@ -14,7 +14,7 @@ case "$1" in
 
 		echo "Starting imp_monitor.sh in daemon mode..."
 
-		/media/mmc/wz_mini/usr/bin/imp_monitor.sh --daemon
+		/opt/wz_mini/usr/bin/imp_monitor.sh --daemon
 
 		;;
 	*)
