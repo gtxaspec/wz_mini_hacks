@@ -11,7 +11,7 @@ ffc9d653967b2c25d9635d3240209db0  SD_ROOT/wz_mini/www/cgi-bin/DISABLE_FW_UPGRADE
 8a756026f05a35173b8748260b694e7d  SD_ROOT/wz_mini/www/cgi-bin/RTSP_HI_RES_ENABLED.md
 d5012a6758e30050b1dc8528e7968ac0  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_STORAGE.md
 b8f611d1dee2db10c8adf9f57e7274ad  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_ETH.md
-0e8974053b70bd6f3ce2bec778b6de19  SD_ROOT/wz_mini/www/cgi-bin/shared.cgi
+ea69f9719fe31875133c493f409a55fa  SD_ROOT/wz_mini/www/cgi-bin/shared.cgi
 4c911538bfc2f9190f6be19f6a63513c  SD_ROOT/wz_mini/www/cgi-bin/BONDING_ENABLED.md
 9d63813e87dbe8e3738ea677f13a3f0a  SD_ROOT/wz_mini/www/cgi-bin/cam-nightVision.md
 43b0bc8c91bd08e67e636eee2d29fb88  SD_ROOT/wz_mini/www/cgi-bin/config.css
@@ -184,7 +184,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-157ea3c12fcc8aed7c93463fc73495f7  SD_ROOT/wz_mini/usr/bin/app.ver
+77d4a40329039fa1b64e5a651169d451  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
@@ -336,7 +336,7 @@ bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 239ce7671549beb3faf8591bad649840  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
-283fca97d62c1c199eb2b04877998879  v2_install/compile_image.sh
-53db8da5b90bc9b219dbb1d58e934bda  v2_install/fw_tool.sh
+d0307a4c60a99a2b3f9da979385398e5  v2_install/compile_image.sh
+533fc156f7853d8b21dfbe51e6a4c02e  v2_install/fw_tool.sh
 71f103530794f9cb15aa6bb7f1e5b8a7  v2_install/v2_kernel.bin
-f01d641b98388e273c1f0ba682ebc75b  v2_install/.gitignore
+932c1f6bd2c28a8a56c72fc640bd9772  v2_install/.gitignore
