@@ -17,7 +17,7 @@ window.scrollTo({
 }
 
 
-function compose_rtsp_block(stype)
+function compose_rtsp_block(stype,streams)
 {
   const formElement = document.querySelector("form");
   var fdata = new FormData(formElement);
@@ -26,29 +26,30 @@ function compose_rtsp_block(stype)
 
 
   if (fdata.get(stype + "_ENABLED") != "true") {
- 	console.log(stype + " not enabled");
+        console.log(stype + " not enabled");
     return false;
-  } 
-  
-  var auth = "";
-  if (fdata.get('RTSP_AUTH_DISABLE') != "true") {
-	auth = fdata.get('RTSP_LOGIN') + ':';
-	if (fdata.get('RTSP_PASSWORD') != '') {
-		auth += fdata.get('RTSP_PASSWORD');
-	} else {
-		auth += document.body.getAttribute('mac');
-	}
-	auth += "@";
-  } 
-
-  
-  stream = "/unicast";
-  if ((fdata.get('RTSP_HI_RES_ENABLED') == "true") && (fdata.get('RTSP_LOW_RES_ENABLED') == "true")) {
-	if (stype == "RTSP_HI_RES") {  stream = "/video1_unicast"  } else { stream ="/video2_unicast" }
   }
 
-  var link = "rtsp://" + auth + document.body.getAttribute("ip") + ":" + fdata.get('RTSP_PORT') + stream;  
+  var auth = "";
+  if (fdata.get('RTSP_AUTH_DISABLE') != "true") {
+        auth = fdata.get('RTSP_LOGIN') + ':';
+        if (fdata.get('RTSP_PASSWORD') != '') {
+                auth += fdata.get('RTSP_PASSWORD');
+        } else {
+                auth += document.body.getAttribute('mac');
+        }
+        auth += "@";
+  }
+  
+         
+  stream = "unicast";
+ 
+  if ((fdata.get('RTSP_HI_RES_ENABLED') == "true") && (fdata.get('RTSP_LOW_RES_ENABLED') == "true")) {
+        if (stype == "RTSP_HI_RES") {  stream = streams['high'];   } else { stream = streams['low']; }
+ }
 
+  var link = "rtsp://" + auth + document.body.getAttribute("ip") + ":" + fdata.get('RTSP_PORT') + '/' stream;
+        
   var vb = document.querySelectorAll('[block_name="VIDEOSTREAM"]')[0];
   var url_block = document.createElement('DIV');
   url_block.innerHTML = 'Stream ' + stype + ' URL: ' + '<a href="' + link +  '">' + link +  '</a>' ;
@@ -64,9 +65,11 @@ function enable_submit()
 
 window.addEventListener("load", function()
 {
-	compose_rtsp_block('RTSP_HI_RES');
-	compose_rtsp_block('RTSP_LOW_RES');
-
+          var streams = {'low': 'video2_unicast', 'high':'video1_unicast'};
+          if (document.body.getAttribute('camtype') != 'T31')  { streams = {'low': 'video7_unicast', 'high':'video6_unicast'};  }
+  
+        compose_rtsp_block('RTSP_HI_RES',streams);
+        compose_rtsp_block('RTSP_LOW_RES',streams);
 	document.querySelector('[name="update_config"]').addEventListener('submit',
 	function(e){
           const mac_addrs = document.getElementsByClassName('mac_addr');
