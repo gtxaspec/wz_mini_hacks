@@ -14,14 +14,14 @@ imp_fps() {
                 #should be run after icamera is up --- FIXME
                 if [ -n "$VIDEO_0_FPS" ]; then
                         echo "Setting CH0 FPS"
-                        /system/bin/impdbg --enc_rc_s 0:8:4:$VIDEO_0_FPS
+                        /system/bin/impdbg --enc_rc_s 0:80:4:$VIDEO_0_FPS
                 else
                         echo "fps channel 0 is empty"
                 fi
 
                 if [ -n "$VIDEO_1_FPS" ]; then
-                        echo "Setting CH0 FPS"
-                        /system/bin/impdbg --enc_rc_s 1:8:4:$VIDEO_1_FPS
+                        echo "Setting CH1 FPS"
+                        /system/bin/impdbg --enc_rc_s 1:80:4:$VIDEO_1_FPS
                 else
                         echo "fps channel 1 is empty"
                 fi
