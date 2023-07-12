@@ -1,13 +1,13 @@
 #!/opt/wz_mini/bin/bash
 
 INTERVAL=60
-LOCKFILE="/media/mmc/wz_mini/tmp/daemon.lock"
-LOGFILE="/media/mmc/wz_mini/log/daemon.log"
+LOCKFILE="/opt/wz_mini/tmp/daemon.lock"
+LOGFILE="/opt/wz_mini/log/daemon.log"
 SCRIPT_PATH=$(cd $(dirname "$0") && pwd -P)/$(basename "$0")
 
 check() {
     output=$(impdbg --enc_info)
-    . /media/mmc/wz_mini/wz_mini.conf
+    . /opt/wz_mini/wz_mini.conf
     exit_status=0
     for i in 0 1; do
         rcMode=$(echo "$output" | grep -A 32 "CHANNEL $i" | grep "rcMode" | awk -F '[=()]' '{print $2}' | xargs)
@@ -34,7 +34,7 @@ check() {
 }
 
 set_values() {
-    . /media/mmc/wz_mini/wz_mini.conf
+    . /opt/wz_mini/wz_mini.conf
     output=$(impdbg --enc_info)
     change_flag=0
     for i in 0 1; do
