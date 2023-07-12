@@ -309,7 +309,7 @@ VIDEO_0 = 1080p stream
 VIDEO_1 = 360p stream
 
 - Higher video bitrates may overload your Wi-Fi connection, so a wired connection is recommended.
-- Setting the FPS is not required unless you want to change the default device settings (20 day/15 night FPS for V3, 15 day/10 night FPS for V2).
+- Setting the FPS is not required unless you want to change the default device settings (20 day/15 night FPS for V3, 15 day/10 night FPS for V2).  V3 Supports up to 30FPS.
 - `ENC_PARAMETER` accepts numbers only.  0=FIXQP, 1=CBR, 2=VBR, 4=CAPPED VBR, 8=CAPPED QUALITY.  **Currently only 2, 4, and 8 are working**
 
 ---
