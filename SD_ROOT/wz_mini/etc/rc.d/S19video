@@ -8,14 +8,20 @@
 . /opt/wz_mini/etc/rc.common
 . /opt/wz_mini/wz_mini.conf
 
+delay_imp() {
+                wait_for_icamera
+
+                echo "Starting imp_monitor.sh in daemon mode..."
+
+                /opt/wz_mini/usr/bin/imp_monitor.sh --daemon
+}
+
 case "$1" in
 	start)
 
 		echo "#####$(basename "$0")#####"
 
-		echo "Starting imp_monitor.sh in daemon mode..."
-
-		/opt/wz_mini/usr/bin/imp_monitor.sh --daemon
+                delay_imp &
 
 		;;
 	*)
