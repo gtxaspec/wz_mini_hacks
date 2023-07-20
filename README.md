@@ -70,10 +70,7 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Latest Updates
 
-* 07-19-23:  update go2rtc to master version, replace socat with ser2net server for remote accessories, fix setting FPS in config, fix usb direct, add set mac address for usb ethernet adapters, cloud config backups now visible on sd card root.
-* 07-13-23:  Updated README, updated wiki, updated ffmpeg build with musl and cpu optimizations.
-* 07-12-23:  Fixed RTSP urls for v2 camera's in web config, set config modification in web server to read-only, set lib-opus as default in go2rtc config
-* 07-11-23:  Support 30fps. Add new go2rtc server support for rtsp/hls/webrtc/etc. go2rtc fixed audio in tinycam app. Make video parameters, bitrate, rcmode, and fps independent of rtsp server settings.  fixed various init scripts.  Recommend to start from a fresh install.
+### * Visit the [Changelog](https://github.com/gtxaspec/wz_mini_hacks/wiki/Changelog) at the [Wiki](https://github.com/gtxaspec/wz_mini_hacks/wiki) for the latest update information!
 
 ## BYO
 
