@@ -14,7 +14,7 @@ Using this project can potentially expose your device to the open internet depen
 * No hardware modifications needed to the device!
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Compatability is not guaranteed with really old firmware versions!
-* Update to the latest stable or beta firmware, this mod should still work! (most features!)
+* Update to the latest stable or beta firmware, this mod should still work! (most features, see the wiki: [Firmware Support] (https://github.com/gtxaspec/wz_mini_hacks/wiki/Firmware-Support)
 * Block remote or app initiated firmware updates
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * RTSP Streaming Support:
@@ -70,10 +70,10 @@ Using this project can potentially expose your device to the open internet depen
 
 ## Latest Updates
 
+* 07-19-23:  update go2rtc to master version, replace socat with ser2net server for remote accessories, fix setting FPS in config, fix usb direct, add set mac address for usb ethernet adapters, cloud config backups now visible on sd card root.
 * 07-13-23:  Updated README, updated wiki, updated ffmpeg build with musl and cpu optimizations.
 * 07-12-23:  Fixed RTSP urls for v2 camera's in web config, set config modification in web server to read-only, set lib-opus as default in go2rtc config
 * 07-11-23:  Support 30fps. Add new go2rtc server support for rtsp/hls/webrtc/etc. go2rtc fixed audio in tinycam app. Make video parameters, bitrate, rcmode, and fps independent of rtsp server settings.  fixed various init scripts.  Recommend to start from a fresh install.
-* 06-28-23:  Add basic auth to web server portal, clarify v2/panv1 setup instructions, http/1.1 RFC7230 compliance
 
 ## BYO
 
