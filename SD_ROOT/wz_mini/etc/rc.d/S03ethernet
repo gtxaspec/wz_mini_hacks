@@ -59,6 +59,10 @@ case "$1" in
 
 			cat /sys/class/net/eth0/address | tr '[:lower:]' '[:upper:]' > /opt/wz_mini/tmp/eth0_mac
 
+                        if [ -n "$USB_ETH_MAC_ADDR" ]; then
+                                /opt/wz_mini/tmp/.bin/ifconfig eth0 hw ether $USB_ETH_MAC_ADDR
+                        fi
+
 		else
 			echo "USB Ethernet disabled"
 		fi

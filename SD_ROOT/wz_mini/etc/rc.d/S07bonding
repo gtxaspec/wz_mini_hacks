@@ -61,7 +61,7 @@ bonding_setup() {
 	#Run the DHCP client, and bind mount our fake wpa_cli.sh to fool iCamera
 	ifconfig wlan0 up
 	pkill udhcpc
-	udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b
+	udhcpc -i wlan0 -x hostname:$CUSTOM_HOSTNAME -p /var/run/udhcpc.pid -b -S
 
 	# If running with Interface Bonding enabled, kill any existing
 	# wpa_supplicant that might be running and spawn our own instead
@@ -78,8 +78,10 @@ bonding_setup() {
 		mount -o bind /opt/wz_mini/bin/wpa_cli.sh /bin/wpa_cli
 	fi
 
-	echo "Run network monitor for USB Direct"
-        /opt/wz_mini/usr/bin/netmon.sh &
+        if [[ "$ENABLE_USB_DIRECT" == "true" ]]; then
+                echo "Run network monitor for USB Direct"
+                /opt/wz_mini/usr/bin/netmon.sh  &
+        fi
 
 }
 

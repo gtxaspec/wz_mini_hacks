@@ -14,7 +14,7 @@ remote() {
 	echo "#####$(basename "$0")#####"
 
 	if [[ "$REMOTE_SPOTLIGHT" == "true" ]]; then
-		/opt/wz_mini/bin/socat pty,link=/dev/ttyUSB0,raw tcp:"$REMOTE_SPOTLIGHT_HOST":9000 &
+		/opt/wz_mini/bin/ser2net -c /opt/wz_mini/etc/ser2net.yaml
 		echo "Remote accessory support enabled"
 	else
 		echo "Remote accessory support disabled"
@@ -26,7 +26,7 @@ case "$1" in
 		remote &
 		;;
 	stop)
-		pkill socat
+		pkill ser2net
 		;;
 	*)
 		echo "Usage: $0 {start}"
