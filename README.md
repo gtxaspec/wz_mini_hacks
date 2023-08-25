@@ -14,7 +14,7 @@ Using this project can potentially expose your device to the open internet depen
 * No hardware modifications needed to the device!
 * Easy uninstall, just remove files from micro-sd card, or don't use a micro-sd card at all!
 * Compatability is not guaranteed with really old firmware versions!
-* Update to the latest stable or beta firmware, this mod should still work! (most features, see the wiki: [Firmware Support] (https://github.com/gtxaspec/wz_mini_hacks/wiki/Firmware-Support)
+* Update to the latest stable or beta firmware, this mod should still work! (most features, see the wiki) [Firmware Support] (https://github.com/gtxaspec/wz_mini_hacks/wiki/Firmware-Support)
 * Block remote or app initiated firmware updates
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * RTSP Streaming Support:
