@@ -7,6 +7,39 @@
 
 . /opt/wz_mini/wz_mini.conf
 
+
+compose_home()
+{
+  target=/opt/wz_mini/www/index.html
+  rm $target
+  cp /opt/wz_mini/www/index.top.html $target
+
+
+  if [[ "$WEB_SERVER_OPTIONS" ]]; then
+    for part in $WEB_SERVER_OPTIONS
+    do
+        case "$part" in
+        cam) echo '<a class="server_LINK" href="/cam.cgi" >Wyze Camera Core Config</a>' >> $target       ;;
+        config) echo '<a class="server_LINK" href="/config.cgi" >Wz Mini Configuration</a>' >> $target       ;;
+        car) echo '<a class="server_LINK" href="/car.html" >Car Tool</a>' >> $target       ;;
+        current) echo '<a class="server_LINK" href="/jpeg.cgi" >Current Screen</a>' >> $target       ;;
+        diag) echo '<a class="server_LINK" href="/diagnostics.cgi" >Diagnostics</a>' >> $target       ;;
+        esac
+    done
+
+        echo '<a class="server_LINK" href="/mulitcam.html" >Multi-Cam</a>' >> $target
+   fi
+
+  if [[ "$GO2RTC_SERVER_ENABLED" == "true" ]]; then
+        echo '<a class="server_LINK" href="#Go2RTC" onclick="javascript:event.target.port=1984">Go2RTC Server</a>' >> $target
+
+  fi
+
+  echo '<div id="display_BAR"><div class="github_link"><a target="_new" href="https://github.com/gtxaspec/wz_mini_hacks">GitHub: wz_mini_hack</a></div></div>' >> $target  
+  echo '</body></html>' >> $target
+}
+
+
 create_httpdconf()
 {
   conffile="/opt/wz_mini/etc/httpd.conf"
@@ -27,6 +60,7 @@ $authline
 EOF
 
 }
+
 
 do_start()
 {
@@ -57,6 +91,7 @@ if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
 case "$1" in
 	start)
 		echo "#####$(basename "$0")#####"
+		compose_home
 		do_start
 		;;
 	stop)
@@ -64,6 +99,7 @@ case "$1" in
 		;;
 	restart)
 		do_stop
+		compose_home
 		do_start
 		;;
 	*)
