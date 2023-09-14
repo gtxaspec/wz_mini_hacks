@@ -50,6 +50,14 @@ if [[ $(md5sum ./v2_ro/demo*.zip) == *"a69b6d5ffdbce89463fa83f7f06ec10b"* ]]; th
 	version_found="v2 4.9.8.1002"
 elif [[ $(md5sum ./v2_ro/demo*.zip) == *"91793d32fd797a10df572f4f5d72bc55"* ]]; then
 	version_found="pan v1 4.10.8.1002"
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"68706635fadc12b98c18c4b9540b320f"* ]]; then
+	version_found="pan v1 4.10.9.1433"
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"fafc26b815e0053c81ff796109616858"* ]]; then
+	version_found="pan v1 4.10.9.1472"
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"27faa1a01d9632a2c79c214632376ad9"* ]]; then
+	version_found="pan v1 4.10.9.1574"
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"273d58afbb0ea9550a8f15375f4681d2"* ]]; then
+	version_found="pan v1 4.10.9.1851"
 else
 	cleanup
 	echo "md5sum failed check, please supply a supported demo.zip file"
