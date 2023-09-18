@@ -13,7 +13,7 @@ case "$1" in
 		echo "#####$(basename "$0")#####"
 
 		if [ -d /opt/wyze_config_backup ]; then
-			echo "Factory config backup directory missing"
+			echo "Factory config backup directory exists"
 		else
 			echo "Creating factory config backup directory"
 			mkdir /opt/wyze_config_backup
