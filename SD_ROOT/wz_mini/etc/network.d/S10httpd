@@ -19,11 +19,11 @@ compose_home()
     for part in $WEB_SERVER_OPTIONS
     do
         case "$part" in
-        cam) echo '<a class="server_LINK" href="/cam.cgi" >Wyze Camera Core Config</a>' >> $target       ;;
-        config) echo '<a class="server_LINK" href="/config.cgi" >Wz Mini Configuration</a>' >> $target       ;;
+        cam) echo '<a class="server_LINK" href="/cgi-bin/cam.cgi" >Wyze Camera Core Config</a>' >> $target       ;;
+        config) echo '<a class="server_LINK" href="/cgi-bin/config.cgi" >Wz Mini Configuration</a>' >> $target       ;;
         car) echo '<a class="server_LINK" href="/car.html" >Car Tool</a>' >> $target       ;;
-        current) echo '<a class="server_LINK" href="/jpeg.cgi" >Current Screen</a>' >> $target       ;;
-        diag) echo '<a class="server_LINK" href="/diagnostics.cgi" >Diagnostics</a>' >> $target       ;;
+        current) echo '<a class="server_LINK" href="/cgi-bin/jpeg.cgi" >Current Screen</a>' >> $target       ;;
+        diag) echo '<a class="server_LINK" href="/cgi-bin/diagnostics.cgi" >Diagnostics</a>' >> $target       ;;
         esac
     done
 
