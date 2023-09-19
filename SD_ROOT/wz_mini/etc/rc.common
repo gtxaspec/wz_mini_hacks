@@ -56,4 +56,6 @@ wait_for_icamera() {
 	while ! pgrep -f "iCamera" > /dev/null; do
 		sleep 5
 	done
+
+	sleep 10
 }
