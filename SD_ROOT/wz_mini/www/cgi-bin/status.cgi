@@ -8,20 +8,27 @@ TZ=$(cat /configs/TZ)
 
 
 
-echo "HTTP/1.1 200"
-echo -e "Content-type: text/html\n\n"
-echo ""
 
 
 test_recording()
 {
 
-
+msg=""
 fpath=$(TZ="$TZ" date +"%Y%m%d")
-curmin=$(($(TZ="$TZ" date +"%M") - 1))
+nowmin=$(TZ="$TZ" date +"%M")
+curmin=$((10#$nowmin - 1))
 curhour=$(TZ="$TZ" date +"%H")
-if [ "$curmin" -eq 0 ]; then
-	if [ "$curhour" -gt 0 ]; then
+cursec=$(TZ="$TZ" date +"%S")
+
+
+if [[ "$cursec" -lt  "03" ]]; then
+	wt=$((3 - $cursec))
+	msg="delayed $wt seconds to allow copy to SD"
+        sleep $wt
+fi
+
+if [[ "$curmin" -eq "0" ]]; then
+	if [[ "$curhour" -gt "0" ]]; then
         	curhour=$(($curhour - 1))
 		curhour=$(printf %02d $curhour)
 	else
@@ -34,7 +41,7 @@ fi
 curmin=$(printf %02d $curmin)
 
 if [ ! -d "$base$fpath" ]; then
-	echo -e "NG \n\n"
+	echo -e "NG $lb"
 	echo "Date directory does not exist ($base$fname)" 
 	exit
 fi
@@ -43,24 +50,48 @@ fi
 
 
 if [ ! -d "$base$fpath/$curhour" ]; then
-        echo -e "NG \n\n"
+        echo -e "NG $lb"
 	echo "Hour directory does not exist ($base$fname/$curhour)"
 	exit
 fi
 
 
+
 if [ ! -f "$base$fpath/$curhour/$curmin.mp4" ]; then
-        echo -e "NG \n\n"
+        echo -e "NG $lb"
 	echo "Last minute not recorded ($base$fname/$curhour/$curmin.mp4)"
 	exit
 fi
 
 
-echo "OK"
+echo "OK$lb"
+echo found "$base$fpath/$curhour/$curmin.mp4"
+echo $msg
 }
 
 
-if [[ $REQUEST_METHOD = 'GET' ]]; then
+if [ -z $REQUEST_METHOD ]; then
+	echo "run on command line -- not in web "
+
+for ARGUMENT in "$@"
+do
+
+    KEY=$(echo $ARGUMENT | cut -f1 -d=)
+    VALUE=$(echo $ARGUMENT | cut -f2 -d=)   
+
+    case "$KEY" in
+	test)	GET_test=${VALUE} ;;
+    esac    
+   lb=""
+done
+
+elif  [[ $REQUEST_METHOD = 'GET' ]]; then
+
+  
+  echo "HTTP/1.1 200"
+  echo -e "Content-type: text/html\n\n"
+  echo ""
+  lb="<br >"
 
   #since ash does not handle arrays we create variables using eval
   IFS='&'
@@ -71,8 +102,10 @@ if [[ $REQUEST_METHOD = 'GET' ]]; then
       eval GET_$K=$VA
   done
 
+fi
+
+
   if [[ "$GET_test" = "recording" ]];  then
     test_recording
   fi
-fi
 
