@@ -18,9 +18,9 @@ Using this project can potentially expose your device to the open internet depen
 * Block remote or app initiated firmware updates
 * DNS Spoofing or Telnet mod are *not* required prior to installation
 * RTSP Streaming Support:
-  * v4l2rtspserver
   * go2rtc
-* RTMP Streaming - Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
+  * v4l2rtspserver (deprecated)
+* RTMP Streaming - via go2rtc: Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 * Networking: 
   * Wireguard, IPv6, CIFS/Samba and iptables support enabled
   * Tether your camera directly to android phones using USB via RNDIS support
@@ -32,12 +32,8 @@ Using this project can potentially expose your device to the open internet depen
   * CDC-Ether Based Adapters
 * USB Mass storage enabled, mount USB SSD/HDD/flash drives
 * Play audio to the camera speaker from files or streaming audio!
-* WebCam Mode - Use your camera as a spare UVC USB Web Camera on your PC or AndroidTV!
+* Webcam Mode - Use your camera as a spare UVC USB Web Camera on your PC, Mac, or AndroidTV!
 * Custom boot script support included
-
-## How you can help!
-
-* Vertical Tilt on the PANv2 doesn't work properly.  Only does this on the modified kernel.  Need investigation why this happens.
 
 ## Why?
 
@@ -54,13 +50,6 @@ Using this project can potentially expose your device to the open internet depen
 ## Setup / Configuration / Installation
 
 #### Visit the [Installation & Setup](https://github.com/gtxaspec/wz_mini_hacks/wiki/Setup-&-Installation) section of the [Wiki](https://github.com/gtxaspec/wz_mini_hacks/wiki) for details!
-
-## What Works / What Doesn't Work
-
-* Everything works except:
-
-  1. PAN v2:
-     -  Tilt (Vertical) only works at motor speed 9
 
 ## HELP! SOMETHING DOESN'T DOESN'T WORK
 
@@ -99,7 +88,9 @@ Inspired by HclX, bakueikozo, and mnakada!
 
 Thank you to everyone who is passionate about Wyze products for making the devices popular, and thank you to Wyze for producing them.  Sign up for CamPlus, show some love and support to the company.
 
-Thanks for HclX for WyzeHacks! [https://github.com/HclX/WyzeHacks/](https://github.com/HclX/WyzeHacks/)
+Thank you AlexxIT for the amazing go2rtc project! [https://github.com/AlexxIT/go2rtc](https://github.com/AlexxIT/go2rtc)
+
+Thanks for HclX for WyzeHacks! [https://github.com/HclX/WyzeHacks](https://github.com/HclX/WyzeHacks/)
 
 Thank you mnakada for his atomcam_tools fork! [https://github.com/mnakada/atomcam_tools](https://github.com/mnakada/atomcam_tools)
 

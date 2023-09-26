@@ -48,8 +48,7 @@ b77697b15e4d6e32e6e2c8c07cbceee2  SD_ROOT/wz_mini/etc/network.d/S04wireguard
 720d337f4fd4cecdf63cfbdf5476cc14  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
 88cd61106fa526f82a812b02aea23ddc  SD_ROOT/wz_mini/etc/network.d/S15v4l2rtspserver
 d3ac671f88b6d639926b9f5f9a40da6e  SD_ROOT/wz_mini/etc/network.d/S01wlanhw
-c36d67c69a7e86be6202b2d6e95a63ee  SD_ROOT/wz_mini/etc/network.d/S10httpd
-758921d3c465ea9ecd578639dd33f774  SD_ROOT/wz_mini/etc/network.d/s10httpd
+758921d3c465ea9ecd578639dd33f774  SD_ROOT/wz_mini/etc/network.d/S10httpd
 9969970dc82daa31b41730ee460514b0  SD_ROOT/wz_mini/etc/network.d/S03ipv6
 edebe65d895650235f05291618814ebe  SD_ROOT/wz_mini/etc/network.d/S08hostname
 3f025fd89a69b99b0b2e235faf504930  SD_ROOT/wz_mini/etc/network.d/S17go2rtc
@@ -193,7 +192,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-9cd53e75ddb53972ed1e9b40cff120e9  SD_ROOT/wz_mini/usr/bin/app.ver
+a063e244bab90ab16fa0781e15250d48  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
