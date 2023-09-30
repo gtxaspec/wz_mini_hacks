@@ -5,7 +5,7 @@ dbf932aa317b95a18cb7df4516086a40  SD_ROOT/wz_mini/www/cgi-bin/cam-bitRate.md
 23964b5a0dcf4863e94a4b0fce65e8b2  SD_ROOT/wz_mini/www/cgi-bin/diagnostics.cgi
 e17a4aeac39b2dbb5a71d05c4ba0a067  SD_ROOT/wz_mini/www/cgi-bin/WEB_CAM_ENABLE.md
 149ec81cc0bf19d7811d58a3b61c04ec  SD_ROOT/wz_mini/www/cgi-bin/jpeg.cgi
-fb32e872d57f1fe59b652933c06a934a  SD_ROOT/wz_mini/www/cgi-bin/status.cgi
+9c3f64781075d22bf8f0cb3e10ec8a73  SD_ROOT/wz_mini/www/cgi-bin/status.cgi
 78e6caa4aa6a870f7cb58ce71265c2da  SD_ROOT/wz_mini/www/cgi-bin/cam-NIGHT_LED_flag.md
 42178fc8e88339b884463a1ce9caeaa9  SD_ROOT/wz_mini/www/cgi-bin/GO2RTC_SERVER_ENABLED.md
 16394ca5c27c34b68142adb8e47a4434  SD_ROOT/wz_mini/www/cgi-bin/cam-drawBoxSwitch.md
@@ -32,6 +32,9 @@ efcb5cd9751e6a7c1730e0116046ae70  SD_ROOT/wz_mini/www/cgi-bin/config.cgi
 9e78c01564ae0c2c627f9f5c9ae4df91  SD_ROOT/wz_mini/www/cgi-bin/cam-res.md
 9be803465aa134d010c79622bdae44c6  SD_ROOT/wz_mini/www/cgi-bin/cam-watermark_flag.md
 042848359c3840f5973baffca2457a5d  SD_ROOT/wz_mini/www/cgi-bin/ENABLE_USB_DIRECT.md
+0a31310f2b8a824170b97750d525f887  SD_ROOT/wz_mini/www/multicam/index.css
+f0df9f6d87b0751ff2a68a30a7c1451b  SD_ROOT/wz_mini/www/multicam/index.js
+698c24126b58704f3fbdd92b39a390f8  SD_ROOT/wz_mini/www/multicam/index.html
 c4846ffbc108bfe26abfc0be9579ee82  SD_ROOT/wz_mini/www/feed.js
 5e0bf72e53baf044b3cd89a3f5b120b5  SD_ROOT/wz_mini/www/config.js
 e344ffc55222c029c5d324037a5aa1f3  SD_ROOT/wz_mini/www/car/car.js
@@ -48,7 +51,7 @@ b77697b15e4d6e32e6e2c8c07cbceee2  SD_ROOT/wz_mini/etc/network.d/S04wireguard
 720d337f4fd4cecdf63cfbdf5476cc14  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
 88cd61106fa526f82a812b02aea23ddc  SD_ROOT/wz_mini/etc/network.d/S15v4l2rtspserver
 d3ac671f88b6d639926b9f5f9a40da6e  SD_ROOT/wz_mini/etc/network.d/S01wlanhw
-758921d3c465ea9ecd578639dd33f774  SD_ROOT/wz_mini/etc/network.d/S10httpd
+27a4b83bb3aa6d53dcd1b81cd280f397  SD_ROOT/wz_mini/etc/network.d/S10httpd
 9969970dc82daa31b41730ee460514b0  SD_ROOT/wz_mini/etc/network.d/S03ipv6
 edebe65d895650235f05291618814ebe  SD_ROOT/wz_mini/etc/network.d/S08hostname
 3f025fd89a69b99b0b2e235faf504930  SD_ROOT/wz_mini/etc/network.d/S17go2rtc
@@ -192,7 +195,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-a063e244bab90ab16fa0781e15250d48  SD_ROOT/wz_mini/usr/bin/app.ver
+1116add42cb046e299a67abc0d04c2e5  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so

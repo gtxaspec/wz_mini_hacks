@@ -2,13 +2,56 @@
 # This serves a rudimentary webpage to test different items
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
-
+gpiopath="/sys/devices/virtual/gpio"
 base='/opt/record/';
 TZ=$(cat /configs/TZ)
 
 
+test_gpio()
+{
+ num=$1
+ #gpiodir=$(cat $gpiopath/gpio$num/direction)
+
+ #echo "gpiodir was $gpiodir for $num"
+
+ #newdir="in"
+ #echo $newdir > $gpiopath/gpio$num/direction
+ ##echo "set to in on $num"
 
 
+ myval=$(cat "$gpiopath/gpio$num/value")
+ #echo "read value $myval for $num"
+ if [[ "$myval" -eq "0" ]]; then
+        echo "OFF"
+ else
+        echo "ON"
+ fi
+
+ #if [[ "$gpiodir" != "in" ]]; then
+ #  echo $gpiodir > $gpiopath/gpio$num/direction
+ #fi
+
+
+}
+
+
+test_irled()
+{
+ test_gpio 47
+ echo "IRLED Test"
+}
+
+test_night()
+{
+ runmode=$(cat /proc/jz/isp/isp-m0 | grep "Runing Mode" | cut -d ":" -f 2 | sed -e 's/^[[:space:]]*//' )
+ if [[ "$runmode" = "Night" ]]; then
+	echo "OK$lb"
+ else
+	echo "NG$lb"
+ fi
+
+ echo "Test Night (Running Mode: $runmode)"
+}
 
 test_recording()
 {
@@ -107,5 +150,8 @@ fi
 
   if [[ "$GET_test" = "recording" ]];  then
     test_recording
+  elif [[ "$GET_test" = "irled" ]]; then
+    test_irled
+  elif [[ "$GET_test" = "night" ]]; then
+    test_night
   fi
-
