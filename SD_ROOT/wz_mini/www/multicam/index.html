@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>Multicam Tool</title>
+<meta name="viewport" content="width=device-width, height=device-height,initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="index.css" />
+<script src="index.js" ></script>
+<script type="text/javascript">
+
+
+window.onload = function()
+{
+  cam_tool.compose(5,'/z%d/cgi-bin/jpeg.cgi?channel=0','v3');
+  cam_tool.add_camera(6,'/z7/cgi-bin/get_jpeg.cgi?base=0');
+  cam_tool.init(800);
+};
+</script>
+</head>
+<body>
+<div class="za_images" id="za_images" ></div>
+<div class="cam_control" >
+        <button action="start">Live</button>
+        <button action="pause">Pause</button>
+	<div id="load_average">0</div>
+	<div id="load_modes">
+		<div class="load_mode" mode="auto" >Auto</div>
+		<div class="load_mode" mode="manual" >Manual:
+	<input type="number" onchange="cam_tool.update_freq(event);" min="50" value="5000" />
+	</div>
+</div>
+
+<video width="1" height="1" loop style="position:absolute;top:0;right:0" >
+<source src="/z1/cgi-bin/jpeg.cgi?channel=0" type="image/jpeg"> 
+
+Your browser does not support the video tag.
+
+</video> 
+
+</body>
+</html>
