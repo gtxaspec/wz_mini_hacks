@@ -258,6 +258,7 @@ const cam_tool = {
 	document.querySelector("DIV.load_mode[mode='manual'] INPUT").value = cam_tool.feed_interval_frequency;
 
         cam_tool.cams[0].obj.click();
+	cam_tool.calc_spacing();
         cam_tool.start();
 
 
