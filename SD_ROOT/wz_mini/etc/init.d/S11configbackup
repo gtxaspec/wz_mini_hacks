@@ -8,7 +8,8 @@
 . /opt/wz_mini/wz_mini.conf
 
 if df / | grep -q overlayfs; then
-mount --bind /sdcard /opt # Temporarily let this script do its operations as if SD Card is mounted as /opt
+	mount --bind /sdcard /opt # Temporarily let this script do its operations as if SD Card is mounted as /opt
+fi
 case "$1" in
 	start)
 
@@ -59,6 +60,7 @@ case "$1" in
 		exit 1
 		;;
 esac
-umount /opt
+if df / | grep -q overlayfs; then
+	umount /opt
 fi
 
