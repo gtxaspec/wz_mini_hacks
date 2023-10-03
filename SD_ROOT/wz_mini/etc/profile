@@ -15,6 +15,10 @@ export LD_LIBRARY_PATH=/opt/wz_mini/lib:/thirdlib:$LD_LIBRARY_PATH
 export TERMINFO=/opt/wz_mini/usr/share/terminfo
 export TERM=xterm-color
 
+if df / | grep -q overlayfs; then
+	export PATH=/opt/bin:/opt/sbin:$PATH
+fi
+
 /opt/wz_mini/bin/busybox resize
 
 #export TZ=UTC-8
