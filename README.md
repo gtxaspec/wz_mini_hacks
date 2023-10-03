@@ -34,6 +34,7 @@ Using this project can potentially expose your device to the open internet depen
 * Play audio to the camera speaker from files or streaming audio!
 * Webcam Mode - Use your camera as a spare UVC USB Web Camera on your PC, Mac, or AndroidTV!
 * Custom boot script support included
+* Overlay image for rootfs
 
 ## Why?
 
@@ -44,7 +45,7 @@ Using this project can potentially expose your device to the open internet depen
 * Person
 * Cat ( for emotional support during setup )
 * Computer
-* 256MB or larger Micro-SD Card is required!
+* 256MB or larger Micro-SD Card is required!(400MB if overlay image is used)
 * Higher class Micro-SD cards will ensure better performance
 
 ## Setup / Configuration / Installation
