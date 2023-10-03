@@ -7,6 +7,8 @@
 
 . /opt/wz_mini/wz_mini.conf
 
+if df / | grep -q overlayfs; then
+mount --bind /sdcard /opt # Temporarily let this script do its operations as if SD Card is mounted as /opt
 case "$1" in
 	start)
 
@@ -18,7 +20,7 @@ case "$1" in
 			echo "Creating factory config backup directory"
 			mkdir /opt/wyze_config_backup
 			touch /opt/wyze_config_backup/BACKUP_THESE_FILES.md
-			echo "These files are the cloud credentials unique to your camera.  Back them up in case your camera's flash becomes corrupted.  The camera will NEVER connect to the cloud if they are wiped from the camera." > /opt/wyze_config_backup/BACKUP_THESE_FILES.md
+			echo "These files are the c. /opt/wz_mini/wz_mini.confloud credentials unique to your camera.  Back them up in case your camera's flash becomes corrupted.  The camera will NEVER connect to the cloud if they are wiped from the camera." > /opt/wyze_config_backup/BACKUP_THESE_FILES.md
 		fi
 
 		if [ -f /opt/wz_mini/tmp/.T31 ]; then
@@ -57,4 +59,6 @@ case "$1" in
 		exit 1
 		;;
 esac
+umount /opt
+fi
 
