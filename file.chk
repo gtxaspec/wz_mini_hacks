@@ -86,7 +86,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
 1547ba0548c0d981bf8b8555a4438bef  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
 1a4f7adceeed7014e9e61fcd1f46d890  SD_ROOT/wz_mini/etc/rc.common
-8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
+7b111da3af8bb21f1de285fb3254c9e6  SD_ROOT/wz_mini/etc/profile
 574a0198606cf3a2255843cd1ed7860a  SD_ROOT/wz_mini/etc/cron/root
 2407c1629b293e0646cd0dd0c21f245c  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 00184c9b4016f437adcae60bae5b62ae  SD_ROOT/wz_mini/etc/rc.d/S18fps
