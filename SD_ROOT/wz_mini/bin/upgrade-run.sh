@@ -2,7 +2,7 @@
 
 if df / | grep -q overlayfs; then
 	echo "Unable to upgrade because rootfs is overlay"
-	echo "Please disable rootfs overlay by setting ENABLE_OVERLAY_IMAGE=\"false\" in wz_mini.conf and reboot first"
+	echo "Please disable rootfs overlay by setting ENABLE_OVERLAY_FOR_ROOTFS=\"false\" in wz_mini.conf and reboot first"
  	echo "You can change it back after upgrade is finished"
 	exit 1
 fi
