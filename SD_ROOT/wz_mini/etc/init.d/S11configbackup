@@ -7,13 +7,16 @@
 
 . /opt/wz_mini/wz_mini.conf
 
-if df / | grep -q overlayfs; then
-	mount --bind /sdcard /opt # Temporarily let this script do its operations as if SD Card is mounted as /opt
-fi
 case "$1" in
 	start)
 
 		echo "#####$(basename "$0")#####"
+		
+		if df / | grep -q overlayfs; then
+			mkdir -p /sdcard/wyze_config_backup
+			mkdir -p /opt/wyze_config_backup
+			mount --bind /sdcard/wyze_config_backup /opt/wyze_config_backup
+		fi
 
 		if [ -d /opt/wyze_config_backup ]; then
 			echo "Factory config backup directory exists"
@@ -54,13 +57,14 @@ case "$1" in
 				umount /params
 			fi
 		fi
+
+                if df / | grep -q overlayfs; then
+			umount /opt/wyze_config_backup
+		fi
 		;;
 	*)
 		echo "Usage: $0 {start}"
 		exit 1
 		;;
 esac
-if df / | grep -q overlayfs; then
-	umount /opt
-fi
 
