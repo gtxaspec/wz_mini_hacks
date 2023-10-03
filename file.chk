@@ -156,7 +156,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 3dbed0e1450cb60eca924379f5055c75  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-583e732c16a9d77eb038597bb012245f  SD_ROOT/wz_mini/bin/upgrade-run.sh
+7e1bb707c4a0ccd1330c3156e1824e90  SD_ROOT/wz_mini/bin/upgrade-run.sh
 98bf2e6258951648cb880c808db7099f  SD_ROOT/wz_mini/bin/ser2net
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 343482b8e6569ff2fbd8563d6e8c58f7  SD_ROOT/wz_mini/bin/fsck.vfat
