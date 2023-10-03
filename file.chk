@@ -83,7 +83,7 @@ ce899168f0a576809238b338dec6a666  SD_ROOT/wz_mini/etc/init.d/S02tmpfs
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
-c2190e55d8672888d8083ec42200fb7c  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+1547ba0548c0d981bf8b8555a4438bef  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
 1a4f7adceeed7014e9e61fcd1f46d890  SD_ROOT/wz_mini/etc/rc.common
 8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
@@ -156,7 +156,7 @@ a8970288e72c871bff6a4484f1e733d6  SD_ROOT/wz_mini/bin/readelf
 3dbed0e1450cb60eca924379f5055c75  SD_ROOT/wz_mini/bin/ffmpeg
 e37474a12d76cae16336476cba61e8b8  SD_ROOT/wz_mini/bin/neofetch
 7fcc716cda1e024dae1045050a135beb  SD_ROOT/wz_mini/bin/audioplay_t31
-e4e21f2a4470237d0144a05967c05dc2  SD_ROOT/wz_mini/bin/upgrade-run.sh
+583e732c16a9d77eb038597bb012245f  SD_ROOT/wz_mini/bin/upgrade-run.sh
 98bf2e6258951648cb880c808db7099f  SD_ROOT/wz_mini/bin/ser2net
 e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 343482b8e6569ff2fbd8563d6e8c58f7  SD_ROOT/wz_mini/bin/fsck.vfat
@@ -345,7 +345,7 @@ c6a2e765996b4a8bfe351757785fb989  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 46791b695c5acd7d813f2a7198790a8a  SD_ROOT/wz_mini/lib/libcallback_t20.so
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-d2fefcd88b86adec16cf9652790ae0ef  SD_ROOT/wz_mini/wz_mini.conf
+61cd5635f074bd814a6e028fbc2f3970  SD_ROOT/wz_mini/wz_mini.conf
 5ca6409720fe149c9bc89aecc8ef3bb2  SD_ROOT/wz_mini/overlay_empty.img.gz
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 a0c14688cda288ec6726e43b2ded2c09  v2_install/compile_image.sh
