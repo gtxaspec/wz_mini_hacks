@@ -11,16 +11,16 @@ case "$1" in
 	start)
 
 		echo "#####$(basename "$0")#####"
-		
-		
+			
 		if df / | grep -q overlayfs; then
 			if [ -d /sdcard/wyze_config_backup ]; then
 				echo "Factory config backup directory exists"
 			else
 				echo "Creating factory config backup directory"
 				mkdir /sdcard/wyze_config_backup
-			fi
-			ln -s /sdcard/wyze_config_backup /opt/wyze_config_backup
+			fi 
+			mkdir -p /opt/wyze_config_backup
+			mount --bind /sdcard/wyze_config_backup /opt/wyze_config_backup
 		else
 			if [ -d /opt/wyze_config_backup ]; then
 				echo "Factory config backup directory exists"
@@ -67,7 +67,7 @@ case "$1" in
 		fi
 
                 if df / | grep -q overlayfs; then
-			rm /opt/wyze_config_backup
+			umount /opt/wyze_config_backup
 		fi
 		;;
 	*)
