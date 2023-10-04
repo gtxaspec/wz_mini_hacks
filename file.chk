@@ -345,7 +345,7 @@ c6a2e765996b4a8bfe351757785fb989  SD_ROOT/wz_mini/lib/modules/3.10.14__isvp_swan
 46791b695c5acd7d813f2a7198790a8a  SD_ROOT/wz_mini/lib/libcallback_t20.so
 bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
-5d025bef80d88180cee5d4b61f3d4490  SD_ROOT/wz_mini/wz_mini.conf
+abb0379dae4985a6e7b78a5d2dfd0755  SD_ROOT/wz_mini/wz_mini.conf
 5ca6409720fe149c9bc89aecc8ef3bb2  SD_ROOT/wz_mini/overlay_empty.img.gz
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
 a0c14688cda288ec6726e43b2ded2c09  v2_install/compile_image.sh
