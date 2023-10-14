@@ -11,12 +11,26 @@ case "$1" in
 	start)
 
 		echo "#####$(basename "$0")#####"
-
-		if [ -d /opt/wyze_config_backup ]; then
-			echo "Factory config backup directory exists"
+			
+		if df / | grep -q overlayfs; then
+			if [ -d /sdcard/wyze_config_backup ]; then
+				echo "Factory config backup directory exists"
+			else
+				echo "Creating factory config backup directory"
+				mkdir /sdcard/wyze_config_backup
+			fi 
+			mkdir -p /opt/wyze_config_backup
+			mount --bind /sdcard/wyze_config_backup /opt/wyze_config_backup
 		else
-			echo "Creating factory config backup directory"
-			mkdir /opt/wyze_config_backup
+			if [ -d /opt/wyze_config_backup ]; then
+				echo "Factory config backup directory exists"
+			else
+				echo "Creating factory config backup directory"
+				mkdir /opt/wyze_config_backup
+			fi
+		fi
+
+		if ! [ -f /opt/wyze_config_backup/BACKUP_THESE_FILES.md ]; then
 			touch /opt/wyze_config_backup/BACKUP_THESE_FILES.md
 			echo "These files are the cloud credentials unique to your camera.  Back them up in case your camera's flash becomes corrupted.  The camera will NEVER connect to the cloud if they are wiped from the camera." > /opt/wyze_config_backup/BACKUP_THESE_FILES.md
 		fi
@@ -50,6 +64,10 @@ case "$1" in
 				cp -R /params/ /opt/wyze_config_backup/
 				umount /params
 			fi
+		fi
+
+                if df / | grep -q overlayfs; then
+			umount /opt/wyze_config_backup
 		fi
 		;;
 	*)

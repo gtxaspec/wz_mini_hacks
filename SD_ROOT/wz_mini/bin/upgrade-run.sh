@@ -1,5 +1,25 @@
 #!/bin/sh
 
+if df / | grep -q overlayfs; then
+	echo "Unable to upgrade because overlay rootfs being used"
+	read -r -p "Do you want to disable overlay rootfs now? This action will reboot your camera.[y/N]" response
+		case "$response" in
+			[yY][eE][sS]|[yY])
+   				echo "Proceeding..."
+				sed -i 's/ENABLE_OVERLAY_FOR_ROOTFS=\"true\"/ENABLE_OVERLAY_FOR_ROOTFS=\"false\"/g' /opt/wz_mini/wz_mini.conf
+    				echo "wz_mini.conf has been changed to disable overlay rootfs on next reboot."
+				echo "Please connect to your camera and run upgrade-run.sh after the reboot is finished"
+    				echo "Rebooting now..."
+    				reboot
+    				exit 0
+				;;
+                        *)
+				echo "Upgrade has been aborted"
+    				exit 1
+    				;;
+		esac
+fi
+
 if [ -L /dev/fd ]; then
 	echo "fd exists" > /dev/null
 else

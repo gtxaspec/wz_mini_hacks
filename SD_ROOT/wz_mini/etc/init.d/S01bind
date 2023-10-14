@@ -33,6 +33,12 @@ case "$1" in
 
 		echo $CUSTOM_HOSTNAME > /opt/wz_mini/etc/hostname
 		mount --bind /opt/wz_mini/etc/hostname /etc/hostname
+
+		if df / | grep -q overlayfs; then
+			mkdir -p /opt/record
+			mkdir -p /sdcard/record
+			mount --bind /sdcard/record /opt/record
+		fi
 		;;
 	*)
 		echo "Usage: $0 {start}"
