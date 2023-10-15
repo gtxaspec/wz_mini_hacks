@@ -82,6 +82,7 @@ cp -r /opt/wz_mini/etc/wireguard /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/rc.local.d /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/cron /opt/Upgrade/preserve/
 cp -r /opt/wz_mini/etc/resolv.dnsmasq /opt/Upgrade/preserve/
+cp -r /opt/wz_mini/etc/go2rtc.yml /opt/Upgrade/preserve/
 
 sync
 
@@ -161,6 +162,7 @@ cp -r /opt/Upgrade/preserve/wireguard  /opt/wz_mini/etc/
 cp -r /opt/Upgrade/preserve/rc.local.d  /opt/wz_mini/etc/
 cp /opt/Upgrade/preserve/cron/* /opt/wz_mini/etc/cron/
 cp /opt/Upgrade/preserve/resolv.dnsmasq /opt/wz_mini/etc/resolv.dnsmasq
+cp /opt/Upgrade/preserve/go2rtc.yml /opt/wz_mini/etc/go2rtc.yml
 
 rm -rf /opt/Upgrade
 sync
