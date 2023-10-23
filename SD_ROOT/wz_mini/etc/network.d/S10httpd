@@ -31,8 +31,8 @@ compose_home()
 
         echo '<a class="server_LINK" href="/mulitcam.html" >Multi-Cam</a>' >> $target
    else
-	echo 'wz_mini.conf is missing the line WEB_SERVER_OPTIONS <br >';
-	echo 'to populate it with full capabilities:<pre>WEB_SERVER_OPTIONS="cam config car jpeg multicam diag status"</pre>';
+	echo 'wz_mini.conf is missing the line WEB_SERVER_OPTIONS <br >' >> $target;
+	echo 'to populate it with full capabilities:<pre>WEB_SERVER_OPTIONS="cam config car jpeg multicam diag status"</pre>' >> $target;
 	
    fi
 
