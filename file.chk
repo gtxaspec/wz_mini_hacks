@@ -41,7 +41,7 @@ e344ffc55222c029c5d324037a5aa1f3  SD_ROOT/wz_mini/www/car/car.js
 540acfdf2638c341e1d168f1af5203de  SD_ROOT/wz_mini/www/car/car.css
 63b23f78d6703f0c9a2e970604104996  SD_ROOT/wz_mini/www/car/car.html
 5a96b5664d84a992de617f2054c363c5  SD_ROOT/wz_mini/www/multicam.html
-124e72a925e786a40bc12e2ee9d203e4  SD_ROOT/wz_mini/www/index.top.html
+5cf12f96fb96b8d070531a6d7437bb0b  SD_ROOT/wz_mini/www/index.top.html
 ba5c34d5baf18fab00e577ba9085fc8f  SD_ROOT/wz_mini/www/index.html
 099a09d231f1d9587d8b09b43a86f6f9  SD_ROOT/wz_mini/www/cam.js
 71d73164727cdce88b976f5e4f2a66fc  SD_ROOT/wz_mini/etc/ser2net.yaml
@@ -51,7 +51,7 @@ b77697b15e4d6e32e6e2c8c07cbceee2  SD_ROOT/wz_mini/etc/network.d/S04wireguard
 720d337f4fd4cecdf63cfbdf5476cc14  SD_ROOT/wz_mini/etc/network.d/S12remoteaccessory
 88cd61106fa526f82a812b02aea23ddc  SD_ROOT/wz_mini/etc/network.d/S15v4l2rtspserver
 d3ac671f88b6d639926b9f5f9a40da6e  SD_ROOT/wz_mini/etc/network.d/S01wlanhw
-27a4b83bb3aa6d53dcd1b81cd280f397  SD_ROOT/wz_mini/etc/network.d/S10httpd
+80639d047ceea4f40e72994fd4856689  SD_ROOT/wz_mini/etc/network.d/S10httpd
 9969970dc82daa31b41730ee460514b0  SD_ROOT/wz_mini/etc/network.d/S03ipv6
 edebe65d895650235f05291618814ebe  SD_ROOT/wz_mini/etc/network.d/S08hostname
 3f025fd89a69b99b0b2e235faf504930  SD_ROOT/wz_mini/etc/network.d/S17go2rtc
@@ -195,7 +195,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-b7075d2dc0d2f3546d74b44329fa647c  SD_ROOT/wz_mini/usr/bin/app.ver
+4e2157a27841ddb20e7b16dfae6ff60d  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
