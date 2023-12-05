@@ -123,8 +123,8 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/wireguard/.gitignore
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/log/.gitignore
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/root/.gitignore
 1d22d5b22150012c95731b4ef7628c64  SD_ROOT/wz_mini/bin/objdump
-6fdc1e1daf46a5d6e62ab9498d0c5145  SD_ROOT/wz_mini/bin/dropbearkey
-985f1a302b4527573f7a623a41aec781  SD_ROOT/wz_mini/bin/dropbear
+2cae6ccc1570bc253a2bf7a4d5325fa0  SD_ROOT/wz_mini/bin/dropbearkey
+109d24c3ec02f2b7f5cbb6d88c6cfde1  SD_ROOT/wz_mini/bin/dropbear
 ec906872794379af570869ebfd49bb23  SD_ROOT/wz_mini/bin/tcpdump
 db5c63af3c763fc6eb76f6e1b5c96794  SD_ROOT/wz_mini/bin/file
 3feb341fca58bc705c3ed5705d4eb716  SD_ROOT/wz_mini/bin/factorycheck
@@ -167,11 +167,12 @@ e6a6a9dd8ce138686083a3d4303cea40  SD_ROOT/wz_mini/bin/iperf3
 ba7475184c364fee8bba1f45b7c42070  SD_ROOT/wz_mini/bin/gather_wz_logs.sh
 097cd91a56f2b0caea1dd87ae0e51a54  SD_ROOT/wz_mini/bin/screen
 fbbc2a8f362d05fc31557b1a534b42c6  SD_ROOT/wz_mini/bin/wget
-35420095a770c9bb6177788842f55bba  SD_ROOT/wz_mini/bin/dropbearconvert
+fc85b1621afae464664764d0e0b92d4d  SD_ROOT/wz_mini/bin/dropbearconvert
 236738891ee40c5855ee3a31159ec10a  SD_ROOT/wz_mini/bin/wz_mini_edit.sh
 91449927b9bf0dc2a231bab59da957c4  SD_ROOT/wz_mini/bin/dbclient
 3b3e8d38ba7fa70f29f6c340d36f3620  SD_ROOT/wz_mini/bin/iwlist
 9041242b97793eb7f25943ecbfa86804  SD_ROOT/wz_mini/bin/ar
+44e057f2369e63e83e207178f5db5707  SD_ROOT/wz_mini/bin/sftp-server
 84c336098e58e98b4a04eca6f3029449  SD_ROOT/wz_mini/swap.gz
 2e4a762b311eb6bb82495956077e388d  SD_ROOT/wz_mini/usr/share/misc/magic.mgc
 ce77db197f6f3a8965b64d2cd1ee74fb  SD_ROOT/wz_mini/usr/share/terminfo.tar
