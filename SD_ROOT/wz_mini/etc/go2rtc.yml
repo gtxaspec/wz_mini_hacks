@@ -23,5 +23,5 @@ streams:
   - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper2 -c:a libfdk_aac -afterburner 1 -channels 1 -b:a 128k -profile:a aac_he -ar 16000 -strict experimental -muxdelay 0 -muxpreload 0 -ac:a 1 -f rtsp {output}
 # libopus has higher cpu requirements, audio may studder.
 #  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper2 -c:a libopus -muxdelay 0 -muxpreload 0 -ac:a 1 -af adelay=0|0 -f rtsp {output}
-    jpeg_1080p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=0
-    jpeg_360p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=0
+  jpeg_1080p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=0
+  jpeg_360p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=0
