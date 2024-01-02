@@ -21,3 +21,6 @@ export TERM=xterm-color
 
 # Set directoty and file default create permission
 umask 022
+
+echo "wz_mini built on:"
+cat /opt/wz_mini/usr/bin/app.ver

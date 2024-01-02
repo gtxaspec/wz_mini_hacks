@@ -86,7 +86,7 @@ d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
 c2190e55d8672888d8083ec42200fb7c  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
 1a4f7adceeed7014e9e61fcd1f46d890  SD_ROOT/wz_mini/etc/rc.common
-8b5e58acfcbb20034dc4873a08b45fd9  SD_ROOT/wz_mini/etc/profile
+4bce4a8330d7a004b255be7e36e921fe  SD_ROOT/wz_mini/etc/profile
 574a0198606cf3a2255843cd1ed7860a  SD_ROOT/wz_mini/etc/cron/root
 2407c1629b293e0646cd0dd0c21f245c  SD_ROOT/wz_mini/etc/alsa/alsa.conf
 00184c9b4016f437adcae60bae5b62ae  SD_ROOT/wz_mini/etc/rc.d/S18fps
@@ -196,7 +196,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-0a42389f2134a2cb62b328953be7aeb6  SD_ROOT/wz_mini/usr/bin/app.ver
+7bdbd0d4b4e39cbbd003eeeb856a172e  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
