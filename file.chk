@@ -57,7 +57,7 @@ edebe65d895650235f05291618814ebe  SD_ROOT/wz_mini/etc/network.d/S08hostname
 3f025fd89a69b99b0b2e235faf504930  SD_ROOT/wz_mini/etc/network.d/S17go2rtc
 9f59e3c2c3a4c9b6600eb5385e29720c  SD_ROOT/wz_mini/etc/network.d/S14storemac
 32373fa3531a11c1aad41d12830b9c04  SD_ROOT/wz_mini/etc/dnsmasq.conf
-a7bca44e4f02d75f4ac0c529837bbe64  SD_ROOT/wz_mini/etc/go2rtc.yml
+c2a988d4e9ef9cef939735f7e68f87ed  SD_ROOT/wz_mini/etc/go2rtc.yml
 34c6a4c3a941ff2becd9f487826d7692  SD_ROOT/wz_mini/etc/uvc.config
 071acd61334923a9a3e5b799e012697e  SD_ROOT/wz_mini/etc/init.d/S09firstboot
 6b22c996fd24abf49ed605cae2a20430  SD_ROOT/wz_mini/etc/init.d/S11configbackup
@@ -129,7 +129,7 @@ ec906872794379af570869ebfd49bb23  SD_ROOT/wz_mini/bin/tcpdump
 db5c63af3c763fc6eb76f6e1b5c96794  SD_ROOT/wz_mini/bin/file
 3feb341fca58bc705c3ed5705d4eb716  SD_ROOT/wz_mini/bin/factorycheck
 8ae897298d743faae8ef27303550e42d  SD_ROOT/wz_mini/bin/cmd
-bc77f6f58ac2fdc08e4d579c3d7fd263  SD_ROOT/wz_mini/bin/go2rtc_linux_mipsel
+54ec6d2161f62c483881cd6870ab0a34  SD_ROOT/wz_mini/bin/go2rtc_linux_mipsel
 a9a6bf805cbcfdd6698fe5efd65f91bb  SD_ROOT/wz_mini/bin/nano
 36cbfe7b96d4240a6b138dd3695ccefd  SD_ROOT/wz_mini/bin/strings
 1458f09775917db388f807f7ac01bb65  SD_ROOT/wz_mini/bin/socat
@@ -196,7 +196,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-0522499db87ac36d821f24a970d045e0  SD_ROOT/wz_mini/usr/bin/app.ver
+9cb6e1a54eeba80d6f8a35bb3dc9154b  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
