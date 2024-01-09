@@ -173,6 +173,7 @@ fc85b1621afae464664764d0e0b92d4d  SD_ROOT/wz_mini/bin/dropbearconvert
 91449927b9bf0dc2a231bab59da957c4  SD_ROOT/wz_mini/bin/dbclient
 3b3e8d38ba7fa70f29f6c340d36f3620  SD_ROOT/wz_mini/bin/iwlist
 9041242b97793eb7f25943ecbfa86804  SD_ROOT/wz_mini/bin/ar
+60aecc158af2c365200580a11f0e0061  SD_ROOT/wz_mini/bin/htop
 84c336098e58e98b4a04eca6f3029449  SD_ROOT/wz_mini/swap.gz
 2e4a762b311eb6bb82495956077e388d  SD_ROOT/wz_mini/usr/share/misc/magic.mgc
 ce77db197f6f3a8965b64d2cd1ee74fb  SD_ROOT/wz_mini/usr/share/terminfo.tar
@@ -196,7 +197,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-7bdbd0d4b4e39cbbd003eeeb856a172e  SD_ROOT/wz_mini/usr/bin/app.ver
+7afbbe1dc8ea5a8df5f929802092322d  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
