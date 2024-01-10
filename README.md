@@ -23,6 +23,7 @@ Using this project can potentially expose your device to the open internet depen
 * RTMP Streaming - via go2rtc: Stream live video from the camera to your favorite service, youtube, twitch, or facebook live.
 * Networking: 
   * Wireguard, IPv6, CIFS/Samba and iptables support enabled
+  * File server support to access SD card contents remotely
   * Tether your camera directly to android phones using USB via RNDIS support
   * USB gadget support, connect the camera directly to a supported router to get an internet connection, no USB Ethernet Adapter required, using USB CDC_NCM.
 * Supports the following USB Ethernet adapters: 
