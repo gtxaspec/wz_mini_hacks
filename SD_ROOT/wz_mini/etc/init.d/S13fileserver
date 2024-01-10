@@ -1,0 +1,25 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start dufs file server
+# Description:       Run the dufs file server daemon
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$ENABLE_FILESERVER" == "true" ]]; then
+			echo "Starting dufs file server"
+			/opt/wz_mini/bin/dufs -c /opt/wz_mini/etc/dufs.yaml &
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+
