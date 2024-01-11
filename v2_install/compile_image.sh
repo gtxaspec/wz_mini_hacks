@@ -7,6 +7,7 @@ PAN_DL_URL=$(wget --header="Accept: text/html" --user-agent="$UA_STRING" -qO- ht
 tools() {
 echo "checking for tools"
 command -v wget >/dev/null 2>&1 || { echo >&2 "wget is not installed.  Aborting."; exit 1; }
+command -v md5sum >/dev/null 2>&1 || { echo >&2 "md5sum is not installed.  Aborting."; exit 1; }
 command -v mkimage >/dev/null 2>&1 || { echo >&2 "mkimage is not installed.  Aborting."; exit 1; }
 command -v unzip >/dev/null 2>&1 || { echo >&2 "unzip is not installed.  Aborting."; exit 1; }
 echo "tools OK"
@@ -93,10 +94,10 @@ fi
 }
 
 
+tools
 read -r -p "wz_mini: this will download the latest firmware version from the vendor and compile a modified demo.bin.  Are you sure? [y/N]" response
 			case "$response" in
 			[yY][eE][sS]|[yY])
-			tools
 			download $1
 			;;
 		        *)
