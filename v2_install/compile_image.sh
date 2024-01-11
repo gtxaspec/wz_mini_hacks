@@ -32,7 +32,7 @@ mkdir v2_ro
 echo "check for local zip"
 if [ -f demo.zip ]; then
 	echo "local archive found"
-	mv demo.zip ./v2_ro/
+	cp demo.zip ./v2_ro/
 else
 	echo "local archive not found"
 	echo "downloading latest firmware"
