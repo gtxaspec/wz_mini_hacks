@@ -85,7 +85,7 @@ ce899168f0a576809238b338dec6a666  SD_ROOT/wz_mini/etc/init.d/S02tmpfs
 e3034eac02d8eda9902ca9cf89f0a586  SD_ROOT/wz_mini/etc/inittab
 840aa9c26726201f7cffbf001bee193a  SD_ROOT/wz_mini/etc/uvc_jxf22.config
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/etc/rc.local.d/.gitignore
-c2190e55d8672888d8083ec42200fb7c  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
+2c5d65df4ce66343e7ea7f9d82c5f379  SD_ROOT/wz_mini/etc/wz_mini.conf.dist
 4291fb00ec609b5b007ff9b3048e9248  SD_ROOT/wz_mini/etc/hosts
 1a4f7adceeed7014e9e61fcd1f46d890  SD_ROOT/wz_mini/etc/rc.common
 4bce4a8330d7a004b255be7e36e921fe  SD_ROOT/wz_mini/etc/profile
