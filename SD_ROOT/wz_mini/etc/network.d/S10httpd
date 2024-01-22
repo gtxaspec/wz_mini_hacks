@@ -21,7 +21,7 @@ compose_home()
         case "$part" in
         cam) echo '<a class="server_LINK" href="/cgi-bin/cam.cgi" >Wyze Camera Core Config</a>' >> $target       ;;
         config) echo '<a class="server_LINK" href="/cgi-bin/config.cgi" >Wz Mini Configuration</a>' >> $target       ;;
-        car) echo '<a class="server_LINK" href="/car.html" >Car Tool</a>' >> $target       ;;
+        car) echo '<a class="server_LINK" href="/car/car.html" >Car Tool</a>' >> $target       ;;
         current) echo '<a class="server_LINK" href="/cgi-bin/jpeg.cgi" >Current Screen</a>' >> $target       ;;
 	multicam) echo '<a class="server_LINK" href="/multicam/" >Multi-Cam Viewer</a>' >> $target       ;;
         diag) echo '<a class="server_LINK" href="/cgi-bin/diagnostics.cgi" >Diagnostics</a>' >> $target       ;;
