@@ -1,11 +1,9 @@
 #!/bin/sh
-# This serves a rudimentary webpage to test different items
+# This serves a rudimentary webpage to test different features of the camera
 . /opt/wz_mini/www/cgi-bin/shared.cgi
 
-gpiopath="/sys/devices/virtual/gpio"
-base='/opt/record/';
-TZ=$(cat /configs/TZ)
 
+echo "tz: $TZ"
 
 test_gpio()
 {
@@ -57,12 +55,17 @@ test_recording()
 {
 
 msg=""
+utchour=$(TZ="UTC" date +"%H")
 fpath=$(TZ="$TZ" date +"%Y%m%d")
 nowmin=$(TZ="$TZ" date +"%M")
 curmin=$((10#$nowmin - 1))
 curhour=$(TZ="$TZ" date +"%H")
 cursec=$(TZ="$TZ" date +"%S")
 
+
+if [[ "$utchour" == "$curhour" ]]; then
+     echo "TZ is returning UTC (Possible parsing error?) $utcnow $tznow"
+fi
 
 if [[ "$cursec" -lt  "03" ]]; then
 	wt=$((3 - $cursec))
@@ -83,32 +86,30 @@ fi
 
 curmin=$(printf %02d $curmin)
 
-if [ ! -d "$base$fpath" ]; then
+if [ ! -d "$recpath$fpath" ]; then
 	echo -e "NG $lb"
-	echo "Date directory does not exist ($base$fname)" 
+	echo "Date directory does not exist ($recpath$fpath)" 
+	exit
+fi
+
+
+if [ ! -d "$recpath$fpath/$curhour" ]; then
+        echo -e "NG $lb"
+	echo "Hour directory does not exist ($recpath$fpath/$curhour)"
 	exit
 fi
 
 
 
-
-if [ ! -d "$base$fpath/$curhour" ]; then
+if [ ! -f "$recpath$fpath/$curhour/$curmin.mp4" ]; then
         echo -e "NG $lb"
-	echo "Hour directory does not exist ($base$fname/$curhour)"
-	exit
-fi
-
-
-
-if [ ! -f "$base$fpath/$curhour/$curmin.mp4" ]; then
-        echo -e "NG $lb"
-	echo "Last minute not recorded ($base$fname/$curhour/$curmin.mp4)"
+	echo "Last minute not recorded ($recpath$fpath/$curhour/$curmin.mp4)"
 	exit
 fi
 
 
 echo "OK$lb"
-echo found "$base$fpath/$curhour/$curmin.mp4"
+echo found "$recpath$fpath/$curhour/$curmin.mp4"
 echo $msg
 }
 
