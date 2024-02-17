@@ -2,23 +2,55 @@
 # This provides shared values for webpages
 
 
-base_dir=/opt/wz_mini/
-base_hack_ini=/opt/wz_mini/wz_mini.conf
-hack_ini=$base_hack_ini
-www_dir=/opt/wz_mini/www/cgi-bin/
+base_dir="/opt/wz_mini"
+tmp_dir="$base_dir/tmp"
+base_hack_ini="$base_dir/wz_mini.conf"
+hack_ini="$base_hack_ini"
+www_dir="$base_dir/www/cgi-bin/"
+www_env="$tmp_dir/www_env.sh"
 
-if [ -f /opt/wz_mini/tmp/.T31 ]; then
-  camtype=T31
-  camfirmware=$(tail -n1 /configs/app.ver | cut -f2 -d=  )
-  base_cam_config="/configs/.user_config"
-elif [ -f /opt/wz_mini/tmp/.T20 ]; then
-  camtype=T20
-  camfirmware=$(tail -n1 /system/bin/app.ver | cut -f2 -d= )
-  base_cam_config="/configs/.parameters"
+function echoset
+{  
+  eval "$1='$2'"
+  echo "$1"="\"$2\"" >>  "$www_env"
+}
+
+function compose_www_env
+{
+	if [ -f "$tmp_dir/.T31" ]; then
+  		echoset "camtype" "T31"
+  		echoset "base_cam_config" "/configs/.user_config"
+                echoset "camfirmware" $(tail -n1 /configs/app.ver | cut -f2 -d=  )
+	elif [ -f "$tmp_dir/.T20" ]; then
+  		echoset "camtype" "T20"
+		echoset "base_cam_config" "/configs/.parameters"
+                echoset "camfirmware" $(tail -n1 /system/bin/app.ver | cut -f2 -d= )
+	fi
+ 
+        echoset "cammodel" $(/opt/wz_mini/etc/init.d/s04model start | grep detected | cut -f1 -d ' ' )
+	echoset camver "$camtype($cammodel)"
+	echoset hackver "$(cat /opt/wz_mini/usr/bin/app.ver)"
+	echoset gpiopath "/sys/devices/virtual/gpio"
+	echoset recpath '/opt/record/';
+	echoset sysTZ $(cat /etc/TZ)
+	echoset TZ $(cat "$tmp_dir/TZ")
+}
+
+function read_www_env
+{
+. "$www_env" 
+}
+
+if [ ! -f "$www_env" ]; then
+  compose_www_env
+else
+  read_www_env
 fi
-cam_config=$base_cam_config
 
-cammodel=$(/opt/wz_mini/etc/init.d/s04model start | grep detected | cut -f1 -d ' ' )
+
+
+cam_config="$base_cam_config"
+
 
 camver="$camtype($cammodel)"
 
@@ -27,13 +59,13 @@ hackver=$(cat /opt/wz_mini/usr/bin/app.ver)
 ipaddr=$(ifconfig wlan0  | grep inet | cut -d ':' -f2 | cut -d ' ' -f0)
 macaddr=$(ifconfig wlan0  | grep HWaddr | cut -d 'HW' -f2 | cut -d ' ' -f2)
 
+
 function handle_css
 {
 echo -ne "<style type=\"text/css\">"
 cat $1
 echo -ne '</style>';
 }
-
 
 
 function version_info
@@ -150,4 +182,3 @@ fi
 
 
 }
-
