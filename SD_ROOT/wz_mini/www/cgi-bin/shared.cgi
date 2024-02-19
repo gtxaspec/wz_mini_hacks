@@ -9,6 +9,35 @@ hack_ini="$base_hack_ini"
 www_dir="$base_dir/www/cgi-bin/"
 www_env="$tmp_dir/www_env.sh"
 
+function find_TZ_from_latest {
+  Fday=$(ls "$recpath" -t | head -n1)
+  Fhour=$(ls "$recpath/$Fday" -t | head -n1)
+  Fmin=$(ls "$recpath/$Fday/$Fhour" -t | head -n1 | cut -d '.' -f 1)
+  Dmin=$(( $(date +%M) - 1 ))
+
+  if [ "$Fmin" -ne "$Dmin" ]; then
+    echo "minute is offset ... $Fmin vs $Dmin "
+  fi
+  if [ "$Fday" -lt $(date +%d) ]; then
+    Fshift=$((10#$Fhour - 10#$(date +%H)))
+  else
+    Fshift=$((10#$(date +%H) - 10#$Fhour))
+  fi
+  padFshift=$(printf "%03d" "$Fshift")
+  echo "UTC$padFshift:00"
+}
+
+function decipher_TZ
+{
+  dTZ=$(find_TZ_from_latest)
+#  if [ "$sysTZ" == "$dTZ" ]; then
+#     echo "matched across system method and file method"
+#  else
+#     echo "from system: 'x'$sysTZ'x' and from files: 'x'$dTZ'x'"
+#  fi
+  echoset "TZ" "$dTZ"
+}
+
 function echoset
 {  
   eval "$1='$2'"
@@ -33,7 +62,7 @@ function compose_www_env
 	echoset gpiopath "/sys/devices/virtual/gpio"
 	echoset recpath '/opt/record/';
 	echoset sysTZ $(cat /etc/TZ)
-	echoset TZ $(cat "$tmp_dir/TZ")
+	decipher_TZ "$sysTZ"
 }
 
 function read_www_env
