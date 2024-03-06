@@ -51,13 +51,13 @@ if [[ $(md5sum ./v2_ro/demo*.zip) == *"a69b6d5ffdbce89463fa83f7f06ec10b"* ]]; th
 	version_found="v2 4.9.8.1002"
 elif [[ $(md5sum ./v2_ro/demo*.zip) == *"91793d32fd797a10df572f4f5d72bc55"* ]]; then
 	version_found="pan v1 4.10.8.1002"
-elif [[ $(md5sum ./v2_ro/demo*.zip) == *"68706635fadc12b98c18c4b9540b320f"* ]]; then
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"aecba8ef9dcaf347e535c49af5045f65"* ]]; then
 	version_found="pan v1 4.10.9.1433"
-elif [[ $(md5sum ./v2_ro/demo*.zip) == *"fafc26b815e0053c81ff796109616858"* ]]; then
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"8b8e965f15399732b24b3c7caa795dc1"* ]]; then
 	version_found="pan v1 4.10.9.1472"
-elif [[ $(md5sum ./v2_ro/demo*.zip) == *"27faa1a01d9632a2c79c214632376ad9"* ]]; then
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"7b61262bd99a4984ea31c56f7d9ed3cf"* ]]; then
 	version_found="pan v1 4.10.9.1574"
-elif [[ $(md5sum ./v2_ro/demo*.zip) == *"273d58afbb0ea9550a8f15375f4681d2"* ]]; then
+elif [[ $(md5sum ./v2_ro/demo*.zip) == *"383ce243577c54cf3fad289b5de3a8c6"* ]]; then
 	version_found="pan v1 4.10.9.1851"
 else
 	cleanup
