@@ -200,7 +200,7 @@ b339aee882a5d1c943ad08e4282ec3fd  SD_ROOT/wz_mini/usr/bin/iCamera-dbg
 b10bdd54c56d8d8de2a27336f17285fe  SD_ROOT/wz_mini/usr/bin/patch_icamera.sh
 dafffcc1bd1e721d508400686338ceb8  SD_ROOT/wz_mini/usr/bin/imp_helper.sh
 580b1b6e91e72b4a4fef7b21d8954403  SD_ROOT/wz_mini/usr/bin/getSensorType
-43085bd559d7c7e22c1c8ea7b3820116  SD_ROOT/wz_mini/usr/bin/app.ver
+ef23b16b06d0603402875c8d0f487b9e  SD_ROOT/wz_mini/usr/bin/app.ver
 4c780f0455481d106d47d89f0ae04ed5  SD_ROOT/wz_mini/lib/uClibc.tar
 9afeb088e4cbabbe0b04033b560204d0  SD_ROOT/wz_mini/lib/libimp.so
 4100755cb6cc6e3b76da20c7e3690e16  SD_ROOT/wz_mini/lib/libalog.so
@@ -352,7 +352,7 @@ bd383994491e4bdca81788c168feb2eb  SD_ROOT/wz_mini/lib/libasound.so.2
 f6f0d5a9ebd916de6bdb9695067809ae  SD_ROOT/wz_mini/lib/libaudioProcess.so
 2c5d65df4ce66343e7ea7f9d82c5f379  SD_ROOT/wz_mini/wz_mini.conf
 d41d8cd98f00b204e9800998ecf8427e  SD_ROOT/wz_mini/tmp/.gitignore
-2653a0734e40e21db06eb9aa06f87e08  v2_install/compile_image.sh
+0d0800af2ddf6dc1645c03cb385f304a  v2_install/compile_image.sh
 533fc156f7853d8b21dfbe51e6a4c02e  v2_install/fw_tool.sh
 71f103530794f9cb15aa6bb7f1e5b8a7  v2_install/v2_kernel.bin
 932c1f6bd2c28a8a56c72fc640bd9772  v2_install/.gitignore
