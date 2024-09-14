@@ -28,6 +28,7 @@ dnsmasq_launch() {
                 else
                 /opt/wz_mini/bin/dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
                 fi
+		sleep 3
 		rm -f /tmp/resolv.conf
 		cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
 		echo "dnsmasq enabled"
