@@ -26,6 +26,7 @@ case "$1" in
 				printf "[VER]\nappver=4.49.13.0653\n" > /opt/wz_mini/tmp/patched_app.ver
 			fi
 			mount --bind /opt/wz_mini/tmp/patched_app.ver /system/bin/app.ver
+			echo "Firmware version spoofed"
 			fi
 
 		;;
