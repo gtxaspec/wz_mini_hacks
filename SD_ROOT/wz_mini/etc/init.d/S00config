@@ -1,0 +1,27 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Validate wz_mini.conf
+# Description:       Repair invalid line endings in the wz_mini.conf file.
+### END INIT INFO
+
+CONFIG_FILE="/opt/wz_mini/wz_mini.conf"
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		# Check if the file contains carriage return characters
+		if grep -q $'\r' "$CONFIG_FILE"; then
+			echo "Windows line endings detected in $CONFIG_FILE. Running dos2unix..."
+			dos2unix "$CONFIG_FILE"
+			echo "Conversion complete."
+		else
+			echo "No Windows line endings detected. Configuration file is valid."
+		fi
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac

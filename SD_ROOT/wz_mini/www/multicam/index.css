@@ -1,0 +1,129 @@
+BODY {
+  --cc_bar_height: 20px;
+  --cam_height: 20%;
+}
+.za_images {
+display:flex;
+flex-direction:column;
+flex-wrap:wrap;
+height:calc(100% - var(--cc_bar_height));
+width:100%;
+background-color:#5a8dd8;
+}
+.za_images .cam_DIV  {
+ border:2px solid blue;
+ border-radius:5px;
+ padding:2px;
+ margin:1px;
+ position:relative;
+}
+.za_images .cam_DIV:not(.first_CAM)
+{
+ height:calc(var(--cam_height) - 10px);
+ text-align:center;
+ width:17%;
+}
+.cam_DIV::after {
+ position:absolute;
+ bottom:0;
+ right:0;
+ color:yellow;
+ font-size:3vh;
+ font-weight:bold;
+ content:attr(cam);
+ z-index:5;
+}
+
+.cam_DIV::before
+{
+ z-index:5;
+ font-size:3vh;
+ position:absolute;
+ top:0;
+ right:0;
+}
+
+.cam_DIV[night=OK]::before {
+ color: #ccccff;
+ content:"\263d";
+}
+.cam_DIV[night=NG]::before {
+ color:yellow;
+ content:"\263c";
+}
+
+
+
+.za_images .first_CAM  {
+  flex:0 0 calc(100% - 40px);
+  width:75%;
+  order:0;
+  width:calc(100% - 17% - 16px);
+}
+.broken_cam {
+ border:2px solid red;
+}
+.active_button {
+ background:green;
+ color:white;
+}
+.inactive_button {
+ background:grey;
+ color:black;
+}
+.full_CAM {
+ position:absolute;
+ top:0;
+ left:0;
+ width:100% !important;
+ height:100% !important;
+}
+.cam_DIV {
+ position:relative;
+}
+
+.za_images IMG {
+ max-height:100%;
+ max-width:100%;
+ position:absolute;
+ top:0;
+ left:0;
+}
+.cam_control {
+ width:calc(100% - 18px);
+ position:absolute;
+ bottom:0;
+ height:var(--cc_bar_height);
+ margin:1px;
+ padding:2px;
+ background-color:lightgreen;
+ border-radius:5px;
+ border:2px solid green;
+}
+.cam_control BUTTON {
+ width:calc(30% - 4px);
+}
+.cam_control DIV  {
+ width:calc(20% - 4px);
+ display:inline-flex;
+ text-align:right;
+}
+
+@media (orientation: portrait) and (max-device-width: 450px) {
+  .cam_control {
+    top:0;
+   }
+  .za_images {
+    flex-direction:row;
+    flex-wrap:wrap;
+    margin-top:30px;
+  } 
+  .za_images .cam_DIV:not(.first_CAM) {
+      width:calc(50% - 10px);
+   } 
+  .za_images .cam_DIV.first_CAM {
+    width:calc(100% - 3px) !important;
+    flex:0 0 calc(100% - 5px) !important;
+    height:30%;
+  }
+}

@@ -7,26 +7,110 @@
 
 . /opt/wz_mini/wz_mini.conf
 
+
+compose_home()
+{
+  target=/opt/wz_mini/www/index.html
+  rm $target
+  cp /opt/wz_mini/www/index.top.html $target
+
+
+  if [[ "$WEB_SERVER_OPTIONS" ]]; then
+    for part in $WEB_SERVER_OPTIONS
+    do
+        case "$part" in
+        cam) echo '<a class="server_LINK" href="/cgi-bin/cam.cgi" >Wyze Camera Core Config</a>' >> $target       ;;
+        config) echo '<a class="server_LINK" href="/cgi-bin/config.cgi" >Wz Mini Configuration</a>' >> $target       ;;
+        car) echo '<a class="server_LINK" href="/car/" >Car Tool</a>' >> $target       ;;
+        current) echo '<a class="server_LINK" href="/cgi-bin/jpeg.cgi" >Current Screen</a>' >> $target       ;;
+	multicam) echo '<a class="server_LINK" href="/multicam/" >Multi-Cam Viewer</a>' >> $target       ;;
+        diag) echo '<a class="server_LINK" href="/cgi-bin/diagnostics.cgi" >Diagnostics</a>' >> $target       ;;
+	status) echo '<a class="server_LINK" href="/cgi-bin/status.cgi?test=recording">Check Recording</a>' >> $target ;;
+        esac
+    done
+
+   else
+	echo 'wz_mini.conf is missing the line WEB_SERVER_OPTIONS <br >' >> $target;
+	echo 'to populate it with full capabilities:<pre>WEB_SERVER_OPTIONS="cam config car jpeg multicam diag status"</pre>' >> $target;
+	
+   fi
+
+  if [[ "$GO2RTC_SERVER_ENABLED" == "true" ]]; then
+        echo '<a class="server_LINK" href="#Go2RTC" onclick="javascript:event.target.port=1984">Go2RTC Server</a>' >> $target
+
+  fi
+
+  echo '<div id="display_BAR"><div class="github_link"><a target="_new" href="https://github.com/gtxaspec/wz_mini_hacks">GitHub: wz_mini_hack</a></div></div>' >> $target  
+  echo '</body></html>' >> $target
+}
+
+
+create_httpdconf()
+{
+  conffile="/opt/wz_mini/etc/httpd.conf"
+  if [[ -f $conffile ]]; then
+    rm $conffile
+  fi
+
+  if [[ "$WEB_SERVER_PASSWORD" == "" ]]; then
+          WEB_SERVER_PASSWORD=$(cat /opt/wz_mini/tmp/wlan0_mac)
+  fi
+
+  webpassword=$(busybox httpd -m "$WEB_SERVER_PASSWORD")
+
+  authline="/:$WEB_SERVER_LOGIN:$webpassword"
+
+  cat <<EOF > $conffile
+$authline
+EOF
+
+}
+
+
+do_start()
+{
+  create_httpdconf
+	if [[ "$WEB_SERVER_AUTH" == "false" ]]; then
+	  httpd -p 80 -h /opt/wz_mini/www
+	  echo "httpd enabled"
+	elif [[ "$WEB_SERVER_AUTH" == "true" ]]; then
+		httpd -p 80 -h /opt/wz_mini/www -r "Identify yourself:" -c /opt/wz_mini/etc/httpd.conf
+	  echo "httpd enabled"
+	fi
+}
+do_stop()
+{
+
+  #pkill httpd
+  pidnum=$(ps | egrep "[0-9]{2} httpd -p 80" | awk '{print $1}')
+  if [[ -z $pidnum ]]; then
+    echo "httpd was not running"
+  else
+    kill $pidnum
+    echo "httpd killed"
+  fi
+
+}
+
+if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
 case "$1" in
 	start)
-
 		echo "#####$(basename "$0")#####"
-
-		if [[ "$WEB_SERVER_ENABLED" == "true" ]]; then
-			httpd -p 80 -h /opt/wz_mini/www
-			echo "httpd enabled"
-		fi
+		compose_home
+		do_start
 		;;
 	stop)
-		pkill dnsmasq
+		do_stop
 		;;
 	restart)
-		$0 stop
-		$0 start
+		do_stop
+		compose_home
+		do_start
 		;;
 	*)
-		echo "Usage: $0 {start|stop}"
+		echo "Usage: $0 {start|stop|restart}"
 		exit 1
 		;;
 esac
 
+fi

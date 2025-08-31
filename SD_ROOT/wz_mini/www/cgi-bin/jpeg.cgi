@@ -1,5 +1,6 @@
 #!/bin/sh
-
+. /opt/wz_mini/www/cgi-bin/shared.cgi
+test_area_access jpeg
 
 #test for jpeg
 if [[ $REQUEST_METHOD = 'GET' ]]; then
@@ -8,7 +9,7 @@ if [[ $REQUEST_METHOD = 'GET' ]]; then
   IFS='&'
   for PAIR in $QUERY_STRING
   do
-      K=$(echo $PAIR | cut -f1 -d=)                                             
+      K=$(echo $PAIR | cut -f1 -d=)
       VA=$(echo $PAIR | cut -f2 -d=)
       #VB=${VA//%3A/:}
       #echo "<div>$K=$VA</div>"
@@ -16,13 +17,13 @@ if [[ $REQUEST_METHOD = 'GET' ]]; then
   done
 fi
 
-if [ -z "$GET_channel" ]; 
+if [ -z "$GET_channel" ];
 then
-  echo "X-Channel-Override: 0"
+  echo -ne "X-Channel-Override: 0\r\n"
   GET_channel=0
 fi
 
-echo "X-Channel: $GET_channel"
+echo -ne "X-Channel: $GET_channel\r\n"
+echo -ne "Content-Type: image/jpeg\r\n\r\n"
 
-cmd jpeg "$GET_channel"
-
+cmd jpeg "$GET_channel" -n

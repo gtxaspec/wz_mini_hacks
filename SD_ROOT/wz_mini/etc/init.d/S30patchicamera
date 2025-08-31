@@ -1,0 +1,35 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Patches the iCamera binary if in self-hosted mode
+# Description:       The stock iCamera binary will reset the network if it is unable to reach the internet. This binary patch will change this behavior.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		if [[ "$ENABLE_SELFHOSTED_MODE" == "true" ]] ; then
+			# Apply the patch. The script here is idempotent.
+			if /opt/wz_mini/usr/bin/patch_icamera.sh apply ; then
+				echo "iCamera patch applied successfully."
+				exit 0
+			else
+				# If the patch failed, we'll fall through and undo
+				echo "iCamera patch failed."
+			fi
+		fi
+
+		# If ENABLE_SELFHOSTED_MODE != "true" or if the patch failed, remove the patch if it exists.
+		/opt/wz_mini/usr/bin/patch_icamera.sh remove
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

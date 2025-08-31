@@ -18,6 +18,23 @@ case "$1" in
 			#echo -e "127.0.0.1 localhost \n127.0.0.1 wyze-upgrade-service.wyzecam.com" > /opt/wz_mini/tmp/.storage/hosts
 			#mount --bind /opt/wz_mini/tmp/.storage/hosts /etc/hosts
 			/opt/wz_mini/bin/busybox inotifyd /opt/wz_mini/usr/bin/watch_up.sh /tmp:n > /dev/null 2>&1 &
+
+			if [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
+				# v3
+				printf "[VER]\nappver=4.36.13.0416\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+				# v2
+				printf "[VER]\nappver=4.9.9.3006\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
+				# pan v1
+				printf "[VER]\nappver=4.10.9.3006\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
+				# pan v2
+				printf "[VER]\nappver=4.49.13.0653\n" > /opt/wz_mini/tmp/patched_app.ver
+			fi
+
+			mount --bind /opt/wz_mini/tmp/patched_app.ver /system/bin/app.ver
+
 			echo "Firmware updates disabled"
 		else
 			echo "Firmwware updates enabled, monitor script running"

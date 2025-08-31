@@ -1,0 +1,32 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Set system video settings
+# Description:       Set system video bitrates for video channels
+### END INIT INFO
+
+. /opt/wz_mini/etc/rc.common
+. /opt/wz_mini/wz_mini.conf
+
+delay_imp() {
+                wait_for_icamera
+
+                echo "Starting imp_monitor.sh in daemon mode..."
+
+                /opt/wz_mini/usr/bin/imp_monitor.sh --daemon
+}
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+
+                delay_imp &
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

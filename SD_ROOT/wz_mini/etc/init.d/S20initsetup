@@ -1,0 +1,67 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Setup bindOk=1 once WiFi settings are detected when in self-hosted mode
+# Description:       Update .user_config so bindOk=1 when QR code containing WiFi settings are scanned. Allows for WiFi to work on next reboot without needing Wyze App/Cloud initial setup.
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+
+		echo "#####$(basename "$0")#####"
+		
+		# If not enabled or on T20 which is unsupported by this script
+		if [[ "$ENABLE_SELFHOSTED_MODE" != "true" ]] || [ ! -f /opt/wz_mini/tmp/.T31 ]; then
+			exit 0
+		fi
+
+		# Note: At the time of this boot stage, /configs isn't mounted. If it's not mounted, we have to mount it to check the wifi status
+		if mount | grep -q /configs ; then
+			# Is it already set?
+			if grep -q bindOk=1 /configs/.user_config ; then
+				echo "Initial setup is done. Nothing to do."
+				exit 0
+			fi
+		else
+			mount -t jffs2 /dev/mtdblock6 /configs
+
+			# Is it already set?
+			if grep -q bindOk=1 /configs/.user_config ; then
+				echo "Initial setup is done. Nothing to do."
+				exit 0
+			fi
+
+			umount /configs
+		fi
+
+		echo "Initial setup not completed yet."
+
+		# Wait until these wifi settings are set in /configs later on.
+		# Note that /configs will be mounted eventually by the second stage boot.
+		while true ; do
+			if [ -f /configs/.wifipasswd ] && [ -s /configs/.wifipasswd ] && [ -f /configs/.wifissid ] && [ -s /configs/.wifissid ] ; then
+				echo "Detected WiFi configs. "
+				if wpa_cli -p /var/run/wpa_supplicant -i wlan0 STATUS | grep -q wpa_state=COMPLETED ; then
+					echo "WiFi connection seems Good. Updating bindOk=1."
+					sed -i 's/bindOk=0/bindOk=1/g' /configs/.user_config
+
+					/opt/wz_mini/bin/cmd aplay /usr/share/notify/CN/connect_wifi_ok.wav 60
+
+					grep bindOk /configs/.user_config
+					exit 0
+				fi
+			fi
+
+			echo "Waiting for WiFi settings from QR code..."
+			sleep 5
+		done &
+		
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac
+

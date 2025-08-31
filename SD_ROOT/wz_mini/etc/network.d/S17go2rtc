@@ -1,0 +1,116 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: Start go2rtc Server
+# Description:       Provide Streaming Video over IP
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+GO2RTC=/opt/wz_mini/log/go2rtc
+if [[ -e $GO2RTC.log || -L $GO2RTC.log ]] ; then
+	i=0
+	while [[ -e $GO2RTC.log.$i || -L $GO2RTC.log.$i ]] ; do
+		let i++
+	done
+	mv $GO2RTC.log $GO2RTC.log.$i
+	GO2RTC=$GO2RTC
+fi
+touch -- "$GO2RTC".log
+
+
+case "$1" in
+	start)
+		echo "#####$(basename "$0")#####"
+		if [[ "$GO2RTC_SERVER_ENABLED" == "true" ]]; then
+			echo "go2rtc enabled"
+		else
+			echo "go2rtc disabled"
+			exit 0
+		fi
+		if [[ "$GO2RTC_HI_RES_ENABLED" == "true" ]]; then
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				HI_VIDEO_DEV="/dev/video6"
+			else
+				HI_VIDEO_DEV="/dev/video1"
+			fi
+			echo "Enable video ch 0"
+			/opt/wz_mini/bin/cmd video 0 on > /dev/null
+			if [[ "$GO2RTC_HI_RES_ENABLE_AUDIO" == "true" ]]; then
+				echo "Enable audio ch 0"
+				/opt/wz_mini/bin/cmd audio 0 on > /dev/null
+				AUDIO_CH="-C 1"
+				AUDIO_FMT="-a S16_LE"
+				DEVICE1="$HI_VIDEO_DEV,hw:0,0"
+			else
+				DEVICE1="$HI_VIDEO_DEV"
+				echo "go2rtc hi_res audio disabled"
+			fi
+		else
+			echo "go2rtc hi_res disabled"
+		fi
+		if [[ "$GO2RTC_LOW_RES_ENABLED" == "true" ]]; then
+			if [ -f /opt/wz_mini/tmp/.T20 ]; then
+				LOW_VIDEO_DEV="/dev/video7"
+			else
+				LOW_VIDEO_DEV="/dev/video2"
+			fi
+			echo "Enable video ch 1"
+			/opt/wz_mini/bin/cmd video 1 on > /dev/null
+			if [[ "$GO2RTC_LOW_RES_ENABLE_AUDIO" == "true" ]]; then
+				echo "Enable video ch 1"
+				/opt/wz_mini/bin/cmd audio 1 on > /dev/null
+				AUDIO_CH="-C 1"
+				AUDIO_FMT="-a S16_LE"
+				DEVICE2="$LOW_VIDEO_DEV,hw:2,0"
+			else
+				DEVICE2="$LOW_VIDEO_DEV"
+				echo "go2rtc low_res audio disabled"
+			fi
+		else
+			echo "go2rtc low_res disabled"
+		fi
+		if [[ "$GO2RTC_LOW_RES_ENABLED" == "true" ]] || [[ "$GO2RTC_HI_RES_ENABLED" == "true" ]]; then
+			echo "delay go2rtc for iCamera"
+			#This delay is required. Sometimes, if you start the go2rtc server too soon, live view will break on the app.
+			sleep 5
+			export ALSA_CONFIG_PATH=/opt/wz_mini/etc/alsa/alsa.conf
+
+			attempts=0
+			while true; do
+				SSL_CERT_FILE=/opt/wz_mini/etc/ssl/ca-bundle.crt /opt/wz_mini/bin/go2rtc_linux_mipsel -config /opt/wz_mini/etc/go2rtc.yml > $GO2RTC.log 2>&1 &
+				pid=$!
+				wait $pid
+				exit_status=$?
+				if [ $exit_status -eq 0 ]; then
+					break
+				else
+					echo "Process exited unexpectedly, restarting."
+					let "attempts+=1"
+					if [ $attempts -ge 20 ]; then
+						echo "Process exited unexpectedly too many times. Not restarting."
+						break
+					fi
+				fi
+			done & # run the loop in background
+		fi
+		sync;echo 3 > /proc/sys/vm/drop_caches
+		;;
+	stop)
+		pkill go2rtc_linux_mipsel
+		pkill -f "/bin/sh /opt/wz_mini/bin/go2rtc_linux_mipsel"
+		cmd video 0 off
+		cmd audio 0 off
+		cmd video 1 off
+		cmd audio 1 off
+		;;
+	restart)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop}"
+		exit 1
+		;;
+esac

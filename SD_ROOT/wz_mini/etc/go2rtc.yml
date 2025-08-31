@@ -1,0 +1,27 @@
+log:
+  level: info # default level
+  api: trace
+  exec: debug
+  ngrok: info
+  rtsp: warn
+  streams: error
+  webrtc: fatal
+ffmpeg:
+  bin: /opt/wz_mini/bin/ffmpeg
+streams:
+  1080p:
+# NOTE: USE /dev/video6 for Wyze Cam v2/PanV1!
+  - exec:ffmpeg -fflags +genpts+flush_packets+nobuffer+bitexact -flags +low_delay -thread_queue_size 100 -analyzeduration 50 -probesize 50 -pix_fmt yuv420p -r 30 -i /dev/video1  -flags +global_header -movflags +empty_moov+default_base_moof+frag_keyframe -framerate 30 -video_size 1920x1080 -pix_fmt yuv420p -c:v copy -copyts -rtsp_transport tcp -f rtsp {output}
+  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper0 -c:a copy -muxdelay 0 -muxpreload 0 -f rtsp {output}
+  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper0 -c:a libfdk_aac -afterburner 1 -channels 1 -b:a 128k -profile:a aac_he -ar 16000 -strict experimental -muxdelay 0 -muxpreload 0 -ac:a 1 -f rtsp {output}
+# libopus has higher cpu requirements, audio may studder.
+#  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper0 -c:a libopus -muxdelay 0 -muxpreload 0 -ac:a 1 -af adelay=0|0 -f rtsp {output}
+  360p:
+# NOTE: USE /dev/video7 for Wyze Cam v2/PanV1!
+  - exec:ffmpeg -fflags +genpts+flush_packets+nobuffer+bitexact -flags +low_delay -thread_queue_size 100 -analyzeduration 50 -probesize 50 -pix_fmt yuv420p -r 30 -i /dev/video2 -framerate 30 -video_size 640x360 -pix_fmt yuv420p -c:v copy -copyts -rtsp_transport tcp -f rtsp {output}
+  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper2 -c:a copy -muxdelay 0 -muxpreload 0 -ac:a 1 -f rtsp {output}
+  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper2 -c:a libfdk_aac -afterburner 1 -channels 1 -b:a 128k -profile:a aac_he -ar 16000 -strict experimental -muxdelay 0 -muxpreload 0 -ac:a 1 -f rtsp {output}
+# libopus has higher cpu requirements, audio may studder.
+#  - exec:ffmpeg -hide_banner -f alsa -ac 1 -i dsnooper2 -c:a libopus -muxdelay 0 -muxpreload 0 -ac:a 1 -af adelay=0|0 -f rtsp {output}
+  jpeg_1080p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=0
+  jpeg_360p: http://127.0.0.1/cgi-bin/jpeg.cgi?channel=1

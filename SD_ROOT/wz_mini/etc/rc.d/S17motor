@@ -1,21 +1,39 @@
 #!/bin/sh
 ### BEGIN INIT INFO
 # Provides:
-# Short-Description: Disable Motor
-# Description:       Disable Motor on specified devices
+# Short-Description: Set motor parameters
+# Description:       Disable Motor, or set specified motor position on boot on motorized devices.
 ### END INIT INFO
 
+. /opt/wz_mini/etc/rc.common
 . /opt/wz_mini/wz_mini.conf
+
+motor_position() {
+
+	wait_for_icamera
+
+	if [ -n "$MOTOR_DEFAULT_X" ]; then
+		if [ -n "$MOTOR_DEFAULT_Y" ]; then
+			echo "Moving to user-defined default position"
+			cmd move $MOTOR_DEFAULT_X $MOTOR_DEFAULT_Y
+		else
+			echo "Default position not defined for Y-axis"
+		fi
+	else
+		echo "Default position not defined for X-axis"
+	fi
+}
 
 case "$1" in
 	start)
 		echo "#####$(basename "$0")#####"
 
-		if [[ "$DISABLE_MOTOR" == "true" ]]; then
+		if [[ "$MOTOR_DISABLE" == "true" ]]; then
 			echo "Motor Disabled"
 			touch /opt/wz_mini/tmp/.ms
 		else
 			echo "Motor enabled"
+			motor_position &
 		fi
 
 		;;

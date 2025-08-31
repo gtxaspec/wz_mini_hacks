@@ -101,9 +101,6 @@ case "$1" in
 				LD_LIBRARY_PATH=/opt/wz_mini/lib LD_PRELOAD=/system/lib/libsetunbuf.so /opt/wz_mini/bin/v4l2rtspserver $AUDIO_CH $AUDIO_FMT -F0 -U "$RTSP_LOGIN":"$RTSP_PASSWORD" -P "$RTSP_PORT" $DEVICE1 $DEVICE2 > $RTSP.log 2>&1 &
 			fi
 
-			sleep 1
-			echo "Set imp variables via helper"
-			/opt/wz_mini/usr/bin/imp_helper.sh > /dev/null 2>&1 &
 		fi
 
 		sync;echo 3 > /proc/sys/vm/drop_caches
@@ -114,8 +111,6 @@ case "$1" in
 		cmd audio 0 off
 		cmd video 1 off
 		cmd audio 1 off
-		pkill imp_helper.sh
-
 		;;
 	restart)
 		$0 stop

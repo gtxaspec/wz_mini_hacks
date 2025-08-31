@@ -2,6 +2,10 @@
 
 set -x 
 
+. /opt/wz_mini/www/cgi-bin/shared.cgi
+test_area_access car
+
+
 echo "HTTP/1.1 200"
 echo -e "Content-type: text/html\n\n"
 echo ""

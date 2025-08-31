@@ -1,0 +1,32 @@
+# dufs configuration file
+
+
+# Check https://github.com/sigoden/dufs for more info
+
+serve-path: '/opt'
+bind: 0.0.0.0
+port: 5000
+path-prefix:
+#hidden:
+#  - tmp
+#  - '*.log'
+#  - '*.lock'
+auth:
+#  - admin:admin@/:rw
+#  - user:pass@/src:rw,/share
+#  - '@/'  # According to the YAML spec, quoting is required.
+allow-all: false
+allow-upload: true
+allow-delete: true
+allow-search: true
+allow-symlink: true
+allow-archive: true
+enable-cors: true
+render-index: false
+render-try-index: false
+render-spa: false
+#assets: ./assets/
+#log-format: '$remote_addr "$request" $status $http_user_agent'
+#compress: low
+#tls-cert: tests/data/cert.pem
+#tls-key: tests/data/key_pkcs1.pem

@@ -2,33 +2,49 @@
 ### BEGIN INIT INFO
 # Provides:
 # Short-Description: Set system FPS
-# Description:       Set system FPS if greater than factory defaults
+# Description:       Set system FPS in the hualai config based on user settings
 ### END INIT INFO
 
+. /opt/wz_mini/etc/rc.common
 . /opt/wz_mini/wz_mini.conf
+
+imp_fps() {
+		wait_for_icamera
+
+                ##FPS should only need to be set once at boot, it shouldn't normally change after.
+                #should be run after icamera is up --- FIXME
+                if [ -n "$VIDEO_0_FPS" ]; then
+                        echo "Setting CH0 FPS"
+                        /system/bin/impdbg --enc_rc_s 0:80:4:$VIDEO_0_FPS
+                else
+                        echo "fps channel 0 is empty"
+                fi
+
+                if [ -n "$VIDEO_1_FPS" ]; then
+                        echo "Setting CH1 FPS"
+                        /system/bin/impdbg --enc_rc_s 1:80:4:$VIDEO_1_FPS
+                else
+                        echo "fps channel 1 is empty"
+                fi
+}
 
 case "$1" in
 	start)
 
 		echo "#####$(basename "$0")#####"
 
-		echo "Seting system FPS if greater than default"
-
-		if [ $RTSP_HI_RES_FPS -gt 20 ]; then
+		if [ $VIDEO_0_FPS -gt 20 ]; then
+			#We may set fps below 20 using impdbg
+			echo "System FPS greater than default, setting."
 			if cat /configs/.user_config |  grep fps; then
-				sed -i "s/fps.*/fps\=$RTSP_HI_RES_FPS/" /configs/.user_config
+				sed -i "s/fps.*/fps\=$VIDEO_0_FPS/" /configs/.user_config
 			else
-				sed -i "/\[SETTING\].*/a fps=$RTSP_HI_RES_FPS" /configs/.user_config
-			fi
-
-		elif [ $RTSP_LOW_RES_FPS -gt 20 ]; then
-			if cat /configs/.user_config |  grep fps; then
-				sed -i "s/fps.*/fps\=$RTSP_LOW_RES_FPS/" /configs/.user_config
-			else
-				sed -i "/\[SETTING\].*/a fps=$RTSP_LOW_RES_FPS" /configs/.user_config
+				sed -i "/\[SETTING\].*/a fps=$VIDEO_0_FPS" /configs/.user_config
 			fi
 
 		fi
+
+		imp_fps &
 
 		;;
 	*)

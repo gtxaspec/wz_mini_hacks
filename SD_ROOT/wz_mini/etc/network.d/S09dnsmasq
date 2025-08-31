@@ -17,7 +17,18 @@ dnsmasq_launch() {
 	if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
                 echo "wait for resolv.conf creation from iCamera"
                 sleep 5
-		dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+		#kill the system dnsmasq if present
+                dmon_pid=$(pgrep -f "dmon.*dnsmasq")
+                        if [ -n "$dmon_pid" ]; then
+                        kill $dmon_pid
+                        fi
+                #figure out if there is a system dnsmasq bin present and use that if so, otherwise use wz_mini's binary
+                if [ -f /system/bin/dnsmasq ]; then
+                /system/bin/dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf &
+                else
+                /opt/wz_mini/bin/dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
+                fi
+		sleep 3
 		rm -f /tmp/resolv.conf
 		cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
 		echo "dnsmasq enabled"
