@@ -5,23 +5,27 @@ if [ -e /tmp/dbgflag ]; then
 	exit 0
 fi
 
-for i in /opt/wz_mini/etc/rc.d/S??* ;do
+for i in \
+	/opt/wz_mini/etc/rc.d/S01swap \
+	/opt/wz_mini/etc/rc.d/S03ethernet \
+	/opt/wz_mini/etc/rc.d/S06networkalt \
+	/opt/wz_mini/etc/rc.d/S10firmware
+do
+	# Ignore missing scripts.
+	[ ! -f "$i" ] && continue
 
-     # Ignore dangling symlinks (if any).
-     [ ! -f "$i" ] && continue
-
-     case "$i" in
-	     *.sh)
-		     # Source shell script for speed.
-		     (
-		     trap - INT QUIT TSTP
-		     set start
-		     . $i
-	     )
-	     ;;
-     *)
-	     # No sh extension, so fork subprocess.
-	     $i start
-	     ;;
-esac
+	case "$i" in
+		*.sh)
+			# Source shell script for speed.
+			(
+				trap - INT QUIT TSTP
+				set start
+				. $i
+			)
+			;;
+		*)
+			# No sh extension, so fork subprocess.
+			$i start
+			;;
+	esac
 done

@@ -10,25 +10,29 @@ fi
 
 wait_for_wlan $(basename "$0")
 
-for i in /opt/wz_mini/etc/network.d/S??* ;do
+for i in \
+	/opt/wz_mini/etc/network.d/S01wlanhw \
+	/opt/wz_mini/etc/network.d/S08hostname \
+	/opt/wz_mini/etc/network.d/S14storemac
+do
 
-     # Ignore dangling symlinks (if any).
-     [ ! -f "$i" ] && continue
+	# Ignore missing scripts.
+	[ ! -f "$i" ] && continue
 
-     case "$i" in
-	     *.sh)
-		     # Source shell script for speed.
-		     (
-		     trap - INT QUIT TSTP
-		     set start
-		     . $i
-	     )
-	     ;;
-     *)
-	     # No sh extension, so fork subprocess.
-	     $i start
-	     ;;
-esac
+	case "$i" in
+		*.sh)
+			# Source shell script for speed.
+			(
+				trap - INT QUIT TSTP
+				set start
+				. $i
+			)
+			;;
+		*)
+			# No sh extension, so fork subprocess.
+			$i start
+			;;
+	esac
 done
 
 wait_for_wlan_ip $(basename "$0")
