@@ -5,6 +5,8 @@
 # Description:       The stock iCamera binary will reset the network if it is unable to reach the internet. This binary patch will change this behavior.
 ### END INIT INFO
 
+exit 0
+
 . /opt/wz_mini/wz_mini.conf
 
 case "$1" in
@@ -32,4 +34,3 @@ case "$1" in
 		exit 1
 		;;
 esac
-
