@@ -2,16 +2,7 @@
 ### BEGIN INIT INFO
 # Provides:
 # Short-Description: Patches the iCamera binary if in self-hosted mode
-# Description:       The stock iCamera binary will reset the network if it is unable to reach the internet. This binary patch will change this behavior.
+# Description:       Disabled to avoid patching stock Wyze iCamera behavior.
 ### END INIT INFO
 
-case "$1" in
-	start)
-		exit 0
-
-		;;
-	*)
-		echo "Usage: $0 {start}"
-		exit 1
-		;;
-esac
+exit 0
