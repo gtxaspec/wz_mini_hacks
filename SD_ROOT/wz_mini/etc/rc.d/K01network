@@ -10,6 +10,7 @@ fi
 
 wait_for_wlan $(basename "$0")
 
+# Intentionally explicit list: this fork only runs USB Ethernet related network stages.
 for i in \
 	/opt/wz_mini/etc/network.d/S01wlanhw \
 	/opt/wz_mini/etc/network.d/S08hostname \

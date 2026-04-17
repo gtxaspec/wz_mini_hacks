@@ -5,6 +5,7 @@ if [ -e /tmp/dbgflag ]; then
 	exit 0
 fi
 
+# Intentionally explicit list: this fork only runs USB Ethernet related rc.d stages.
 for i in \
 	/opt/wz_mini/etc/rc.d/S01swap \
 	/opt/wz_mini/etc/rc.d/S03ethernet \
