@@ -1,4 +1,8 @@
 # wz_mini_hacks
+
+> [!WARNING]
+> This project is not in active development. The similar [Thingino](https://github.com/themactep/thingino-firmware) project is recommended instead. Thingino, being an alternate firmware that must be flashed, is not as easy as wz_mini_hacks to uninstall, but it is more feature-complete.
+
 ### Ingenic based T20/T31 based devices only!
 
 Run whatever firmware you want on your camera and have root access to the device.  Use CAUTION if you are unsure of what you are doing.  Permanent damage is possible to your device.  No support whatsoever is offered with this release.  
