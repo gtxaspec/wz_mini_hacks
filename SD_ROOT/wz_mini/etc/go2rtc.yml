@@ -1,7 +1,7 @@
 log:
   level: info # default level
   api: trace
-  exec: debug
+  exec: error
   ngrok: info
   rtsp: warn
   streams: error
