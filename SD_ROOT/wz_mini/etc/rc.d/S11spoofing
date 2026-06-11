@@ -1,0 +1,37 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:
+# Short-Description: FW Version Spoof
+# Description:       Spoofs firmware version of ICamera
+### END INIT INFO
+
+. /opt/wz_mini/wz_mini.conf
+
+case "$1" in
+	start)
+		echo "#####$(basename "$0")#####"
+
+		if [[ "$SPOOF_FW_VER="true" ]]; then
+		if [ -f /opt/wz_mini/tmp/.WYZE_CAKP2JFUS ]; then
+				# v3
+				printf "[VER]\nappver=4.36.13.0416\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.WYZEC1-JZ ]; then
+				# v2
+				printf "[VER]\nappver=4.9.9.3006\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.WYZECP1_JEF ]; then
+				# pan v1
+				printf "[VER]\nappver=4.10.9.3006\n" > /opt/wz_mini/tmp/patched_app.ver
+			elif [ -f /opt/wz_mini/tmp/.HL_PAN2 ]; then
+				# pan v2
+				printf "[VER]\nappver=4.49.13.0653\n" > /opt/wz_mini/tmp/patched_app.ver
+			fi
+			mount --bind /opt/wz_mini/tmp/patched_app.ver /system/bin/app.ver
+			echo "Firmware version spoofed"
+			fi
+
+		;;
+	*)
+		echo "Usage: $0 {start}"
+		exit 1
+		;;
+esac

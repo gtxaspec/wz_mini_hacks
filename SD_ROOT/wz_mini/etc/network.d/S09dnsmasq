@@ -16,7 +16,10 @@ dnsmasq_launch() {
 
 	if [[ "$ENABLE_LOCAL_DNS" == "true" ]]; then
                 echo "wait for resolv.conf creation from iCamera"
-                sleep 5
+                while [ ! -f /tmp/resolv.conf ]
+                do
+                	sleep .2
+                done
 		#kill the system dnsmasq if present
                 dmon_pid=$(pgrep -f "dmon.*dnsmasq")
                         if [ -n "$dmon_pid" ]; then
@@ -28,9 +31,9 @@ dnsmasq_launch() {
                 else
                 /opt/wz_mini/bin/dnsmasq -C /opt/wz_mini/etc/dnsmasq.conf
                 fi
-		sleep 3
-		rm -f /tmp/resolv.conf
-		cp /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+                #mount the resolv.conf file as read only. Something (ICamera?) randomly seems to change it.
+                mount --bind /opt/wz_mini/etc/resolv.conf /tmp/resolv.conf
+                mount -o bind,remount,ro /tmp/resolv.conf
 		echo "dnsmasq enabled"
 	fi
 }
